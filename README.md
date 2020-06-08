@@ -1,6 +1,6 @@
 Wi-Bash App
 
-Pbectif
+Obectif
 
 1.Pouvoir se connecter
 

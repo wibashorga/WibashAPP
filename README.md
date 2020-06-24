@@ -31,3 +31,8 @@ Obectif
 
 5.Pour la partie évènement c'est un peu la même que projet sauf que c'est des "Je participe, Peut être ou pas du tout" et qu'automatiquement ca rajoute l'évènement sur l'agenda google ou ios de ceux qui participe ou peut être
 
+NOTE A L'EQUIPE DE DEV :
+n'oublier pas d'installer les dependance ci-dessous:
+
+- reactNative 0.62 
+c'est tout pour le moment on mettra les despendance au fils du temps

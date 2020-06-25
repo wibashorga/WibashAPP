@@ -1,6 +1,6 @@
 # Wi-Bash App
 
-#### 1. Obectif
+#### 1. Objectif
 - Pouvoir se connecter
 - Avoir la possibilité de retourner en    arrière, mémoriser la connexion pour ne pas avoir à réecrire les identifiants
 

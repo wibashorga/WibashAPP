@@ -28,7 +28,7 @@ export default class Connexion extends React.Component {
           
           <TextInput onEndEditing={()=>{}} style = {styles.inputs}/>
 
-          <Text style={{textAlign:"center",fontSize:25}}> Mots de passe</Text>
+          <Text style={{textAlign:"center",fontSize:25}}> Mot de passe</Text>
  
           <TextInput onEndEditing={()=>{}} style = {styles.inputs}/>
             
@@ -46,7 +46,7 @@ export default class Connexion extends React.Component {
             </View>
 
           <View style = {styles.contente6}>
-            <Text style={{textAlign:"center"}}>Mopts de passe oublier</Text>
+            <Text style={{textAlign:"center"}}>Mot de passe oublié ?</Text>
 
            </View>
 

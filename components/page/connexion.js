@@ -104,8 +104,9 @@ const styles = StyleSheet.create({
   {
     height:50,
     borderWidth: 3,
-    marginLeft : 10,
-    marginRight : 10,
+    marginLeft : 30,
+    marginRight : 30,
+    borderRadius : 20,
 
     
   },

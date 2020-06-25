@@ -1,21 +1,22 @@
-Wi-Bash App
+# Wi-Bash App
 
-Obectif
+#### 1. Obectif
+- Pouvoir se connecter
+- Avoir la possibilité de retourner en    arrière, mémoriser la connexion pour ne pas avoir à réecrire les identifiants
 
-1.Pouvoir se connecter
 
+ #### 2. Choix entre 
+    - Projets 
+    - Evènement 
+    - Membres
 
-2.Avoir la possibilité de retourner en arrière, mémoriser la connexion pour ne pas avoir à réecrire les identifiants
-
-2.Choix entre Projets, Evènement et Membres
-
-3.Dans membres :
+ #### 3. Dans membres :
 - Voir la liste des membres
 - Pouvoir créer un membre pour ceux ayant l'autorisation
 - Voir les profils avec photos, surnom nom prénom, achievements etc
 
 
-4.Dans Projet
+#### 4. Dans Projet
 - Avoir une case Idée de projet 
 - Avoir d'autres case représentant les projets
 - Dans la case idée projet :
@@ -29,10 +30,21 @@ Obectif
 * Dans chaque phase une partie idée qu'on peut upvote ou downvote
 
 
-5.Pour la partie évènement c'est un peu la même que projet sauf que c'est des "Je participe, Peut être ou pas du tout" et qu'automatiquement ca rajoute l'évènement sur l'agenda google ou ios de ceux qui participe ou peut être
+#### 5. Partie évènement
+C'est un peu la même que projet sauf que c'est des "Je participe, Peut être ou pas du tout" et qu'automatiquement ca rajoute l'évènement sur l'agenda google ou ios de ceux qui participe ou peut être
 
-NOTE A L'EQUIPE DE DEV :
-n'oublier pas d'installer les dependance ci-dessous:
+# ***NOTE A L'EQUIPE DE DEV*** :
+### - dépandance a installer
+  - reactNative 0.62
+  
+- Lancement du projet
+  - Cloné le projet, entré dans le dossier 
+  - **installation des dépendance du projet** 
+  - ```npm install ``` 
+  
+  - **lancement du projet**
+  - ``` npm start ``` 
 
-- reactNative 0.62 
-c'est tout pour le moment on mettra les despendance au fils du temps
+
+
+c'est tout pour le moment on mettra les despendance au fils du temps 

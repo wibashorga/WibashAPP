@@ -1,5 +1,5 @@
 import React from 'react';
-import Connexion from './Connexion/Connexion';
+import Connexion from './components/page/connexion';
 
 class Apps extends React.Component {
   render() {

@@ -41,13 +41,9 @@ export default class Connexion extends React.Component {
        <View style = {styles.contente4}>
             <View style = {styles.contente5}>
               <TouchableOpacity onPress = {()=>{}} style = {styles.connectButton}>
-        <         Text style = {{color:"white", textAlign: "center", fontSize:37}}> Connexion</Text> 
+                <Text style = {{color:"white", textAlign: "center", fontSize:37}}> Connexion</Text> 
                 </TouchableOpacity>
-
-
             </View>
-
-
 
           <View style = {styles.contente6}>
             <Text style={{textAlign:"center"}}>Mopts de passe oublier</Text>
@@ -55,8 +51,6 @@ export default class Connexion extends React.Component {
            </View>
 
        </View>
-
-
 
       </View>
 

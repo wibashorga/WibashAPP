@@ -1,29 +1,65 @@
 import React from 'react';
 import { StyleSheet, Text,Image, View, TextInput, Button, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 
-export default class ConnexionView extends React.Component {
+export default class Connexion extends React.Component {
+  
   render()
   {
     return (
     
     <View style={styles.container}>
-      <View style={{flex:1, paddingTop:20}}>
-      <Text style = {{textAlign:"center"}}>Bienvenue sur l'application Wi-Bash</Text>
-        <Image source = {require('./ressources/logo.png')} style={{ }}/>
+      
+        <View style = {styles.contente1}>
+          <View style ={{flex:1}}>
+          <Image source = {require('./ressources/logo.png')} style={{marginTop:20 }}/>
+          </View>
+          
+
+        </View>
+
+
+
+
+
+      <View style = {styles.contente2}>
+        <View style = {styles.contente3}>
+          
+          <Text style={{textAlign:"center",fontSize:25}}> Identifiant :</Text>
+          
+          <TextInput onEndEditing={()=>{}} style = {styles.inputs}/>
+
+          <Text style={{textAlign:"center",fontSize:25}}> Mots de passe</Text>
+ 
+          <TextInput onEndEditing={()=>{}} style = {styles.inputs}/>
+            
+        </View>
+
+
+
+
+
+       <View style = {styles.contente4}>
+            <View style = {styles.contente5}>
+              <TouchableOpacity onPress = {()=>{}} style = {styles.connectButton}>
+        <         Text style = {{color:"white", textAlign: "center", fontSize:37}}> Connexion</Text> 
+                </TouchableOpacity>
+
+
+            </View>
+
+
+
+          <View style = {styles.contente6}>
+            <Text style={{textAlign:"center"}}>Mopts de passe oublier</Text>
+
+           </View>
+
+       </View>
+
+
+
       </View>
-      <View style = {{flex : 2, justifyContent: "center"}}>
-        <Text style= {{textAlign:"center"}}>Identification : {"\n"}</Text>
 
-        <Text style = {{alignSelf:"flex-start"}}>Nom de compte {"\n"}</Text>
-        <TextInput onEndEditing={()=>{}} style = {styles.inputs}/>
-
-        <Text>Mot de passe {"\n"}</Text>
-        <TextInput secureTextEntry={true} style = {styles.inputs}/>
-
-      </View>
-      <TouchableOpacity onPress = {()=>{}} style = {styles.connectButton}>
-        <Text style = {{color:"white", textAlign: "center", paddingTop:10}}> Connexion</Text> 
-        </TouchableOpacity>
     </View>
     
   )}
@@ -32,26 +68,61 @@ export default class ConnexionView extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 40,
-    paddingHorizontal: 40
+    
   },
+  contente1:{
+    flex: 1,
+    justifyContent : 'center',
+    alignItems: 'center',
+    
+  },
+  contente2:{
+    flex: 2,
+    
+
+  },
+  contente3:{
+    flex: 2,
+    
+    justifyContent:'space-around',
+    
+
+  },
+  contente4:{
+    flex: 1,
+    
+
+  },
+  contente5:{
+    flex: 2,
+    justifyContent:'space-around',
+    alignItems: 'center',
+    
+
+  },
+  contente6:{
+    flex: 1,
+    
+
+  },
+ 
   inputs:
   {
-    borderWidth: 1,
-    width: 200
+    height:50,
+    borderWidth: 3,
+    marginLeft : 10,
+    marginRight : 10,
+
+    
   },
   connectButton:
   {
     
-    backgroundColor: "red",
+    backgroundColor: "rgb(255,43,55)",
     borderRadius : 20,
     width: 180,
     height: 50,
-    marginBottom: 50,
+    
     
   }
 });

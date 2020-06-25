@@ -48,5 +48,3 @@ C'est un peu la même que projet sauf que c'est des "Je participe, Peut être ou
 
 
 c'est tout pour le moment on mettra les despendance au fils du temps
-
-TEXT

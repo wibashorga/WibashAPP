@@ -6,7 +6,7 @@ export default class ConnexionView extends React.Component {
   {
     return (
     
-    <View style={styles.container} behavior = {Platform.OS == "web"? "height" : "height"}>
+    <View style={styles.container}>
       <View style={{flex:1, paddingTop:20}}>
       <Text style = {{textAlign:"center"}}>Bienvenue sur l'application Wi-Bash</Text>
         <Image source = {{uri : 'assets:/logo.png'}} style = {{}}/>

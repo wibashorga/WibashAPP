@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, Image, View, TextInput, Button, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { StyleSheet, Text,Image, View, TextInput, Button, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 
 export default class ConnexionView extends React.Component {
   render()
@@ -9,7 +9,7 @@ export default class ConnexionView extends React.Component {
     <View style={styles.container}>
       <View style={{flex:1, paddingTop:20}}>
       <Text style = {{textAlign:"center"}}>Bienvenue sur l'application Wi-Bash</Text>
-        <Image source = {{uri : 'assets:/logo.png'}} style = {{}}/>
+        <Image source = {require('./ressources/logo.png')} style={{ }}/>
       </View>
       <View style = {{flex : 2, justifyContent: "center"}}>
         <Text style= {{textAlign:"center"}}>Identification : {"\n"}</Text>

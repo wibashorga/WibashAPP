@@ -2,6 +2,51 @@ import React from 'react';
 import { StyleSheet, Text,Image, View, TextInput, Button} from 'react-native';
 
 export default class Connexion extends React.Component {
+  constructor(props)
+  {
+    super(props)
+    this.id = null;
+    this.pass = null;
+    this.state = {
+      profil: {},
+      connected: false,
+      wrongConnexion: false, network: deviceIsConnected()}
+  }
+  async _connect()
+  {
+    try{
+      let reponse = await fetch("http://wi-bash.fr/login.php?Nom="+this.id+"&Password="+this.pass);
+      let membre = await reponse.json();
+      this.setState({profil: membre[0], connected: true})
+      }catch(error)
+      {
+        this.setState({wrongConnexion: true, connected: false});
+      }
+  }
+  
+  _showWrongID()
+  {
+    if (this.state.wrongConnexion)
+    {
+      return <Text style = {{color:"red", fontSize:25, fontWeight: "bold"}}>Une erreur de connexion est survenue</Text> 
+    }else return null;
+  }
+  //Les messages ci-dessous sont à fin de debug et peuvent être supprimés
+  _showNetworkFail()
+  {
+    if (!this.state.network)
+    {
+      return <Text style = {{color:"red", fontSize:25, fontWeight: "bold"}}>Votre appareil n'est pas connecté à internet</Text> 
+    }else return null;
+  }
+  _showConnected()
+  {
+    if (this.state.connected)
+    {
+      return <Text style = {{color:"green", fontSize:25, fontWeight: "bold"}}>Connecté !!</Text> 
+    }else return null;
+  }
+  
   
   render()
   {
@@ -13,14 +58,16 @@ export default class Connexion extends React.Component {
       
         <View style = {styles.contente1}>
           <View style ={{flex:1}}>
-          <Image source = {require('./ressources/logo.png')} style={{marginTop:40 }}/>
+          <Image source = {require('./logo.png')} style={{marginTop:40 }}/>
           </View>
           
 
         </View>
 
 
-
+        {this._showWrongID()}
+        {this._showNetworkFail()}
+        {this._showConnected()}
 
 
       <View style = {styles.contente2}>
@@ -28,11 +75,11 @@ export default class Connexion extends React.Component {
           
           <Text style={{textAlign:"center",fontSize:25}}> Identifiant :</Text>
           
-          <TextInput onEndEditing={()=>{}} style = {styles.inputs}/>
+          <TextInput onChangeText={(text)=>{this.id = text; console.log(this.id)}} style = {styles.inputs}/>
 
           <Text style={{textAlign:"center",fontSize:25}}> Mot de passe</Text>
  
-          <TextInput secureTextEntry = {true} onEndEditing={()=>{}} style = {styles.inputs}/>
+          <TextInput secureTextEntry = {true} onChangeText={(text)=>{this.pass = text}} style = {styles.inputs}/>
             
         </View>
 
@@ -45,7 +92,7 @@ export default class Connexion extends React.Component {
                 <Button 
                   title="Connexion"
                   color = "red"
-                  onPress={() => {}}
+                  onPress={()=>this._connect()}
           />
             </View>
 
@@ -53,7 +100,7 @@ export default class Connexion extends React.Component {
 
           <View style = {styles.contente6}>
             <Button 
-              title="Mots passe oublier"
+              title="Mot passe oublié ?"
               color = "black"
               onPress={() => {}}
             />

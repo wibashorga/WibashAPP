@@ -32,7 +32,7 @@ export default class Connexion extends React.Component {
 
           <Text style={{textAlign:"center",fontSize:25}}> Mot de passe</Text>
  
-          <TextInput onEndEditing={()=>{}} style = {styles.inputs}/>
+          <TextInput secureTextEntry = {true} onEndEditing={()=>{}} style = {styles.inputs}/>
             
         </View>
 

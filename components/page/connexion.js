@@ -1,17 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text,Image, View, TextInput, Button, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { StyleSheet, Text,Image, View, TextInput, Button} from 'react-native';
 
 export default class Connexion extends React.Component {
   
   render()
   {
     return (
+
+      
     
     <View style={styles.container}>
       
         <View style = {styles.contente1}>
           <View style ={{flex:1}}>
-          <Image source = {require('./ressources/logo.png')} style={{marginTop:20 }}/>
+          <Image source = {require('./ressources/logo.png')} style={{marginTop:40 }}/>
           </View>
           
 
@@ -40,13 +42,21 @@ export default class Connexion extends React.Component {
 
        <View style = {styles.contente4}>
             <View style = {styles.contente5}>
-              <TouchableOpacity onPress = {()=>{}} style = {styles.connectButton}>
-                <Text style = {{color:"white", textAlign: "center", fontSize:37}}>Connexion</Text> 
-                </TouchableOpacity>
+                <Button 
+                  title="Connexion"
+                  color = "red"
+                  onPress={() => {}}
+          />
             </View>
 
+
+
           <View style = {styles.contente6}>
-            <Text style={{textAlign:"center"}}>Mot de passe oublié ?</Text>
+            <Button 
+              title="Mots passe oublier"
+              color = "black"
+              onPress={() => {}}
+            />
 
            </View>
 
@@ -102,11 +112,10 @@ const styles = StyleSheet.create({
  
   inputs:
   {
-    height:50,
-    borderWidth: 3,
+    height:40,
+    borderWidth: 1,
     marginLeft : 30,
     marginRight : 30,
-    borderRadius : 20,
 
     
   },

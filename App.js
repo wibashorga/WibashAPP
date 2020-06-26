@@ -5,7 +5,7 @@ import Accueil from './components/page/accueil';
 class Apps extends React.Component {
   render() {
     return (
-      <Accueil/>
+      <Connexion/>
     )
   }
 }

@@ -34,9 +34,10 @@
 C'est un peu la même que projet sauf que c'est des "Je participe, Peut être ou pas du tout" et qu'automatiquement ca rajoute l'évènement sur l'agenda google ou ios de ceux qui participe ou peut être
 
 # ***NOTE A L'EQUIPE DE DEV*** :
-### - dépandances a installer
+### - dépendances a installer
   - reactNative 0.62
   - react-native-elements + (react-native-vector-icons)
+  - react-navigation + dépendances usuelles + react-navigation-drawer
   
 - Lancement du projet
   - Cloné le projet, entré dans le dossier 

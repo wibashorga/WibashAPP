@@ -12,7 +12,7 @@
 
  #### 3. Dans membres :
 - Voir la liste des membres
-- Pouvoir créer un membre pour ceux ayant l'autorisation
+- Pouvoir créer un membre pour ceux ayant l'autorisation, et changer son statut (visiteur, membre, admin)
 - Voir les profils avec photos, surnom nom prénom, achievements etc
 
 
@@ -34,8 +34,9 @@
 C'est un peu la même que projet sauf que c'est des "Je participe, Peut être ou pas du tout" et qu'automatiquement ca rajoute l'évènement sur l'agenda google ou ios de ceux qui participe ou peut être
 
 # ***NOTE A L'EQUIPE DE DEV*** :
-### - dépandance a installer
+### - dépandances a installer
   - reactNative 0.62
+  - react-native-elements + (react-native-vector-icons)
   
 - Lancement du projet
   - Cloné le projet, entré dans le dossier 

@@ -58,7 +58,7 @@ export default class Connexion extends React.Component {
       
         <View style = {styles.contente1}>
           <View style ={{flex:1}}>
-          <Image source = {require('./logo.png')} style={{marginTop:40 }}/>
+          <Image source = {{uri:'./ressources/logo.png'}} style={{marginTop:40 }}/>
           </View>
           
 

@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   content:
   {
-  
+  paddingTop: 25,
   paddingHorizontal: 20,
   marginBottom: 10,
   flexDirection: "column",

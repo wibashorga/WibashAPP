@@ -1,84 +1,105 @@
+
 import React from 'react';
-import { StyleSheet, Text, Image, View,Dimensions, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, Image, View,Dimensions, ScrollView, Platform } from 'react-native';
+import {Icon, Tooltip} from "react-native-elements";
 
 const windowHeight = Dimensions.get("window").height;
 const windowWidth = Dimensions.get("window").width;
 
 export default class Accueil extends React.Component 
 {
-  constructor(props){
-    super(props);
-    this.state = {
-    userName : "Yoel Pépin"
+  
+  _showNavBar()
+  {
+    return(
+      <View style = {styles.navbar}>
+        <Icon name ="home" size={30} color = "white" />
+        <Icon name ="search1" type="antdesign" size={30} color = "white"/>
+        <Icon name="feather" type = "feather" size={30} color = "white"/>
+        <Icon name = "person" type="ionicons" size={30} color = "white"/>
+      </View>
+    )
   }
-}
+  _showHeader()
+  {
+    return(
+      <View style = {styles.header}>
+        <Icon name = "menu" type = "ionicons" iconStyle={{alignSelf:"flex-start"}}
+        color = "white" size = {30}/>
+      </View>
+      )
+  }
+  _renderContent()
+  {
+    return(
+    <ScrollView style = {styles.content}>
+      <Image source = {require("./ressources/logo.png")} style = {styles.logo}/>
+      
+    <Tooltip popover={<Image source = {require("./ressources/VFeu.jpg")} style = {{height:30, width: 30}}/>} backgroundColor = "black">
+      <Text style= {{fontSize: 30, fontWeight: "bold"}}>
+        Bievenue à Wi-Bash, l'association d'informatique de l'Université des Antilles.
+        {"\n"}
+      </Text>
+     </Tooltip>
+      <Text style = {{fontSize: 18, fontFamily: Platform.OS=="android"?"monospace":null}}>
+        Venez découvrir une équipe motivée de jeunes étudiants passionnés, venus de tous
+        horizons. Découvrez nos projets et nos compétences...
+      </Text>
+    </ScrollView>)
+  }
+  //Le render est le plus concis possible. Donc on sépare les différents components en fonctions
+  // séparées pour plus de souplesse
   render()
   {
-  return (
-    
-    <View style = {styles.container}>
-      <View style = {{}}>
-        <Image source = {require("./ressources/VFeu.jpg")} style = {{width: 100, height: 100, alignSelf: "center"}}/>
-        <Text style = {{textAlign: "center"}}> {this.state.userName+"\n"}</Text>
-        <Text style  = {{textAlign:"center", fontWeight: "bold", fontSize: 22}}> Accueil : {"\n"}</Text>
+    return(
+      <View style= {styles.container}>
+        {this._showHeader()}
+        {this._renderContent()}
+        {this._showNavBar()}
       </View>
-      
-      
-
-      <View style= {styles.choosePage}>
-        
-        <TouchableOpacity onPress = {()=>{}} style = {{...styles.choosePageButton, backgroundColor:"red"}}>
-          <Text style= {styles.choosePageText}>Projets</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity onPress = {()=>{}} style = {{...styles.choosePageButton, backgroundColor: "rgb(248, 186,0)"}}>
-          <Text style= {styles.choosePageText}>Événements</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity onPress = {()=>{}} style = {{...styles.choosePageButton, backgroundColor:"black"}}>
-          <Text style= {styles.choosePageText}>Membres</Text>
-        </TouchableOpacity>
-      </View>
-
-    </View>
-  
-    
-  );}
+    )
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    paddingTop: 50,
-    backgroundColor: "beige"
+    paddingTop: 30
     
-    
-      
   },
-  choosePage:
+  header:
   {
-    flex: 2,
-    flexDirection: "column",
+    height: windowHeight/12,
+    backgroundColor: "black",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    paddingTop: 3,
+    paddingLeft: 10
+  },
+  content:
+  {
+  
+  paddingHorizontal: 20,
+  marginBottom: 10,
+  flexDirection: "column",
+  
+  
+  },
+  navbar:
+  {
+    height: windowHeight/12,
+    backgroundColor: "black",
     justifyContent: "space-around",
-    marginBottom: windowHeight/10,
+    alignItems: "center",
+    flexDirection: "row",
     
-    
-
   },
-  choosePageButton:
+  logo:
   {
-    borderRadius: 15,
-    alignSelf: "center",
-    paddingVertical: 15,
-    width: windowWidth - 40,
+    height: 100,
+    alignSelf: "center"
     
-
-  }, 
-  choosePageText:
-  {
-    color: "white",
-    textAlign: "center",
-    fontSize: 22
   }
+  
 });

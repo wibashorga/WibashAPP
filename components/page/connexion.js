@@ -10,7 +10,7 @@ export default class Connexion extends React.Component {
     this.state = {
       profil: {},
       connected: false,
-      wrongConnexion: false, network: deviceIsConnected()}
+      wrongConnexion: false, network: true}
   }
   async _connect()
   {
@@ -58,7 +58,7 @@ export default class Connexion extends React.Component {
       
         <View style = {styles.contente1}>
           <View style ={{flex:1}}>
-          <Image source = {{uri:'./ressources/logo.png'}} style={{marginTop:40 }}/>
+          <Image source = {require('./ressources/logo.png')} style={{marginTop:40 }}/>
           </View>
           
 

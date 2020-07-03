@@ -38,6 +38,7 @@ C'est un peu la même que projet sauf que c'est des "Je participe, Peut être ou
   - reactNative 0.62
   - react-native-elements + (react-native-vector-icons)
   - react-navigation + dépendances usuelles + react-navigation-drawer
+  - react-native-options-menu
   
 - Lancement du projet
   - Cloné le projet, entré dans le dossier 

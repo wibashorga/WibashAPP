@@ -39,7 +39,7 @@ C'est un peu la même que projet sauf que c'est des "Je participe, Peut être ou
   - react-native-elements + (react-native-vector-icons)
   - react-navigation + dépendances usuelles + react-navigation-drawer
   - react-native-options-menu
-  
+  n
 - Lancement du projet
   - Cloné le projet, entré dans le dossier 
   - **installation des dépendance du projet** 

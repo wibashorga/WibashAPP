@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text,Image, View, TextInput, Button} from 'react-native';
-
+// j'aime les pommes
 export default class Connexion extends React.Component {
   constructor(props)
   {

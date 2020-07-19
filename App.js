@@ -6,7 +6,7 @@ import Navigation from './components/Navigation/Navigation';
 class Apps extends React.Component {
   render() {
     return (
-      <Accueil/>
+      <Navigation/>
     )
   }
 }

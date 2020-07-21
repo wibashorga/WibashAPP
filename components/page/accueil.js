@@ -1,105 +1,100 @@
-
 import React from 'react';
-import { StyleSheet, Text, Image, View,Dimensions, ScrollView, Platform } from 'react-native';
-import {Icon, Tooltip} from "react-native-elements";
-
-const windowHeight = Dimensions.get("window").height;
+import { StyleSheet, Image, Text, View, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
+const background = "./ressources/fond.png";
+const logo = "./ressources/logo.png";
 const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 export default class Accueil extends React.Component 
 {
-  
-  _showNavBar()
-  {
-    return(
-      <View style = {styles.navbar}>
-        <Icon name ="home" size={30} color = "white" />
-        <Icon name ="search1" type="antdesign" size={30} color = "white"/>
-        <Icon name="feather" type = "feather" size={30} color = "white"/>
-        <Icon name = "person" type="ionicons" size={30} color = "white"/>
-      </View>
-    )
-  }
-  _showHeader()
-  {
-    return(
-      <View style = {styles.header}>
-        <Icon name = "menu" type = "ionicons" iconStyle={{alignSelf:"flex-start"}}
-        color = "white" size = {30}/>
-      </View>
-      )
-  }
-  _renderContent()
-  {
-    return(
-    <ScrollView style = {styles.content}>
-      <Image source = {require("./ressources/logo.png")} style = {styles.logo}/>
-      
-    <Tooltip popover={<Image source = {require("./ressources/VFeu.jpg")} style = {{height:30, width: 30}}/>} backgroundColor = "black">
-      <Text style= {{fontSize: 30, fontWeight: "bold"}}>
-        Bievenue à Wi-Bash, l'association d'informatique de l'Université des Antilles.
-        {"\n"}
-      </Text>
-     </Tooltip>
-      <Text style = {{fontSize: 18, fontFamily: Platform.OS=="android"?"monospace":null}}>
-        Venez découvrir une équipe motivée de jeunes étudiants passionnés, venus de tous
-        horizons. Découvrez nos projets et nos compétences...
-      </Text>
-    </ScrollView>)
-  }
-  //Le render est le plus concis possible. Donc on sépare les différents components en fonctions
-  // séparées pour plus de souplesse
   render()
   {
     return(
-      <View style= {styles.container}>
-        {this._showHeader()}
-        {this._renderContent()}
-        {this._showNavBar()}
-      </View>
-    )
+      <ImageBackground source = {require(background)} style = {styles.container}>
+        
+        <View style = {styles.upperView}>
+        <Image source = {require(logo)} style = {styles.logo}/>
+        </View>
+
+        <View style = {styles.bottomView}>
+          <TouchableOpacity onPress = {()=>{}} style = {{...styles.bouton, backgroundColor: "white"}}
+          activeOpacity = {0.75}>
+            <Text style= {{...styles.text, color:"red"}}>
+              Se connecter
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress = {()=>{console.log(background)}} 
+          style = {{...styles.bouton, backgroundColor: "rgb(240, 40, 40)"}}
+          activeOpacity = {0.75}>
+            <Text style = {{...styles.text, color:"white"}}>
+              S'inscrire
+            </Text>
+          </TouchableOpacity>
+
+          <Text onPress = {()=>{}} style = {{alignSelf:"center", color: "rgb(150,150,150)"}}>Mot de passe oublié ?</Text>
+        </View>
+      </ImageBackground>
+      
+    );
   }
+ 
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  container:
+  {
+    flex:1,
     flexDirection: "column",
-    paddingTop: 30
+    justifyContent: 'center',
+    alignContent: "center",
+    paddingTop:20,
     
   },
-  header:
+  upperView:
   {
-    height: windowHeight/12,
-    backgroundColor: "black",
-    justifyContent: "space-between",
-    flexDirection: "row",
-    paddingTop: 3,
-    paddingLeft: 10
-  },
-  content:
-  {
-  paddingTop: 25,
-  paddingHorizontal: 20,
-  marginBottom: 10,
-  flexDirection: "column",
-  
-  
-  },
-  navbar:
-  {
-    height: windowHeight/12,
-    backgroundColor: "black",
-    justifyContent: "space-around",
-    alignItems: "center",
-    flexDirection: "row",
-    
+    flex: 1,
+    justifyContent: "center",
+    alignContent: "center",
+    opacity: 1
   },
   logo:
   {
-    height: 100,
-    alignSelf: "center"
-    
-  }
+    alignSelf:"center",
+    backfaceVisibility:"visible",
+    flex:1,
+    width: windowWidth/2,
+    opacity:1
+  },
+  bottomView:
+  {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignContent: "center"
+  },
+  bouton:
+  {
+    marginBottom: 20,
+    borderRadius: 25,
+    justifyContent: "center",
+    width: windowWidth/1.6,
+    alignSelf: "center",
+    height: windowHeight/13,
+    shadowColor: "#000",
+shadowOffset: {
+	width: 1,
+	height: 5},
+  shadowOpacity: 0.55,
+  shadowRadius: 3.84,
   
+  elevation: 10
+  },
+  text:
+  {
+    fontWeight: "bold",
+    fontSize: 17,
+    alignSelf: "center"
+  }
+
 });

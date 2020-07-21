@@ -1,3 +1,7 @@
+function format(champ)
+{
+  return champ.replace('"', '\"');
+}
 export async function createAccount(id, pass, pseudo, nom, prenom, phrase)
 {
   let data = new FormData();

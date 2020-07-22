@@ -2,7 +2,7 @@ function format(champ)
 {
   return champ.replace('"', '\"');
 }
-export async function createAccount(id, pass, pseudo, nom, prenom, phrase)
+export async function createAccount(id, pass, pseudo, nom, prenom, mail, phrase)
 {
   let data = new FormData();
   data.append("identifiant", id);
@@ -11,7 +11,8 @@ export async function createAccount(id, pass, pseudo, nom, prenom, phrase)
   data.append("nom", nom);
   data.append("prenom", prenom);
   data.append("phrase", phrase);
-  fetch('http://www.wi-bash.fr/CreaCompte.php', {
+  data.append("mail", mail);
+  fetch('http://www.wi-bash.fr/application/CreaCompte.php', {
   method: 'POST',
   headers: {
     Accept: 'multipart/form-data',

@@ -12,6 +12,7 @@ export async function createAccount(id, pass, pseudo, nom, prenom, mail, phrase)
   data.append("prenom", prenom);
   data.append("phrase", phrase);
   data.append("mail", mail);
+  data.append("token", "PPlaFk63M4E6");
   fetch('http://www.wi-bash.fr/application/CreaCompte.php', {
   method: 'POST',
   headers: {

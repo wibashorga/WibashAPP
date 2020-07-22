@@ -25,7 +25,7 @@ export async function createAccount(id, pass, pseudo, nom, prenom, mail, phrase)
 
 };
 
-export async function login (identifiant, pass)
+export async function login (id, pass)
 {
   let data = new FormData();
   data.append("identifiant", id);

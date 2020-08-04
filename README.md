@@ -1,54 +1,73 @@
 # Wi-Bash App
 
-#### 1. Objectif
-- Pouvoir se connecter
-- Avoir la possibilité de retourner en    arrière, mémoriser la connexion pour ne pas avoir à réecrire les identifiants
+## 1. Objectif
 
+-   Pouvoir se connecter.
+-   Avoir la possibilité de retourner en arrière, mémoriser la connexion pour ne pas avoir à réecrire les identifiants.
 
- #### 2. Choix entre 
-    - Projets 
-    - Evènement 
-    - Membres
+## 2. Choix entre
 
- #### 3. Dans membres :
-- Voir la liste des membres
-- Pouvoir créer un membre pour ceux ayant l'autorisation, et changer son statut (visiteur, membre, admin)
-- Voir les profils avec photos, surnom nom prénom, achievements etc
+-   Projets
+-   Evènement
+-   Membres
 
+## 3. Dans membres
 
-#### 4. Dans Projet
-- Avoir une case Idée de projet 
-- Avoir d'autres case représentant les projets
-- Dans la case idée projet :
-* Pouvoir poster une idée de projet avec titre, descriptif et score 
-* Chaque membre pourrait upvote ou downvote une fois
-* A partir d'un nombre égal à un tier des membres l'idée se transforme en projet (ou tout autre interaction)
-- Pour chaque projet :
-* Une partie Descriptif modifiable par le porteur
-* Une partie idée pour le projet
-* Une partie avancée de projet avec des phases ajoutable et une progression comme 2/5 ou autre en fonction
-* Dans chaque phase une partie idée qu'on peut upvote ou downvote
+-   Voir la liste des membres.
+-   Pouvoir créer un membre pour ceux ayant l'autorisation, et changer son statut (visiteur, membre, admin).
+-   Voir les profils avec photos, surnom nom prénom, achievements, etc.
 
+## 4. Dans Projet
 
-#### 5. Partie évènement
-C'est un peu la même que projet sauf que c'est des "Je participe, Peut être ou pas du tout" et qu'automatiquement ca rajoute l'évènement sur l'agenda google ou ios de ceux qui participe ou peut être
+-   Avoir une case **Idée de projet**.
+-   Avoir d'autres cases représentant les projets.
 
-# ***NOTE A L'EQUIPE DE DEV*** :
-### - dépendances a installer
-  - reactNative 0.62
-  - react-native-elements + (react-native-vector-icons)
-  - react-navigation + dépendances usuelles + react-navigation-drawer
-  - react-native-options-menu
-  - reactNavigation (npm install @react-navigation/native;
-  npm install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view)
-- Lancement du projet
-  - Cloné le projet, entré dans le dossier 
-  - **installation des dépendance du projet** 
-  - ```npm install ``` 
-  
-  - **lancement du projet**
-  - ``` npm start ``` 
+-   Dans la case **Idée de projet** :
 
+    -   Pouvoir poster une idée de projet avec titre, descriptif et score.
+    -   Chaque membre pourrait upvote ou downvote une fois.
+    -   Si au moins 1/3 des membres ont upvote, l'idée se transforme en projet (ou tout autre interaction).
 
+-   Pour chaque projet :
 
-c'est tout pour le moment on mettra les despendance au fils du temps
+    -   Une partie **Descriptif** modifiable par le porteur de projet.
+    -   Une partie **idée** pour le projet.
+    -   Une partie **avancée de projet** avec des phases ajoutables et une progression comme `2/5` ou autre en fonction.
+    -   Dans chaque phase une partie **idées** qu'on peut upvote ou downvote.
+
+## 5. Partie évènement
+
+C'est un peu la même que projet sauf que ce sont des:
+
+-   `"je participe"`.
+-   `"peut-être"`.
+-   `"pas du tout"`.
+
+Et l'évènement est automatiquement ajouté sur l'agenda Google ou IOS de ceux qui ont choisi `"je participe"` ou `"peut-être"`.
+
+# Notes à l'équipe de dev :
+
+## Dépendances a installer
+
+-   reactNative 0.62
+-   react-native-elements + (react-native-vector-icons)
+-   react-navigation + dépendances usuelles + react-navigation-drawer
+-   react-native-options-menu
+-   reactNavigation
+
+###
+
+    npm install @react-navigation/native; npm install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
+
+## Lancement du projet :
+
+-   Cloner le projet.
+-   Ouvrir le terminal.
+
+###
+
+    cd WibashAPP
+    npm install
+    npm start
+
+C'est tout pour le moment. On mettra les despendances au fil du temps.

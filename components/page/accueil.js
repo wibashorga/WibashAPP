@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     alignSelf:"center",
     backfaceVisibility:"visible",
     flex:1,
-    width: windowWidth/1.4,
+    width: windowWidth/1.2,
 	    height: windowHeight/2,
     opacity:1
   },

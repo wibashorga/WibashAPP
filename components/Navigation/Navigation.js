@@ -33,7 +33,7 @@ function Navigation() {
 
       <Stack.Screen name="Home" component={HomeScreen} options={{title : "" , headerShown:false}} />
         
-        <Stack.Screen name="Details" component={DetailsScreen} options={{title: 'Identification',headerStyle: { backgroundColor: 'red'},headerTintColor: '#fff' }} />
+        <Stack.Screen name="Details" component={DetailsScreen} options={{title: 'Identification',headerStyle: { backgroundColor: 'rgb(200,0,0)'},headerTintColor: '#fff' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,8 +1,9 @@
 // In App.js in a new project
 
 import * as React from 'react';
-import Accueil from '/page/accueil';
+import Accueil from '../page/accueil';
 import { Button, View, Text } from 'react-native';
+import Connexion from '../page/connexion';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -13,21 +14,22 @@ const HomeScreen =({ navigation}) => {
   );
 }
 
-function DetailsScreen({ navigation }) {
+const DetailsScreen = ({ route,navigation}) => {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
-      
-    </View>
+    <Connexion navigation={navigation, route}/>
   );
 }
+
+
+
+
 const Stack = createStackNavigator();
 
 function Navigation() {
   return (
     <NavigationContainer>
+        <Stack.Screen name="Home" component={HomeScreen} options={{title : " " , headerStyle:{backgroundColor:'#f4511e',},headerTintColor:'#fff', headerBackTitleStyle: {fontWeight:"bold"}}} />
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} />
       </Stack.Navigator>
     </NavigationContainer>

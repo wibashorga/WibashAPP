@@ -1,7 +1,7 @@
 // In App.js in a new project
 
 import * as React from 'react';
-import Accueil from './components/page/accueil';
+import Accueil from '/page/accueil';
 import { Button, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';

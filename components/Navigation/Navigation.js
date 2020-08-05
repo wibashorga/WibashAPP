@@ -28,8 +28,9 @@ const Stack = createStackNavigator();
 function Navigation() {
   return (
     <NavigationContainer>
-        <Stack.Screen name="Home" component={HomeScreen} options={{title : " " , headerStyle:{backgroundColor:'#f4511e',},headerTintColor:'#fff', headerBackTitleStyle: {fontWeight:"bold"}}} />
+        
       <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen name="Home" component={HomeScreen} options={{title : "" , headerShown:false}} />
         <Stack.Screen name="Details" component={DetailsScreen} />
       </Stack.Navigator>
     </NavigationContainer>

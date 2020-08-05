@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Image, Text, View, ImageBackground, TouchableOpacity, Dimensions,TextInput } from 'react-native';
+import { StyleSheet, Button, Text, View, ImageBackground, TouchableOpacity, Dimensions,TextInput } from 'react-native';
 const background = "./ressources/fond.png";
 const logo = "./ressources/logo.png";
 const windowWidth = Dimensions.get("window").width;
@@ -56,8 +56,28 @@ export default class Identification extends React.Component
   {
     return(
       <ImageBackground source = {require(background)} style = {styles.container}>
-       <TextInput placeholder = "Identifiant" onChangeText = {(text)=>{this.id = text}}/>
-       <TextInput placeholder = "Mot de passe" onChangeText = {(text)=>{this.pass = text}} /> 
+
+
+
+       <TextInput placeholder = "Identifiant" style = {styles.textinput} onChangeText = {(text)=>{this.id = text}}/>
+
+
+       <TextInput placeholder = "Mot de passe" style = {styles.textinput} onChangeText = {(text)=>{this.pass = text}} /> 
+
+
+       <TouchableOpacity onPress = {()=> {}} style = {{...styles.bouton, backgroundColor: "white"}}
+          activeOpacity = {0.75}>
+            <Text style= {{...styles.text, color:"red"}}>
+              S'identifier
+            </Text>
+          </TouchableOpacity>
+
+
+          <View>
+          <Text onPress = {()=>{}} style = {{alignSelf:"center", color: "rgb(150,150,150)"}}>Mot de passe oublié ?</Text>
+
+           </View>
+
        </ImageBackground>
 
     );
@@ -73,7 +93,50 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: "center",
     paddingTop:20,
+    backgroundColor:'red'
 
   },
+  textinput:
+  {
+    marginBottom: 90,
+    marginLeft:20,
+    height: 10, 
+    backgroundColor:'white',
+    borderRadius:20,
+    width: windowWidth/1.2,
+    height: windowHeight/19,
+    padding:10
+  },
+  bottomView:
+  {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignContent: "center",
+
+  },
+  bouton:
+  {
+    marginBottom: 20,
+    borderRadius: 25,
+    justifyContent: "center",
+    width: windowWidth/1.6,
+    alignSelf: "center",
+    height: windowHeight/13,
+    shadowColor: "#000",
+shadowOffset: {
+	width: 1,
+	height: 5},
+  shadowOpacity: 0.55,
+  shadowRadius: 3.84,
+  
+  elevation: 10
+  },
+  text:
+  {
+    fontWeight: "bold",
+    fontSize: 17,
+    alignSelf: "center"
+  }
 
 });

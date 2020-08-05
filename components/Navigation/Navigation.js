@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Accueil from '../page/accueil';
 import { Button, View, Text } from 'react-native';
-import Connexion from '../page/connexion';
+import Identification from '../page/identification';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -16,7 +16,7 @@ const HomeScreen =({ navigation}) => {
 
 const DetailsScreen = ({ route,navigation}) => {
   return (
-    <Connexion navigation={navigation, route}/>
+    <Identification navigation={navigation, route}/>
   );
 }
 
@@ -30,8 +30,10 @@ function Navigation() {
     <NavigationContainer>
         
       <Stack.Navigator initialRouteName="Home">
+
       <Stack.Screen name="Home" component={HomeScreen} options={{title : "" , headerShown:false}} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
+        
+        <Stack.Screen name="Details" component={DetailsScreen} options={{title: 'Identification',headerStyle: { backgroundColor: 'red'},headerTintColor: '#fff' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

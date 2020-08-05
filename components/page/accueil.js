@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
   logo:
   {
     alignSelf:"center",
+	    marginTop: 50,
     backfaceVisibility:"visible",
     flex:1,
     width: windowWidth/1.4,

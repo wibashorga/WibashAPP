@@ -20,9 +20,20 @@ export default class Identification extends React.Component
     async _connect()
     {
       try{
-        let reponse = await fetch("http://wi-bash.fr/login.php?Nom="+this.id+"&Password="+this.pass);
+        let data = new FormData();
+  data.append("identifiant", this.id);
+  data.append("pass", this.pass);
+  data.append("token", token);
+  let reponse  = fetch('http://www.wi-bash.fr/application/login.php', {
+  method: 'POST',
+  headers: {
+    Accept: 'multipart/form-data',
+    'Content-Type': "multipart/form-data"
+  },
+  body: data
+  });
         let membre = await reponse.json();
-        this.setState({profil: membre[0], connected: true})
+        this.setState({profil: membre, connected: true});
         }catch(error)
         {
           this.setState({wrongConnexion: true, connected: false});

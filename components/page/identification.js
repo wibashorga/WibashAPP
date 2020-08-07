@@ -18,7 +18,6 @@ export default class Identification extends React.Component
       this.textinput2 = React.createRef();
       this.state = {
         profil: {},
-        connected: false,
         wrongConnexion: false, network: true}
     }
     async _connect()
@@ -37,7 +36,7 @@ export default class Identification extends React.Component
   body: data
   }).then((reponse) => reponse.json()).then((membre) => {
     console.log(membre);
-  this.setState({profil: membre, connected: true, wrongConnexion: false});
+  this.props.sayConnected(membre);
    }).catch((error) => {console.log(error); this.setState({wrongConnexion: true})});
         Keyboard.dismiss();
   }

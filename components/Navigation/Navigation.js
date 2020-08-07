@@ -3,53 +3,63 @@
 import * as React from 'react';
 import Accueil from '../page/accueil';
 import Home from "../page/home";
-import { Button, View, Text } from 'react-native';
 import Identification from '../page/identification';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Icon} from 'react-native-elements';
+var utilisateur;
+
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const AccueilScreen =({ navigation}) => {
-  return (
-   
+  return (   
     <Accueil navigation={navigation}/>
   );
 }
 
+let HomeScreen = ({navigation}) =>
+  {
+    return(
+      <Home navigation = {navigation} user = {utilisateur}/>
+    )
+  }
 
-const HomeScreen = ({route, navigation}) => {
-  return (
-    <Home navigation = {navigation, route}/>
-  )
-}
 
 
 
-const Stack = createStackNavigator();
 
 class Navigation extends React.Component{
   constructor(props)
   {
     super(props);
     this.state = {
-      connected: false,
-      profil: {}
+      connected: false
     }
   }
   sayConnected(profil)
   {
-    this.setState({connected: true, utilisateur: profil});
+    utilisateur = profil;
+    this.setState({connected: true});
+    
   }
+  
   authentification()
   {
-    if (!this.state.connected){return(
+    if (!this.state.connected)
+    {
+      return(
       <Stack.Navigator initialRouteName="Accueil">
+        
         <Stack.Screen name="Accueil" component={AccueilScreen} options={{title : "" , headerShown:false}} />
-          
         <Stack.Screen name="identification"  options={{title: 'Identification',headerStyle: { backgroundColor: 'rgb(200,0,0)'},headerTintColor: '#fff' }}>
         {props => <Identification {...props} sayConnected = {(profil)=> this.sayConnected(profil)} />}
         </Stack.Screen>
+
       </Stack.Navigator>
-    )}else
+    )}
+    else
     {
       return null;
     }
@@ -58,10 +68,24 @@ class Navigation extends React.Component{
   {
     if (this.state.connected)
     {return (
-      <Stack.Navigator initialRouteName = "Home">
-        <Stack.Screen name = "Home" component = {HomeScreen} 
-        initialParams = {{user : this.state.utilisateur}}/>
-      </Stack.Navigator>
+      
+      <Tab.Navigator initialRouteName = "Home" 
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName, iconType;
+
+          if (route.name === 'Home') 
+          {
+            iconName = 'home';
+            iconType = 'Entypo'
+          }
+          return <Icon name={iconName} size={size} type = {iconType } />;
+        },})}>
+
+
+        <Tab.Screen name = "Home" component = {HomeScreen} />
+      
+      </Tab.Navigator>
     )}
   }
 

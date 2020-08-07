@@ -17,7 +17,7 @@ export default class Accueil extends React.Component
         </View>
 
         <View style = {styles.bottomView}>
-          <TouchableOpacity onPress = {()=> {this.props.navigation.navigate("Details")}} style = {{...styles.bouton, backgroundColor: "white"}}
+          <TouchableOpacity onPress = {()=> {this.props.navigation.navigate("identification")}} style = {{...styles.bouton, backgroundColor: "white"}}
           activeOpacity = {0.75}>
             <Text style= {{...styles.text, color:"red"}}>
               Se connecter

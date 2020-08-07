@@ -1,5 +1,6 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Text, View} from 'react-native';
+import Header from "./Header";
 
 export default class Home extends React.Component
 {
@@ -7,13 +8,19 @@ export default class Home extends React.Component
     {
         super(props);
         this.state = {
-           user : this.props.navigation.params
+           user : this.props.user
         }
+        
     }
     render()
     {
+        console.log("render")
         return(
-            <Text>  Ayyyyyyyyyyy chié !!!! </Text>
+            <View style = {{flex:1}}>
+                <Header onPress = {()=>{}}/>
+                <Text>Bievenue, {this.state.user.pseudo} !</Text>
+                
+            </View>
         )
     }
 }

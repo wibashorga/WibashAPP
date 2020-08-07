@@ -1,7 +1,9 @@
 import React from 'react';
-import { StyleSheet, Button, Text, View, ImageBackground, TouchableOpacity, Dimensions,TextInput } from 'react-native';
+import { StyleSheet, Keyboard, Text, View, ImageBackground, TouchableOpacity, Dimensions,TextInput } from 'react-native';
+
 const background = "./ressources/fond.png";
 const logo = "./ressources/logo.png";
+const token = "PPlaFk63u4E6";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
@@ -12,6 +14,8 @@ export default class Identification extends React.Component
       super(props)
       this.id = null;
       this.pass = null;
+      this.textinput1 = React.createRef();
+      this.textinput2 = React.createRef();
       this.state = {
         profil: {},
         connected: false,
@@ -19,67 +23,51 @@ export default class Identification extends React.Component
     }
     async _connect()
     {
-      try{
+      
         let data = new FormData();
   data.append("identifiant", this.id);
   data.append("pass", this.pass);
   data.append("token", token);
-  let reponse  = fetch('http://www.wi-bash.fr/application/login.php', {
+  fetch('http://www.wi-bash.fr/application/login.php', {
   method: 'POST',
   headers: {
     Accept: 'multipart/form-data',
     'Content-Type': "multipart/form-data"
   },
   body: data
-  });
-        let membre = await reponse.json();
-        this.setState({profil: membre, connected: true});
-        }catch(error)
-        {
-          this.setState({wrongConnexion: true, connected: false});
-        }
-    }
+  }).then((reponse) => reponse.json()).then((membre) => {
+    console.log(membre);
+  this.setState({profil: membre, connected: true, wrongConnexion: false});
+   }).catch((error) => {console.log(error); this.setState({wrongConnexion: true})});
+        Keyboard.dismiss();
+  }
     
-    _showWrongID()
-    {
-      if (this.state.wrongConnexion)
-      {
-        return <Text style = {{color:"red", fontSize:25, fontWeight: "bold"}}>Une erreur de connexion est survenue</Text> 
-      }else return null;
-    }
+    
     //Les messages ci-dessous sont à fin de debug et peuvent être supprimés
-    _showNetworkFail()
-    {
-      if (!this.state.network)
-      {
-        return <Text style = {{color:"red", fontSize:25, fontWeight: "bold"}}>Votre appareil n'est pas connecté à internet</Text> 
-      }else return null;
-    }
-    _showConnected()
-    {
-      if (this.state.connected)
-      {
-        return <Text style = {{color:"green", fontSize:25, fontWeight: "bold"}}>Connecté !!</Text> 
-      }else return null;
-    }
+    
     
  render()
   {
     return(
       <ImageBackground source = {require(background)} style = {styles.container}>
 
+      {(this.state.wrongConnexion)?this.textinput1.clear():null}
+      {(this.state.wrongConnexion)?this.textinput2.clear():null}
+       
+       <TextInput placeholder = "Identifiant" style = {styles.textinput} 
+       onChangeText = {(text)=>{this.id = text}} autoCapitalize = "none"
+       ref = {(input)=>{this.textinput1 = input}}/>
 
 
-       <TextInput placeholder = "Identifiant" style = {styles.textinput} onChangeText = {(text)=>{this.id = text}}/>
+       <TextInput placeholder = "Mot de passe" style = {styles.textinput}
+       onChangeText = {(text)=>{this.pass = text}} autoCapitalize = "none" 
+       secureTextEntry = {true} ref = {(input)=>{this.textinput2 = input}}/> 
 
 
-       <TextInput placeholder = "Mot de passe" style = {styles.textinput} onChangeText = {(text)=>{this.pass = text}} /> 
-
-
-       <TouchableOpacity onPress = {()=> {}} style = {{...styles.bouton, backgroundColor: "white"}}
+       <TouchableOpacity onPress = {this._connect.bind(this)} style = {{...styles.bouton, backgroundColor: "white"}}
           activeOpacity = {0.75}>
             <Text style= {{...styles.text, color:"red"}}>
-              S'identifier
+              Se connecter
             </Text>
           </TouchableOpacity>
 
@@ -104,14 +92,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: "center",
     paddingTop:20,
-    backgroundColor:'red'
+    height: windowHeight/1.03,
+    backgroundColor: "rgb(234,30, 30)"
+    
 
   },
   textinput:
   {
     marginBottom: 90,
     marginLeft:20,
-    height: 10, 
+    paddingVertical: -1, 
     backgroundColor:'white',
     borderRadius:20,
     width: windowWidth/1.2,

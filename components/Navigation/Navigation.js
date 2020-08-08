@@ -3,6 +3,7 @@
 import * as React from 'react';
 import Accueil from '../page/accueil';
 import Home from "../page/home";
+import CreerCompte from "../page/compte";
 import Identification from '../page/identification';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,21 +13,20 @@ var utilisateur;
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
+ //Screens d'authentification
 const AccueilScreen =({ navigation}) => {
   return (   
     <Accueil navigation={navigation}/>
   );
 }
+ 
 
-let HomeScreen = ({navigation}) =>
-  {
+//Screens du corps de l'appli
+const HomeScreen = ({navigation}) => {
     return(
       <Home navigation = {navigation} user = {utilisateur}/>
     )
   }
-
-
 
 
 
@@ -56,6 +56,10 @@ class Navigation extends React.Component{
         <Stack.Screen name="identification"  options={{title: 'Identification',headerStyle: { backgroundColor: 'rgb(200,0,0)'},headerTintColor: '#fff' }}>
         {props => <Identification {...props} sayConnected = {(profil)=> this.sayConnected(profil)} />}
         </Stack.Screen>
+        <Stack.Screen name = "CreerCompte"  options={{title: 'Nouveau compte',headerStyle: { backgroundColor: 'rgb(200,0,0)'},headerTintColor: '#fff' }}>
+        {props => <CreerCompte {...props} sayConnected = {(profil)=> this.sayConnected(profil)} />}
+        </Stack.Screen>
+        
 
       </Stack.Navigator>
     )}

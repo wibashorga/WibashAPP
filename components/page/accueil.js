@@ -24,7 +24,7 @@ export default class Accueil extends React.Component
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress = {()=>{console.log(background)}} 
+          <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("CreerCompte")}} 
           style = {{...styles.bouton, backgroundColor: "rgb(240, 40, 40)"}}
           activeOpacity = {0.75}>
             <Text style = {{...styles.text, color:"white"}}>

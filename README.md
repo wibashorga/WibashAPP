@@ -76,6 +76,8 @@ Et l'évènement est automatiquement ajouté sur l'agenda Google ou IOS de ceux 
 ## Avancement du projet
 -   Vues identification et de création de compte opérationnelles
 -   API et base de données opé
+
+
 C'est tout pour le moment. On mettra les dependances au fil du temps.
 
 PS: si vous rencontrez des bug du style l'app refresh h24 reinstaller les dependance dans le projet

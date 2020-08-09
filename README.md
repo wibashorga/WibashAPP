@@ -52,6 +52,7 @@ Et l'évènement est automatiquement ajouté sur l'agenda Google ou IOS de ceux 
 -   reactNative 0.62
 -   react-native-elements + (react-native-vector-icons)
 -   react-navigation + dépendances usuelles + react-navigation-drawer
+-   @react-navigation/stack; @react-navigation/bottom-tabs; @react-navigation/drawer
 -   react-native-options-menu
 -   reactNavigation
 -   react-native-image-picker

@@ -73,7 +73,10 @@ Et l'évènement est automatiquement ajouté sur l'agenda Google ou IOS de ceux 
     npm install
     npm start
 
-C'est tout pour le moment. On mettra les despendances au fil du temps.
+##Avancement du projet
+-   Vues identification et de création de compte opérationnelles
+-   API et base de données opé
+C'est tout pour le moment. On mettra les dependances au fil du temps.
 
-PS: si vous rencontrer des bug du styles l'app refresh h24 reinstaller les dependance dans le projets
+PS: si vous rencontrez des bug du style l'app refresh h24 reinstaller les dependance dans le projet
 

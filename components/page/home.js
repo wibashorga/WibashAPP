@@ -30,6 +30,7 @@ export default class Home extends React.Component {
 
                 <Header onPress = {()=>{}}/>
                 <Text>Bievenue, {this.state.user.pseudo} !</Text>
+                <Text> On c'est tous que Anthony COLVIL est l'homme le plus beau du monde</Text>
                 
             </View>
         )

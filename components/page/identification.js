@@ -42,8 +42,6 @@ export default class Identification extends React.Component
   }
     
     
-    //Les messages ci-dessous sont à fin de debug et peuvent être supprimés
-    
     
  render()
   {

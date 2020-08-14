@@ -1,9 +1,10 @@
 import React from 'react';
 import {Text, View, Modal, StyleSheet} from 'react-native';
 import Header from "./Header";
+const token = "PPlaFk63u4E6";
 
 const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",
-"Alors, motivé aujourd'hui ? ", "Wi-Bash n'était pas complet sans vous, "];
+"Alors, motivÃ© aujourd'hui ? ", "Wi-Bash n'Ã©tait pas complet sans vous, "];
 
 export default class Home extends React.Component {
     constructor(props)
@@ -16,9 +17,26 @@ export default class Home extends React.Component {
         this.message = messages[parseInt(Math.random()*messages.length)];
         setTimeout(()=> this.setState({bienvenue: false}), 2000);
     }
+    importProjects ()
+    {
+        let data = new FormData();
+        data.append("token", token);
+        data.append("identifiant", this.state.user.identifiant);
+        data.append("pass", this.state.user.pass);
+        fetch('http://www.wi-bash.fr/application/ListeProjets.php', {
+        method: 'POST',
+        headers: {
+        Accept: 'multipart/form-data',
+        'Content-Type': "multipart/form-data"
+        },
+        body: data
+        }).then((reponse)=> reponse.text()).then((json) => console.log(json)).catch(
+            (error) => console.log(error))
+    }
     render()
     {
         console.log(this.state.user)
+        this.importProjects();
         return(
             <View style = {{flex:1}}>
                 <Modal visible = {this.state.bienvenue} animationType = "slide"

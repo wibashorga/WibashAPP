@@ -4,7 +4,7 @@ const background = "./ressources/fond.png";
 const logo = "./ressources/logo.png";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
-
+// test
 export default class Accueil extends React.Component 
 {
   render()

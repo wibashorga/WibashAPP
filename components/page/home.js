@@ -61,6 +61,99 @@ export default class Home extends React.Component {
 
                         </View>
                         <View style = {styles.carte}>
+                            <ScrollView horizontal={true} style = {{flex:1}}>
+
+                            <View style = {styles.cartein}>
+                                    <View style = {styles.containtcarte}>
+
+                                        <View style = {styles.Titrecarte}>
+
+                                            <Text style  = {{fontSize : 25}}> Titre </Text>
+
+                                        </View>
+
+                                          
+                                        <View style = {styles.textecarte}>
+
+                                            <Text style  = {{fontSize : 20}}>
+                                            Paphius quin etiam et Cornelius senatores,
+                                             ambo venenorum artibus pravis se polluisse confessi, 
+                                             eodem pronuntiante Maximino sunt interfecti.  
+                                            </Text>
+
+                                        </View>
+                                        
+                                        
+
+                                    </View>
+                                    
+
+                                </View>
+
+
+                                <View style = {styles.cartein}>
+                                    <View style = {styles.containtcarte}>
+
+                                        <View style = {styles.Titrecarte}>
+
+                                            <Text style  = {{fontSize : 25}}> Titre </Text>
+
+                                        </View>
+
+                                          
+                                        <View style = {styles.textecarte}>
+
+                                            <Text style  = {{fontSize : 20}}>
+                                            Paphius quin etiam et Cornelius senatores,
+                                             ambo venenorum artibus pravis se polluisse confessi, 
+                                             eodem pronuntiante Maximino sunt interfecti.  
+                                            </Text>
+
+                                        </View>
+                                        
+                                        
+
+                                    </View>
+                                    
+
+                                </View>
+
+
+
+
+                                <View style = {styles.cartein}>
+                                    <View style = {styles.containtcarte}>
+
+                                        <View style = {styles.Titrecarte}>
+
+                                            <Text style  = {{fontSize : 25}}> Titre </Text>
+
+                                        </View>
+
+                                          
+                                        <View style = {styles.textecarte}>
+
+                                            <Text style  = {{fontSize : 20}}>
+                                            Paphius quin etiam et Cornelius senatores,
+                                             ambo venenorum artibus pravis se polluisse confessi, 
+                                             eodem pronuntiante Maximino sunt interfecti.  
+                                            </Text>
+
+                                        </View>
+                                        
+                                        
+
+                                    </View>
+                                    
+
+                                </View>
+
+
+
+
+                            </ScrollView>
+
+                            
 
 
                         </View>
@@ -78,6 +171,93 @@ export default class Home extends React.Component {
 
                         </View>
                         <View style = {styles.carte}>
+
+                             <ScrollView horizontal={true} style = {{flex:1}}>
+
+                             <View style = {styles.cartein}>
+                                    <View style = {styles.containtcarte}>
+
+                                        <View style = {styles.Titrecarte}>
+
+                                            <Text style  = {{fontSize : 25}}> Titre </Text>
+
+                                        </View>
+
+                                          
+                                        <View style = {styles.textecarte}>
+
+                                            <Text style  = {{fontSize : 20}}>
+                                            Paphius quin etiam et Cornelius senatores,
+                                             ambo venenorum artibus pravis se polluisse confessi, 
+                                             eodem pronuntiante Maximino sunt interfecti.  
+                                            </Text>
+
+                                        </View>
+                                        
+                                        
+
+                                    </View>
+                                    
+
+                                </View>
+
+                                <View style = {styles.cartein}>
+                                    <View style = {styles.containtcarte}>
+
+                                        <View style = {styles.Titrecarte}>
+
+                                            <Text style  = {{fontSize : 25}}> Titre </Text>
+
+                                        </View>
+
+                                          
+                                        <View style = {styles.textecarte}>
+
+                                            <Text style  = {{fontSize : 20}}>
+                                            Paphius quin etiam et Cornelius senatores,
+                                             ambo venenorum artibus pravis se polluisse confessi, 
+                                             eodem pronuntiante Maximino sunt interfecti.  
+                                            </Text>
+
+                                        </View>
+                                        
+                                        
+
+                                    </View>
+                                    
+
+                                </View>
+
+
+                                <View style = {styles.cartein}>
+                                    <View style = {styles.containtcarte}>
+
+                                        <View style = {styles.Titrecarte}>
+
+                                            <Text style  = {{fontSize : 25}}> Titre </Text>
+
+                                        </View>
+
+                                          
+                                        <View style = {styles.textecarte}>
+
+                                            <Text style  = {{fontSize : 20}}>
+                                            Paphius quin etiam et Cornelius senatores,
+                                             ambo venenorum artibus pravis se polluisse confessi, 
+                                             eodem pronuntiante Maximino sunt interfecti.  
+                                            </Text>
+
+                                        </View>
+                                        
+                                        
+
+                                    </View>
+                                    
+
+                                </View>
+
+
+                            </ScrollView>
 
 
                         </View>
@@ -97,6 +277,93 @@ export default class Home extends React.Component {
                         </View>
                         <View style = {styles.carte}>
 
+                             <ScrollView horizontal={true} style = {{flex:1}}>
+
+                                <View style = {styles.cartein}>
+                                    <View style = {styles.containtcarte}>
+
+                                        <View style = {styles.Titrecarte}>
+
+                                            <Text style  = {{fontSize : 25}}> Titre </Text>
+
+                                        </View>
+
+                                          
+                                        <View style = {styles.textecarte}>
+
+                                            <Text style  = {{fontSize : 20}}>
+                                            Paphius quin etiam et Cornelius senatores,
+                                             ambo venenorum artibus pravis se polluisse confessi, 
+                                             eodem pronuntiante Maximino sunt interfecti.  
+                                            </Text>
+
+                                        </View>
+                                        
+                                        
+
+                                    </View>
+                                    
+
+                                </View>
+
+
+                                <View style = {styles.cartein}>
+                                    <View style = {styles.containtcarte}>
+
+                                        <View style = {styles.Titrecarte}>
+
+                                            <Text style  = {{fontSize : 25}}> Titre </Text>
+
+                                        </View>
+
+                                          
+                                        <View style = {styles.textecarte}>
+
+                                            <Text style  = {{fontSize : 20}}>
+                                            Paphius quin etiam et Cornelius senatores,
+                                             ambo venenorum artibus pravis se polluisse confessi, 
+                                             eodem pronuntiante Maximino sunt interfecti.  
+                                            </Text>
+
+                                        </View>
+                                        
+                                        
+
+                                    </View>
+                                    
+
+                                </View>
+
+                                <View style = {styles.cartein}>
+                                    <View style = {styles.containtcarte}>
+
+                                        <View style = {styles.Titrecarte}>
+
+                                            <Text style  = {{fontSize : 25}}> Titre </Text>
+
+                                        </View>
+
+                                          
+                                        <View style = {styles.textecarte}>
+
+                                            <Text style  = {{fontSize : 20}}>
+                                            Paphius quin etiam et Cornelius senatores,
+                                             ambo venenorum artibus pravis se polluisse confessi, 
+                                             eodem pronuntiante Maximino sunt interfecti.  
+                                            </Text>
+
+                                        </View>
+                                        
+                                        
+
+                                    </View>
+                                    
+
+                                </View>
+
+
+                            </ScrollView>
+
 
                         </View>
 
@@ -112,6 +379,121 @@ export default class Home extends React.Component {
 
                         </View>
                         <View style = {styles.carte}>
+
+                             <ScrollView horizontal={true} style = {{flex:1}}>
+
+                             <View style = {styles.cartein}>
+                                    <View style = {styles.containtcarte}>
+
+                                        <View style = {styles.Titrecarte}>
+
+                                            <Text style  = {{fontSize : 25}}> Titre </Text>
+
+                                        </View>
+
+                                          
+                                        <View style = {styles.textecarte}>
+
+                                            <Text style  = {{fontSize : 20}}>
+                                            Paphius quin etiam et Cornelius senatores,
+                                             ambo venenorum artibus pravis se polluisse confessi, 
+                                             eodem pronuntiante Maximino sunt interfecti.  
+                                            </Text>
+
+                                        </View>
+                                        
+                                        
+
+                                    </View>
+                                    
+
+                                </View>
+
+                                <View style = {styles.cartein}>
+                                    <View style = {styles.containtcarte}>
+
+                                        <View style = {styles.Titrecarte}>
+
+                                            <Text style  = {{fontSize : 25}}> Titre </Text>
+
+                                        </View>
+
+                                          
+                                        <View style = {styles.textecarte}>
+
+                                            <Text style  = {{fontSize : 20}}>
+                                            Paphius quin etiam et Cornelius senatores,
+                                             ambo venenorum artibus pravis se polluisse confessi, 
+                                             eodem pronuntiante Maximino sunt interfecti.  
+                                            </Text>
+
+                                        </View>
+                                        
+                                        
+
+                                    </View>
+                                    
+
+                                </View>
+
+
+                                <View style = {styles.cartein}>
+                                    <View style = {styles.containtcarte}>
+
+                                        <View style = {styles.Titrecarte}>
+
+                                            <Text style  = {{fontSize : 25}}> Titre </Text>
+
+                                        </View>
+
+                                          
+                                        <View style = {styles.textecarte}>
+
+                                            <Text style  = {{fontSize : 20}}>
+                                            Paphius quin etiam et Cornelius senatores,
+                                             ambo venenorum artibus pravis se polluisse confessi, 
+                                             eodem pronuntiante Maximino sunt interfecti.  
+                                            </Text>
+
+                                        </View>
+                                        
+                                        
+
+                                    </View>
+                                    
+
+                                </View>
+
+
+                                <View style = {styles.cartein}>
+                                    <View style = {styles.containtcarte}>
+
+                                        <View style = {styles.Titrecarte}>
+
+                                            <Text style  = {{fontSize : 25}}> Titre </Text>
+
+                                        </View>
+
+                                          
+                                        <View style = {styles.textecarte}>
+
+                                            <Text style  = {{fontSize : 20}}>
+                                            Paphius quin etiam et Cornelius senatores,
+                                             ambo venenorum artibus pravis se polluisse confessi, 
+                                             eodem pronuntiante Maximino sunt interfecti.  
+                                            </Text>
+
+                                        </View>
+                                        
+                                        
+
+                                    </View>
+                                    
+
+                                </View>
+
+
+                            </ScrollView>
 
 
                         </View>
@@ -168,6 +550,34 @@ const styles = StyleSheet.create(
            backgroundColor: "white",
 
        },
+       cartein:
+       {
+           flex : 1,
+           margin : 20,
+           backgroundColor: "#D3D3D3",
+           height : 190,
+           width : 310,
+           borderRadius : 20
+           
+       },
+       containtcarte:
+       {
+           flex : 1,
+           margin : 10,
+           
+       },
+       Titrecarte:
+       {
+           flex:1,
+           
+           alignItems : 'center',
+       },
+       textecarte:
+       {
+           flex:4,
+          
+       }
+       
        
     }
 

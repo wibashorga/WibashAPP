@@ -29,6 +29,27 @@ const HomeScreen = ({navigation}) => {
   }
 
 
+  const EvenementScreen = ({navigation}) => {
+    return(
+      <Evenement navigation = {navigation} user = {utilisateur}/>
+    )
+  }
+
+
+
+  const ProjetScreen = ({navigation}) => {
+    return(
+      <Projet navigation = {navigation} user = {utilisateur}/>
+    )
+  }
+
+  const ImportantScreen = ({navigation}) => {
+    return(
+      <Important navigation = {navigation} user = {utilisateur}/>
+    )
+  }
+
+
 
 class Navigation extends React.Component{
   constructor(props)
@@ -88,6 +109,9 @@ class Navigation extends React.Component{
 
 
         <Tab.Screen name = "Home" component = {HomeScreen} />
+        <Tab.Screen name = "Evenement" component = {EvenementScreen} />
+        <Tab.Screen name = "Projet" component = {ProjetScreen} />
+        <Tab.Screen name = "Important" component = {ImportantScreen} />
       
       </Tab.Navigator>
     )}

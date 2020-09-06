@@ -27,7 +27,7 @@ const styles = StyleSheet.create(
             backgroundColor: "rgb(234,17,63)", 
             flexDirection: "row",
             alignContent: "center",
-            height: windowHeight/6,
+            height: windowHeight/9,
             
         },
         icon:

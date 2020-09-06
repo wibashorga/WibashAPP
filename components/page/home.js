@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Modal, StyleSheet} from 'react-native';
+import {Text, View, Modal, StyleSheet, ScrollView} from 'react-native';
 import Header from "./Header";
 const token = "PPlaFk63u4E6";
 
@@ -39,16 +39,92 @@ export default class Home extends React.Component {
         this.importProjects();
         return(
             <View style = {{flex:1}}>
+
+                
                 <Modal visible = {this.state.bienvenue} animationType = "slide"
                 transparent= {true}>
                     <View style = {styles.modal}>
                         <Text style= {styles.message}>{this.message+this.state.user.pseudo}</Text>
                         </View>
                 </Modal>
-
                 <Header onPress = {()=>{}}/>
                 <Text>Bievenue, {this.state.user.pseudo} !</Text>
-                <Text> On c'est tous que Anthony COLVIL est l'homme le plus beau du monde</Text>
+
+                <ScrollView style = {{flex:1}}>
+
+
+                    <View style = {styles.categorie}>
+
+                        <View style = {styles.Titre}>
+                        <Text style = {{fontSize : 40}} > Evenement </Text>
+
+
+                        </View>
+                        <View style = {styles.carte}>
+
+
+                        </View>
+
+                    </View>
+
+
+
+
+
+                    <View style = {styles.categorie}>
+                        <View style = {styles.Titre}>
+                        <Text style = {{fontSize : 40}} > Projet </Text>
+
+
+                        </View>
+                        <View style = {styles.carte}>
+
+
+                        </View>
+
+
+                    </View>
+
+
+
+
+
+                    <View style = {styles.categorie}>
+                        <View style = {styles.Titre}>
+                        <Text style = {{fontSize : 40}} > Membres </Text>
+
+
+                        </View>
+                        <View style = {styles.carte}>
+
+
+                        </View>
+
+
+                    </View>
+
+
+
+                    <View style = {styles.categorie}>
+                        <View style = {styles.Titre}>
+                        <Text style = {{fontSize : 40}} > Important </Text>
+
+
+                        </View>
+                        <View style = {styles.carte}>
+
+
+                        </View>
+
+
+                    </View>
+
+
+                    
+
+                </ScrollView>
+                
+                
                 
             </View>
         )
@@ -72,8 +148,39 @@ const styles = StyleSheet.create(
            fontSize: 22,
            fontStyle: "italic",
            fontWeight: "bold"
-       }
+       },
+       categorie:
+       {
+           flex:1,
+           height : 290
+           
+       },
+       Titre:
+       {
+           flex:1,
+           backgroundColor: "red",
+           alignItems : 'center',
+           
+       },
+       carte:
+       {
+           flex:4,
+           backgroundColor: "white",
+
+       },
+       
     }
 
+    /*
+    <Modal visible = {this.state.bienvenue} animationType = "slide"
+                transparent= {true}>
+                    <View style = {styles.modal}>
+                        <Text style= {styles.message}>{this.message+this.state.user.pseudo}</Text>
+                        </View>
+                </Modal>
+
+                <Header onPress = {()=>{}}/>
+                <Text>Bievenue, {this.state.user.pseudo} !</Text>
+    */
 
 )

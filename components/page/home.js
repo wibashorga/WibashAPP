@@ -4,7 +4,7 @@ import Header from "./Header";
 const token = "PPlaFk63u4E6";
 
 const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",
-"Alors, motivÃ© aujourd'hui ? ", "Wi-Bash n'Ã©tait pas complet sans vous, "];
+"Alors, motivÃ© aujourd'hui ? ", "Wi-Bash n'etait pas complet sans vous, "];
 
 export default class Home extends React.Component {
     constructor(props)
@@ -56,14 +56,14 @@ export default class Home extends React.Component {
                     <View style = {styles.categorie}>
 
                         <View style = {styles.Titre}>
-                        <Text style = {{fontSize : 40}} > Evenement </Text>
+                            <Text style = {{fontSize : 40}} > Evenement </Text>
 
 
                         </View>
                         <View style = {styles.carte}>
                             <ScrollView horizontal={true} style = {{flex:1}}>
 
-                            <View style = {styles.cartein}>
+                                <View style = {styles.cartein}>
                                     <View style = {styles.containtcarte}>
 
                                         <View style = {styles.Titrecarte}>
@@ -581,16 +581,7 @@ const styles = StyleSheet.create(
        
     }
 
-    /*
-    <Modal visible = {this.state.bienvenue} animationType = "slide"
-                transparent= {true}>
-                    <View style = {styles.modal}>
-                        <Text style= {styles.message}>{this.message+this.state.user.pseudo}</Text>
-                        </View>
-                </Modal>
-
-                <Header onPress = {()=>{}}/>
-                <Text>Bievenue, {this.state.user.pseudo} !</Text>
-    */
+   
+                
 
 )

@@ -3,6 +3,9 @@
 import * as React from 'react';
 import Accueil from '../page/accueil';
 import Home from "../page/home";
+import Projet from "../page/Projet"
+import Evenement from "../page/Evenement"
+import Important from "../page/Important"
 import CreerCompte from "../page/compte";
 import Identification from '../page/identification';
 import { NavigationContainer } from '@react-navigation/native';

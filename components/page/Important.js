@@ -1,6 +1,5 @@
 import React from 'react';
 import {Text, View, Modal, StyleSheet, ScrollView} from 'react-native';
-import Header from "./Header";
 const token = "PPlaFk63u4E6";
 
 const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",

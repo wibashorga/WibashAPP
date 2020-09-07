@@ -51,122 +51,122 @@ export default class Important extends React.Component {
                 <ScrollView style = {{flex:1}}>
 
                     
-                <View style = {styles.cartein}>
-                    <View style = {styles.containtcarte}>
+                    <View style = {styles.cartein}>
+                        <View style = {styles.containtcarte}>
 
-                        <View style = {styles.Titrecarte}>
+                            <View style = {styles.Titrecarte}>
 
-                            <Text style  = {{fontSize : 25}}> Titre </Text>
+                                <Text style  = {{fontSize : 25}}> Titre </Text>
 
-                        </View>
+                            </View>
 
+                                
+                            <View style = {styles.textecarte}>
+
+                                <Text style  = {{fontSize : 20}}>
+                                Paphius quin etiam et Cornelius senatores,
+                                    ambo venenorum artibus pravis se polluisse confessi, 
+                                    eodem pronuntiante Maximino sunt interfecti.  
+                                </Text>
+
+                            </View>
                             
-                        <View style = {styles.textecarte}>
-
-                            <Text style  = {{fontSize : 20}}>
-                            Paphius quin etiam et Cornelius senatores,
-                                ambo venenorum artibus pravis se polluisse confessi, 
-                                eodem pronuntiante Maximino sunt interfecti.  
-                            </Text>
+                            
 
                         </View>
-                        
                         
 
                     </View>
-                    
-
-                </View>
 
 
 
 
 
-                <View style = {styles.cartein}>
-                    <View style = {styles.containtcarte}>
+                    <View style = {styles.cartein}>
+                        <View style = {styles.containtcarte}>
 
-                        <View style = {styles.Titrecarte}>
+                            <View style = {styles.Titrecarte}>
 
-                            <Text style  = {{fontSize : 25}}> Titre </Text>
+                                <Text style  = {{fontSize : 25}}> Titre </Text>
 
-                        </View>
+                            </View>
 
+                                
+                            <View style = {styles.textecarte}>
+
+                                <Text style  = {{fontSize : 20}}>
+                                Paphius quin etiam et Cornelius senatores,
+                                    ambo venenorum artibus pravis se polluisse confessi, 
+                                    eodem pronuntiante Maximino sunt interfecti.  
+                                </Text>
+
+                            </View>
                             
-                        <View style = {styles.textecarte}>
-
-                            <Text style  = {{fontSize : 20}}>
-                            Paphius quin etiam et Cornelius senatores,
-                                ambo venenorum artibus pravis se polluisse confessi, 
-                                eodem pronuntiante Maximino sunt interfecti.  
-                            </Text>
+                            
 
                         </View>
-                        
                         
 
                     </View>
-                    
-
-                </View>
 
 
 
-                <View style = {styles.cartein}>
-                    <View style = {styles.containtcarte}>
+                    <View style = {styles.cartein}>
+                        <View style = {styles.containtcarte}>
 
-                        <View style = {styles.Titrecarte}>
+                            <View style = {styles.Titrecarte}>
 
-                            <Text style  = {{fontSize : 25}}> Titre </Text>
+                                <Text style  = {{fontSize : 25}}> Titre </Text>
 
-                        </View>
+                            </View>
 
+                                
+                            <View style = {styles.textecarte}>
+
+                                <Text style  = {{fontSize : 20}}>
+                                Paphius quin etiam et Cornelius senatores,
+                                    ambo venenorum artibus pravis se polluisse confessi, 
+                                    eodem pronuntiante Maximino sunt interfecti.  
+                                </Text>
+
+                            </View>
                             
-                        <View style = {styles.textecarte}>
-
-                            <Text style  = {{fontSize : 20}}>
-                            Paphius quin etiam et Cornelius senatores,
-                                ambo venenorum artibus pravis se polluisse confessi, 
-                                eodem pronuntiante Maximino sunt interfecti.  
-                            </Text>
+                            
 
                         </View>
-                        
                         
 
                     </View>
-                    
-
-                </View>
 
 
 
 
-                <View style = {styles.cartein}>
-                    <View style = {styles.containtcarte}>
+                    <View style = {styles.cartein}>
+                        <View style = {styles.containtcarte}>
 
-                        <View style = {styles.Titrecarte}>
+                            <View style = {styles.Titrecarte}>
 
-                            <Text style  = {{fontSize : 25}}> Titre </Text>
+                                <Text style  = {{fontSize : 25}}> Titre </Text>
 
-                        </View>
+                            </View>
 
+                                
+                            <View style = {styles.textecarte}>
+
+                                <Text style  = {{fontSize : 20}}>
+                                Paphius quin etiam et Cornelius senatores,
+                                    ambo venenorum artibus pravis se polluisse confessi, 
+                                    eodem pronuntiante Maximino sunt interfecti.  
+                                </Text>
+
+                            </View>
                             
-                        <View style = {styles.textecarte}>
-
-                            <Text style  = {{fontSize : 20}}>
-                            Paphius quin etiam et Cornelius senatores,
-                                ambo venenorum artibus pravis se polluisse confessi, 
-                                eodem pronuntiante Maximino sunt interfecti.  
-                            </Text>
+                            
 
                         </View>
-                        
-                        
+                                        
 
                     </View>
-                                    
-
-                </View>
 
                    
                 </ScrollView>

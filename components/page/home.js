@@ -31,7 +31,7 @@ export default class Home extends React.Component {
         this.state = {
            user : this.props.user,
            bievenue : true,
-            projets: {}
+            projets: []
         }
         this.message = messages[parseInt(Math.random()*messages.length)];
         this.importProjects();

@@ -569,9 +569,19 @@ const styles = StyleSheet.create(
        },
        carte:
        {
-           flex:4,
            backgroundColor: "white",
-
+           width: 150,
+           height: 150,
+           marginRight: 20,
+           overflow: "hidden",
+           shadowOffset: {
+            width: 1,
+            height: 5},
+          shadowOpacity: 0.55,
+          shadowRadius: 3.84,
+          
+          elevation: 10
+          
        },
        cartein:
        {

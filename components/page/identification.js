@@ -35,7 +35,7 @@ export default class Identification extends React.Component
   },
   body: data
   }).then((reponse) => reponse.json()).then((membre) => {
-    
+    membre.pass = this.pass;
   this.props.sayConnected(membre);
    }).catch((error) => {console.log(error); this.setState({wrongConnexion: true})});
         Keyboard.dismiss();

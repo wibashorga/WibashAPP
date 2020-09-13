@@ -15,6 +15,8 @@ class Carte extends React.Component
     }
     render()
     {
+        console.log(this.props.projet.Description)
+        
         return(
             <View style={styles.carte}>
                 <Text style = {{fontWeight:"bold"}}>{this.props.projet.Nom}</Text>

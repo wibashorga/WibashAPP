@@ -15,6 +15,7 @@ export default class Home extends React.Component {
            bievenue : true
         }
         this.message = messages[parseInt(Math.random()*messages.length)];
+        this.importProjects();
         setTimeout(()=> this.setState({bienvenue: false}), 2000);
     }
     importProjects ()
@@ -23,6 +24,7 @@ export default class Home extends React.Component {
         data.append("token", token);
         data.append("identifiant", this.state.user.identifiant);
         data.append("pass", this.state.user.pass);
+        console.log(this.state.user.pass);
         fetch('http://www.wi-bash.fr/application/ListeProjets.php', {
         method: 'POST',
         headers: {
@@ -30,7 +32,9 @@ export default class Home extends React.Component {
         'Content-Type': "multipart/form-data"
         },
         body: data
-        }).then((reponse)=> reponse.text()).then((json) => console.log(json)).catch(
+        }).then((reponse)=> reponse.text()).then((json) => {
+            json = JSON.parse(json);
+            this.setState({projets:json})}).catch(
             (error) => console.log(error))
     }
     render()

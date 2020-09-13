@@ -6,13 +6,32 @@ const token = "PPlaFk63u4E6";
 const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",
 "Alors, motivÃ© aujourd'hui ? ", "Wi-Bash n'etait pas complet sans vous, "];
 
+class Carte extends React.Component
+{
+    constructor(props)
+    {
+        super(props);
+        console.log(this.props.projet);
+    }
+    render()
+    {
+        return(
+            <View style={styles.carte}>
+                <Text style = {{fontWeight:"bold"}}>{this.props.projet.Nom}</Text>
+                <Text>{this.props.projet.Description}</Text>
+            </View>
+        )
+    }
+}
+
 export default class Home extends React.Component {
     constructor(props)
     {
         super(props);
         this.state = {
            user : this.props.user,
-           bievenue : true
+           bievenue : true,
+            projets: {}
         }
         this.message = messages[parseInt(Math.random()*messages.length)];
         this.importProjects();
@@ -39,8 +58,6 @@ export default class Home extends React.Component {
     }
     render()
     {
-        console.log(this.state.user)
-        this.importProjects();
         return(
             <View style = {{flex:1}}>
 
@@ -53,6 +70,8 @@ export default class Home extends React.Component {
                 </Modal>
                 <Header onPress = {()=>{}}/>
                 <Text>Bievenue, {this.state.user.pseudo} !</Text>
+                <FlatList data={this.state.projets} keyExtractor={(item)=>item.ID} 
+                renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
 
                 <ScrollView style = {{flex:1}}>
 

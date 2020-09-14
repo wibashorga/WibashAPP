@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text, View, Modal, StyleSheet, ScrollView, FlatList} from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Header from "./Header";
 const token = "PPlaFk63u4E6";
 
@@ -17,10 +18,10 @@ class Carte extends React.Component
     {
         
         return(
-            <View style={styles.carte}>
+            <TouchableOpacity style={styles.carte} onPress = {()=>{}} activeOpacity = {0.6}>
                 <Text style = {{fontWeight:"bold"}}>{this.props.projet.Nom}</Text>
                 <Text>{this.props.projet.Description}</Text>
-            </View>
+                </TouchableOpacity>
         )
     }
 }
@@ -34,11 +35,11 @@ class MemberCard extends React.Component
     {
         
         return(
-            <View style={styles.carte}>
+            <TouchableOpacity style={styles.carte} onPress = {()=>{}} activeOpacity={0.6}>
                 <Text style = {{fontWeight:"bold"}}>{this.props.membre.pseudo}</Text>
                 <Text>{this.props.membre.prenom + this.props.membre.nom}</Text>
                 <Text>{this.props.membre.phrase}</Text>
-            </View>
+            </TouchableOpacity>
         )
     }
 }
@@ -109,14 +110,19 @@ export default class Home extends React.Component {
                         </View>
                 </Modal>
                 <Header onPress = {()=>{}}/>
-                
+              <ScrollView style = {styles.container}>
+              
+              <View style = {styles.categorie}>
+                  
                 <FlatList data={this.state.projets} keyExtractor={(item)=>item.ID} 
                 renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
-
+                </View>
+                
+                <View style = {styles.categorie}>
                 <FlatList data={this.state.membres} keyExtractor={(item)=>item.identifiant} 
                 renderItem= {(item)=><MemberCard membre = {item.item}/>} horizontal = {true}/>
-
-
+                </View>
+            </ScrollView>  
                 
                 
                 
@@ -127,7 +133,14 @@ export default class Home extends React.Component {
 
 const styles = StyleSheet.create(
     {
-       modal:
+       container:
+       {
+           flex:1,
+           paddingLeft: 5,
+           paddingTop: 5,
+           
+       },
+        modal:
        {
            backgroundColor: "rgb(156, 23, 84)",
            alignSelf: "center",
@@ -146,7 +159,8 @@ const styles = StyleSheet.create(
        categorie:
        {
            flex:1,
-           height : 290
+           height : 180,
+           paddingBottom: 10
            
        },
        Titre:
@@ -191,8 +205,8 @@ const styles = StyleSheet.create(
        Titrecarte:
        {
            flex:1,
-           
            alignItems : 'center',
+           fontSize: 28
        },
        textecarte:
        {

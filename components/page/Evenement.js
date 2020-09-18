@@ -43,12 +43,12 @@ export default class Evenement extends React.Component {
                     <Text style  = {{fontSize : 25}}> Evenement </Text>
                 </View>
 
-                <ScrollView style = {{flex:1}}>
+                <FlatList style = {{flex:1}}>
 
 
                        
 
-                <ScrollView style = {{flex:1}}>
+                <FlatList style = {{flex:1}}>
 
                     
                     <View style = {styles.cartein}>
@@ -208,12 +208,12 @@ export default class Evenement extends React.Component {
 
 
 
-                </ScrollView>
+                </FlatList>
                 
 
 
                    
-                </ScrollView>
+                </FlatList>
                 
                 
                 

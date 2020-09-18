@@ -47,7 +47,7 @@ export default class Important extends React.Component {
                 </View>
                 
 
-                <ScrollView style = {{flex:1}}>
+                <FlatList style = {{flex:1}}>
 
                     
                     <View style = {styles.cartein}>
@@ -168,7 +168,7 @@ export default class Important extends React.Component {
                     </View>
 
                    
-                </ScrollView>
+                </FlatList>
                 
                 
                 

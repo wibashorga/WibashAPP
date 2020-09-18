@@ -47,7 +47,7 @@ export default class Projet extends React.Component {
 
 
 
-                <ScrollView style = {{flex:1}}>
+                <FlatList style = {{flex:1}}>
 
                     
                     <View style = {styles.cartein}>
@@ -207,7 +207,7 @@ export default class Projet extends React.Component {
 
 
 
-                </ScrollView>
+                </FlatList>
                 
                 
                 

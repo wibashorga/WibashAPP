@@ -82,3 +82,7 @@ C'est tout pour le moment. On mettra les dependances au fil du temps.
 
 PS: si vous rencontrez des bug du style l'app refresh h24 reinstaller les dependance dans le projet
 
+react-native-gesture-handler - expected version range: ~1.6.0 - actual version installed: ^1.7.0
+ - react-native-reanimated - expected version range: ~1.7.0 - actual version installed: ^1.13.0
+ - react-native-screens - expected version range: ~2.2.0 - actual version installed: ^2.10.1
+ - @react-native-community/masked-view 

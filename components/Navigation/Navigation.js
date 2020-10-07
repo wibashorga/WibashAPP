@@ -68,6 +68,10 @@ class Navigation extends React.Component{
     this.setState({connected: true});
     
   }
+ setUser(profil){utilisateur=profil}
+ setProjects(p){projets = p}
+ addProject(p){projets.push(p)}
+ removeProject(p){projets = projets.replace(p, undefined)}
   
   authentification()
   {

@@ -1,10 +1,10 @@
 import React from 'react';
-import {Text, View, Modal, StyleSheet, ScrollView, FlatList} from 'react-native';
+import {Text, View, Modal, StyleSheet, FlatList, SafeAreaView, ScrollView} from 'react-native';
 import Header from "./Header";
 const token = "PPlaFk63u4E6";
 
 const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",
-"Alors, motivÃ© aujourd'hui ? ", "Wi-Bash n'etait pas complet sans vous, "];
+"Alors, motivÃ© aujourd'hui ? ", "Wi-Bash n'etait pas complet sans vous "];
 
 class Carte extends React.Component
 {
@@ -61,7 +61,7 @@ export default class Home extends React.Component {
     render()
     {
         return(
-            <View style = {{flex:1}}>
+            <ScrollView style = {{flex:1}}>
 
                 
                 <Modal visible = {this.state.bienvenue} animationType = "slide"
@@ -72,471 +72,66 @@ export default class Home extends React.Component {
                 </Modal>
                 <Header onPress = {()=>{}}/>
                 <Text>Bievenue, {this.state.user.pseudo} !</Text>
-                <FlatList data={this.state.projets} keyExtractor={(item)=>item.ID} 
-                renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
-
-                <FlatList style = {{flex:1}}>
-
+            
 
                     <View style = {styles.categorie}>
 
                         <View style = {styles.Titre}>
-                            <Text style = {{fontSize : 40}} > Evenement </Text>
-
-
-                        </View>
-                        <View style = {styles.carte}>
-                            <FlatList horizontal={true} style = {{flex:1}}>
-
-                                <View style = {styles.cartein}>
-                                    <View style = {styles.containtcarte}>
-
-                                        <View style = {styles.Titrecarte}>
-
-                                            <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                                        </View>
-
-                                          
-                                        <View style = {styles.textecarte}>
-
-                                            <Text style  = {{fontSize : 20}}>
-                                            Paphius quin etiam et Cornelius senatores,
-                                             ambo venenorum artibus pravis se polluisse confessi, 
-                                             eodem pronuntiante Maximino sunt interfecti.  
-                                            </Text>
-
-                                        </View>
-                                        
-                                        
-
-                                    </View>
-                                    
-
-                                </View>
-
-
-                                <View style = {styles.cartein}>
-                                    <View style = {styles.containtcarte}>
-
-                                        <View style = {styles.Titrecarte}>
-
-                                            <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                                        </View>
-
-                                          
-                                        <View style = {styles.textecarte}>
-
-                                            <Text style  = {{fontSize : 20}}>
-                                            Paphius quin etiam et Cornelius senatores,
-                                             ambo venenorum artibus pravis se polluisse confessi, 
-                                             eodem pronuntiante Maximino sunt interfecti.  
-                                            </Text>
-
-                                        </View>
-                                        
-                                        
-
-                                    </View>
-                                    
-
-                                </View>
-
-
-
-
-                                <View style = {styles.cartein}>
-                                    <View style = {styles.containtcarte}>
-
-                                        <View style = {styles.Titrecarte}>
-
-                                            <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                                        </View>
-
-                                          
-                                        <View style = {styles.textecarte}>
-
-                                            <Text style  = {{fontSize : 20}}>
-                                            Paphius quin etiam et Cornelius senatores,
-                                             ambo venenorum artibus pravis se polluisse confessi, 
-                                             eodem pronuntiante Maximino sunt interfecti.  
-                                            </Text>
-
-                                        </View>
-                                        
-                                        
-
-                                    </View>
-                                    
-
-                                </View>
-
-
-
-
-                            </FlatList>
-
-                            
-
+                            <Text style = {{fontSize : 40}} > Projet </Text>
 
                         </View>
 
-                    </View>
+                        <View style = {styles.containtcarte}>
+                        <FlatList data={this.state.projets} keyExtractor={(item)=>item.ID} 
+                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
+
+                        </View>
+                </View>
 
 
 
 
 
-                    <View style = {styles.categorie}>
+                <View style = {styles.categorie}>
+
                         <View style = {styles.Titre}>
-                        <Text style = {{fontSize : 40}} > Projet </Text>
-
-
-                        </View>
-                        <View style = {styles.carte}>
-
-                             <FlatList horizontal={true} style = {{flex:1}}>
-
-                             <View style = {styles.cartein}>
-                                    <View style = {styles.containtcarte}>
-
-                                        <View style = {styles.Titrecarte}>
-
-                                            <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                                        </View>
-
-                                          
-                                        <View style = {styles.textecarte}>
-
-                                            <Text style  = {{fontSize : 20}}>
-                                            Paphius quin etiam et Cornelius senatores,
-                                             ambo venenorum artibus pravis se polluisse confessi, 
-                                             eodem pronuntiante Maximino sunt interfecti.  
-                                            </Text>
-
-                                        </View>
-                                        
-                                        
-
-                                    </View>
-                                    
-
-                                </View>
-
-                                <View style = {styles.cartein}>
-                                    <View style = {styles.containtcarte}>
-
-                                        <View style = {styles.Titrecarte}>
-
-                                            <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                                        </View>
-
-                                          
-                                        <View style = {styles.textecarte}>
-
-                                            <Text style  = {{fontSize : 20}}>
-                                            Paphius quin etiam et Cornelius senatores,
-                                             ambo venenorum artibus pravis se polluisse confessi, 
-                                             eodem pronuntiante Maximino sunt interfecti.  
-                                            </Text>
-
-                                        </View>
-                                        
-                                        
-
-                                    </View>
-                                    
-
-                                </View>
-
-
-                                <View style = {styles.cartein}>
-                                    <View style = {styles.containtcarte}>
-
-                                        <View style = {styles.Titrecarte}>
-
-                                            <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                                        </View>
-
-                                          
-                                        <View style = {styles.textecarte}>
-
-                                            <Text style  = {{fontSize : 20}}>
-                                            Paphius quin etiam et Cornelius senatores,
-                                             ambo venenorum artibus pravis se polluisse confessi, 
-                                             eodem pronuntiante Maximino sunt interfecti.  
-                                            </Text>
-
-                                        </View>
-                                        
-                                        
-
-                                    </View>
-                                    
-
-                                </View>
-
-
-                            </FlatList>
-
+                            <Text style = {{fontSize : 40}} > Projet </Text>
 
                         </View>
 
+                        <View style = {styles.containtcarte}>
+                        <FlatList data={this.state.projets} keyExtractor={(item)=>item.ID} 
+                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
 
-                    </View>
+                        </View>
+                </View>
 
 
 
 
+                <View style = {styles.categorie}>
 
-                    <View style = {styles.categorie}>
                         <View style = {styles.Titre}>
-                        <Text style = {{fontSize : 40}} > Membres </Text>
-
-
-                        </View>
-                        <View style = {styles.carte}>
-
-                             <FlatList horizontal={true} style = {{flex:1}}>
-
-                                <View style = {styles.cartein}>
-                                    <View style = {styles.containtcarte}>
-
-                                        <View style = {styles.Titrecarte}>
-
-                                            <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                                        </View>
-
-                                          
-                                        <View style = {styles.textecarte}>
-
-                                            <Text style  = {{fontSize : 20}}>
-                                            Paphius quin etiam et Cornelius senatores,
-                                             ambo venenorum artibus pravis se polluisse confessi, 
-                                             eodem pronuntiante Maximino sunt interfecti.  
-                                            </Text>
-
-                                        </View>
-                                        
-                                        
-
-                                    </View>
-                                    
-
-                                </View>
-
-
-                                <View style = {styles.cartein}>
-                                    <View style = {styles.containtcarte}>
-
-                                        <View style = {styles.Titrecarte}>
-
-                                            <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                                        </View>
-
-                                          
-                                        <View style = {styles.textecarte}>
-
-                                            <Text style  = {{fontSize : 20}}>
-                                            Paphius quin etiam et Cornelius senatores,
-                                             ambo venenorum artibus pravis se polluisse confessi, 
-                                             eodem pronuntiante Maximino sunt interfecti.  
-                                            </Text>
-
-                                        </View>
-                                        
-                                        
-
-                                    </View>
-                                    
-
-                                </View>
-
-                                <View style = {styles.cartein}>
-                                    <View style = {styles.containtcarte}>
-
-                                        <View style = {styles.Titrecarte}>
-
-                                            <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                                        </View>
-
-                                          
-                                        <View style = {styles.textecarte}>
-
-                                            <Text style  = {{fontSize : 20}}>
-                                            Paphius quin etiam et Cornelius senatores,
-                                             ambo venenorum artibus pravis se polluisse confessi, 
-                                             eodem pronuntiante Maximino sunt interfecti.  
-                                            </Text>
-
-                                        </View>
-                                        
-                                        
-
-                                    </View>
-                                    
-
-                                </View>
-
-
-                            </FlatList>
-
+                            <Text style = {{fontSize : 40}} > Projet </Text>
 
                         </View>
 
-
-                    </View>
-
-
-
-                    <View style = {styles.categorie}>
-                        <View style = {styles.Titre}>
-                        <Text style = {{fontSize : 40}} > Important </Text>
-
+                        <View style = {styles.containtcarte}>
+                        <FlatList data={this.state.projets} keyExtractor={(item)=>item.ID} 
+                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
 
                         </View>
-                        <View style = {styles.carte}>
-
-                             <FlatList horizontal={true} style = {{flex:1}}>
-
-                             <View style = {styles.cartein}>
-                                    <View style = {styles.containtcarte}>
-
-                                        <View style = {styles.Titrecarte}>
-
-                                            <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                                        </View>
-
-                                          
-                                        <View style = {styles.textecarte}>
-
-                                            <Text style  = {{fontSize : 20}}>
-                                            Paphius quin etiam et Cornelius senatores,
-                                             ambo venenorum artibus pravis se polluisse confessi, 
-                                             eodem pronuntiante Maximino sunt interfecti.  
-                                            </Text>
-
-                                        </View>
-                                        
-                                        
-
-                                    </View>
-                                    
-
-                                </View>
-
-                                <View style = {styles.cartein}>
-                                    <View style = {styles.containtcarte}>
-
-                                        <View style = {styles.Titrecarte}>
-
-                                            <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                                        </View>
-
-                                          
-                                        <View style = {styles.textecarte}>
-
-                                            <Text style  = {{fontSize : 20}}>
-                                            Paphius quin etiam et Cornelius senatores,
-                                             ambo venenorum artibus pravis se polluisse confessi, 
-                                             eodem pronuntiante Maximino sunt interfecti.  
-                                            </Text>
-
-                                        </View>
-                                        
-                                        
-
-                                    </View>
-                                    
-
-                                </View>
+                </View>
 
 
-                                <View style = {styles.cartein}>
-                                    <View style = {styles.containtcarte}>
-
-                                        <View style = {styles.Titrecarte}>
-
-                                            <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                                        </View>
-
-                                          
-                                        <View style = {styles.textecarte}>
-
-                                            <Text style  = {{fontSize : 20}}>
-                                            Paphius quin etiam et Cornelius senatores,
-                                             ambo venenorum artibus pravis se polluisse confessi, 
-                                             eodem pronuntiante Maximino sunt interfecti.  
-                                            </Text>
-
-                                        </View>
-                                        
-                                        
-
-                                    </View>
-                                    
-
-                                </View>
 
 
-                                <View style = {styles.cartein}>
-                                    <View style = {styles.containtcarte}>
-
-                                        <View style = {styles.Titrecarte}>
-
-                                            <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                                        </View>
-
-                                          
-                                        <View style = {styles.textecarte}>
-
-                                            <Text style  = {{fontSize : 20}}>
-                                            Paphius quin etiam et Cornelius senatores,
-                                             ambo venenorum artibus pravis se polluisse confessi, 
-                                             eodem pronuntiante Maximino sunt interfecti.  
-                                            </Text>
-
-                                        </View>
-                                        
-                                        
-
-                                    </View>
-                                    
-
-                                </View>
-
-
-                            </FlatList>
-
-
-                        </View>
-
-
-                    </View>
-
-
-                    
-
-                </FlatList>
-                
-                
-                
-            </View>
+            </ScrollView>
+                       
         )
     }
 }
+
 
 const styles = StyleSheet.create(
     {
@@ -564,25 +159,23 @@ const styles = StyleSheet.create(
        },
        Titre:
        {
-           flex:1,
+           height:90,
            backgroundColor: "red",
+           paddingTop:15,
            alignItems : 'center',
-           
        },
        carte:
        {
            backgroundColor: "white",
-           width: 150,
+           width: 200,
            height: 150,
            marginRight: 20,
+           marginTop:10,
            overflow: "hidden",
-           shadowOffset: {
-            width: 1,
-            height: 5},
-          shadowOpacity: 0.55,
-          shadowRadius: 3.84,
+           padding:10,
+          borderRadius: 20,
           
-          elevation: 10
+          
           
        },
        cartein:
@@ -604,7 +197,6 @@ const styles = StyleSheet.create(
        Titrecarte:
        {
            flex:1,
-           
            alignItems : 'center',
        },
        textecarte:

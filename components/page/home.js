@@ -15,7 +15,7 @@ class Carte extends React.Component
     }
     render()
     {
-        console.log(this.props.projet.Description)
+
         
         return(
             <View style={styles.carte}>
@@ -26,6 +26,28 @@ class Carte extends React.Component
     }
 }
 
+
+class Membre extends React.Component
+{
+    constructor(props)
+    {
+        super(props);
+        console.log(this.props.membre);
+    }
+    render()
+    {
+       
+        
+        return(
+            <View style={styles.carte}>
+                <Text style = {{fontWeight:"bold"}}>{this.props.membre.pseudo}</Text>
+                <Text>{this.props.membre.phrase}</Text>
+            </View>
+        )
+    }
+}
+
+
 export default class Home extends React.Component {
     constructor(props)
     {
@@ -33,10 +55,12 @@ export default class Home extends React.Component {
         this.state = {
            user : this.props.user,
            bievenue : true,
-            projets: []
+            projets: [],
+            membres: []
         }
         this.message = messages[parseInt(Math.random()*messages.length)];
         this.importProjects();
+        this.importMembers();
         setTimeout(()=> this.setState({bienvenue: false}), 2000);
     }
     importProjects ()
@@ -56,6 +80,25 @@ export default class Home extends React.Component {
         }).then((reponse)=> reponse.text()).then((json) => {
             json = JSON.parse(json);
             this.setState({projets:json})}).catch(
+            (error) => console.log(error))
+    }
+    importMembers ()
+    {
+        let data = new FormData();
+        data.append("token", token);
+        data.append("identifiant", this.state.user.identifiant);
+        data.append("pass", this.state.user.pass);
+        console.log(this.state.user.pass);
+        fetch('http://www.wi-bash.fr/application/ListeMembres.php', {
+        method: 'POST',
+        headers: {
+        Accept: 'multipart/form-data',
+        'Content-Type': "multipart/form-data"
+        },
+        body: data
+        }).then((reponse)=> reponse.text()).then((json) => {
+            json = JSON.parse(json);
+            this.setState({membres:json})}).catch(
             (error) => console.log(error))
     }
     render()
@@ -100,8 +143,8 @@ export default class Home extends React.Component {
                         </View>
 
                         <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.projets} keyExtractor={(item)=>item.ID} 
-                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
+                        <FlatList data={this.state.membres} keyExtractor={(item)=>item.identifiant} 
+                    renderItem= {(item)=><Membre membre = {item.item}/>} horizontal = {true}/>
 
                         </View>
                 </View>

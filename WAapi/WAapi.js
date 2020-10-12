@@ -41,7 +41,11 @@ export async function login (id, pass)
   body: data
 }).then((reponse)=>reponse.text()).then((text)=>JSON.parse(text)).catch((error)=>{console.log(error)});
 };
-
+/* on peut changer les informations suivantes :
+pseudo, nom, prenom, phrase, story, pass, competence
+==> le champ 'action' peut prendre les valeurs ci-dessus
+Dans le cas où il vaut 'competence', la valeur du champ sera composer du nom_de_lacompetence-score (ex : php-2, js-3, blender-0)
+*/
 export async function changeMyInfo(id, pass, action, new_value)
 {
   let data = new FormData();

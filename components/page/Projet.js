@@ -1,9 +1,50 @@
 import React from 'react';
-import {Text, View, Modal, StyleSheet, FlatList} from 'react-native';
+import Header from "./Header.js"
+import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList} from 'react-native';
 const token = "PPlaFk63u4E6";
 
-const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",
-"Alors, motivÃ© aujourd'hui ? ", "Wi-Bash n'etait pas complet sans vous, "];
+function organize_as_pairs (projets)
+{
+    let l = [];
+    for (let i = 0; i<projets.length; i+=2)
+    {
+        let pair = [];
+        pair.push(projets[i]);
+        if (i<projets.length-1)pair.push(projets[i+1]);
+        l.push(pair);
+    }
+    return l;
+}
+
+class CarteProjet extends React.Component
+{
+    constructor(props)
+    {
+        super(props);
+    }
+    render()
+    {
+        return(
+            <TouchableOpacity style = {styles.carte_projet}>
+                <Text style= {styles.titrecarte}>{this.props.projet.nom}</Text>
+                <Text style = {styles.description}>
+                    {this.props.projet.description}
+                </Text>
+                
+            </TouchableOpacity>
+
+        )
+    }
+}
+
+const render_proj = (item) => {
+    return(
+        <View style = {{flex:1, flexDirection:"row"}}>
+            <CarteProjet projet = {item.item[0]}/>
+            <CarteProjet projet = {item.item[1]}/>
+        </View>
+    )
+}
 
 export default class Projet extends React.Component {
     constructor(props)
@@ -11,10 +52,10 @@ export default class Projet extends React.Component {
         super(props);
         this.state = {
            user : this.props.user,
-           bievenue : true
         }
-        this.message = messages[parseInt(Math.random()*messages.length)];
-        setTimeout(()=> this.setState({bienvenue: false}), 2000);
+        this.projets = [];
+        this.importProjects();
+        
     }
     importProjects ()
     {
@@ -29,187 +70,20 @@ export default class Projet extends React.Component {
         'Content-Type': "multipart/form-data"
         },
         body: data
-        }).then((reponse)=> reponse.text()).then((json) => console.log(json)).catch(
+        }).then((reponse)=> reponse.text()).then((json) => this.projets=JSON.parse(json)).catch(
             (error) => console.log(error))
     }
     render()
     {
-        console.log(this.state.user)
-        this.importProjects();
+        
+        
         return(
             <View style = {{flex:1}}>
-
-                
-                
-                <View style = {styles.Titre} >
-                    <Text style  = {{fontSize : 25}}> Projet </Text>
-                </View>
-
-
-
-                <FlatList style = {{flex:1}}>
-
-                    
-                    <View style = {styles.cartein}>
-                        <View style = {styles.containtcarte}>
-
-                            <View style = {styles.Titrecarte}>
-
-                                <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                            </View>
-
-                                
-                            <View style = {styles.textecarte}>
-
-                                <Text style  = {{fontSize : 13}}>
-                                Paphius quin etiam et Cornelius senatores,
-                                    ambo venenorum artibus pravis se polluisse confessi, 
-                                    eodem pronuntiante Maximino sunt interfecti.  
-                                </Text>
-
-                            </View>
-                            
-                            
-
-                        </View>
-
-                        <View style = {styles.containtcarte}>
-
-                            <View style = {styles.Titrecarte}>
-
-                                <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                            </View>
-
-                                
-                            <View style = {styles.textecarte}>
-
-                                <Text style  = {{fontSize : 13}}>
-                                Paphius quin etiam et Cornelius senatores,
-                                    ambo venenorum artibus pravis se polluisse confessi, 
-                                    eodem pronuntiante Maximino sunt interfecti.  
-                                </Text>
-
-                            </View>
-                            
-                            
-
-                        </View>
-                        
-
-                    </View>
-
-
-                    <View style = {styles.cartein}>
-                        <View style = {styles.containtcarte}>
-
-                            <View style = {styles.Titrecarte}>
-
-                                <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                            </View>
-
-                                
-                            <View style = {styles.textecarte}>
-
-                                <Text style  = {{fontSize : 13}}>
-                                Paphius quin etiam et Cornelius senatores,
-                                    ambo venenorum artibus pravis se polluisse confessi, 
-                                    eodem pronuntiante Maximino sunt interfecti.  
-                                </Text>
-
-                            </View>
-                            
-                            
-
-                        </View>
-
-                        <View style = {styles.containtcarte}>
-
-                            <View style = {styles.Titrecarte}>
-
-                                <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                            </View>
-
-                                
-                            <View style = {styles.textecarte}>
-
-                                <Text style  = {{fontSize : 13}}>
-                                Paphius quin etiam et Cornelius senatores,
-                                    ambo venenorum artibus pravis se polluisse confessi, 
-                                    eodem pronuntiante Maximino sunt interfecti.  
-                                </Text>
-
-                            </View>
-                            
-                            
-
-                        </View>
-                        
-
-                    </View>
-
-
-
-                    <View style = {styles.cartein}>
-                        <View style = {styles.containtcarte}>
-
-                            <View style = {styles.Titrecarte}>
-
-                                <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                            </View>
-
-                                
-                            <View style = {styles.textecarte}>
-
-                                <Text style  = {{fontSize : 13}}>
-                                Paphius quin etiam et Cornelius senatores,
-                                    ambo venenorum artibus pravis se polluisse confessi, 
-                                    eodem pronuntiante Maximino sunt interfecti.  
-                                </Text>
-
-                            </View>
-                            
-                            
-
-                        </View>
-
-                        <View style = {styles.containtcarte}>
-
-                            <View style = {styles.Titrecarte}>
-
-                                <Text style  = {{fontSize : 25}}> Titre </Text>
-
-                            </View>
-
-                                
-                            <View style = {styles.textecarte}>
-
-                                <Text style  = {{fontSize : 13}}>
-                                Paphius quin etiam et Cornelius senatores,
-                                    ambo venenorum artibus pravis se polluisse confessi, 
-                                    eodem pronuntiante Maximino sunt interfecti.  
-                                </Text>
-
-                            </View>
-                            
-                            
-
-                        </View>
-                        
-
-                    </View>
-
-
-
-
-
-                </FlatList>
-                
-                
+                <Header/>
+                <ScrollView>
+                    <FlatList data={organize_as_pairs(this.projets)} 
+                    renderItem = {render_proj}/>
+                </ScrollView>                           
                 
             </View>
         )
@@ -218,70 +92,37 @@ export default class Projet extends React.Component {
 
 const styles = StyleSheet.create(
     {
-       modal:
-       {
-           backgroundColor: "rgb(156, 23, 84)",
-           alignSelf: "center",
-           marginTop: 100,
-           paddingVertical: 30,
-           paddingHorizontal: 5,
-           borderRadius: 20
-       },
-       message:
-       {
-           color: "white",
-           fontSize: 22,
-           fontStyle: "italic",
-           fontWeight: "bold"
-       },
+       
        categorie:
        {
            flex:1,
            height : 290
            
        },
-       Titre:
-       { 
-           backgroundColor: "red",
-           alignItems : 'center',
-           height : 90,
-           paddingTop : 30 
-       },
-       carte:
+       carte_projet:
        {
-           flex:4,
-           backgroundColor: "white",
+           backgroundColor: "transparent",
+           height:200,
+           width:200,
+           shadowColor: "#000",
+            shadowOffset: {
+	        width: 1,
+	        height: 5},
+            shadowOpacity: 0.55,
+            shadowRadius: 3.84,
+            elevation: 10
 
        },
-       cartein:
+       titrecarte:
        {
-           flex : 1,
-           margin : 10,
-           height : 230,
-           width : 340,
-           flexDirection: 'row'
-           
+           fontWeight:"bold",
+           textAlign: "center",
+           fontFamily: "roboto"
        },
-       containtcarte:
+       description:
        {
-           flex : 1,
-           margin : 10,
-           backgroundColor: "#D3D3D3",
-           borderRadius : 20,
-           
-       },
-       Titrecarte:
-       {
-           flex:1,
-           
-           alignItems : 'center',
-       },
-       textecarte:
-       {
-           flex:4,
-          
+           fontFamily: "roboto",
+           overflow: "hidden"
        }
-       
-       
     }
 )

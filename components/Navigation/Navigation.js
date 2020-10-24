@@ -3,7 +3,11 @@
 import * as React from 'react';
 import Accueil from '../page/accueil';
 import Home from "../page/home";
-import Projet from "../page/Projet"
+import Reglage from "../page/Reglage";
+import Profil from "../page/Profil";
+import Projet from "../page/Projet";
+import {Text, View, Modal, StyleSheet, FlatList, SafeAreaView, ScrollView,Button} from 'react-native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import Evenement from "../page/Evenement"
 import Important from "../page/Important"
 import CreerCompte from "../page/compte";
@@ -13,9 +17,28 @@ import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon} from 'react-native-elements';
 var utilisateur, projets;
+function HomiScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Button
+        onPress={() => navigation.navigate('Notifications')}
+        title="Go to notifications"
+      />
+    </View>
+  );
+}
+
+function NotificationsScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Button onPress={() => navigation.goBack()} title="Go back home" />
+    </View>
+  );
+}
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
  //Screens d'authentification
 const AccueilScreen =({ navigation}) => {
   return (   
@@ -25,7 +48,7 @@ const AccueilScreen =({ navigation}) => {
  
 
 //Screens du corps de l'appli
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({navigation,route}) => {
     return(
       <Home navigation = {navigation} user = {utilisateur}/>
     )
@@ -46,9 +69,22 @@ const HomeScreen = ({navigation}) => {
     )
   }
 
-  const ImportantScreen = ({navigation}) => {
+  const ImportantScreen = ({navigation,route}) => {
     return(
       <Important navigation = {navigation} user = {utilisateur}/>
+    )
+  }
+
+  // screen du menu hamburgeur
+  const ReglageScreen = ({navigation,route}) => {
+    return(
+      <Reglage navigation = {navigation} user = {utilisateur}/>
+    )
+  }
+
+  const ProfilScreen = ({navigation,route}) => {
+    return(
+      <Profil navigation = {navigation} user = {utilisateur}/>
     )
   }
 
@@ -128,10 +164,16 @@ class Navigation extends React.Component{
   {
   return (
     <NavigationContainer>  
-      {this.authentification()}
-      {this.homePage()}
+
+      <Drawer.Navigator initialRouteName="Homi">
+        <Drawer.Screen name="Homi" component={HomiScreen} />
+        <Drawer.Screen name="Notification" component={NotificationsScreen} />
+      </Drawer.Navigator>
+
     </NavigationContainer>
   );}
 }
-
+///{this.authentification()}
+//{this.homePage()} integrer  avec drawer menu
+// integrer les page Regage et profil
 export default Navigation;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Modal, StyleSheet, FlatList, SafeAreaView, ScrollView} from 'react-native';
+import {Text, View, Modal, StyleSheet, FlatList, SafeAreaView, ScrollView,Button} from 'react-native';
 import Header from "./Header";
 const token = "PPlaFk63u4E6";
 
@@ -113,7 +113,7 @@ export default class Home extends React.Component {
                         <Text style= {styles.message}>{this.message+this.state.user.pseudo}</Text>
                         </View>
                 </Modal>
-                <Header onPress = {()=>{}}/>
+                <Header />
                 <Text>Bievenue, {this.state.user.pseudo} !</Text>
             
 

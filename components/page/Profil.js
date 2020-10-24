@@ -5,7 +5,7 @@ const token = "PPlaFk63u4E6";
 const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",
 "Alors, motivÃ© aujourd'hui ? ", "Wi-Bash n'etait pas complet sans vous", "Anthony COLVIL est un homme parfait"];
 
-export default class Important extends React.Component {
+export default class Reglage extends React.Component {
     constructor(props)
     {
         super(props);

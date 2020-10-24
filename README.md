@@ -1,5 +1,7 @@
 # Wi-Bash App
 
+ATTENTION le safeAreaview devra etre integrer.
+
 ## 1. Objectif
 
 -   Pouvoir se connecter.
@@ -82,3 +84,5 @@ C'est tout pour le moment. On mettra les dependances au fil du temps.
 
 PS: si vous rencontrez des bug du style l'app refresh h24 reinstaller les dependance dans le projet
 
+source :
+https://github.com/Kureev/react-native-side-menu

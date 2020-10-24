@@ -24,16 +24,16 @@ const styles = StyleSheet.create(
     {
         container:
         {
-            backgroundColor: "rgb(234,17,63)", 
+            backgroundColor: "red", 
             flexDirection: "row",
             alignContent: "center",
-            height: windowHeight/9,
+            height: windowHeight/12,
             
         },
         icon:
         {
             marginLeft: 10,
-            marginTop: 10,
+            marginTop: 40,
             alignSelf: "flex-start",
         }
     }

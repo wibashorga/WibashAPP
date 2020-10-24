@@ -19,8 +19,8 @@ class Carte extends React.Component
         
         return(
             <View style={styles.carte}>
-                <Text style = {{fontWeight:"bold"}}>{this.props.projet.Nom}</Text>
-                <Text>{this.props.projet.Description}</Text>
+                <Text style = {{fontWeight:"bold"}}>{this.props.projet.nom}</Text>
+                <Text>{this.props.projet.description}</Text>
             </View>
         )
     }
@@ -138,7 +138,7 @@ export default class Home extends React.Component {
                 <View style = {styles.categorie}>
 
                         <View style = {styles.Titre}>
-                            <Text style = {{fontSize : 40}} > Projet </Text>
+                            <Text style = {{fontSize : 40}} > Membre </Text>
 
                         </View>
 
@@ -155,7 +155,22 @@ export default class Home extends React.Component {
                 <View style = {styles.categorie}>
 
                         <View style = {styles.Titre}>
-                            <Text style = {{fontSize : 40}} > Projet </Text>
+                            <Text style = {{fontSize : 40}} > Evenement </Text>
+
+                        </View>
+
+                        <View style = {styles.containtcarte}>
+                        <FlatList data={this.state.projets} keyExtractor={(item)=>item.ID} 
+                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
+
+                        </View>
+                </View>
+
+
+                <View style = {styles.categorie}>
+
+                        <View style = {styles.Titre}>
+                            <Text style = {{fontSize : 40}} > Vote </Text>
 
                         </View>
 
@@ -202,16 +217,15 @@ const styles = StyleSheet.create(
        },
        Titre:
        {
-           height:90,
+           height:50,
            backgroundColor: "red",
-           paddingTop:15,
            alignItems : 'center',
        },
        carte:
        {
            backgroundColor: "white",
-           width: 200,
-           height: 150,
+           width: 300,
+           height: 190,
            marginRight: 20,
            marginTop:10,
            overflow: "hidden",

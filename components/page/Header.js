@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, StatusBar, Dimensions} from 'react-native';
 import {Icon} from "react-native-elements";
 
+
 const windowHeight = Dimensions.get("window").height;
 
 export default class Header extends React.Component

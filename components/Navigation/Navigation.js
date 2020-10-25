@@ -70,7 +70,7 @@ const HomeScreen = ({navigation,route}) => {
 
   const CreerProjetScreen = ({navigation, route})=>{
     return(
-      <NewProject navigation = {navigation} user = "utilisateur" projets = {projets}/>
+      <NewProject navigation = {navigation} user = {utilisateur} projets = {projets}/>
     )
   }
 

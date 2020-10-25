@@ -16,6 +16,7 @@ export default class NewProject extends React.Component
         this.nom = "";
         this.description = "";
         this.objectifs = "";
+        console.log(this.props.user.prenom);
     }
     generateID(){
         let id = (Math.random()*1000000).toString();
@@ -28,7 +29,7 @@ export default class NewProject extends React.Component
         data.append("token", token);
         data.append("identifiant", this.props.user.identifiant);
         data.append("pass", this.props.user.pass);
-        data.append("id_proj", this.generateID);
+        data.append("id_proj", this.generateID());
         data.append("nom", this.nom);
         data.append("description", this.description);
         data.append('objectifs', this.objectifs);

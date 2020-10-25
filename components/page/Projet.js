@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from "./Header.js";
 
-import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList,Image,Button} from 'react-native';
+import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList,Image,Button,SafeAreaView} from 'react-native';
 const token = "PPlaFk63u4E6";
 
 

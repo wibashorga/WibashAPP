@@ -1,6 +1,7 @@
 # Wi-Bash App
 
 ATTENTION le safeAreaview devra etre integrer.
+Modification a faire changer Important en Vote
 
 ## 1. Objectif
 

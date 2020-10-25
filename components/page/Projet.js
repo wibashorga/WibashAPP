@@ -61,6 +61,8 @@ export default class Projet extends React.Component {
             this.setState({projets:json})}).catch(
             (error) => console.log(error))
     }
+
+    
     render()
     {
         
@@ -93,6 +95,7 @@ export default class Projet extends React.Component {
                     
                     title="edit new project"
                     color="red"
+                    onPress= {()=>{this.props.navigation.navigate("new")}}
                     
                 />
                                       

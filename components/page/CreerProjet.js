@@ -25,6 +25,8 @@ export default class NewProject extends React.Component
     }
     sendProject()
     {
+        if(this.nom && this.description && this.objectifs)
+        {
         let data = new FormData();
         data.append("token", token);
         data.append("identifiant", this.props.user.identifiant);
@@ -43,10 +45,11 @@ export default class NewProject extends React.Component
         },
         body: data
         }).then((reponse)=> reponse.text()).then((text) => {
-        console.log(text); console.log("Brainfuck");  
-        }
+        if (text.search("200")!==-1) this.props.navigation.navigate("projets");
+        console.log(text)}
             ).catch(
             (error) => console.log(error))
+        }
     }
     render()
     {
@@ -55,6 +58,7 @@ export default class NewProject extends React.Component
         <ScrollView style = {styles.container} 
         contentContainerStyle={styles.content}
         contentInset = {{left:0, right:0, top:0, bottom:-20}}>
+            
             <Text style = {styles.info} color={"black"}> Nom : </Text>
             <TextInput style = {styles.textinput} placeholder = {"Nom du projet"} 
             onChangeText = {(text)=>{this.nom = text}} style={{...styles.textinput}}
@@ -75,8 +79,9 @@ export default class NewProject extends React.Component
 
                 </TextInput>
                 <TouchableOpacity style={styles.sendbutton}onPress = {()=>this.sendProject()}>
-                    <Text  style={{color:"black", fontSize:20, textAlign:"center"}}>
-                        CREER !</Text>
+                    <Text  style={{color:"black", fontSize:20, textAlign:"center", backgroundColor:"black"}}>
+                   
+                   </Text>
                     </TouchableOpacity>
 
             
@@ -91,6 +96,7 @@ const styles = StyleSheet.create(
             
             flexDirection: "column",
             alignContent: "center",
+            backgroundColor:"white",
             
                       
             

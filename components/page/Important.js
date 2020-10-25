@@ -47,12 +47,7 @@ export default class Important extends React.Component {
                 </View>
 
 
-                <Button
-  onPress={navigation.openDrawer()  }
-  title="Learn More"
-  color="#841584"
-  accessibilityLabel="Learn more about this purple button"
-/>
+                
                 
 
                 <FlatList style = {{flex:1}}>

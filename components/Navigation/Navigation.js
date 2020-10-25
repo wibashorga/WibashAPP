@@ -165,10 +165,8 @@ class Navigation extends React.Component{
   return (
     <NavigationContainer>  
 
-      <Drawer.Navigator initialRouteName="Homi">
-        <Drawer.Screen name="Homi" component={HomiScreen} />
-        <Drawer.Screen name="Notification" component={NotificationsScreen} />
-      </Drawer.Navigator>
+    {this.authentification()}
+    {this.homePage()}
 
     </NavigationContainer>
   );}

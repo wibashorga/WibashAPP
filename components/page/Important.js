@@ -81,10 +81,7 @@ export default class Evenement extends React.Component {
 
                 </View>
 
-                </ImageBackground>
 
-                
-                
 
                 <Button
                     
@@ -92,7 +89,12 @@ export default class Evenement extends React.Component {
                     color="red"
                     
                 />
-                                      
+                        
+
+                </ImageBackground>
+
+                
+                              
                 
             </View>
         )

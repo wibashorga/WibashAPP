@@ -90,10 +90,7 @@ export default class Evenement extends React.Component {
                     renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
 
                 </View>
-                     
-                </ImageBackground>
 
-                
 
                 <Button
                     
@@ -101,7 +98,12 @@ export default class Evenement extends React.Component {
                     color="red"
                     
                 />
-                                      
+                      
+                     
+                </ImageBackground>
+
+                
+                
                 
             </View>
         )
@@ -187,3 +189,5 @@ const styles = StyleSheet.create(
        },
     }
 )
+// Attention dans evenement il y a les enement premiere ligne
+// ET les Votes second lignes

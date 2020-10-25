@@ -180,6 +180,16 @@ const styles = StyleSheet.create(
     }
 )
 
+
+// 
+
+
+
+
+
+
+
+
 /* function organize_as_pairs (projets)
 {
     let l = [];

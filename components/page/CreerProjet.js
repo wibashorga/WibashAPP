@@ -52,7 +52,9 @@ export default class NewProject extends React.Component
     {
         StatusBar.setHidden(true);
         return(
-        <ScrollView style = {styles.container}>
+        <ScrollView style = {styles.container} 
+        contentContainerStyle={styles.content}
+        contentInset = {{left:0, right:0, top:0, bottom:-20}}>
             <Text style = {styles.info} color={"black"}> Nom : </Text>
             <TextInput style = {styles.textinput} placeholder = {"Nom du projet"} 
             onChangeText = {(text)=>{this.nom = text}} style={{...styles.textinput}}
@@ -72,7 +74,10 @@ export default class NewProject extends React.Component
                 multiline={true}>
 
                 </TextInput>
-                <TouchableOpacity style={{...styles.textinput, paddingBottom:20}}onPress = {()=>this.sendProject()}><Text>CREER !</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.sendbutton}onPress = {()=>this.sendProject()}>
+                    <Text  style={{color:"black", fontSize:20, textAlign:"center"}}>
+                        CREER !</Text>
+                    </TouchableOpacity>
 
             
         </ScrollView>
@@ -86,11 +91,15 @@ const styles = StyleSheet.create(
             
             flexDirection: "column",
             alignContent: "center",
-            paddingTop: 30,
             
+                      
             
             flex: 1
             
+        },
+        content:
+        {
+            justifyContent:"space-around", 
         },
         icon:
         {
@@ -115,6 +124,21 @@ const styles = StyleSheet.create(
             margin: 20,
             color: "black",
             padding:7,
+
+            
+        },
+        sendbutton:
+        {
+            height: 20,
+            borderColor: "black",
+            borderWidth: 3,
+            width: windowWidth*0.8,
+            height: 30,
+            alignSelf: "center",
+            margin: 20,
+            backgroundColor: "white",
+            padding:15, 
+            
             
         }
     }

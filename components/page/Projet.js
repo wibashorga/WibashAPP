@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from "./Header.js";
 
-import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList,Image} from 'react-native';
+import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList,Image,Button} from 'react-native';
 const token = "PPlaFk63u4E6";
 
 
@@ -88,6 +88,13 @@ export default class Projet extends React.Component {
                     renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
 
                 </View>
+
+                <Button
+                    
+                    title="edit new project"
+                    color="red"
+                    
+                />
                                       
                 
             </View>

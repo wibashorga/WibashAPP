@@ -12,6 +12,7 @@ class Carte extends React.Component
         super(props);
         console.log(this.props.projet);
     }
+    
     render()
     {
 
@@ -39,8 +40,11 @@ export default class Projet extends React.Component {
            user : this.props.user,
         }
         this.projets = [];
-        this.importProjects();
         
+        
+    }
+    componentDidMount(){
+     this.importProjects();   
     }
     importProjects ()
     {

@@ -1,207 +1,153 @@
-// In App.js in a new project
-
-import * as React from 'react';
-import Accueil from '../page/accueil';
-import Home from "../page/home";
-import Reglage from "../page/Reglage";
-import Profil from "../page/Profil";
-import Projet from "../page/Projet";
-import {Text, View, Modal, StyleSheet, FlatList, SafeAreaView, ScrollView,Button} from 'react-native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import Evenement from "../page/Evenement"
-import Important from "../page/Important"
-import CreerCompte from "../page/compte";
-import Identification from '../page/identification';
-import NewProject from '../page/CreerProjet.js';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Icon} from 'react-native-elements';
-var utilisateur, projets;
-function HomiScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button
-        onPress={() => navigation.navigate('Notifications')}
-        title="Go to notifications"
-      />
-    </View>
-  );
-}
-
-function NotificationsScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button onPress={() => navigation.goBack()} title="Go back home" />
-    </View>
-  );
-}
-
-const Stack = createStackNavigator(), ProjectStack = createStackNavigator();
-const Tab = createBottomTabNavigator();
-const Drawer = createDrawerNavigator();
- //Screens d'authentification
-const AccueilScreen =({ navigation}) => {
-  return (   
-    <Accueil navigation={navigation}/>
-  );
-}
- 
-
-//Screens du corps de l'appli
-const HomeScreen = ({navigation,route}) => {
-    return(
-      <Home navigation = {navigation} user = {utilisateur}/>
-    )
-  }
-
-
-  const EvenementScreen = ({navigation}) => {
-    return(
-      <Evenement navigation = {navigation} user = {utilisateur}/>
-    )
-  }
-
-  const ProjetScreen = ({navigation,route}) => {
-    return(
-      <Projet navigation = {navigation} user = {utilisateur} projets = {projets}/>
-    )
-  }
-
-  const CreerProjetScreen = ({navigation, route})=>{
-    return(
-      <NewProject navigation = {navigation} user = {utilisateur} projets = {projets}/>
-    )
-  }
-
-  const ProjetStackScreen = ({navigation}) => {
-    return(
-      <Stack.Navigator initialRouteName = {"projets"}>
-        <Stack.Screen 
-        name="projets" component={ProjetScreen} options={{title : "" , headerShown:false}} />
-        <Stack.Screen 
-        name="new" component={CreerProjetScreen} options={{title : "Nouveau Projet"}} />
-        
-      </Stack.Navigator>
-      
-    )
-  }
-
-  
-
-  const ImportantScreen = ({navigation,route}) => {
-    return(
-      <Important navigation = {navigation} user = {utilisateur}/>
-    )
-  }
-
-  // screen du menu hamburgeur
-  const ReglageScreen = ({navigation,route}) => {
-    return(
-      <Reglage navigation = {navigation} user = {utilisateur}/>
-    )
-  }
-
-  const ProfilScreen = ({navigation,route}) => {
-    return(
-      <Profil navigation = {navigation} user = {utilisateur}/>
-    )
-  }
+import React from 'react';
+import {Text, StyleSheet, StatusBar, Dimensions, TextInput, Button, ScrollView, TouchableOpacity} from 'react-native';
 
 
 
-class Navigation extends React.Component{
-  constructor(props)
-  {
-    super(props);
-    this.state = {
-      connected: false
-    }
-  }
-  sayConnected(profil)
-  {
-    utilisateur = profil;
-    this.setState({connected: true});
-    
-  }
- setUser(profil){utilisateur=profil}
- setProjects(p){projets = p}
- addProject(p){projets.push(p)}
- removeProject(p){projets = projets.replace(p, undefined)}
-  
-  authentification()
-  {
-    if (!this.state.connected)
+const token = "PPlaFk63u4E6";
+
+const windowHeight = Dimensions.get("window").height;
+const windowWidth = Dimensions.get("window").width;
+
+export default class NewProject extends React.Component
+{
+    constructor(props)
     {
-      return(
-      <Stack.Navigator initialRouteName="Accueil">
-        
-        <Stack.Screen name="Accueil" component={AccueilScreen} options={{title : "" , headerShown:false}} />
-        <Stack.Screen name="identification"  options={{title: 'Identification',headerStyle: { backgroundColor: 'rgb(200,0,0)'},headerTintColor: '#fff' }}>
-        {props => <Identification {...props} sayConnected = {(profil)=> this.sayConnected(profil)} />}
-        </Stack.Screen>
-        <Stack.Screen name = "CreerCompte"  options={{title: 'Nouveau compte',headerStyle: { backgroundColor: 'rgb(200,0,0)'},headerTintColor: '#fff' }}>
-        {props => <CreerCompte {...props} sayConnected = {(profil)=> this.sayConnected(profil)} />}
-        </Stack.Screen>
-        
-
-      </Stack.Navigator>
-    )}
-    else
-    {
-      return null;
+        super(props);
+        this.nom = "";
+        this.description = "";
+        this.objectifs = "";
+        console.log(this.props.user.prenom);
     }
-  }
-  homePage()
-  {
-    if (this.state.connected)
-    {return (
-      
-      <Tab.Navigator initialRouteName = "Home" 
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName, iconType;
+    generateID(){
+        let id = (Math.random()*1000000).toString();
+        return id.slice(0,5);
 
-          if (route.name === 'Home') 
-          {
-            iconName = 'home';
-            iconType = 'Entypo'
-          }
-          if (route.name === "Evenement")
-          {
-            iconName = "flag";
-            iconType = "AntDesign";
-          }
-          if (route.name === "Projet")
-          {
-            iconName = "news";
+    }
+    sendProject()
+    {
+        if(this.nom && this.description && this.objectifs)
+        {
+        let data = new FormData();
+        data.append("token", token);
+        data.append("identifiant", this.props.user.identifiant);
+        data.append("pass", this.props.user.pass);
+        data.append("id_proj", this.generateID());
+        data.append("nom", this.nom);
+        data.append("description", this.description);
+        data.append('objectifs', this.objectifs);
+        data.append("type", "programmation");
+        
+        fetch('http://www.wi-bash.fr/application/CreaProj.php', {
+        method: 'POST',
+        headers: {
+        Accept: 'multipart/form-data',
+        'Content-Type': "multipart/form-data"
+        },
+        body: data
+        }).then((reponse)=> reponse.text()).then((text) => {
+        if (text.search("200")!==-1) this.props.navigation.navigate("projets");
+        console.log(text)}
+            ).catch(
+            (error) => console.log(error))
+        }
+    }
+    render()
+    {
+        StatusBar.setHidden(true);
+        return(
+        <ScrollView style = {styles.container} 
+        contentContainerStyle={styles.content}
+        contentInset = {{left:0, right:0, top:0, bottom:-20}}>
             
-          }
-          return <Icon name={iconName} size={size} type = {iconType } />;
-        },})}>
+            
+            <TextInput style = {styles.textinput} placeholder = {"Nom du projet"} 
+            onChangeText = {(text)=>{this.nom = text}} style={{...styles.textinput}}
+            ></TextInput>
 
+            
+            <TextInput onChangeText = {(text)=>{this.objectifs = text}}
+            placeholder = {"Objectifs"} style={{...styles.textinput, height:windowHeight/4,
+            width:windowWidth*0.8}}
+            multiline = {true}/>
+                
+                
+                <TextInput placeholder={"Mon projet en quelques mots"} 
+                placeholderTextColor = {"black"}
+                style={{...styles.textinput, height:windowHeight/3.5,}}
+                 onChangeText = {(text)=>{this.description = text}}
+                multiline={true}>
 
-        <Tab.Screen name = "Home" component = {HomeScreen} />
-        <Tab.Screen name = "Evenement" component = {EvenementScreen} />
-        <Tab.Screen name = "Projet" component = {ProjetStackScreen} />
-        <Tab.Screen name = "Important" component = {ImportantScreen} />
-      
-      </Tab.Navigator>
-    )}
-  }
+                </TextInput>
+                <TouchableOpacity style={styles.sendbutton}onPress = {()=>this.sendProject()}>
+                    <Text  style={{color:"black", fontSize:20, 
+                    textAlign:"center"}}>
+                        CREER
+                   
+                   </Text>
+                    </TouchableOpacity>
 
-  render()
-  {
-  return (
-    <NavigationContainer>  
-
-    {this.authentification()}
-    {this.homePage()}
-
-    </NavigationContainer>
-  );}
+            
+        </ScrollView>
+        )
+    }
 }
-///{this.authentification()}
-//{this.homePage()} integrer  avec drawer menu
-// integrer les page Regage et profil
-export default Navigation;
+const styles = StyleSheet.create(
+    {
+        container:
+        {
+            
+            flexDirection: "column",
+            alignContent: "center",
+            backgroundColor:"white",
+            
+                      
+            
+            flex: 1
+            
+        },
+        content:
+        {
+            justifyContent:"space-around", 
+        },
+        icon:
+        {
+            marginLeft: 10,
+            marginTop: 40,
+            alignSelf: "flex-start",
+        },
+        info:
+        {
+            color: "black",
+            fontSize: 20,
+            backgroundColor: "black"
+        },
+        textinput:
+        {
+            height: 20,
+            borderColor: "black",
+            borderWidth: 3,
+            width: windowWidth*0.8,
+            height: 30,
+            alignSelf: "center",
+            margin: 20,
+            color: "black",
+            padding:7,
+
+            
+        },
+        sendbutton:
+        {
+            height: 30,
+            borderColor: "black",
+            borderWidth: 3,
+            width: windowWidth*0.8,
+            height: 30,
+            alignSelf: "center",
+            margin: 20,
+            backgroundColor: "white",
+            paddingBottom:2, 
+            
+            
+        }
+    }
+)

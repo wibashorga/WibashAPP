@@ -233,6 +233,11 @@ const styles = StyleSheet.create(
            overflow: "hidden",
            padding:10,
           borderRadius: 20,
+          shadowColor:"#000",
+            shadowOpacity:0.39,
+            shadowRadius:8.30,
+            elevation:14
+
           
           
           

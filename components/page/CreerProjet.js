@@ -67,7 +67,7 @@ export default class NewProject extends React.Component
             <Text style={styles.info}>Objectifs : </Text>
             <TextInput onChangeText = {(text)=>{this.objectifs = text}}
             placeholder = {"Objectifs"} style={{...styles.textinput, height:windowHeight/4,
-            width:windowWidth*0.8}}
+            width:windowWidth*0.95}}
             multiline = {true}/>
                 
                 <Text style={styles.info}>Description : </Text>
@@ -79,9 +79,7 @@ export default class NewProject extends React.Component
 
                 </TextInput>
                 <TouchableOpacity style={styles.sendbutton}onPress = {()=>this.sendProject()}>
-                    <Text  style={{color:"black", fontSize:20, textAlign:"center", backgroundColor:"black"}}>
-                   
-                   </Text>
+                    <Text  style={{color:"black", fontSize:20, textAlign:"center", backgroundColor:"black"}}>envoyer</Text>
                     </TouchableOpacity>
 
             
@@ -96,10 +94,7 @@ const styles = StyleSheet.create(
             
             flexDirection: "column",
             alignContent: "center",
-            backgroundColor:"white",
-            
-                      
-            
+            backgroundColor:"#F4F7F8",
             flex: 1
             
         },
@@ -122,28 +117,37 @@ const styles = StyleSheet.create(
         textinput:
         {
             height: 20,
-            borderColor: "black",
-            borderWidth: 3,
-            width: windowWidth*0.8,
+            width: windowWidth*0.95,
             height: 30,
             alignSelf: "center",
             margin: 20,
             color: "black",
             padding:7,
+            backgroundColor:"white",
+            borderRadius:20,
+            shadowColor:"#000",
+            shadowOpacity:0.39,
+            shadowRadius:8.30,
+            elevation:14
 
             
         },
         sendbutton:
         {
-            height: 20,
+            height: 30,
             borderColor: "black",
             borderWidth: 3,
             width: windowWidth*0.8,
-            height: 30,
+            height: 50,
             alignSelf: "center",
             margin: 20,
-            backgroundColor: "white",
-            padding:15, 
+            backgroundColor: "red",
+            padding:15,
+            borderRadius:20,
+            shadowColor:"#000",
+            shadowOpacity:0.39,
+            shadowRadius:4.30,
+            elevation:12
             
             
         }

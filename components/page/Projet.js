@@ -39,20 +39,20 @@ export default class Projet extends React.Component {
         this.state = {
            user : this.props.user,
         }
-        this.projets = [];
+        this.projets = this.props.projets;
         
         
     }
-    componentDidMount(){
+    /*componentDidMount(){
      this.importProjects();   
-    }
+    }*/
     importProjects ()
     {
         let data = new FormData();
         data.append("token", token);
         data.append("identifiant", this.state.user.identifiant);
         data.append("pass", this.state.user.pass);
-        console.log(this.state.user.pass);
+        
         fetch('http://www.wi-bash.fr/application/ListeProjets.php', {
         method: 'POST',
         headers: {
@@ -62,7 +62,10 @@ export default class Projet extends React.Component {
         body: data
         }).then((reponse)=> reponse.text()).then((json) => {
             json = JSON.parse(json);
-            this.setState({projets:json})}).catch(
+            this.setState({projets:json})
+            this.props.setProjects(json);
+        }
+            ).catch(
             (error) => console.log(error))
     }
 
@@ -70,7 +73,9 @@ export default class Projet extends React.Component {
     render()
     {
         
-        
+        setTimeout(()=>{
+            this.importProjects()
+        }, 20000);
         return(
             <View style = {styles.conteneur}>
 
@@ -126,7 +131,8 @@ const styles = StyleSheet.create(
        conteneur:
        {
            flex : 1,
-           backgroundColor: "black"
+           backgroundColor: "black",
+           
            
            
            
@@ -140,6 +146,7 @@ const styles = StyleSheet.create(
        {
            backgroundColor: "transparent",
            height:200,
+           marginBottom: 30,
            width:200,
            shadowColor: "#000",
             shadowOffset: {

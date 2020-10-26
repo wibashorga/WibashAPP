@@ -61,7 +61,7 @@ export default class Home extends React.Component {
         this.message = messages[parseInt(Math.random()*messages.length)];
         this.importProjects();
         this.importMembers();
-        setTimeout(()=> this.setState({bienvenue: false}), 2000);
+        setTimeout(()=> this.setState({bienvenue: false}), 1000);
     }
     importProjects ()
     {
@@ -79,7 +79,9 @@ export default class Home extends React.Component {
         body: data
         }).then((reponse)=> reponse.text()).then((json) => {
             json = JSON.parse(json);
-            this.setState({projets:json})}).catch(
+            this.setState({projets:json})
+            this.setProjects(json);
+        }).catch(
             (error) => console.log(error))
     }
     importMembers ()

@@ -64,7 +64,7 @@ const HomeScreen = ({navigation,route}) => {
 
   const ProjetScreen = ({navigation,route}) => {
     return(
-      <Projet navigation = {navigation} user = {utilisateur}/>
+      <Projet navigation = {navigation} user = {utilisateur} projets = {projets}/>
     )
   }
 

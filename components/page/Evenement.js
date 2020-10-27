@@ -195,4 +195,4 @@ const styles = StyleSheet.create(
     }
 )
 // Attention dans evenement il y a les enement premiere ligne
-// ET les Votes second lignes test
+// ET les Votes second lignes test ;p;

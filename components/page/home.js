@@ -11,7 +11,7 @@ class Carte extends React.Component
     constructor(props)
     {
         super(props);
-        console.log(this.props.projet);
+        
     }
     render()
     {
@@ -32,7 +32,7 @@ class Membre extends React.Component
     constructor(props)
     {
         super(props);
-        console.log(this.props.membre);
+        
     }
     render()
     {
@@ -56,11 +56,13 @@ export default class Home extends React.Component {
            user : this.props.user,
            bievenue : true,
             projets: [],
-            membres: []
+            membres: [],
+            events: []
         }
         this.message = messages[parseInt(Math.random()*messages.length)];
         this.importProjects();
         this.importMembers();
+        this.importEvents();
         setTimeout(()=> this.setState({bienvenue: false}), 1000);
     }
     importProjects ()
@@ -69,7 +71,7 @@ export default class Home extends React.Component {
         data.append("token", token);
         data.append("identifiant", this.state.user.identifiant);
         data.append("pass", this.state.user.pass);
-        console.log(this.state.user.pass);
+        
         fetch('http://www.wi-bash.fr/application/ListeProjets.php', {
         method: 'POST',
         headers: {
@@ -80,9 +82,9 @@ export default class Home extends React.Component {
         }).then((reponse)=> reponse.text()).then((json) => {
             json = JSON.parse(json);
             this.setState({projets:json})
-            this.setProjects(json);
+            this.props.setProjects(json);
         }).catch(
-            (error) => console.log(error))
+            (error) => console.log("coucou", error))
     }
     importMembers ()
     {
@@ -103,6 +105,15 @@ export default class Home extends React.Component {
             this.setState({membres:json})}).catch(
             (error) => console.log(error))
     }
+    importEvents()
+    {
+        fetch("http://www.wi-bash.fr/application/ListEvent.php").then(
+            (reponse)=>reponse.text()).then(
+                (json)=>{
+                    this.setState({events:JSON.parse(json)});
+                }
+            ).catch((error)=>console.log(error))
+    }
     render()
     {
         return(
@@ -116,13 +127,12 @@ export default class Home extends React.Component {
                         </View>
                 </Modal>
                 <Header />
-                <Text>Bievenue, {this.state.user.pseudo} !</Text>
             
 
                     <View style = {styles.categorie}>
 
                         <View style = {styles.Titre}>
-                            <Text style = {{fontSize : 40}} > Projet </Text>
+                            <Text style = {styles.textetitre} > PROJETS </Text>
 
                         </View>
 
@@ -140,7 +150,7 @@ export default class Home extends React.Component {
                 <View style = {styles.categorie}>
 
                         <View style = {styles.Titre}>
-                            <Text style = {{fontSize : 40}} > Membre </Text>
+                            <Text style = {styles.textetitre} > MEMBRES </Text>
 
                         </View>
 
@@ -157,12 +167,12 @@ export default class Home extends React.Component {
                 <View style = {styles.categorie}>
 
                         <View style = {styles.Titre}>
-                            <Text style = {{fontSize : 40}} > Evenement </Text>
+                            <Text style = {styles.textetitre} > EVÈNEMENTS </Text>
 
                         </View>
 
                         <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.projets} keyExtractor={(item)=>item.ID} 
+                        <FlatList data={this.state.events} keyExtractor={(item)=>item.ID} 
                     renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
 
                         </View>
@@ -222,6 +232,10 @@ const styles = StyleSheet.create(
            height:50,
            backgroundColor: "red",
            alignItems : 'center',
+       },
+       textetitre:{
+            fontSize:40,
+            color:"white"
        },
        carte:
        {

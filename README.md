@@ -58,6 +58,7 @@ Et l'évènement est automatiquement ajouté sur l'agenda Google ou IOS de ceux 
 -   @react-navigation/stack; @react-navigation/bottom-tabs; @react-navigation/drawer
 -   react-native-options-menu
 -   reactNavigation
+-   react-native-picker-select
 -   react-native-image-picker
 -   react-native-push-notification ou react-native-wonderpush
 

@@ -18,14 +18,19 @@ class Carte extends React.Component
 
         
         return(
-            <View style={styles.carte}>
+            <View style={{...styles.carte, backgroundColor:this.props.projet.mine?"rgb(200,150,120)":"white"}}>
                 <View style={styles.imagecarte}>
                 <Text>ici il aura une image</Text>
                 </View>
 
                 <View>
-                <Text style = {{fontWeight:"bold"}}>{this.props.projet.nom}</Text>
-                <Text>{this.props.projet.description}</Text>
+                <Text style = {{fontWeight:"bold", alignSelf:"center"}}>
+                    {this.props.projet.nom}</Text>
+                    <Text style={styles.textecarte}>
+                        Objectifs : {"\n"+this.props.projet.objectifs}</Text>
+                    <Text style = {styles.textecarte}>
+                        Description :{"\n"+this.props.projet.description}
+                        </Text>
                 </View>
             </View>
         )
@@ -38,14 +43,17 @@ export default class Projet extends React.Component {
         super(props);
         this.state = {
            user : this.props.user,
+           projets: this.props.projets
         }
-        this.projets = this.props.projets;
         
+        
+        if (this.props.route.params) 
+        {
+            if (this.props.route.params.refresh) this.importProjects();
+        }
         
     }
-    /*componentDidMount(){
-     this.importProjects();   
-    }*/
+    
     importProjects ()
     {
         let data = new FormData();
@@ -61,26 +69,28 @@ export default class Projet extends React.Component {
         },
         body: data
         }).then((reponse)=> reponse.text()).then((json) => {
-            json = JSON.parse(json);
-            this.setState({projets:json})
+            
+            this.setState({projets:JSON.parse(json)});
             this.props.setProjects(json);
         }
             ).catch(
             (error) => console.log(error))
     }
 
-    
+    componentDidMount(){
+        
+        setInterval(()=>{
+            this.importProjects();
+        }, 20000);
+    }
     render()
     {
         
-        setTimeout(()=>{
-            this.importProjects()
-        }, 20000);
         return(
             <View style = {styles.conteneur}>
 
                 <View style = {styles.Titre} >
-                    <Text style  = {{fontSize : 25}}> Projet </Text>
+                    <Text style  = {{fontSize : 25, color:"white"}}> PROJETS </Text>
 
 
                 </View>
@@ -145,9 +155,9 @@ const styles = StyleSheet.create(
        carte_projet:
        {
            backgroundColor: "transparent",
-           height:200,
+           height:150,
            marginBottom: 30,
-           width:200,
+           width:150,
            shadowColor: "#000",
             shadowOffset: {
 	        width: 1,
@@ -165,6 +175,10 @@ const styles = StyleSheet.create(
            fontWeight:"bold",
            textAlign: "center",
            fontFamily: "roboto"
+       },
+       textecarte:
+       {
+           fontSize:20
        },
        containtcarte:
        {

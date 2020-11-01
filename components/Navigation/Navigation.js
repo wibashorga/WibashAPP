@@ -13,11 +13,12 @@ import Important from "../page/Important"
 import CreerCompte from "../page/compte";
 import Identification from '../page/identification';
 import NewProject from '../page/CreerProjet.js';
+import NewEvent from '../page/CreerEvent.js';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon} from 'react-native-elements';
-var utilisateur, projets;
+var utilisateur, projets, events;
 function HomiScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -37,7 +38,7 @@ function NotificationsScreen({ navigation }) {
   );
 }
 
-const Stack = createStackNavigator(), ProjectStack = createStackNavigator();
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
  //Screens d'authentification
@@ -51,39 +52,66 @@ const AccueilScreen =({ navigation}) => {
 //Screens du corps de l'appli
 const HomeScreen = ({navigation,route}) => {
     return(
-      <Home navigation = {navigation} user = {utilisateur}/>
+      <Home navigation = {navigation} user = {utilisateur} setProjects = {(p)=>{projets=p}}/>
     )
   }
 
 
-  const EvenementScreen = ({navigation}) => {
+  const EvenementScreen = ({navigation, route}) => {
     return(
-      <Evenement navigation = {navigation} user = {utilisateur}/>
+      <Evenement navigation = {navigation} user = {utilisateur}
+      route={route} events={events}/>
     )
   }
 
   const ProjetScreen = ({navigation,route}) => {
     return(
-      <Projet navigation = {navigation} user = {utilisateur} projets = {projets}/>
+      <Projet navigation = {navigation} user = {utilisateur} projets = {projets}
+      route={route} setProjects = {(p)=>{projets=p}}/>
     )
   }
 
   const CreerProjetScreen = ({navigation, route})=>{
     return(
-      <NewProject navigation = {navigation} user = {utilisateur} projets = {projets}/>
+      <NewProject navigation = {navigation} user = {utilisateur} projets = {projets}
+      /*setNew = {(p)=>{projets.push(p)}}*//>
     )
   }
-
+  
+  const CreerEventScreen = ({navigation, route})=>{
+    return(
+      <NewEvent navigation = {navigation} user = {utilisateur} projets = {projets}
+      /*setNew = {(p)=>{projets.push(p)}}*//>
+    )
+  }
+/**Stack des projets
+ProjetScreen correspond à la page "liste des projets"
+CreerProjetScreen correspond à la page de création de projet. on y arrive grâce
+au bouton Edit New Project 
+* */
   const ProjetStackScreen = ({navigation}) => {
     return(
       <Stack.Navigator initialRouteName = {"projets"}>
         <Stack.Screen 
         name="projets" component={ProjetScreen} options={{title : "" , headerShown:false}} />
         <Stack.Screen 
-        name="new" component={CreerProjetScreen} options={{title : "Nouveau Projet"}} />
+        name="new" component={CreerEventScreen} options={{title : "Nouveau projet"}} />
         
       </Stack.Navigator>
       
+    )
+  }
+  //Stack des événements
+  const EventStackScreen = ({navigation})=>{
+    return(
+      <Stack.Navigator initialRouteName = {"events"}>
+        <Stack.Screen 
+        name="events" component={EvenementScreen} options={{title : "" , headerShown:false}} />
+        <Stack.Screen 
+        name="new_event" component={CreerEventScreen} options={{title : "Nouvel évènement"}} />
+        
+      </Stack.Navigator>
+        
     )
   }
 
@@ -125,6 +153,7 @@ class Navigation extends React.Component{
     
   }
  setUser(profil){utilisateur=profil}
+ setEvents(e){events=e};
  setProjects(p){projets = p}
  addProject(p){projets.push(p)}
  removeProject(p){projets = projets.replace(p, undefined)}
@@ -141,7 +170,9 @@ class Navigation extends React.Component{
         {props => <Identification {...props} sayConnected = {(profil)=> this.sayConnected(profil)} />}
         </Stack.Screen>
         <Stack.Screen name = "CreerCompte"  options={{title: 'Nouveau compte',headerStyle: { backgroundColor: 'rgb(200,0,0)'},headerTintColor: '#fff' }}>
-        {props => <CreerCompte {...props} sayConnected = {(profil)=> this.sayConnected(profil)} />}
+        {props => <CreerCompte {...props} 
+        sayConnected = {(profil)=> this.sayConnected(profil)} 
+        setProjects = {(p)=>{this.setProjects(p)}}/>}
         </Stack.Screen>
         
 
@@ -178,7 +209,7 @@ class Navigation extends React.Component{
 
 
         <Tab.Screen name = "Home" component = {HomeScreen} />
-        <Tab.Screen name = "Evenement" component = {EvenementScreen} />
+        <Tab.Screen name = "Evenement" component = {EventStackScreen} />
         <Tab.Screen name = "Projet" component = {ProjetStackScreen} />
         <Tab.Screen name = "Important" component = {ImportantScreen} />
       

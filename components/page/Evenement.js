@@ -69,7 +69,7 @@ export default class Evenement extends React.Component {
             <View style = {styles.conteneur}>
 
                 <View style = {styles.Titre} >
-                    <Text style  = {{fontSize : 25}}> Evenement </Text>
+                    <Text style  = {{fontSize : 25, color:"white"}}> EVENEMENTS </Text>
 
 
                 </View>
@@ -94,8 +94,9 @@ export default class Evenement extends React.Component {
 
                 <Button
                     
-                    title="edit new Evenement"
-                    color="red"
+                    title={"edit new Event"}
+                    color={"red"}
+                    onPress={()=>{this.props.navigation.navigate("new_event")}}
                     
                 />
                       

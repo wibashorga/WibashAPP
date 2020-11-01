@@ -79,6 +79,9 @@ Et l'évènement est automatiquement ajouté sur l'agenda Google ou IOS de ceux 
 
 ## Avancement du projet
 -   Vues identification et de création de compte opérationnelles
+-   Vue Home opérationnelle
+-   Vue Liste des projets et création de projets opérationnelles
+-   Vues évènements et important en construction
 -   API et base de données opé
 
 

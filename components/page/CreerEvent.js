@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, StatusBar, Dimensions, TextInput, Button, ScrollView, TouchableOpacity} from 'react-native';
-
+import RNPickerSelect from "react-native-picker-select";
 
 
 const token = "PPlaFk63u4E6";
@@ -8,7 +8,12 @@ const token = "PPlaFk63u4E6";
 const windowHeight = Dimensions.get("window").height;
 const windowWidth = Dimensions.get("window").width;
 
-
+let days = [], annees = [];
+for (let i =1;i<32; i++) days.push({label:""+i, value:i});
+for (let i = 2020; i<2050; i++) annees.push({label:""+i, value:i})
+ let mois = ["Janvier", "Février", "Mars", "Avril",
+    "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+mois = mois.map((month)=>{return {label:month, value:mois.indexOf(month)+1}})
 
 export default class NewEvent extends React.Component
 {
@@ -17,13 +22,27 @@ export default class NewEvent extends React.Component
         super(props);
         this.nom = "";
         this.date = "";
-        this.type = "";
+        this.type = null;
         this.description = "";
         this.decisions = "";
+        this.mois = null;
+        this.jour = null;
         this.state ={
-            description:false
+            description:false,
+            jours:days
         };
         
+        this.handleMonthChange = this.handleMonthChange.bind(this);
+    }
+    //on diot adapter le nombre de jours possibles au mois choisi
+    handleMonthChange(month){
+        if ([4,6,9, 11].indexOf(month)!=-1) this.setState({jours: days.slice(0,30)})
+        if (month===2)
+        {
+            this.setState({jours: days.slice(0,28)})
+        } 
+        if ([1,3,5,7,8,10,12].indexOf(month)!==-1) this.setState({jours: days.slice(0,31)})
+      this.mois = month;
     }
 
     ajouterDescription()
@@ -106,6 +125,35 @@ export default class NewEvent extends React.Component
             ></TextInput>
 
             <Text style={styles.info}>Date : </Text>
+            <View style = {{flex:1}}>
+                <View>
+                <RNPickerSelect onValueChange={(j)=>this.jour = j}
+                items = {this.state.jours} useNativeAndroidPickerStyle={false}
+                style={pickerStyles}
+                placeholder={{label:"Jour", value:null}}/></View>
+                <View>
+                <RNPickerSelect onValueChange={this.handleMonthChange}
+                items = {mois} useNativeAndroidPickerStyle={false}
+                placeholder={{label:"Mois", value:null}}
+                style={pickerStyles}
+                />
+                </View>
+            </View>
+
+            <Text style= {styles.info}>Type : </Text>
+            <RNPickerSelect onValueChange = {(type)=>{this.type = type}}
+            items={[
+            {label:"Réunion", value:"Réunion", color:'black'},
+            {label:'Evenement', value:"Evenement"},
+            {label:"Sortie", value:"Sortie"},
+            {label:"Journée de formation", value:"Journée de formation"},
+            {label:"Autre", value:'Autre'}
+            ]
+            }
+        placeholder= {{label:"Sélectionner un type...", value:null, color:'grey'}}
+        style={styles.pickerStyle}
+        //useNativeAndroidPickerStyle={false}
+            />
                 
                 {this.ajouterDescription()}
                 
@@ -181,6 +229,32 @@ const styles = StyleSheet.create(
             elevation:12
             
             
-        }
+        },
+        
     }
 )
+
+const pickerStyles = StyleSheet.create({
+    inputIOS: {
+      fontSize: 16,
+      paddingVertical: 12,
+      paddingHorizontal: 10,
+      borderWidth: 1,
+      //borderColor: 'gray',
+      //borderRadius: 4,
+      color: 'black',
+      paddingRight: 30, // to ensure the text is never behind the icon
+    },
+    inputAndroid: {
+      width: 50,
+      flex:1,
+        fontSize: 16,
+      paddingHorizontal: 3,
+      paddingVertical: 8,
+      borderWidth: 0.5,
+      //borderColor: 'purple',
+      //borderRadius: 8,
+      color: 'black',
+      //paddingRight: 30, // to ensure the text is never behind the icon
+    },
+  });

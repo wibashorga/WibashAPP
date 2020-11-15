@@ -1,12 +1,23 @@
 import React from 'react';
-import {View, Text, StyleSheet, StatusBar, Dimensions, TextInput, Button, ScrollView, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, Dimensions, TextInput, Button, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import RNPickerSelect from "react-native-picker-select";
 
 
 const token = "PPlaFk63u4E6";
+const date = new Date();
 
 const windowHeight = Dimensions.get("window").height;
 const windowWidth = Dimensions.get("window").width;
+
+function message(titre, phrase)
+{
+    Alert.alert(titre, phrase, [
+        {
+            text:"OK",
+            onPress: ()=>{}
+        }
+    ])
+}
 
 let days = [], annees = [];
 for (let i =1;i<32; i++) days.push({label:""+i, value:i});
@@ -27,19 +38,27 @@ export default class NewEvent extends React.Component
         this.decisions = "";
         this.mois = null;
         this.jour = null;
+        this.annee = date.getFullYear();
         this.state ={
             description:false,
             jours:days
         };
         
         this.handleMonthChange = this.handleMonthChange.bind(this);
+        this.sendEvent = this.sendEvent.bind(this);
     }
-    //on diot adapter le nombre de jours possibles au mois choisi
+    //on doit adapter le nombre de jours possibles au mois choisi
     handleMonthChange(month){
-        if ([4,6,9, 11].indexOf(month)!=-1) this.setState({jours: days.slice(0,30)})
+        month = parseInt(month);
+        if ([4,6,9, 11].indexOf(month)!=-1) 
+        {
+            this.setState({jours: days.slice(0,30)});
+            if (this.jour>30) this.jour = 30;
+        }
         if (month===2)
         {
-            this.setState({jours: days.slice(0,28)})
+            this.setState({jours: days.slice(0,28)});
+            if (this.jour>28) this.jour = 28;
         } 
         if ([1,3,5,7,8,10,12].indexOf(month)!==-1) this.setState({jours: days.slice(0,31)})
       this.mois = month;
@@ -70,11 +89,12 @@ export default class NewEvent extends React.Component
             )
         }
     }
-    
+    //La fonction send event permet de creer un évènement dans la base de données
     sendEvent()
     {
-        if(this.nom && this.date && this.type)
+        if(this.nom && this.type && this.jour && this.annee && this.mois)
         {
+            this.date = ""+this.annee+"-"+this.mois+"-"+this.jour;
         let data = new FormData();
         data.append("token", token);
         data.append("identifiant", this.props.user.identifiant);
@@ -83,7 +103,7 @@ export default class NewEvent extends React.Component
         data.append("date", this.date);
         data.append('type', this.type);
         if (this.decisions) data.append("decisions", this.decisions);
-        if (this.description) data.append(this.description);
+        if (this.description) data.append("description", this.description);
 
         
         fetch('http://www.wi-bash.fr/application/CreateEvent.php', {
@@ -96,18 +116,15 @@ export default class NewEvent extends React.Component
         }).then((reponse)=> reponse.text()).then((text) => {
         if (text.search("200")!==-1) {
             
-            this.props.navigation.navigate("projets", {refresh:true});
-        }
-        console.log(text)
+            this.props.navigation.navigate("events", {refresh:true});
+        }else message ('Oups', "Nous n'avons pas pu créer le nouvel évènement")
+        
             }
             ).catch(
             (error) => console.log(error))
         }else{
-            Alert.alert("Erreur", "Veuillez remplir tous les champs", [
-                {
-                  text : "OK",
-                  onPress: ()=> {}
-                }])
+            
+                message("Erreur", "Veuillez renseigner au moins le nom, le type et la date")
         }
     }
     render()
@@ -125,19 +142,25 @@ export default class NewEvent extends React.Component
             ></TextInput>
 
             <Text style={styles.info}>Date : </Text>
-            <View style = {{flex:1}}>
-                <View>
+            <View style = {{flex:1, flexDirection:"row"}}>
+                
                 <RNPickerSelect onValueChange={(j)=>this.jour = j}
                 items = {this.state.jours} useNativeAndroidPickerStyle={false}
                 style={pickerStyles}
-                placeholder={{label:"Jour", value:null}}/></View>
-                <View>
+                placeholder={{label:"Jour", value:null}}/>
+                
                 <RNPickerSelect onValueChange={this.handleMonthChange}
                 items = {mois} useNativeAndroidPickerStyle={false}
                 placeholder={{label:"Mois", value:null}}
+                style={pickerMonth}
+                />
+
+                <RNPickerSelect onValueChange={(value)=>{this.annee=value}}
+                items = {annees} useNativeAndroidPickerStyle={false}
+                placeholder={{label:"Année", value:date.getFullYear()}}
                 style={pickerStyles}
                 />
-                </View>
+                
             </View>
 
             <Text style= {styles.info}>Type : </Text>
@@ -157,7 +180,7 @@ export default class NewEvent extends React.Component
                 
                 {this.ajouterDescription()}
                 
-                <TouchableOpacity style={styles.sendbutton}onPress = {()=>{}}>
+                <TouchableOpacity style={styles.sendbutton}onPress = {this.sendEvent}>
                     <Text  style={{color:"black", fontSize:20, textAlign:"center"}}>envoyer</Text>
                     </TouchableOpacity>
                     
@@ -190,7 +213,7 @@ const styles = StyleSheet.create(
         info:
         {
             color: "black",
-            fontSize: 20,
+            fontSize: 18,
             
         },
         textinput:
@@ -236,25 +259,55 @@ const styles = StyleSheet.create(
 
 const pickerStyles = StyleSheet.create({
     inputIOS: {
-      fontSize: 16,
-      paddingVertical: 12,
-      paddingHorizontal: 10,
-      borderWidth: 1,
-      //borderColor: 'gray',
-      //borderRadius: 4,
-      color: 'black',
-      paddingRight: 30, // to ensure the text is never behind the icon
+        width: 45,
+        marginHorizontal : windowWidth/14,
+        marginVertical: 20,
+        flex:1,
+          fontSize: 16,
+        paddingHorizontal: 3,
+        paddingVertical: 8,
+        borderWidth: 0.5,
+        alignSelf: "center",
+        color: 'black',
     },
     inputAndroid: {
-      width: 50,
+      width: 45,
+      marginHorizontal : windowWidth/14,
+      marginVertical: 20,
       flex:1,
         fontSize: 16,
       paddingHorizontal: 3,
       paddingVertical: 8,
       borderWidth: 0.5,
-      //borderColor: 'purple',
-      //borderRadius: 8,
+      alignSelf: "center",
       color: 'black',
-      //paddingRight: 30, // to ensure the text is never behind the icon
+    },
+  });
+
+
+  const pickerMonth = StyleSheet.create({
+    inputIOS: {
+        width: 100,
+        marginHorizontal : windowWidth/14,
+        marginVertical: 20,
+        flex:1,
+          fontSize: 16,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        borderWidth: 0.5,
+        alignSelf: "center",
+        
+    },
+    inputAndroid: {
+      width: 100,
+      marginHorizontal : windowWidth/14,
+      marginVertical: 20,
+      flex:1,
+        fontSize: 16,
+      paddingHorizontal: 10,
+      paddingVertical: 8,
+      borderWidth: 0.5,
+      alignSelf: "center",
+      
     },
   });

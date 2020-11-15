@@ -3,28 +3,47 @@ import Header from "./Header.js";
 
 import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList,ImageBackground,Button,SafeAreaView} from 'react-native';
 const token = "PPlaFk63u4E6";
-
-
+//fonction de hachage
+const hashCode = function(s){
+    return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0).toString();              
+  }
+const mois = ["Janvier", "Février", "Mars", "Avril",
+"Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
+const today = new Date();
 class Carte extends React.Component
 {
     constructor(props)
     {
         super(props);
-        console.log(this.props.projet);
+        
+        var split = this.props.event.date.split("-");
+        this.mois = mois[parseInt(split[1])-1]
+        this.jour = split[2];
+        this.annee = split[0];
+        this.urgent = (split[0]==today.getFullYear() && split[1]==today.getMonth()+1
+        && parseInt(split[2])-today.getDate()<=2);
+        
+        console.log(split[1])
     }
     render()
     {
 
-        
         return(
-            <View style={styles.carte}>
+            <View style={{...styles.carte, backgroundColor:(this.urgent)?"red":"white"}}>
                 <View style={styles.imagecarte}>
-                <Text>ici il aura une image</Text>
                 </View>
 
                 <View>
-                <Text style = {{fontWeight:"bold"}}>{this.props.projet.nom}</Text>
-                <Text>{this.props.projet.description}</Text>
+                <Text style = {{fontWeight:"bold", alignSelf:"center",
+            fontSize: 22, color:(this.urgent)?"white":"black"}}>
+                    {this.props.event.nom}</Text>
+                <Text style={{color:(this.urgent)?"white":"black"}}>
+                    {this.jour+" "+this.mois+" "+this.annee}
+                    </Text>
+        <Text style= {{color:(this.urgent)?"white":"black"}}>
+            {"Type : "+this.props.event.type}</Text>
+        <Text style={{color:(this.urgent)?"white":"black"}}>
+            {this.props.event.description}</Text>
                 </View>
             </View>
         )
@@ -37,30 +56,23 @@ export default class Evenement extends React.Component {
         super(props);
         this.state = {
            user : this.props.user,
+           events:{}
         }
-        this.projets = [];
-        this.importProjects();
+        
+        this.importEvents();
         
     }
-    importProjects ()
+    importEvents()
     {
-        let data = new FormData();
-        data.append("token", token);
-        data.append("identifiant", this.state.user.identifiant);
-        data.append("pass", this.state.user.pass);
-        console.log(this.state.user.pass);
-        fetch('http://www.wi-bash.fr/application/ListeProjets.php', {
-        method: 'POST',
-        headers: {
-        Accept: 'multipart/form-data',
-        'Content-Type': "multipart/form-data"
-        },
-        body: data
-        }).then((reponse)=> reponse.text()).then((json) => {
-            json = JSON.parse(json);
-            this.setState({projets:json})}).catch(
-            (error) => console.log(error))
+        fetch('http://www.wi-bash.fr/application/ListEvent.php').then(
+            (reponse)=>reponse.text()).then((text)=>
+            this.setState({events:JSON.parse(text)})).catch((error)=>console.log(error))
     }
+    componentDidMount()
+    {
+        setInterval(()=>this.importEvents(), 10000)
+    }
+
     render()
     {
         
@@ -77,8 +89,8 @@ export default class Evenement extends React.Component {
                 <ImageBackground source = {require('./ressources/evenmfond.jpg')} style={styles.image}>
 
                 <View style = {styles.containimage}>
-                    <FlatList data={this.state.projets} keyExtractor={(item)=>item.ID} 
-                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
+                    <FlatList data={this.state.events} keyExtractor={(item)=>hashCode(item.nom)} 
+                    renderItem= {(item)=><Carte event = {item.item}/>} horizontal = {true}/>
 
                 </View>
                 
@@ -86,8 +98,8 @@ export default class Evenement extends React.Component {
 
 
                 <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.projets} keyExtractor={(item)=>item.ID} 
-                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
+                        <FlatList data={this.state.events} keyExtractor={(item)=>hashCode(item.nom)} 
+                    renderItem= {(item)=><Carte event = {item.item}/>} horizontal = {true}/>
 
                 </View>
 
@@ -139,20 +151,7 @@ const styles = StyleSheet.create(
         justifyContent: "center"
       },
 
-       carte_projet:
-       {
-           backgroundColor: "transparent",
-           height:200,
-           width:200,
-           shadowColor: "#000",
-            shadowOffset: {
-	        width: 1,
-	        height: 5},
-            shadowOpacity: 0.55,
-            shadowRadius: 3.84,
-            elevation: 10
-
-       },
+       
        containimage:{
            flex : 1,
        },
@@ -177,8 +176,8 @@ const styles = StyleSheet.create(
        carte:
        {
         
-           width: 310,
-           height: 280,
+           width: 160,
+           height: 150,
            marginRight: 20,
            marginTop:30,
            overflow: "hidden",

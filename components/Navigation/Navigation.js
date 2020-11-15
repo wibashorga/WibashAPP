@@ -95,7 +95,7 @@ au bouton Edit New Project
         <Stack.Screen 
         name="projets" component={ProjetScreen} options={{title : "" , headerShown:false}} />
         <Stack.Screen 
-        name="new" component={CreerEventScreen} options={{title : "Nouveau projet"}} />
+        name="new" component={CreerProjetScreen} options={{title : "Nouveau projet"}} />
         
       </Stack.Navigator>
       

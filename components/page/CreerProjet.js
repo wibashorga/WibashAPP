@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, StatusBar, Dimensions, TextInput, Button, ScrollView, TouchableOpacity} from 'react-native';
-
+import RNPickerSelect from "react-native-picker-select";
 
 
 const token = "PPlaFk63u4E6";
@@ -8,6 +8,20 @@ const token = "PPlaFk63u4E6";
 const windowHeight = Dimensions.get("window").height;
 const windowWidth = Dimensions.get("window").width;
 
+const types = [{label:"Robotique", value:"Robotique"},
+{label:"Programmation", value:"Programmation"}, {label:"Evenement", value:
+"Evènement"}, {label:"autre", value:"Autre"}]
+
+
+function message(titre, phrase)
+{
+    Alert.alert(titre, phrase, [
+        {
+            text:"OK",
+            onPress: ()=>{}
+        }
+    ])
+}
 
 
 export default class NewProject extends React.Component
@@ -18,21 +32,21 @@ export default class NewProject extends React.Component
         this.nom = "";
         this.description = "";
         this.objectifs = "";
-        console.log(this.props.user.prenom);
+        this.type = null;
     }
     generateID(){
-       let id;
+       let id = null;
         do
        {
-        let id = (Math.random()*1000000).toString();
+        id = (Math.random()*1000000).toString();
         id = id.slice(0,5);
        }while(this.props.projets.map((p)=>p.ID).indexOf(id)!==-1);
-        return id.slice(0,5);
+        return id;
 
     }
     sendProject()
     {
-        if(this.nom && this.description && this.objectifs)
+        if(this.nom && this.description && this.objectifs && this.type)
         {
         let data = new FormData();
         //this.description = encode_utf8(this.description);
@@ -43,7 +57,7 @@ export default class NewProject extends React.Component
         data.append("nom", this.nom);
         data.append("description", this.description);
         data.append('objectifs', this.objectifs);
-        data.append("type", "programmation");
+        data.append("type", this.type);
         
         fetch('http://www.wi-bash.fr/application/CreaProj.php', {
         method: 'POST',
@@ -56,6 +70,9 @@ export default class NewProject extends React.Component
         if (text.search("200")!==-1) {
             
             this.props.navigation.navigate("projets", {refresh:true});
+        }else{
+            message("Oups", 
+            "Nous n'avons pas pu créer votre projet. Vérifiez que ce nom n'existe pas déjà...")
         }
         console.log(text)
             }
@@ -83,6 +100,13 @@ export default class NewProject extends React.Component
             autoCapitalize={"words"}
             ></TextInput>
 
+            <RNPickerSelect onValueChange={(val)=>{this.type = val}}
+                items = {types} //useNativeAndroidPickerStyle={false}
+                placeholder={{label:"Type", value:null}}
+                //style={pickerMonth}
+                />
+
+
             
             <TextInput onChangeText = {(text)=>{this.objectifs = text}}
             placeholder = {"Objectifs"} style={{...styles.textinput, height:windowHeight/4,
@@ -98,7 +122,7 @@ export default class NewProject extends React.Component
 
                 </TextInput>
                 <TouchableOpacity style={styles.sendbutton}onPress = {()=>this.sendProject()}>
-                    <Text  style={{color:"white", fontSize:20, textAlign:"center"}}>envoyer</Text>
+                    <Text  style={{color:"white", fontSize:20, textAlign:"center"}}>CREER !</Text>
                     </TouchableOpacity>
 
             

@@ -111,7 +111,9 @@ export default class Home extends React.Component {
         fetch("http://www.wi-bash.fr/application/ListEvent.php").then(
             (reponse)=>reponse.text()).then(
                 (json)=>{
-                    this.setState({events:JSON.parse(json)});
+                    let events = JSON.parse(json);
+                    this.props.setEvents(events);
+                    this.setState({events:events});
                 }
             ).catch((error)=>console.log(error))
     }
@@ -138,7 +140,7 @@ export default class Home extends React.Component {
                         </View>
 
                         <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.projets} keyExtractor={(item)=>item.ID} 
+                        <FlatList data={this.state.projets.slice(0,5)} keyExtractor={(item)=>item.ID} 
                     renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
 
                         </View>
@@ -173,7 +175,7 @@ export default class Home extends React.Component {
                         </View>
 
                         <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.events} keyExtractor={(item)=>item.nom} 
+                        <FlatList data={this.state.events.slice(0,4)} keyExtractor={(item)=>item.nom} 
                     renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
 
                         </View>
@@ -188,7 +190,7 @@ export default class Home extends React.Component {
                         </View>
 
                         <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.projets} keyExtractor={(item)=>item.ID} 
+                        <FlatList data={this.state.projets.slice(0,4)} keyExtractor={(item)=>item.ID} 
                     renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
 
                         </View>

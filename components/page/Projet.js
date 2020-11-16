@@ -10,7 +10,18 @@ class Carte extends React.Component
     constructor(props)
     {
         super(props);
-        console.log(this.props.projet);
+        this.chef = this.props.projet.chef;
+        if (this.chef===this.props.user.identifiant) this.chef = this.props.user;
+        else{
+            try{
+                this.chef = this.props.membres.filter((m)=>m.identifiant==this.chef)[0];
+                
+            }catch(error){
+                
+                console.log(error)
+            }
+        }
+        
     }
     
     render()
@@ -18,19 +29,20 @@ class Carte extends React.Component
 
         
         return(
-            <View style={{...styles.carte, backgroundColor:this.props.projet.mine?"rgb(200,150,120)":"white"}}>
+            <View style={{...styles.carte, backgroundColor:this.props.projet.mine?"rgb(156,220,254)":"white"}}>
                 <View style={styles.imagecarte}>
-                <Text>ici il aura une image</Text>
+                
                 </View>
 
                 <View>
-                <Text style = {{fontWeight:"bold", alignSelf:"center"}}>
+                <Text style = {{fontWeight:"bold", alignSelf:"center", fontSize:25}}>
                     {this.props.projet.nom}</Text>
                     <Text style={styles.textecarte}>
-                        Objectifs : {"\n"+this.props.projet.objectifs}</Text>
+                        Objectifs : {"\n"+this.props.projet.objectifs+"\n"}</Text>
                     <Text style = {styles.textecarte}>
-                        Description :{"\n"+this.props.projet.description}
+                        Description :{"\n"+this.props.projet.description+"\n"}
                         </Text>
+        <Text style={styles.textecarte}>Chef de projet : {this.chef.pseudo}</Text>
                 </View>
             </View>
         )
@@ -106,7 +118,9 @@ export default class Projet extends React.Component {
 
                 <View style = {styles.containtcarte}>
                         <FlatList data={this.state.projets} keyExtractor={(item)=>item.ID} 
-                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
+                    renderItem= {(item)=><Carte projet = {item.item} 
+                    navigation={this.props.navigation} membres={this.props.membres}
+                    user={this.props.user}/>} horizontal = {true}/>
 
                 </View>
 
@@ -156,7 +170,7 @@ const styles = StyleSheet.create(
        {
            backgroundColor: "transparent",
            height:150,
-           marginBottom: 30,
+           //marginBottom: 0,
            width:150,
            shadowColor: "#000",
             shadowOffset: {
@@ -189,7 +203,7 @@ const styles = StyleSheet.create(
        },
        description:
        {
-           fontFamily: "roboto",
+           fontFamily: "serif",
            overflow: "hidden"
        },
        carte:

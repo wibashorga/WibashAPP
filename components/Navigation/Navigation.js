@@ -18,7 +18,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon} from 'react-native-elements';
-var utilisateur, projets, events;
+var utilisateur, projets, events, membres=[];
+
+
+/*
 function HomiScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -29,7 +32,7 @@ function HomiScreen({ navigation }) {
     </View>
   );
 }
-
+*/
 function NotificationsScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -52,7 +55,8 @@ const AccueilScreen =({ navigation}) => {
 //Screens du corps de l'appli
 const HomeScreen = ({navigation,route}) => {
     return(
-      <Home navigation = {navigation} user = {utilisateur} setProjects = {(p)=>{projets=p}}/>
+      <Home navigation = {navigation} user = {utilisateur} setProjects = {(p)=>{projets=p}}
+      setMembers = {(m)=>{membres=m}}/>
     )
   }
 
@@ -67,7 +71,7 @@ const HomeScreen = ({navigation,route}) => {
   const ProjetScreen = ({navigation,route}) => {
     return(
       <Projet navigation = {navigation} user = {utilisateur} projets = {projets}
-      route={route} setProjects = {(p)=>{projets=p}}/>
+      route={route} setProjects = {(p)=>{projets=p}} membres = {membres}/>
     )
   }
 
@@ -153,6 +157,7 @@ class Navigation extends React.Component{
     
   }
  setUser(profil){utilisateur=profil}
+
  setEvents(e){events=e};
  setProjects(p){projets = p}
  addProject(p){projets.push(p)}

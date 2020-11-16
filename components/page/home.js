@@ -102,6 +102,7 @@ export default class Home extends React.Component {
         body: data
         }).then((reponse)=> reponse.text()).then((json) => {
             json = JSON.parse(json);
+            this.props.setMembers(json);
             this.setState({membres:json})}).catch(
             (error) => console.log(error))
     }
@@ -172,7 +173,7 @@ export default class Home extends React.Component {
                         </View>
 
                         <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.events} keyExtractor={(item)=>item.ID} 
+                        <FlatList data={this.state.events} keyExtractor={(item)=>item.nom} 
                     renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
 
                         </View>

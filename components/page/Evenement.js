@@ -56,7 +56,7 @@ export default class Evenement extends React.Component {
         super(props);
         this.state = {
            user : this.props.user,
-           events:{}
+           events:this.props.events
         }
         
         this.importEvents();
@@ -71,6 +71,23 @@ export default class Evenement extends React.Component {
     componentDidMount()
     {
         setInterval(()=>this.importEvents(), 10000)
+    }
+
+    showButtonEdit()
+    {
+        if (this.state.user.niveau=="0" || this.state.user.niveau=="1")
+        {
+            return (
+                <View>
+                    <Button
+                    title={"edit new Event"}
+                    color={"red"}
+                    onPress={()=>{this.props.navigation.navigate("new_event")}}
+                    
+                />
+                </View>
+            )
+        }else return null;
     }
 
     render()
@@ -98,24 +115,15 @@ export default class Evenement extends React.Component {
 
 
                 <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.events} keyExtractor={(item)=>hashCode(item.nom)} 
-                    renderItem= {(item)=><Carte event = {item.item}/>} horizontal = {true}/>
+                        
 
                 </View>
 
 
-                <Button
-                    
-                    title={"edit new Event"}
-                    color={"red"}
-                    onPress={()=>{this.props.navigation.navigate("new_event")}}
-                    
-                />
-                      
-                     
+                
                 </ImageBackground>
 
-                
+                {this.showButtonEdit()}
                 
                 
             </View>

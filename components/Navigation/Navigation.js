@@ -56,7 +56,7 @@ const AccueilScreen =({ navigation}) => {
 const HomeScreen = ({navigation,route}) => {
     return(
       <Home navigation = {navigation} user = {utilisateur} setProjects = {(p)=>{projets=p}}
-      setMembers = {(m)=>{membres=m}}/>
+      setMembers = {(m)=>{membres=m}} setEvents = {(e)=>{events =e}}/>
     )
   }
 
@@ -206,6 +206,16 @@ class Navigation extends React.Component{
           if (route.name === "Evenement")
           {
             iconName = "flag";
+            iconType = "AntDesign";
+          }
+          if (route.name === "Projet")
+          {
+            iconName = "data-usage";
+            iconType = "ionicons";
+          }
+          if (route.name === "Important")
+          {
+            iconName = "warning";
             iconType = "AntDesign";
           }
           

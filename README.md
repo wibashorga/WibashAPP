@@ -91,3 +91,9 @@ PS: si vous rencontrez des bug du style l'app refresh h24 reinstaller les depend
 
 source :
 https://github.com/Kureev/react-native-side-menu
+
+##Fonctionnalités des prochaines mise-à-jour
+-   Système de notifications (push tout d'abord)
+-   Redirection vers : "faire un don"
+-   Pouvoir cocher des "centres d'intérêt" pour chaque membre, et pouvoir cibler les membres par centre d'intérêt dans les messages
+-   Ajouter des mots-clés pour les projets ('culture', 'programmation', 'jeu vidéo', 'Apple' ...)

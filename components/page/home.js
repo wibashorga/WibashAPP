@@ -184,8 +184,8 @@ export default class Home extends React.Component {
 
                 <View style = {styles.categorie}>
 
-                        <View style = {styles.Titre}>
-                            <Text style = {{fontSize : 40}} > Vote </Text>
+                <View style = {styles.Titre}>
+                            <Text style = {styles.textetitre} > VOTE </Text>
 
                         </View>
 

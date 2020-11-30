@@ -21,18 +21,7 @@ import {Icon} from 'react-native-elements';
 var utilisateur, projets, events, membres=[];
 
 
-/*
-function HomiScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button
-        onPress={() => navigation.navigate('Notifications')}
-        title="Go to notifications"
-      />
-    </View>
-  );
-}
-*/
+
 function NotificationsScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -127,7 +116,7 @@ au bouton Edit New Project
     )
   }
 
-  // screen du menu hamburgeur
+  // screen du menu hamburgeur ethan lie la vue profil au bar du header stp
   const ReglageScreen = ({navigation,route}) => {
     return(
       <Reglage navigation = {navigation} user = {utilisateur}/>
@@ -243,7 +232,5 @@ class Navigation extends React.Component{
     </NavigationContainer>
   );}
 }
-///{this.authentification()}
-//{this.homePage()} integrer  avec drawer menu
-// integrer les page Regage et profil
+
 export default Navigation;

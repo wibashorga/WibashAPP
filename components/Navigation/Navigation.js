@@ -77,6 +77,12 @@ const HomeScreen = ({navigation,route}) => {
       /*setNew = {(p)=>{projets.push(p)}}*//>
     )
   }
+
+  const ProfilScreen = ({navigation,route}) => {
+    return(
+      <Profil navigation = {navigation} user = {utilisateur}/>
+    )
+  }
 /**Stack des projets
 ProjetScreen correspond à la page "liste des projets"
 CreerProjetScreen correspond à la page de création de projet. on y arrive grâce
@@ -94,6 +100,7 @@ au bouton Edit New Project
       
     )
   }
+
   //Stack des événements
   const EventStackScreen = ({navigation})=>{
     return(
@@ -107,7 +114,19 @@ au bouton Edit New Project
         
     )
   }
-
+// Stac Home Page
+const HomeStackScreen = ({navigation})=>{
+  return(
+    <Stack.Navigator initialRouteName = {"Home"}>
+      <Stack.Screen 
+      name="Home" component={HomeScreen} options={{title : "" , headerShown:false}} />
+      <Stack.Screen 
+      name="Profils" component={ProfilScreen}  />
+      
+    </Stack.Navigator>
+      
+  )
+}
   
 
   const ImportantScreen = ({navigation,route}) => {
@@ -123,11 +142,6 @@ au bouton Edit New Project
     )
   }
 
-  const ProfilScreen = ({navigation,route}) => {
-    return(
-      <Profil navigation = {navigation} user = {utilisateur}/>
-    )
-  }
 
 
 
@@ -212,7 +226,7 @@ class Navigation extends React.Component{
         },})}>
 
 
-        <Tab.Screen name = "Home" component = {HomeScreen} />
+        <Tab.Screen name = "Home" component = {HomeStackScreen} />
         <Tab.Screen name = "Evenement" component = {EventStackScreen} />
         <Tab.Screen name = "Projet" component = {ProjetStackScreen} />
         <Tab.Screen name = "Important" component = {ImportantScreen} />

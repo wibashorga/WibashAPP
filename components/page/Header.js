@@ -18,7 +18,7 @@ export default class Header extends React.Component
         
         <View style = {styles.container}>
             <Icon name = "menu" type = "Entypo" color = "white" iconStyle = {styles.icon}
-            onPress = {()=>this.props.onPress()}/>
+           onPress={()=>{this.props.navigation.navigate("Profils")}}/>
             
             <Text style = {styles.textetitre} > Wi-bash </Text>
 

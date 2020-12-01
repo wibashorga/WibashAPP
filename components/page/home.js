@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, View, Modal, StyleSheet, FlatList, SafeAreaView, ScrollView,Button} from 'react-native';
 import Header from "./Header";
+import {Icon} from "react-native-elements";
 const token = "PPlaFk63u4E6";
 
 const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",
@@ -129,8 +130,20 @@ export default class Home extends React.Component {
                         <Text style= {styles.message}>{this.message+this.state.user.pseudo}</Text>
                         </View>
                 </Modal>
-                <Header />
+
+
+
+
+        <View style = {styles.headers}>
+            <Icon name = "menu" type = "Entypo" color = "white" iconStyle = {styles.icon}
+           onPress={()=>{this.props.navigation.navigate("Profils")}}/>
             
+            <Text style = {styles.textetitreheaders} > Wi-bash </Text>
+        </View>
+
+
+
+
 
                     <View style = {styles.categorie}>
 
@@ -254,10 +267,6 @@ const styles = StyleSheet.create(
             shadowOpacity:0.39,
             shadowRadius:8.30,
             elevation:14
-
-          
-          
-          
        },
        cartein:
        {
@@ -284,7 +293,21 @@ const styles = StyleSheet.create(
        {
            flex:4,
           
-       }
+       }, icon:
+       {
+           marginLeft: 10,
+           marginTop: 40,
+           alignSelf: "flex-start",
+       },
+       textetitreheaders:{
+           marginTop:-30,
+           marginLeft:100,
+           marginEnd:60,
+           fontSize:40,
+           color:"white",
+      },headers:{
+          backgroundColor:"red",
+      }
        
        
     }

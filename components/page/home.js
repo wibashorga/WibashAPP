@@ -218,7 +218,7 @@ export default class Home extends React.Component {
     }
 }
 
-
+// il va falloir adapter le designe entierement en noir
 const styles = StyleSheet.create(
     {
        modal:

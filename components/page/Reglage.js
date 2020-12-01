@@ -15,6 +15,8 @@ export default class Reglage extends React.Component {
         }
         this.message = messages[parseInt(Math.random()*messages.length)];
         setTimeout(()=> this.setState({bienvenue: false}), 2000);
+
+
         
     }
     importProjects ()

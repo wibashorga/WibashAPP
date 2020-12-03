@@ -1,5 +1,6 @@
 import React from "react";
-import {Text, View, TouchableOpacity, ScrollView, FlatList, StyleSheet} from "react-native";
+import {Text, View, TouchableOpacity, ScrollView, FlatList, StyleSheet, Modal} from "react-native";
+import { TextInput } from "react-native-gesture-handler";
 
 class CarteMembre extends React.Component
 {
@@ -8,7 +9,7 @@ class CarteMembre extends React.Component
     
     }
 
-    
+
    
     render(props)
     {
@@ -27,7 +28,9 @@ constructor(props){
     super(props);
         this.projet = this.props.route.params.projet;
         this.chef = this.props.route.params.chef;
-        this.state = {participants:[]};
+        this.state = {participants:[], task:false};
+        this.nomtache ='';
+        this.contenu="";
         this.importWorkers();
         
     }
@@ -75,6 +78,7 @@ constructor(props){
                 <Text>Participants : </Text>
             <FlatList horizontal={true} data = {this.state.participants}
             renderItem = {(item)=><CarteMembre membre ={item.item}/>}
+            keyExtractor = {(item)=>{item.identifiant}}
                 
                 />
 
@@ -92,6 +96,17 @@ constructor(props){
             )
         }
     }
+    addTask(){
+        if(this.projet.chef.identifiant==this.props.user.identifiant)
+        {return (
+            <TouchableOpacity onPress={()=>this.setState({task:true})}>
+                <Text>Ajouter une tache</Text>
+            </TouchableOpacity>
+        )}
+        else{
+            return null;
+        }
+    }
 
 render(props){
     return(
@@ -105,7 +120,11 @@ render(props){
             <Text>{this.projet.description}</Text>
 
             {this.memberView()}
-
+            {this.addTask()}
+            <Modal visible={this.state.task} animationType='none'>
+                <TextInput placeholder = 'nom' onChangeText={(text)=>{this.nomtache=text}}></TextInput>
+                <TextInput placeholder='Description' onChangeText={(text)=>{this.contenutache = text}}></TextInput>
+            </Modal>
 
             </ScrollView>
         </View>

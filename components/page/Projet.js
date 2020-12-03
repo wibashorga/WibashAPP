@@ -41,7 +41,8 @@ class Carte extends React.Component
         return(
             <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("Edit", {
                 projet:this.props.projet, chef:this.chef})}}
-            style={{...styles.carte, backgroundColor:this.props.projet.mine?"rgb(156,220,254)":"white"}}>
+            style={{...styles.carte, backgroundColor:this.props.projet.mine?"rgb(156,220,254)":"white"}}
+            activeOpacity={0.8} >
                 
                 <View style={styles.imagecarte}>
                 

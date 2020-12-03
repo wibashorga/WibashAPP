@@ -43,8 +43,8 @@ class Carte extends React.Component
           (EditProject.js)
         */
         return(
-            <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("Edit", {
-                projet:this.props.projet, chef:this.chef})}}
+            <TouchableOpacity 
+            onPress = {()=>{this.props.navigation.navigate("Edit", {projet:this.props.projet, chef:this.chef})}}
             style={{...styles.carte, backgroundColor:this.props.projet.mine?"rgb(156,220,254)":"white"}}
             activeOpacity={0.8} >
                 
@@ -134,19 +134,19 @@ export default class Projet extends React.Component {
 
 
                 <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.projets} keyExtractor={(item)=>item.ID} 
-                    renderItem= {(item)=><Carte projet = {item.item} 
-                    navigation={this.props.navigation} membres={this.props.membres}
-                    user={this.props.user}/>} horizontal = {true}/>
-
+                    <FlatList 
+                        data={this.state.projets} 
+                        keyExtractor={(item)=>item.ID} 
+                        renderItem= {(item)=><Carte projet = {item.item} 
+                        navigation={this.props.navigation} membres={this.props.membres}
+                        user={this.props.user}/>} 
+                        horizontal = {true}/>
                 </View>
 
                 <Button
-                    
                     title="create new project"
                     color="red"
                     onPress= {()=>{this.props.navigation.navigate("new")}}
-                    
                 />
                                       
                 

@@ -4,7 +4,7 @@ import {Icon} from "react-native-elements";
 
 
 const windowHeight = Dimensions.get("window").height;
-
+// Pas encore intégré
 export default class Header extends React.Component
 {
     constructor(props)

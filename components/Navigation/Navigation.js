@@ -1,20 +1,20 @@
 // In App.js in a new project
 
 import * as React from 'react';
-import Accueil from '../page/accueil';
-import Home from "../page/home";
-import Reglage from "../page/Reglage";
-import Profil from "../page/Profil";
-import Projet from "../page/Projet";
+import Accueil from '../page/1_Accueil';
+import Home from "../page/3a_Home";
+import Reglage from "../page/3ab_Reglage";
+import Profil from "../page/3ac_Profil";
+import Projet from "../page/3c_Projet";
 import {Text, View, Modal, StyleSheet, FlatList, SafeAreaView, ScrollView,Button} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import Evenement from "../page/Evenement"
+import Evenement from "../page/3b_Evenement"
 import Important from "../page/Important"
-import CreerCompte from "../page/compte";
-import Identification from '../page/identification';
-import EditProject from "../page/EditProject.js";
-import NewProject from '../page/CreerProjet.js';
-import NewEvent from '../page/CreerEvent.js';
+import CreerCompte from "../page/1b_CreerCompte";
+import Identification from '../page/2_Identification';
+import EditProject from "../page/3cb_EditProject.js";
+import NewProject from '../page/3ca_CreerProjet.js';
+import NewEvent from '../page/3ba_CreerEvent.js';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';

@@ -11,7 +11,7 @@ export default class Reglage extends React.Component {
         super(props);
         this.state = {
            user : this.props.user,
-           bievenue : true
+           bienvenue : true
         }
         
     }

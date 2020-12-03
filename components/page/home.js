@@ -81,7 +81,7 @@ export default class Home extends React.Component {
         },
         body: data
         }).then((reponse)=> reponse.text()).then((json) => {
-            json = JSON.parse(json);
+            json = JSON.parse(json);//on transforme la string json en objet js
             this.setState({projets:json})
             this.props.setProjects(json);
         }).catch(
@@ -153,7 +153,8 @@ export default class Home extends React.Component {
                         </View>
 
                         <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.projets.slice(0,5)} keyExtractor={(item)=>item.ID} 
+                        {/*Flatlist des projets */}
+                        <FlatList data={this.state.projets.filter((p)=>p.mine)} keyExtractor={(item)=>item.ID} 
                     renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
 
                         </View>
@@ -171,8 +172,11 @@ export default class Home extends React.Component {
                         </View>
 
                         <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.events.slice(0,4)} keyExtractor={(item)=>item.nom} 
-                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
+                        <FlatList 
+                        data={this.state.events.slice(0,4)} 
+                        keyExtractor={(item)=>item.nom} 
+                        renderItem= {(item)=><Carte projet = {item.item}/>} 
+                        horizontal = {true}/>
 
                         </View>
                 </View>

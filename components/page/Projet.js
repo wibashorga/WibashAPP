@@ -4,16 +4,23 @@ import Header from "./Header.js";
 import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList,Image,Button,SafeAreaView} from 'react-native';
 const token = "PPlaFk63u4E6";
 
-
+/*Il s'agit du composant qui permet d'afficher les projets
+dans une carte individuelle.
+Si l'utilisateur participe au projet, ce dernier apparaît en bleu
+*/
 class Carte extends React.Component
 {
     constructor(props)
     {
-        super(props);
-        this.chef = this.props.projet.chef;
+       super(props);
+       
+       this.chef = this.props.projet.chef;
+        
         if (this.chef===this.props.user.identifiant) this.chef = this.props.user;
         else{
             try{
+                //On récupère l'objet js associé au  chef du projet 
+                //à partir de l'objet global membres
                 this.chef = this.props.membres.filter((m)=>m.identifiant==this.chef)[0];
                 
             }catch(error){
@@ -24,12 +31,18 @@ class Carte extends React.Component
         
     }
     
-    render()
+    render(props)
     {
 
-        
+        /*Chaque carte correspond à un 'TouchableOpacity'
+          quand on clique dessus, on navigue vers la page du projet
+          (EditProject.js)
+        */
         return(
-            <View style={{...styles.carte, backgroundColor:this.props.projet.mine?"rgb(156,220,254)":"white"}}>
+            <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("Edit", {
+                projet:this.props.projet, chef:this.chef})}}
+            style={{...styles.carte, backgroundColor:this.props.projet.mine?"rgb(156,220,254)":"white"}}>
+                
                 <View style={styles.imagecarte}>
                 
                 </View>
@@ -38,17 +51,19 @@ class Carte extends React.Component
                 <Text style = {{fontWeight:"bold", alignSelf:"center", fontSize:25}}>
                     {this.props.projet.nom}</Text>
                     <Text style={styles.textecarte}>
-                        Objectifs : {"\n"+this.props.projet.objectifs+"\n"}</Text>
+                        <Text style={{fontWeight:"bold"}}>Objectifs : </Text>
+                        {"\n"+this.props.projet.objectifs+"\n"}</Text>
                     <Text style = {styles.textecarte}>
-                        Description :{"\n"+this.props.projet.description+"\n"}
+                    <Text style={{fontWeight:"bold"}}>Description : </Text>
+                    {"\n"+this.props.projet.description+"\n"}
                         </Text>
-        <Text style={styles.textecarte}>Chef de projet : {this.chef.pseudo}</Text>
+        <Text style={styles.textecarte}> <Text style={{fontStyle:"italic"}}>Chef de projet : </Text> 
+        {this.chef.pseudo}</Text>
                 </View>
-            </View>
+            </TouchableOpacity>
         )
     }
 }
-
 export default class Projet extends React.Component {
     constructor(props)
     {

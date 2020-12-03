@@ -1,6 +1,10 @@
 import React from "react";
-import {Text, View, TouchableOpacity, ScrollView, FlatList, StyleSheet, Modal} from "react-native";
+import {Text, View, Dimensions, TouchableOpacity, ScrollView, FlatList, StyleSheet, Modal, Button} from "react-native";
 import { TextInput } from "react-native-gesture-handler";
+
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 class CarteMembre extends React.Component
 {
@@ -49,7 +53,7 @@ constructor(props){
         }).then((reponse)=> reponse.text()).then((json) => {
             console.log(this.projet)
             json = JSON.parse(json);
-            console.log(json, this.projet.ID);
+            
             this.setState({participants:json})
         }
             ).catch(
@@ -97,10 +101,13 @@ constructor(props){
         }
     }
     addTask(){
-        if(this.projet.chef.identifiant==this.props.user.identifiant)
+        
+        if(this.props.route.params.chef.identifiant==this.props.user.identifiant)
         {return (
             <TouchableOpacity onPress={()=>this.setState({task:true})}>
-                <Text>Ajouter une tache</Text>
+                <View style={styles.addtaskbutton}>
+                <Text style={{color:"white"}}>AJOUTER UNE TACHE</Text>
+                </View>
             </TouchableOpacity>
         )}
         else{
@@ -112,18 +119,26 @@ render(props){
     return(
         <View>
                 {this.header()}
-            <ScrollView>
+            <ScrollView style={styles.scroll}>
             <Text style = {styles.nomProjet}>{this.projet.nom.toUpperCase()}</Text>
             <View>
             <Text>Chef de projet : {this.projet.chef}, {this.projet.date}</Text>
             </View>
+            <Text>Objectifs : {"\n"+this.projet.objectifs} </Text>
             <Text>{this.projet.description}</Text>
 
             {this.memberView()}
             {this.addTask()}
-            <Modal visible={this.state.task} animationType='none'>
-                <TextInput placeholder = 'nom' onChangeText={(text)=>{this.nomtache=text}}></TextInput>
-                <TextInput placeholder='Description' onChangeText={(text)=>{this.contenutache = text}}></TextInput>
+            <Modal visible={this.state.task} animationType='none' transparent= {true}>
+                <View style = {styles.addTask}>
+                <TextInput placeholder = 'nom' onChangeText={(text)=>{this.nomtache=text}}
+                style={styles.taskinput}></TextInput>
+                
+                <TextInput placeholder='Description' onChangeText={(text)=>{this.contenutache = text}}
+                style={styles.taskinput}></TextInput>
+                
+                <Button title = "Creer" onPress = {()=>this.setState({task:false})}/>
+                </View>
             </Modal>
 
             </ScrollView>
@@ -135,6 +150,10 @@ render(props){
 
 const styles = StyleSheet.create(
     {
+        scroll:{
+            marginBottom:25
+        },
+        
         carte:
        {
         
@@ -160,6 +179,23 @@ const styles = StyleSheet.create(
            fontSize: 25,
            alignSelf: "center"
            
+       },
+       addTask:{
+           marginTop:(windowHeight/2)-100,
+           backgroundColor:"white",
+           paddingTop: 40,
+           paddingBottom:40,
+           marginHorizontal: 30,
+           borderRadius:20
+       },
+       taskinput:{
+           margin:15
+       },
+       addtaskbutton:{
+           alignSelf:"center",
+           backgroundColor:"black",
+           marginTop:20,
+           padding:30
        }
     }
 )

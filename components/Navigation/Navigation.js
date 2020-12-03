@@ -74,7 +74,7 @@ const HomeScreen = ({navigation,route}) => {
   const EditProjectScreen = ({navigation, route}) =>{
     return(
       <EditProject navigation = {navigation} route = {route} membres = {membres}
-      projets = {projets}/>
+      projets = {projets} user={utilisateur}/>
     )
   }
 

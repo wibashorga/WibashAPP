@@ -46,6 +46,7 @@ export default class NewProject extends React.Component
     }
     sendProject()
     {
+        this.type = "Programmation";
         if(this.nom && this.description && this.objectifs && this.type)
         {
         let data = new FormData();

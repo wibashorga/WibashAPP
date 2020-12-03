@@ -1,8 +1,12 @@
 import React from 'react';
 import Header from "./Header.js";
 
-import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList,Image,Button,SafeAreaView} from 'react-native';
+import {Text, View, Modal, Dimensions, StyleSheet, ScrollView, TouchableOpacity, FlatList,Image,Button,SafeAreaView, ImageBackground} from 'react-native';
 const token = "PPlaFk63u4E6";
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+
+
 
 /*Il s'agit du composant qui permet d'afficher les projets
 dans une carte individuelle.
@@ -115,7 +119,8 @@ export default class Projet extends React.Component {
     {
         
         return(
-            <View style = {styles.conteneur}>
+            <ImageBackground style = {styles.conteneur} 
+            source = {require('./ressources/fond2projet.jpg')}>
 
                 <View style = {styles.Titre} >
                     <Text style  = {{fontSize : 25, color:"white"}}> PROJETS </Text>
@@ -123,11 +128,7 @@ export default class Projet extends React.Component {
 
                 </View>
 
-                <View style = {styles.containimage}>
-                    <Image 
-                    style={styles.imagepro}
-                    source = {require('./ressources/fond2projet.jpg')}/>
-                </View>
+                
                 
 
 
@@ -142,14 +143,14 @@ export default class Projet extends React.Component {
 
                 <Button
                     
-                    title="edit new project"
+                    title="create new project"
                     color="red"
                     onPress= {()=>{this.props.navigation.navigate("new")}}
                     
                 />
                                       
                 
-            </View>
+            </ImageBackground>
         )
     }
 }
@@ -160,18 +161,20 @@ const styles = StyleSheet.create(
        categorie:
        {
            flex:1,
-           height : 290,
+           height : 290
        },
        Titre:
        {
            height:50,
            backgroundColor: "red",
            alignItems : 'center',
+           marginBottom:(windowHeight/2)-290
        },
        conteneur:
        {
            flex : 1,
            backgroundColor: "black",
+           
            
            
            

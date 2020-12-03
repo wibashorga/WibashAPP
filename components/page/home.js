@@ -166,23 +166,6 @@ export default class Home extends React.Component {
                 <View style = {styles.categorie}>
 
                         <View style = {styles.Titre}>
-                            <Text style = {styles.textetitre} > MEMBRES </Text>
-
-                        </View>
-
-                        <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.membres} keyExtractor={(item)=>item.identifiant} 
-                    renderItem= {(item)=><Membre membre = {item.item}/>} horizontal = {true}/>
-
-                        </View>
-                </View>
-
-
-
-
-                <View style = {styles.categorie}>
-
-                        <View style = {styles.Titre}>
                             <Text style = {styles.textetitre} > EVÈNEMENTS </Text>
 
                         </View>
@@ -205,6 +188,22 @@ export default class Home extends React.Component {
                         <View style = {styles.containtcarte}>
                         <FlatList data={this.state.projets.slice(0,4)} keyExtractor={(item)=>item.ID} 
                     renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
+
+                        </View>
+                </View>
+
+
+
+                <View style = {styles.categorie}>
+
+                        <View style = {styles.Titre}>
+                            <Text style = {styles.textetitre} > MEMBRES </Text>
+
+                        </View>
+
+                        <View style = {styles.containtcarte}>
+                        <FlatList data={this.state.membres} keyExtractor={(item)=>item.identifiant} 
+                    renderItem= {(item)=><Membre membre = {item.item}/>} horizontal = {true}/>
 
                         </View>
                 </View>

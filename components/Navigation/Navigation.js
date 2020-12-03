@@ -12,6 +12,7 @@ import Evenement from "../page/Evenement"
 import Important from "../page/Important"
 import CreerCompte from "../page/compte";
 import Identification from '../page/identification';
+import EditProject from "../page/EditProject.js";
 import NewProject from '../page/CreerProjet.js';
 import NewEvent from '../page/CreerEvent.js';
 import { NavigationContainer } from '@react-navigation/native';
@@ -70,6 +71,13 @@ const HomeScreen = ({navigation,route}) => {
       /*setNew = {(p)=>{projets.push(p)}}*//>
     )
   }
+  const EditProjectScreen = ({navigation, route}) =>{
+    return(
+      <EditProject navigation = {navigation} route = {route} membres = {membres}
+      projets = {projets}/>
+    )
+  }
+
   
   const CreerEventScreen = ({navigation, route})=>{
     return(
@@ -77,7 +85,7 @@ const HomeScreen = ({navigation,route}) => {
       /*setNew = {(p)=>{projets.push(p)}}*//>
     )
   }
-
+//cette vue va dans le 
   const ProfilScreen = ({navigation,route}) => {
     return(
       <Profil navigation = {navigation} user = {utilisateur}/>
@@ -95,7 +103,7 @@ au bouton Edit New Project
         name="projets" component={ProjetScreen} options={{title : "" , headerShown:false}} />
         <Stack.Screen 
         name="new" component={CreerProjetScreen} options={{title : "Nouveau projet"}} />
-        
+        <Stack.Screen component = {EditProjectScreen} name="Edit" options={{title:""}}/>
       </Stack.Navigator>
       
     )
@@ -114,7 +122,7 @@ au bouton Edit New Project
         
     )
   }
-// Stac Home Page
+// Stack Home Page
 const HomeStackScreen = ({navigation})=>{
   return(
     <Stack.Navigator initialRouteName = {"Home"}>

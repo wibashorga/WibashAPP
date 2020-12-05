@@ -13,7 +13,8 @@ dans une carte individuelle.
 Si l'utilisateur participe au projet, ce dernier apparaît en bleu
 */
 class Carte extends React.Component
-{
+{   /*on passe en paramètre du constructeur le projet, et la navigation
+    */
     constructor(props)
     {
        super(props);
@@ -44,7 +45,10 @@ class Carte extends React.Component
         */
         return(
             <TouchableOpacity 
-            onPress = {()=>{this.props.navigation.navigate("Edit", {projet:this.props.projet, chef:this.chef})}}
+            onPress = {()=>{
+                //quand on clique sur la carte on navigue vers d'édition de projet
+                //à laquelle on passe en paramètre le projet courant
+                this.props.navigation.navigate("Edit", {projet:this.props.projet, chef:this.chef})}}
             style={{...styles.carte, backgroundColor:this.props.projet.mine?"rgb(156,220,254)":"white"}}
             activeOpacity={0.8} >
                 
@@ -85,7 +89,8 @@ export default class Projet extends React.Component {
         }
         
     }
-    
+    // cette fonction récupère la liste des projets depuis l'API
+    //et le stocke dans ths.state.projets
     importProjects ()
     {
         let data = new FormData();
@@ -108,7 +113,7 @@ export default class Projet extends React.Component {
             ).catch(
             (error) => console.log(error))
     }
-
+    //boucle de rafraîchissement de la liste dees projets
     componentDidMount(){
         
         setInterval(()=>{

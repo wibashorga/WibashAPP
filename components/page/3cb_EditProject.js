@@ -36,6 +36,30 @@ class CarteMembre extends React.Component
     }
 }
 
+class CarteTaches extends React.Component{
+    constructor(props)
+    {
+        super(props);
+        //console.log("gosh", this.props.task)
+    }
+
+    render()
+    {
+        return(
+            <View style = {
+                {width:180,
+                
+                flex:1,
+                backgroundColor:"white",
+                margin:10
+
+            }}>
+                <Text>{this.props.task.nom}</Text>
+                <Text>{this.props.task.description}</Text>
+            </View>
+        )
+    }
+}
 
 export default class EditProject extends React.Component{
 constructor(props){
@@ -45,6 +69,7 @@ constructor(props){
         this.state = {participants:[], task:false, tasks:[]};
         this.nomtache ='';
         this.contenu="";
+        
         this.setHeader();
         this.importTasks();
         this.importWorkers();
@@ -69,7 +94,7 @@ constructor(props){
             
             json = JSON.parse(json);
             
-            this.setState({participants:json})
+           this.setState({participants:json})
         }
             ).catch(
             (error) => console.log(error))
@@ -79,7 +104,8 @@ constructor(props){
         fetch("http://www.wi-bash.fr/application/ListeTaches.php?id_proj="+this.projet.ID).then((reponse)=>
         reponse.text()).then((reponse)=>{
             console.log(reponse)
-            //reponse = JSON.parse(reponse);
+            reponse = JSON.parse(reponse);
+            
         this.setState({tasks:reponse})}).catch((error)=>console.log(error))
         
     }
@@ -91,7 +117,7 @@ constructor(props){
                 alignSelf:"center",
                 paddingRight: windowWidth/9
             }
-        }) 
+        })
         
     }
     memberView()
@@ -110,15 +136,18 @@ constructor(props){
     }
     taskView()
     {
-        if (this.projet.mine)
-        {
+        //if (this.projet.mine)
+        //{
             return (
+                <View style={{flex:2}}>
                 <FlatList horizontal={true} data={this.state.tasks}
-                renderItem>
+                renderItem={(item)=><CarteTaches task={item.item}/>}
+                keyExtractor={(item)=>item.nom}>
 
                 </FlatList>
+                </View>
             )
-        }
+        //}
     }
     /**fonction qui permet de créer une tache dans la base de données */
     sendTask(){
@@ -163,19 +192,24 @@ constructor(props){
     }
 
 render(props){
+    console.log("render")
     return(
-        <View>
+        <View style={{flex:1}}>
                 
             <ScrollView style={styles.scroll}>
            
-            <View>
+            <View style={styles.infoview}>
             <Text>Chef de projet : {this.projet.chef}, {this.projet.date}</Text>
-            </View>
+            
             <Text>Objectifs : {"\n"+this.projet.objectifs} </Text>
             <Text>{this.projet.description}</Text>
-
+            </View>
+            <View style={{flex:1}}>
             {this.memberView()/**flatlist des participants au projet*/}
+            {this.taskView()}
             {this.addTask()/*bouton ajouter une tache */}
+            </View>
+
 
             <Modal visible={this.state.task} animationType='slide' transparent= {true}>
             {/*boite de dialogue qui  apparaît quand on appuie sur
@@ -209,8 +243,13 @@ render(props){
 const styles = StyleSheet.create(
     {
         scroll:{
-            paddingBottom: 25
+            paddingBottom: 25,
+            flex:1
 
+        },
+        infoview:{
+            flex:2,
+            //backgroundColor:"red"
         },
         
         carte:

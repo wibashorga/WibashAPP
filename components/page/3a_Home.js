@@ -9,48 +9,10 @@ const windowHeight = Dimensions.get("window").height;
 const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",
 "Alors, motivÃ© aujourd'hui ? ", "Wi-Bash n'etait pas complet sans vous "];
 
-/*
-class Carte extends React.Component
-{
-    constructor(props)
-    {
-        super(props);
-        
-    }
-    render()
-    {
+/*La vue home se conçoit globalement comme un tableau de bord
+On y voit le résumé des informations les plus importantes sur les projets et les membres
 
-        
-        return(
-            <View style={styles.carte}>
-                <Text style = {{fontWeight:"bold"}}>{this.props.projet.nom}</Text>
-                <Text>{this.props.projet.description}</Text>
-            </View>
-        )
-    }
-}
 */
-
-class Membre extends React.Component
-{
-    constructor(props)
-    {
-        super(props);
-        
-    }
-    render()
-    {
-       
-        
-        return(
-            <View style={styles.carte}>
-                <Text style = {{fontWeight:"bold"}}>{this.props.membre.pseudo}</Text>
-                <Text>{this.props.membre.phrase}</Text>
-            </View>
-        )
-    }
-}
-
 
 export default class Home extends React.Component {
     constructor(props)
@@ -127,7 +89,7 @@ export default class Home extends React.Component {
         return(
             <View style={styles.card}>
                 <Text style={styles.textetitre}>PROJETS</Text>
-                <Text>A Wi-Bash il a actuellement :</Text>
+                <Text>A Wi-Bash il y a en ce moment  :</Text>
                 <Text>• {this.state.projets.length} projets</Text>
                 <Text>• Vous participez à {this.state.projets.filter((p)=>p.mine).length} d'entre eux</Text>
             </View>
@@ -136,10 +98,22 @@ export default class Home extends React.Component {
     memberCard(){
        return( <View style={styles.card}>
                 <Text style={styles.textetitre}>MEMBRES</Text>
-                <Text>Nous comptons {this.state.membres.length} membres</Text>
-                <Text>{this.state.user.niveau==3?"Et bientôt un de plus ?":""}</Text>
+                <Text>Nous comptons {this.state.membres.filter((p)=>p.niveau<3).length+(this.state.user.niveau<3?1:0)} membres</Text>
+                <Text>Mais aussi {this.state.membres.filter(p=>p.niveau==3).length} visiteurs</Text>
+                
         </View>
        )
+    }
+    eventCard()
+    {
+        return(
+            <View style={styles.card}>
+                <Text style={styles.textetitre}>EVENEMENTS</Text>
+                <Text>Actuellement, {this.state.events.length}  évènements sont à venir</Text>
+                
+                
+        </View>
+        )
     }
     render()
     {
@@ -157,11 +131,13 @@ export default class Home extends React.Component {
         </View>
                 <View style={{flex:1, flexDirection:"row"}}>
 
-                    <View style={{flex:1}}>
+                    <View style={{flex:3, flexDirection:"column"}}>
                     {this.projectCard()}
                     </View>
-                    <View>
+                    <View style={{flex:4}}>
                         {this.memberCard()}
+                        {this.eventCard()}
+
                     </View>
 
                 </View>

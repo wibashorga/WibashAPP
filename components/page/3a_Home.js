@@ -1,12 +1,15 @@
 import React from 'react';
-import {Text, View, Modal, StyleSheet, FlatList, SafeAreaView, ScrollView,Button} from 'react-native';
+import {Text, View, Modal, StyleSheet,Dimensions, FlatList, SafeAreaView, ScrollView,Button} from 'react-native';
 import Header from "./Header";
 import {Icon} from "react-native-elements";
-const token = "PPlaFk63u4E6";
 
+const token = "PPlaFk63u4E6";
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",
 "Alors, motivÃ© aujourd'hui ? ", "Wi-Bash n'etait pas complet sans vous "];
 
+/*
 class Carte extends React.Component
 {
     constructor(props)
@@ -26,7 +29,7 @@ class Carte extends React.Component
         )
     }
 }
-
+*/
 
 class Membre extends React.Component
 {
@@ -118,20 +121,31 @@ export default class Home extends React.Component {
                 }
             ).catch((error)=>console.log(error))
     }
+
+    projectCard()
+    {
+        return(
+            <View style={styles.card}>
+                <Text style={styles.textetitre}>PROJETS</Text>
+                <Text>A Wi-Bash il a actuellement :</Text>
+                <Text>• {this.state.projets.length} projets</Text>
+                <Text>• Vous participez à {this.state.projets.filter((p)=>p.mine).length} d'entre eux</Text>
+            </View>
+        )
+    }
+    memberCard(){
+       return( <View style={styles.card}>
+                <Text style={styles.textetitre}>MEMBRES</Text>
+                <Text>Nous comptons {this.state.membres.length} membres</Text>
+        </View>
+       )
+    }
     render()
     {
         return(
             <ScrollView style = {{flex:1}}>
 
                 
-                <Modal visible = {this.state.bienvenue} animationType = "slide"
-                transparent= {true}>
-                    <View style = {styles.modal}>
-                        <Text style= {styles.message}>{this.message+this.state.user.pseudo}</Text>
-                        </View>
-                </Modal>
-
-
 
 
         <View style = {styles.headers}>
@@ -140,76 +154,15 @@ export default class Home extends React.Component {
             
             <Text style = {styles.textetitreheaders} > Wi-bash </Text>
         </View>
+                <View style={{flex:1, flexDirection:"row"}}>
 
+                    <View style={{flex:1}}>
+                    {this.projectCard()}
+                    </View>
+                    <View>
+                        {this.memberCard()}
+                    </View>
 
-
-
-
-                    <View style = {styles.categorie}>
-
-                        <View style = {styles.Titre}>
-                            <Text style = {styles.textetitre} > PROJETS </Text>
-
-                        </View>
-
-                        <View style = {styles.containtcarte}>
-                        {/*Flatlist des projets */}
-                        <FlatList data={this.state.projets.filter((p)=>p.mine)} keyExtractor={(item)=>item.ID} 
-                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
-
-                        </View>
-                </View>
-
-
-
-
-
-                <View style = {styles.categorie}>
-
-                        <View style = {styles.Titre}>
-                            <Text style = {styles.textetitre} > EVÈNEMENTS </Text>
-
-                        </View>
-
-                        <View style = {styles.containtcarte}>
-                        <FlatList 
-                        data={this.state.events.slice(0,4)} 
-                        keyExtractor={(item)=>item.nom} 
-                        renderItem= {(item)=><Carte projet = {item.item}/>} 
-                        horizontal = {true}/>
-
-                        </View>
-                </View>
-
-
-                <View style = {styles.categorie}>
-
-                <View style = {styles.Titre}>
-                            <Text style = {styles.textetitre} > VOTE </Text>
-
-                        </View>
-
-                        <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.projets.slice(0,4)} keyExtractor={(item)=>item.ID} 
-                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
-
-                        </View>
-                </View>
-
-
-
-                <View style = {styles.categorie}>
-
-                        <View style = {styles.Titre}>
-                            <Text style = {styles.textetitre} > MEMBRES </Text>
-
-                        </View>
-
-                        <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.membres} keyExtractor={(item)=>item.identifiant} 
-                    renderItem= {(item)=><Membre membre = {item.item}/>} horizontal = {true}/>
-
-                        </View>
                 </View>
 
 
@@ -233,28 +186,25 @@ const styles = StyleSheet.create(
            paddingHorizontal: 5,
            borderRadius: 20
        },
-       message:
-       {
-           color: "white",
-           fontSize: 22,
-           fontStyle: "italic",
-           fontWeight: "bold"
+       card:{
+           margin:5,
+           backgroundColor:"white",
+           padding:5,
+           paddingBottom:10,
+           shadowColor: "#000",
+           //width:windowWidth/1.8,
+            shadowOffset: {
+	        width: 1,
+	        height: 5},
+            shadowOpacity: 0.55,
+            shadowRadius: 3.84,
+            elevation: 10
+
        },
-       categorie:
-       {
-           flex:1,
-           height : 290
-           
-       },
-       Titre:
-       {
-           height:50,
-           backgroundColor: "red",
-           alignItems : 'center',
-       },
+       
        textetitre:{
-            fontSize:40,
-            color:"white"
+            fontSize:20,
+            
        },
        carte:
        {
@@ -266,10 +216,13 @@ const styles = StyleSheet.create(
            overflow: "hidden",
            padding:10,
           borderRadius: 20,
-          shadowColor:"#000",
-            shadowOpacity:0.39,
-            shadowRadius:8.30,
-            elevation:14
+          shadowColor: "#000",
+            shadowOffset: {
+	        width: 1,
+	        height: 5},
+            shadowOpacity: 0.55,
+            shadowRadius: 3.84,
+            elevation: 10
        },
        cartein:
        {

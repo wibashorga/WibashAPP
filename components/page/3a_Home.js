@@ -137,6 +137,7 @@ export default class Home extends React.Component {
        return( <View style={styles.card}>
                 <Text style={styles.textetitre}>MEMBRES</Text>
                 <Text>Nous comptons {this.state.membres.length} membres</Text>
+                <Text>{this.state.user.niveau==3?"Et bientôt un de plus ?":""}</Text>
         </View>
        )
     }

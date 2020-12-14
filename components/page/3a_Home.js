@@ -123,24 +123,45 @@ export default class Home extends React.Component {
                 
 
 
-        <View style = {styles.headers}>
-            <Icon name = "menu" type = "Entypo" color = "white" iconStyle = {styles.icon}
-           onPress={()=>{this.props.navigation.navigate("Profils")}}/>
-            
-            <Text style = {styles.textetitreheaders} > Wi-bash </Text>
-        </View>
-                <View style={{flex:1, flexDirection:"row"}}>
-
-                    <View style={{flex:3, flexDirection:"column"}}>
-                    {this.projectCard()}
-                    </View>
-                    <View style={{flex:4}}>
-                        {this.memberCard()}
-                        {this.eventCard()}
-
-                    </View>
-
+                <View style = {styles.headers}>
+                    <Icon name = "menu" type = "Entypo" color = "white" iconStyle = {styles.icon}
+                onPress={()=>{this.props.navigation.navigate("Profils")}}/>
+                    
+                    <Text style = {styles.textetitreheaders} > Wi-bash </Text>
                 </View>
+                        <View style={{flex:1, flexDirection:"row"}}>
+
+                            <View style={{flex:3, flexDirection:"column"}}>
+                            {this.projectCard()}
+                            </View>
+                            <View style={{flex:4}}>
+                                {this.memberCard()}
+                                {this.eventCard()}
+
+                            </View>
+
+                        </View>
+
+                        <View>
+                            <Text>Actualite</Text>
+                        </View>
+
+
+                        <View>
+                            <Text>Evenements a venir</Text>
+                        </View>
+
+
+
+                        <View>
+                            <Text>Vos projets</Text>
+                        </View>
+
+
+                        <View>
+                            <Text>Les Membres</Text>
+                        </View>
+
 
 
 

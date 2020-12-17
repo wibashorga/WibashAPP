@@ -51,6 +51,7 @@ export default class CreerCompte extends React.Component
         let majuscules = /[A-Z]/;
         let minuscules = /[a-z]/;
         let nombres = /[0-9]/;
+        let sqlInject = /["'#]/
         if (!majuscules.test(this.pass) || !minuscules.test(this.pass) || !nombres.test(this.pass))
         {
           Alert.alert("Erreur", "Votre mot de passe doit contenir des minuscules, des majuscules et des nombres", [
@@ -62,7 +63,19 @@ export default class CreerCompte extends React.Component
             return false;
           
         }
-        
+        for (let champ of [this.id,this.pass, this.pseudo, this.coonfirmPass, this.nom, this.prenom, this.mail]) 
+        {if (sqlInject.test(champ)) 
+        { 
+          Alert.alert("Erreur", "Votre mot de passe doit contenir des minuscules, des majuscules et des nombres", [
+          {
+            text : "OK",
+            onPress: ()=> {}
+          }])
+          this.setState({wrongPass: true});
+          return false;
+        }
+
+      }
  
         if (this.mail && this.mail.indexOf("@")===-1 && 
         !(this.mail.endsWith(".com") || this.mail.endsWith(".fr") || this.mail.endsWith(".org"))) 

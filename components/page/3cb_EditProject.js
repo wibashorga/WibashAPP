@@ -1,4 +1,5 @@
 import React from "react";
+import {Pressable} from "react-native"
 import {Text, View, Dimensions, TouchableOpacity, ScrollView, FlatList, StyleSheet, Modal, Alert} from "react-native";
 import {Button} from "react-native-elements";
 import { TextInput } from "react-native-gesture-handler";
@@ -20,46 +21,57 @@ class CarteMembre extends React.Component
 {
     constructor(props)
     {super(props)
+        
     
     }
-
-
    
     render(props)
     {
 
         return(
-            <View style={{...styles.carte, backgroundColor:(this.urgent)?"red":"white"}}>
+            <View style={{...styles.carte, marginTop:10}}>
                 <Text>{this.props.membre.prenom.toUpperCase()+"\n"+this.props.membre.nom.toUpperCase()}</Text>
             </View>
         )
     }
 }
 
+//chaque tache est affichée dans une carte individuelle. Quand on appuie dessus ça affiche une petite fenêtre 
+//pour voir la totalité du contenu
 class CarteTaches extends React.Component{
     constructor(props)
     {
         super(props);
-        //console.log("gosh", this.props.task)
+        this.state= {visible:false}
     }
 
     render()
     {
+       
         return(
-            <View style = {
-                {width:180,
-                
-                flex:1,
-                backgroundColor:"white",
-                margin:10
+            <TouchableOpacity style = {{...
+                styles.carte, width: 150, height:100,  backgroundColor:(this.urgent)?"red":"white"}} 
+                onPress={()=>{this.setState({visible:true})}}>
 
-            }}>
-                <Text>{this.props.task.nom}</Text>
+                <Text style={{fontWeight:"bold"}}>{this.props.task.nom}</Text>
                 <Text>{this.props.task.description}</Text>
-            </View>
-        )
+
+                <Modal visible={this.state.visible} transparent={true} >
+                   <TouchableOpacity style={{backgroundColor:"rgba(200,200,200,0.4)", flex:1, 
+                   justifyContent:"center"}}
+                   onPress ={()=>{this.setState({visible:false})}}>
+                    <View 
+                    style = {styles.taskpopup}>
+                            <Text style={{fontWeight:"bold"}}>{this.props.task.nom}</Text>
+                            <Text>{this.props.task.description}</Text>
+                    </View>
+                    </TouchableOpacity>
+                </Modal>
+            </TouchableOpacity>
+        ) 
     }
-}
+    }
+
 
 export default class EditProject extends React.Component{
 constructor(props){
@@ -103,7 +115,7 @@ constructor(props){
     importTasks(){
         fetch("http://www.wi-bash.fr/application/ListeTaches.php?id_proj="+this.projet.ID).then((reponse)=>
         reponse.text()).then((reponse)=>{
-            console.log(reponse)
+            //console.log(reponse)
             reponse = JSON.parse(reponse);
             
         this.setState({tasks:reponse})}).catch((error)=>console.log(error))
@@ -124,10 +136,10 @@ constructor(props){
     {
         return (
             <View>
-                <Text>Participants : </Text>
+                <Text style={{alignSelf:"center", fontWeight:"bold"}}>PARTICIPANTS : </Text>
             <FlatList horizontal={true} data = {this.state.participants}
             renderItem = {(item)=><CarteMembre membre ={item.item}/>}
-            keyExtractor = {(item)=>{item.identifiant}}
+            keyExtractor = {(item)=>{item.prenom}}
                 
                 />
 
@@ -140,8 +152,9 @@ constructor(props){
         //{
             return (
                 <View style={{flex:2}}>
+                    <Text style={{alignSelf:"center", fontWeight:"bold"}}>TACHES : </Text>
                 <FlatList horizontal={true} data={this.state.tasks}
-                renderItem={(item)=><CarteTaches task={item.item}/>}
+                renderItem={(item)=><CarteTaches task={item.item} isChef={this.chef.identifiant==this.props.user.identifiant}/>}
                 keyExtractor={(item)=>item.nom}>
 
                 </FlatList>
@@ -169,9 +182,12 @@ constructor(props){
         body: data
         }).then((reponse)=> reponse.text()).then((reponse) => {
             if (reponse.indexOf("200")===-1) message('Oups !', 
-    "Nous n'avons pu créer cette tâche... Peut-être le nom de la tâche existe-t-il déjà ?")
-            
+            "Nous n'avons pu créer cette tâche... Peut-être le nom de la tâche existe-t-il déjà ?")
+        else{
+            this.setState({tasks:[...this.state.tasks, {nom:this.nomtache, description:this.contenutache}]})
         }
+        }
+            
             ).catch(
             (error) => console.log(error))}
     }
@@ -180,7 +196,7 @@ constructor(props){
     //bouton "Ajouter une tache"
     addTask(){
         
-        if(this.props.route.params.chef.identifiant==this.props.user.identifiant)
+        if(this.chef.identifiant==this.props.user.identifiant)// on  ne peut ajouter une tache que si on est chef de projet
         {return (
             <Button buttonStyle={styles.addtaskbutton} title="AJOUTER UNE TACHE"
              onPress={()=>this.setState({task:true})} />
@@ -192,17 +208,18 @@ constructor(props){
     }
 
 render(props){
-    console.log("render")
     return(
         <View style={{flex:1}}>
                 
             <ScrollView style={styles.scroll}>
            
             <View style={styles.infoview}>
-            <Text>Chef de projet : {this.projet.chef}, {this.projet.date}</Text>
+            <Text style={{fontSize:20, marginBottom:10}}>
+            <Text>CHEF DE PROJET : {this.projet.chef}, {this.projet.date}</Text>
             
             <Text>Objectifs : {"\n"+this.projet.objectifs} </Text>
             <Text>{this.projet.description}</Text>
+            </Text>
             </View>
             <View style={{flex:1}}>
             {this.memberView()/**flatlist des participants au projet*/}
@@ -211,11 +228,11 @@ render(props){
             </View>
 
 
-            <Modal visible={this.state.task} animationType='slide' transparent= {true}>
+            <Modal visible={this.state.task} animationType='fade' transparent= {true}>
             {/*boite de dialogue qui  apparaît quand on appuie sur
             "ajouter une  tache" */}
                 <View style = {styles.addTask}>
-                
+               <Text style={{alignSelf: "flex-end", marginRight:10, fontSize:18}} onPress={()=>this.setState({task:false})}>X</Text> 
                 <TextInput placeholder = 'nom' 
                 onChangeText={(text)=>{this.nomtache=text}}
                 style={styles.taskinput}></TextInput>
@@ -227,8 +244,8 @@ render(props){
                 <Button title = "Creer" onPress = {()=>{
                     this.sendTask();
                     this.setState({task:false})
-                }}/>
-                <Button title="Annuler" color = "red"
+                }} buttonStyle={{marginBottom:10}}/>
+                <Button title="Annuler" buttonStyle={{backgroundColor:"red"}}
                 onPress={()=>{this.setState({task:false})}}/>
                 </View>
             </Modal>
@@ -257,8 +274,9 @@ const styles = StyleSheet.create(
         
            width: 80,
            height: 70,
-           marginRight: 20,
-           marginTop:30,
+           marginLeft:2,
+           marginRight: 18,
+           marginVertical:30,
            paddingTop:7,
            overflow: "hidden",
            paddingLeft:10,
@@ -279,13 +297,23 @@ const styles = StyleSheet.create(
            
        },
        addTask:{
-           marginTop:(windowHeight/2)-100,
+           marginTop:(windowHeight/2)-200,
            backgroundColor:"white",
-           paddingTop: 40,
+           paddingTop: 20,
            paddingBottom:40,
            marginHorizontal: 30,
            borderRadius:20
        },
+       taskpopup:{
+           width:150,
+           padding: 15,
+           backgroundColor:"white",
+           marginBottom:20,
+           alignSelf:"center",
+           opacity:1
+
+       }
+       ,
        taskinput:{
            margin:15
        },
@@ -293,6 +321,7 @@ const styles = StyleSheet.create(
            alignSelf:"center",
            backgroundColor:"black",
            marginTop:20,
+           marginBottom:10,
            padding:30
        }
     }

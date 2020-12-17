@@ -58,7 +58,6 @@ export default class Home extends React.Component {
         data.append("token", token);
         data.append("identifiant", this.state.user.identifiant);
         data.append("pass", this.state.user.pass);
-        console.log(this.state.user.pass);
         fetch('http://www.wi-bash.fr/application/ListeMembres.php', {
         method: 'POST',
         headers: {
@@ -114,6 +113,13 @@ export default class Home extends React.Component {
                 
         </View>
         )
+    }
+
+    componentDidMount(){
+       setInterval(()=>{
+        this.importEvents();
+        this.importMembers();
+        this.importProjects();}, 30000)
     }
     render()
     {

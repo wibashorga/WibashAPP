@@ -81,7 +81,10 @@ Et l'évènement est automatiquement ajouté sur l'agenda Google ou IOS de ceux 
 -   Vues identification et de création de compte opérationnelles
 -   Vue Home opérationnelle
 -   Vue Liste des projets et création de projets opérationnelles
--   Vues évènements et important en construction
+-   Creation de taches pour les projets opé
+-   Vues liste des évènements opé
+-   Home en construction
+-   Vue profil en construction
 -   API et base de données opé
 
 
@@ -91,6 +94,14 @@ PS: si vous rencontrez des bug du style l'app refresh h24 reinstaller les depend
 
 source :
 https://github.com/Kureev/react-native-side-menu
+
+## TODO LIST
+-   Ajouter la possibilité de changer le libellé d'un projet
+-   Possibilité de changer le libellé d'un événement
+-   Editer des actus
+-   Designer la page home
+-   Bouton participer à un projet
+-   Désigner un administrateur pour un projet
 
 ## Fonctionnalités des prochaines mises-à-jour
 -   Système de notifications (push tout d'abord)

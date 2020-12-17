@@ -100,7 +100,7 @@ au bouton Edit New Project
     return(
       <Stack.Navigator initialRouteName = {"projets"}>
         <Stack.Screen 
-        name="projets" component={ProjetScreen} options={{title : "" , headerShown:false}} />
+        name="projets" component={ProjetScreen}  />
         <Stack.Screen 
         name="new" component={CreerProjetScreen} options={{title : "Nouveau projet"}} />
         <Stack.Screen component = {EditProjectScreen} name="Edit" options={{title:""}}/>

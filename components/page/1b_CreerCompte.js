@@ -185,7 +185,7 @@ export default class CreerCompte extends React.Component
        }} style = {{...styles.bouton, backgroundColor: "white"}}
           activeOpacity = {0.75}>
             <Text style= {{...styles.text, color:"red"}}>
-              M'insrcrire
+              M'inscrire
             </Text>
         </TouchableOpacity>
 

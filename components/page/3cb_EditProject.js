@@ -148,8 +148,8 @@ constructor(props){
     }
     taskView()
     {
-        //if (this.projet.mine)
-        //{
+        if (this.projet.mine)
+        {
             return (
                 <View style={{flex:2}}>
                     <Text style={{alignSelf:"center", fontWeight:"bold"}}>TACHES : </Text>
@@ -160,7 +160,7 @@ constructor(props){
                 </FlatList>
                 </View>
             )
-        //}
+        }
     }
     /**fonction qui permet de créer une tache dans la base de données */
     sendTask(){
@@ -206,7 +206,7 @@ constructor(props){
             return null;
         }
     }
-
+//Corps de la vue
 render(props){
     return(
         <View style={{flex:1}}>
@@ -214,12 +214,15 @@ render(props){
             <ScrollView style={styles.scroll}>
            
             <View style={styles.infoview}>
-            <Text style={{fontSize:20, marginBottom:10}}>
-            <Text>CHEF DE PROJET : {this.projet.chef}, {this.projet.date}</Text>
             
-            <Text>Objectifs : {"\n"+this.projet.objectifs} </Text>
+            <Text>CHEF DE PROJET : {"\n"+this.chef.prenom+" "+this.chef.nom+" ("+this.chef.pseudo+")"}, 
+             {" "+this.projet.DateCrea+"\n"}</Text>
+            
+            <View style={{paddingHorizontal:15}}>
+            <Text>{"\n"+this.projet.objectifs} </Text>
             <Text>{this.projet.description}</Text>
-            </Text>
+            </View>
+            
             </View>
             <View style={{flex:1}}>
             {this.memberView()/**flatlist des participants au projet*/}
@@ -266,6 +269,8 @@ const styles = StyleSheet.create(
         },
         infoview:{
             flex:2,
+            fontSize:20,
+            padding:5
             //backgroundColor:"red"
         },
         

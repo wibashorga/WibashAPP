@@ -82,6 +82,7 @@ export default class Projet extends React.Component {
            projets: this.props.projets
         }
         
+        this.setHeader()
         
         if (this.props.route.params) 
         {
@@ -113,6 +114,13 @@ export default class Projet extends React.Component {
             ).catch(
             (error) => console.log(error))
     }
+    setHeader()
+    {
+        this.props.navigation.setOptions({title : "PROJETS", headerStyle:{
+            backgroundColor:"red"
+          }, headerTitleStyle:{alignSelf:"center", color:"white", fontSize:23}})
+        
+    }
     //boucle de rafraîchissement de la liste dees projets
     componentDidMount(){
         
@@ -127,11 +135,7 @@ export default class Projet extends React.Component {
             <ImageBackground style = {styles.conteneur} 
             source = {require('./ressources/fond2projet.jpg')}>
 
-                <View style = {styles.Titre} >
-                    <Text style  = {{fontSize : 25, color:"white"}}> PROJETS </Text>
-
-
-                </View>
+                
 
                 
                 

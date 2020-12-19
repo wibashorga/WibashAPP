@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, StatusBar, Dimensions, TextInput, Button, ScrollView, TouchableOpacity,Alert} from 'react-native';
 import RNPickerSelect from "react-native-picker-select";
+import {formatPostData} from "./security";
 
 
 const token = "PPlaFk63u4E6";
@@ -59,7 +60,8 @@ export default class NewProject extends React.Component
         data.append("description", this.description);
         data.append('objectifs', this.objectifs);
         data.append("type", this.type);
-        
+        data = formatPostData(data);
+
         fetch('http://www.wi-bash.fr/application/CreaProj.php', {
         method: 'POST',
         headers: {

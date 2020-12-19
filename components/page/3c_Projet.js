@@ -149,7 +149,7 @@ export default class Projet extends React.Component {
                         renderItem= {(item)=><Carte projet = {item.item} 
                         navigation={this.props.navigation} membres={this.props.membres}
                         user={this.props.user}/>} 
-                        horizontal = {true}/>
+                        horizontal = {false}/>
                 </View>
 
                 <Button
@@ -199,7 +199,7 @@ const styles = StyleSheet.create(
            backgroundColor: "transparent",
            height:150,
            //marginBottom: 0,
-           width:150,
+           width:140,
            shadowColor: "#000",
             shadowOffset: {
 	        width: 1,
@@ -220,7 +220,7 @@ const styles = StyleSheet.create(
        },
        textecarte:
        {
-           fontSize:20
+           fontSize:18
        },
        containtcarte:
        {

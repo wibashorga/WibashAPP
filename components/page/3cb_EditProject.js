@@ -3,6 +3,7 @@ import {Pressable} from "react-native"
 import {Text, View, Dimensions, TouchableOpacity, ScrollView, FlatList, StyleSheet, Modal, Alert} from "react-native";
 import {Button} from "react-native-elements";
 import { TextInput } from "react-native-gesture-handler";
+import { formatPostData } from "./security";
 
 
 const windowWidth = Dimensions.get("window").width;
@@ -172,6 +173,8 @@ constructor(props){
         data.append("pass", this.props.user.pass);
         data.append("nom", this.nomtache)
         if(this.contenutache)data.append("description", this.contenutache)
+
+        data = formatPostData(data);
         
         fetch('http://www.wi-bash.fr/application/AddTask.php', {
         method: 'POST',

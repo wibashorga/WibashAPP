@@ -1,7 +1,9 @@
 import React from 'react';
-import {Text, View, Modal, StyleSheet,Dimensions, FlatList, SafeAreaView, ScrollView,Button} from 'react-native';
+import {Text, View, Modal, StyleSheet,Dimensions, FlatList, SafeAreaView, ScrollView,Button, Image} from 'react-native';
 import Header from "./Header";
 import {Icon} from "react-native-elements";
+//import image from "./ressources/fondprojet.jpg";
+import * as ImagePicker from "expo-image-picker";
 
 const token = "PPlaFk63u4E6";
 const windowWidth = Dimensions.get("window").width;
@@ -23,7 +25,8 @@ export default class Home extends React.Component {
            bievenue : true,
             projets: [],
             membres: [],
-            events: []
+            events: [],
+            image:""
         }
         this.message = messages[parseInt(Math.random()*messages.length)];
         this.importProjects();
@@ -121,6 +124,25 @@ export default class Home extends React.Component {
         this.importMembers();
         this.importProjects();}, 30000)
     }
+
+  async  openImagePickerAsync(){
+        try{
+        let permissionResult = {granted:true}//await ImagePicker.requestMediaLibraryPermissionsAsync(false);
+
+    
+        if (permissionResult.granted === false) {
+          alert("Permission to access camera roll is required!");
+          return;
+        }
+    
+        let pickerResult = await ImagePicker.launchImageLibraryAsync();
+        if (pickerResult.cancelled === true) {
+            return;
+          }
+          this.setState({image:pickerResult.uri})
+        }catch(error){console.log(error)}
+      }
+
     render()
     {
         return(
@@ -146,6 +168,12 @@ export default class Home extends React.Component {
 
                             </View>
 
+
+                        </View>
+                            <View>
+                            <Image source={this.state.image?{uri:this.state.image}:require("./ressources/logo.png")}
+                            style= {{width:100, height:100, alignSelf:"center"}}/>
+                        <Button title="Choisir une image " onPress={()=>this.openImagePickerAsync()} width={100}/>
                         </View>
 
                         <View>

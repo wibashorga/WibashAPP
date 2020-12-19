@@ -79,7 +79,7 @@ export default class Projet extends React.Component {
         super(props);
         this.state = {
            user : this.props.user,
-           projets: this.props.projets
+           projets: this.props.projets || []
         }
         
         this.setHeader()

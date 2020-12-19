@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, StatusBar, Dimensions, TextInput, Button, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import RNPickerSelect from "react-native-picker-select";
+import { formatPostData } from './security';
 
 
 const token = "PPlaFk63u4E6";
@@ -104,6 +105,7 @@ export default class NewEvent extends React.Component
         data.append('type', this.type);
         if (this.decisions) data.append("decisions", this.decisions);
         if (this.description) data.append("description", this.description);
+        data = formatPostData(data)
 
         
         fetch('http://www.wi-bash.fr/application/CreateEvent.php', {

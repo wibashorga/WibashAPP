@@ -61,6 +61,7 @@ Et l'évènement est automatiquement ajouté sur l'agenda Google ou IOS de ceux 
 -   react-native-picker-select
 -   react-native-image-picker
 -   react-native-push-notification ou react-native-wonderpush
+-   expo-image-picker
 
 ###
 
@@ -102,12 +103,14 @@ https://github.com/Kureev/react-native-side-menu
 -   Designer la page home
 -   Bouton participer à un projet
 -   Désigner un administrateur pour un projet
+-   
 
 ## Fonctionnalités des prochaines mises-à-jour
 -   Système de notifications (push tout d'abord)
 -   Redirection vers : "faire un don"
 -   Pouvoir cocher des "centres d'intérêt" pour chaque membre, et pouvoir cibler les membres par centre d'intérêt dans les messages
 -   Ajouter des mots-clés pour les projets ('culture', 'programmation', 'jeu vidéo', 'Apple' ...)
+-   Pourvoir gérer les paramètres : mode sombre, défilement vetical ou horizontal, couleurs etc.
 
 
 ## Tutos React

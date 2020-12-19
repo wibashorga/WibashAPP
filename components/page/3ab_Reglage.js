@@ -14,7 +14,7 @@ export default class Reglage extends React.Component {
            bievenue : true
         }
         this.message = messages[parseInt(Math.random()*messages.length)];
-        setTimeout(()=> this.setState({bienvenue: false}), 2000);
+        setTimeout(()=> this.setState({bienvenue: false}), 2000 );
 
 
         

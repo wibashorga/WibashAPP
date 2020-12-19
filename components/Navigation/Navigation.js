@@ -1,19 +1,20 @@
 // In App.js in a new project
 
 import * as React from 'react';
-import Accueil from '../page/accueil';
-import Home from "../page/home";
-import Reglage from "../page/Reglage";
-import Profil from "../page/Profil";
-import Projet from "../page/Projet";
+import Accueil from '../page/1_Accueil';
+import Home from "../page/3a_Home";
+import Reglage from "../page/3ab_Reglage";
+import Profil from "../page/3ac_Profil";
+import Projet from "../page/3c_Projet";
 import {Text, View, Modal, StyleSheet, FlatList, SafeAreaView, ScrollView,Button} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import Evenement from "../page/Evenement"
+import Evenement from "../page/3b_Evenement"
 import Important from "../page/Important"
-import CreerCompte from "../page/compte";
-import Identification from '../page/identification';
-import NewProject from '../page/CreerProjet.js';
-import NewEvent from '../page/CreerEvent.js';
+import CreerCompte from "../page/1b_CreerCompte";
+import Identification from '../page/2_Identification';
+import EditProject from "../page/3cb_EditProject.js";
+import NewProject from '../page/3ca_CreerProjet.js';
+import NewEvent from '../page/3ba_CreerEvent.js';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -70,6 +71,13 @@ const HomeScreen = ({navigation,route}) => {
       /*setNew = {(p)=>{projets.push(p)}}*//>
     )
   }
+  const EditProjectScreen = ({navigation, route}) =>{
+    return(
+      <EditProject navigation = {navigation} route = {route} membres = {membres}
+      projets = {projets} user={utilisateur}/>
+    )
+  }
+
   
   const CreerEventScreen = ({navigation, route})=>{
     return(
@@ -77,7 +85,7 @@ const HomeScreen = ({navigation,route}) => {
       /*setNew = {(p)=>{projets.push(p)}}*//>
     )
   }
-
+//cette vue va dans le 
   const ProfilScreen = ({navigation,route}) => {
     return(
       <Profil navigation = {navigation} user = {utilisateur}/>
@@ -92,10 +100,10 @@ au bouton Edit New Project
     return(
       <Stack.Navigator initialRouteName = {"projets"}>
         <Stack.Screen 
-        name="projets" component={ProjetScreen} options={{title : "" , headerShown:false}} />
+        name="projets" component={ProjetScreen}  />
         <Stack.Screen 
         name="new" component={CreerProjetScreen} options={{title : "Nouveau projet"}} />
-        
+        <Stack.Screen component = {EditProjectScreen} name="Edit" options={{title:""}}/>
       </Stack.Navigator>
       
     )
@@ -114,7 +122,7 @@ au bouton Edit New Project
         
     )
   }
-// Stac Home Page
+// Stack Home Page
 const HomeStackScreen = ({navigation})=>{
   return(
     <Stack.Navigator initialRouteName = {"Home"}>

@@ -270,7 +270,7 @@ const styles = StyleSheet.create(
            alignSelf: "flex-start",
        },
        textetitreheaders:{
-           marginTop:-30,
+           marginTop:-30, 
            marginLeft:100,
            marginEnd:60,
            fontSize:40,
@@ -279,7 +279,7 @@ const styles = StyleSheet.create(
           backgroundColor:"red",
       }
 
-      
+
 
 
 

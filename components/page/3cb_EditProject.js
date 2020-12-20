@@ -196,19 +196,66 @@ constructor(props){
     }
     
 
+    addWorker() /* je te laisse verifier car je comprends pas vraiment Ethan*/{
+        if (this.nomtache)
+        {
+         let data = new FormData();
+         data.append("id_proj", this.projet.ID);
+         data.append("identifiant", this.props.user.identifiant);
+         data.append("pass", this.props.user.pass);
+         data.append("role", this.props.user.membre)
+         if(this.contenutache)data.append("description", this.contenutache)
+ 
+         data = formatPostData(data);
+         
+         fetch('http://www.wi-bash.fr/application/AddWorker.php', {
+         method: 'POST',
+         headers: {
+         Accept: 'multipart/form-data',
+         'Content-Type': "multipart/form-data"
+         },
+         body: data
+         }).then((reponse)=> reponse.text()).then((reponse) => {
+             if (reponse.indexOf("200")===-1) message('Oups !', 
+             "Nous n'avons pu créer cette tâche... Peut-être le nom de la tâche existe-t-il déjà ?")
+         else{
+             this.setState({tasks:[...this.state.tasks, {nom:this.nomtache, description:this.contenutache}]})
+         }
+         }
+             
+             ).catch(
+             (error) => console.log(error))}
+     }
+
     //bouton "Ajouter une tache"
     addTask(){
         
         if(this.chef.identifiant==this.props.user.identifiant)// on  ne peut ajouter une tache que si on est chef de projet
         {return (
             <Button buttonStyle={styles.addtaskbutton} title="AJOUTER UNE TACHE"
-             onPress={()=>this.setState({task:true})} />
+             onPress={()=> this.addWorker} />
                 
         )}
         else{
             return null;
         }
     }
+
+
+// bouton Ajoouter un participant
+taskworker(){
+        
+    if(this.chef.identifiant==this.props.user.identifiant)// on  ne peut ajouter une tache que si on est chef de projet
+    {return (
+        <Button buttonStyle={styles.addtaskbutton} title="Participer"
+         onPress={()=>this.setState({task:true})} />
+            
+    )}
+    else{
+        return null;
+    }
+}
+
 //Corps de la vue
 render(props){
     return(
@@ -229,6 +276,7 @@ render(props){
             </View>
             <View style={{flex:1}}>
             {this.memberView()/**flatlist des participants au projet*/}
+            {this.taskworker/* bouton ajouter un participant */}
             {this.taskView()}
             {this.addTask()/*bouton ajouter une tache */}
             </View>
@@ -239,6 +287,7 @@ render(props){
             "ajouter une  tache" */}
                 <View style = {styles.addTask}>
                <Text style={{alignSelf: "flex-end", marginRight:10, fontSize:18}} onPress={()=>this.setState({task:false})}>X</Text> 
+
                 <TextInput placeholder = 'nom' 
                 onChangeText={(text)=>{this.nomtache=text}}
                 style={styles.taskinput}></TextInput>
@@ -251,8 +300,12 @@ render(props){
                     this.sendTask();
                     this.setState({task:false})
                 }} buttonStyle={{marginBottom:10}}/>
+
+
                 <Button title="Annuler" buttonStyle={{backgroundColor:"red"}}
                 onPress={()=>{this.setState({task:false})}}/>
+
+
                 </View>
             </Modal>
 
@@ -330,7 +383,7 @@ const styles = StyleSheet.create(
            backgroundColor:"black",
            marginTop:20,
            marginBottom:10,
-           padding:30
+           
        }
     }
 )

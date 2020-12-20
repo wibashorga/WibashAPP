@@ -125,24 +125,7 @@ export default class Home extends React.Component {
         this.importProjects();}, 30000)
     }
 
-  async  openImagePickerAsync(){
-        try{
-        let permissionResult = {granted:true}//await ImagePicker.requestMediaLibraryPermissionsAsync(false);
-
-    
-        if (permissionResult.granted === false) {
-          alert("Permission to access camera roll is required!");
-          return;
-        }
-    
-        let pickerResult = await ImagePicker.launchImageLibraryAsync();
-        if (pickerResult.cancelled === true) {
-            return;
-          }
-          this.setState({image:pickerResult.uri})
-        }catch(error){console.log(error)}
-      }
-
+  
     render()
     {
         return(
@@ -173,7 +156,28 @@ export default class Home extends React.Component {
                        
 
                         <View>
+
                             <Text>Actualite</Text>
+
+
+                            <ScrollView>
+                                <Text>lol</Text>
+                                <Text>lol</Text>
+                                <Text>lol</Text>
+                                <Text>lol</Text>
+                                <Text>lol</Text>
+                                <Text>lol</Text>
+                                <Text>lol</Text>
+                                <Text>lol</Text>
+                                <Text>lol</Text>
+                                <Text>lol</Text>
+                                <Text>lol</Text>
+                                <Text>lol</Text>
+                                <Text>lol</Text>
+                                
+                            </ScrollView>
+
+
                         </View>
 
 
@@ -258,20 +262,11 @@ const styles = StyleSheet.create(
            flex : 1,
            margin : 10,
            
-       },
-       Titrecarte:
-       {
-           flex:1,
-           alignItems : 'center',
-       },
-       textecarte:
-       {
-           flex:4,
-          
+       
        }, icon:
        {
            marginLeft: 10,
-           marginTop: 40,
+           marginTop: 50,
            alignSelf: "flex-start",
        },
        textetitreheaders:{
@@ -283,6 +278,16 @@ const styles = StyleSheet.create(
       },headers:{
           backgroundColor:"red",
       }
+
+      
+
+
+
+
+
+
+
+
        
        
     }

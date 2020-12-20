@@ -129,9 +129,7 @@ export default class Home extends React.Component {
     render()
     {
         return(
-            <ScrollView style = {{flex:1}}>
-
-                
+            <View style = {{flex:1}}>
 
 
                 <View style = {styles.headers}>
@@ -153,55 +151,44 @@ export default class Home extends React.Component {
 
 
                         </View>
-                       
 
-                        <View>
-
-                            <Text>Actualite</Text>
+                    
 
 
-                            <ScrollView>
-                                <Text>lol</Text>
-                                <Text>lol</Text>
-                                <Text>lol</Text>
-                                <Text>lol</Text>
-                                <Text>lol</Text>
-                                <Text>lol</Text>
-                                <Text>lol</Text>
-                                <Text>lol</Text>
-                                <Text>lol</Text>
-                                <Text>lol</Text>
-                                <Text>lol</Text>
-                                <Text>lol</Text>
-                                <Text>lol</Text>
-                                
-                            </ScrollView>
+                <View style = {{flex:4, flexDirection:"column"}}>
 
+                    <ScrollView>
 
-                        </View>
+                            <View style = {styles.contaitActualiter}>
 
-
-                        <View>
-                            <Text>Evenements a venir</Text>
-                        </View>
-
-
-
-                        <View>
-                            <Text>Vos projets</Text>
-                        </View>
-
-
-                        <View>
-                            <Text>Les Membres</Text>
-                        </View>
+                                <Text style = {styles.titreCategorie}>
+                                    Actualite
+                                    </Text>
 
 
 
 
+                            </View>
 
-            </ScrollView>
-                       
+
+                            <View style = {styles.contaitEvenements}>
+                                <Text style = {styles.titreCategorie}>Evenements a venir</Text>
+                            </View>
+
+
+
+                            <View style = {styles.contaitProjets}>
+                                <Text style = {styles.titreCategorie}>Vos projets</Text>
+                            </View>
+
+
+                            <View style = {styles.contaitMmebres}>
+                                <Text style = {styles.titreCategorie}>Les Membres</Text>
+                            </View>
+
+                    </ScrollView>
+                </View>
+            </View>            
         )
     }
 }
@@ -216,7 +203,7 @@ const styles = StyleSheet.create(
            marginTop: 100,
            paddingVertical: 30,
            paddingHorizontal: 5,
-           borderRadius: 20
+           borderRadius: 10
        },
        card:{
            margin:1,
@@ -225,44 +212,10 @@ const styles = StyleSheet.create(
            paddingBottom:2,
        },
        
-       textetitre:{
-            fontSize:20,
-            
-       },
-       carte:
-       {
-           backgroundColor: "white",
-           width: 300,
-           height: 190,
-           marginRight: 20,
-           marginTop:10,
-           overflow: "hidden",
-           padding:10,
-          borderRadius: 20,
-          shadowColor: "#000",
-            shadowOffset: {
-	        width: 1,
-	        height: 5},
-            shadowOpacity: 0.55,
-            shadowRadius: 3.84,
-            elevation: 10
-       },
-       cartein:
-       {
-           flex : 1,
-           margin : 20,
-           backgroundColor: "#D3D3D3",
-           height : 190,
-           width : 310,
-           borderRadius : 20
-           
-       },
        containtcarte:
        {
            flex : 1,
            margin : 10,
-           
-       
        }, icon:
        {
            marginLeft: 10,
@@ -277,6 +230,22 @@ const styles = StyleSheet.create(
            color:"white",
       },headers:{
           backgroundColor:"red",
+      },
+      contaitActualiter:{
+          height:300,
+      },
+      contaitEvenements:{
+            height:300,
+      },
+      contaitProjets:{
+        height:300,
+      },
+      contaitMmebres:{
+        height:300,
+
+      },
+      titreCategorie:{
+          fontSize:20,
       }
 
 

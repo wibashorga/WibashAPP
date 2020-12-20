@@ -82,7 +82,7 @@ const ModifyEventScreen = ({navigation, route})=>{
     return(
       <Stack.Navigator initialRouteName = {"events"}>
         <Stack.Screen 
-        name="events" component={EvenementScreen} options={{title : "" , headerShown:false}} />
+        name="events" component={EvenementScreen} options={{title : "EVENEMENTS", headerTitleStyle:{alignSelf:"center"}}} />
         <Stack.Screen 
         name="new_event" component={CreerEventScreen} options={{title : "Nouvel évènement"}} />
   

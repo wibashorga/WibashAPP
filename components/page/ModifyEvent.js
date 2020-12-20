@@ -49,7 +49,8 @@ export default class ModifyEvent extends React.Component
             <Text style={{fontSize: 18, color:"white"}}>ENREGISTRER</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style = {[styles.button, {backgroundColor: 'red',}]}>
+          <TouchableOpacity style = {[styles.button, {backgroundColor: 'red',}]}
+          onPress = {()=>this.props.navigation.goBack()}>
             <Text style={{fontSize: 18, color:"white"}}>ANNULER</Text>
           </TouchableOpacity>
 

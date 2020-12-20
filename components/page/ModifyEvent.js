@@ -3,6 +3,13 @@ import {View, Text, TouchableOpacity, StyleSheet, TextInput, ScrollView} from 'r
 
 export default class ModifyEvent extends React.Component
 {
+  constructor(props)
+  {
+    super(props);
+    this.eventTitle = this.props.route.params.event.nom || "";
+    this.eventDescription = this.props.route.params.event.description || "";
+    this.props.navigation.setOptions({headerTitle:this.props.route.params.event.nom})
+  }
   render() {
     return(
       <ScrollView style = {{marginTop: 20}}>
@@ -15,12 +22,22 @@ export default class ModifyEvent extends React.Component
 
           <View style = {{marginTop: 20}}>
             <Text style = {{fontSize: 20}}>Titre</Text>
-            <TextInput style = {styles.textInput}  placeholder = 'Nouveau titre'/>
+            
+            <TextInput style = {styles.textInput}  placeholder = {this.props.route.params.event.nom} 
+            placeholderTextColor="black" onChangeText={(text)=>{this.eventTitle=text;
+             this.props.navigation.setOptions({headerTitle:this.eventTitle?this.eventTitle:
+              this.props.route.params.event.nom})
+            }}/>
+          
           </View>
 
           <View style={{marginTop: 20}}>
+            
             <Text style={{fontSize: 20}}>Description</Text>
-            <TextInput style = {styles.textInput}  placeholder = 'Nouvelle description'/>
+            
+            <TextInput style = {styles.textInput}  placeholder = {this.props.route.params.event.description}
+            placeholderTextColor={"black"} onChangeText={(text)=>{this.eventDescription = text}}/>
+          
           </View>
 
         </View>

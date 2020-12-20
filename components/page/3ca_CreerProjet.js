@@ -35,6 +35,7 @@ export default class NewProject extends React.Component
         this.objectifs = "";
         this.type = null;
     }
+    //génère un identifiant aléatoire pour le projet
     generateID(){
        let id = null;
         do

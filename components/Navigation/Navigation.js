@@ -15,6 +15,7 @@ import Identification from '../page/2_Identification';
 import EditProject from "../page/3cb_EditProject.js";
 import NewProject from '../page/3ca_CreerProjet.js';
 import NewEvent from '../page/3ba_CreerEvent.js';
+import ModifyEvent from "../page/ModifyEvent.js";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -50,13 +51,51 @@ const HomeScreen = ({navigation,route}) => {
     )
   }
 
-
+//------------------------------------------------------
+//
   const EvenementScreen = ({navigation, route}) => {
     return(
       <Evenement navigation = {navigation} user = {utilisateur}
       route={route} events={events}/>
     )
   }
+  const CreerEventScreen = ({navigation, route})=>{
+    return(
+      <NewEvent navigation = {navigation} user = {utilisateur} projets = {projets}
+      /*setNew = {(p)=>{projets.push(p)}}*//>
+    )
+  }
+
+const ModifyEventScreen = ({navigation, route})=>{
+  return(
+    <ModifyEvent navigation = {navigation} route = {route}
+    user = {utilisateur}/>
+  )
+}
+
+
+  //Stack des événements
+  //Liste des Event (events)
+  // Créer un event (new_event)
+  //Modifier un event (ùodify_event)
+  const EventStackScreen = ({navigation})=>{
+    return(
+      <Stack.Navigator initialRouteName = {"events"}>
+        <Stack.Screen 
+        name="events" component={EvenementScreen} options={{title : "" , headerShown:false}} />
+        <Stack.Screen 
+        name="new_event" component={CreerEventScreen} options={{title : "Nouvel évènement"}} />
+  
+        <Stack.Screen name = "modify_event" 
+        component={ModifyEventScreen}/>
+  
+      </Stack.Navigator>
+        
+    )
+  }
+  //-------------------------------
+  //
+  //-----------------------
 
   const ProjetScreen = ({navigation,route}) => {
     return(
@@ -78,13 +117,8 @@ const HomeScreen = ({navigation,route}) => {
     )
   }
 
+  //-----------------------------
   
-  const CreerEventScreen = ({navigation, route})=>{
-    return(
-      <NewEvent navigation = {navigation} user = {utilisateur} projets = {projets}
-      /*setNew = {(p)=>{projets.push(p)}}*//>
-    )
-  }
 //cette vue va dans le 
   const ProfilScreen = ({navigation,route}) => {
     return(
@@ -109,19 +143,6 @@ au bouton Edit New Project
     )
   }
 
-  //Stack des événements
-  const EventStackScreen = ({navigation})=>{
-    return(
-      <Stack.Navigator initialRouteName = {"events"}>
-        <Stack.Screen 
-        name="events" component={EvenementScreen} options={{title : "" , headerShown:false}} />
-        <Stack.Screen 
-        name="new_event" component={CreerEventScreen} options={{title : "Nouvel évènement"}} />
-        
-      </Stack.Navigator>
-        
-    )
-  }
 // Stack Home Page
 const HomeStackScreen = ({navigation})=>{
   return(

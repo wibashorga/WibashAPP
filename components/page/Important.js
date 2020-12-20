@@ -10,7 +10,7 @@ class Carte extends React.Component
     constructor(props)
     {
         super(props);
-        console.log(this.props.projet);
+        //console.log(this.props.projet);
     }
     render()
     {
@@ -48,7 +48,7 @@ export default class Evenement extends React.Component {
         data.append("token", token);
         data.append("identifiant", this.state.user.identifiant);
         data.append("pass", this.state.user.pass);
-        console.log(this.state.user.pass);
+        //console.log(this.state.user.pass);
         fetch('http://www.wi-bash.fr/application/ListeProjets.php', {
         method: 'POST',
         headers: {

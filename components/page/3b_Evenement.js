@@ -10,6 +10,8 @@ const hashCode = function(s){
 const mois = ["Janvier", "Février", "Mars", "Avril",
 "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
 const today = new Date();
+
+//Chaque event est représenté par une carte individuelle
 class Carte extends React.Component
 {
     constructor(props)
@@ -27,7 +29,7 @@ class Carte extends React.Component
     }
     render()
     {
-
+        if (this.props.user.niveau>=2){
         return(
             <View style={{...styles.carte, backgroundColor:(this.urgent)?"red":"white"}}>
                 <View style={styles.imagecarte}>
@@ -46,7 +48,28 @@ class Carte extends React.Component
             {this.props.event.description}</Text>
                 </View>
             </View>
-        )
+        )}else{
+            return(
+                <TouchableOpacity onPress= {()=>this.props.onPress()}
+                style={{...styles.carte, backgroundColor:(this.urgent)?"red":"white"}}>
+                    <View style={styles.imagecarte}>
+                    </View>
+    
+                    <View>
+                    <Text style = {{fontWeight:"bold", alignSelf:"center",
+                fontSize: 22, color:(this.urgent)?"white":"black"}}>
+                        {this.props.event.nom}</Text>
+                    <Text style={{color:(this.urgent)?"white":"black"}}>
+                        {this.jour+" "+this.mois+" "+this.annee}
+                        </Text>
+            <Text style= {{color:(this.urgent)?"white":"black"}}>
+                {"Type : "+this.props.event.type}</Text>
+            <Text style={{color:(this.urgent)?"white":"black"}}>
+                {this.props.event.description}</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+        }
     }
 }
 
@@ -107,7 +130,8 @@ export default class Evenement extends React.Component {
 
                 <View style = {styles.containimage}>
                     <FlatList data={this.state.events} keyExtractor={(item)=>hashCode(item.nom)} 
-                    renderItem= {(item)=><Carte event = {item.item}/>} horizontal = {true}/>
+                    renderItem= {(item)=><Carte event = {item.item} user = {this.state.user}
+                    onPress={()=>{this.props.navigation.navigate("modify_event", {event:item.item})}}/>} horizontal = {true}/>
 
                 </View>
                 

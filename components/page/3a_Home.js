@@ -159,7 +159,7 @@ export default class Home extends React.Component {
                 </View>
                         <View style={{flex:1, flexDirection:"row"}}>
 
-                            <View style={{flex:3, flexDirection:"column"}}>
+                            <View style={{flex:3, flexDirection:"row"}}>
                             {this.projectCard()}
                             </View>
                             <View style={{flex:4}}>
@@ -170,11 +170,7 @@ export default class Home extends React.Component {
 
 
                         </View>
-                            <View>
-                            <Image source={this.state.image?{uri:this.state.image}:require("./ressources/logo.png")}
-                            style= {{width:100, height:100, alignSelf:"center"}}/>
-                        <Button title="Choisir une image " onPress={()=>this.openImagePickerAsync()} width={100}/>
-                        </View>
+                       
 
                         <View>
                             <Text>Actualite</Text>
@@ -219,19 +215,10 @@ const styles = StyleSheet.create(
            borderRadius: 20
        },
        card:{
-           margin:5,
+           margin:1,
            backgroundColor:"white",
-           padding:5,
-           paddingBottom:10,
-           shadowColor: "#000",
-           //width:windowWidth/1.8,
-            shadowOffset: {
-	        width: 1,
-	        height: 5},
-            shadowOpacity: 0.55,
-            shadowRadius: 3.84,
-            elevation: 10
-
+           padding:2,
+           paddingBottom:2,
        },
        
        textetitre:{

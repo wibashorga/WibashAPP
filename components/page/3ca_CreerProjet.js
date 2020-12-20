@@ -170,6 +170,7 @@ const styles = StyleSheet.create(
             margin: 20,
             color: "black",
             padding:7,
+            textAlignVertical:'top',
             backgroundColor:"white",
             borderRadius:20,
             shadowColor:"#000",

@@ -14,7 +14,7 @@ export default class ModifyEvent extends React.Component
     return(
       <ScrollView style = {{marginTop: 20}}>
 
-        <View style = {{backgroundColor: 'red', alignItems: 'center'}}>
+        <View style = {{backgroundColor: 'black', alignItems: 'center'}}>
           <Text style = {styles.title}> MODIFIER EVENEMENT </Text>
         </View>
 
@@ -24,8 +24,9 @@ export default class ModifyEvent extends React.Component
             <Text style = {{fontSize: 20}}>Titre</Text>
             
             <TextInput style = {styles.textInput}  placeholder = {this.props.route.params.event.nom} 
-            placeholderTextColor="black" onChangeText={(text)=>{this.eventTitle=text;
-             this.props.navigation.setOptions({headerTitle:this.eventTitle?this.eventTitle:
+            placeholderTextColor="black" onChangeText={(text)=>{if (text)this.eventTitle=text;
+              else this.eventTitle = this.props.route.params.event.nom;
+             this.props.navigation.setOptions({headerTitle:text?text:
               this.props.route.params.event.nom})
             }}/>
           
@@ -44,12 +45,12 @@ export default class ModifyEvent extends React.Component
             
         <View style = {{marginTop: 50}}>
 
-          <TouchableOpacity style = {[styles.button, {marginBottom: 20, backgroundColor: 'red'}]}>
-            <Text style={{fontSize: 20}}>Enregistrer</Text>
+          <TouchableOpacity style = {[styles.button, {marginBottom: 20, backgroundColor: 'blue'}]}>
+            <Text style={{fontSize: 18, color:"white"}}>ENREGISTRER</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style = {[styles.button, {backgroundColor: 'blue'}]}>
-            <Text style={{fontSize: 20}}>Annuler</Text>
+          <TouchableOpacity style = {[styles.button, {backgroundColor: 'red',}]}>
+            <Text style={{fontSize: 18, color:"white"}}>ANNULER</Text>
           </TouchableOpacity>
 
         </View>
@@ -77,7 +78,8 @@ const styles = StyleSheet.create({
 	{
     borderRadius: 5, 
     padding: 10,
-    alignItems: 'center'
+    alignItems: 'center',
+    color:"white"
 	}
 });
 

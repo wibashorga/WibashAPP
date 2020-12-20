@@ -1,7 +1,12 @@
 import React from 'react';
 import Header from "./Header.js";
 
-import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList,ImageBackground,Button,SafeAreaView} from 'react-native';
+import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList,ImageBackground,Dimensions} from 'react-native';
+import{Button} from "react-native-elements";
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+
+
 const token = "PPlaFk63u4E6";
 //fonction de hachage
 const hashCode = function(s){
@@ -91,6 +96,7 @@ export default class Evenement extends React.Component {
             (reponse)=>reponse.text()).then((text)=>
             this.setState({events:JSON.parse(text)})).catch((error)=>console.log(error))
     }
+    //boucle de rafraichissement
     componentDidMount()
     {
         setInterval(()=>this.importEvents(), 10000)
@@ -103,9 +109,10 @@ export default class Evenement extends React.Component {
             return (
                 <View>
                     <Button
-                    title={"edit new Event"}
+                    title={"EDIT NEW EVENT"}
                     color={"red"}
                     onPress={()=>{this.props.navigation.navigate("new_event")}}
+                   buttonStyle = {{color:"white", backgroundColor: "red", height:40}}
                     
                 />
                 </View>
@@ -118,17 +125,13 @@ export default class Evenement extends React.Component {
         
         
         return(
-            <View style = {styles.conteneur}>
+            
 
-                <View style = {styles.Titre} >
-                    <Text style  = {{fontSize : 25, color:"white"}}> EVENEMENTS </Text>
-
-
-                </View>
+                
 
                 <ImageBackground source = {require('./ressources/evenmfond.jpg')} style={styles.image}>
 
-                <View style = {styles.containimage}>
+                <View style={styles.containcarte}>
                     <FlatList data={this.state.events} keyExtractor={(item)=>hashCode(item.nom)} 
                     renderItem= {(item)=><Carte event = {item.item} user = {this.state.user}
                     onPress={()=>{this.props.navigation.navigate("modify_event", {event:item.item})}}/>} horizontal = {true}/>
@@ -145,12 +148,12 @@ export default class Evenement extends React.Component {
 
 
                 
+                {this.showButtonEdit()}
                 </ImageBackground>
 
-                {this.showButtonEdit()}
                 
                 
-            </View>
+          
         )
     }
 }
@@ -180,24 +183,26 @@ const styles = StyleSheet.create(
        image: {
         flex: 1,
         resizeMode: "cover",
-        justifyContent: "center"
+        justifyContent: "center",
+        alignContent: "stretch",
+        //paddingTop:100
       },
 
        
-       containimage:{
-           flex : 1,
-       },
+       
        titrecarte:
        {
            fontWeight:"bold",
            textAlign: "center",
            fontFamily: "roboto"
        },
-       containtcarte:
+       containcarte:
        {
            flex : 1,
+           paddingVertical:50,
+           marginTop: (windowHeight/2)-200
           
-           
+           //backgroundColor:"red"
            
        },
        description:

@@ -202,7 +202,7 @@ constructor(props){
          data.append("id_projet", this.projet.ID);
          data.append("identifiant", this.props.user.identifiant);
          data.append("pass", this.props.user.pass);
-         data.append("role", "Membre")
+         data.append("role", "membre")
          data.append("id_membre", this.props.user.identifiant)
          
  
@@ -216,7 +216,7 @@ constructor(props){
          },
          body: data
          }).then((reponse)=> reponse.text()).then((reponse) => {
-             
+             console.log(reponse)
          }
          
              
@@ -245,7 +245,7 @@ workerButton(){
     if(this.projet.mine===false)
     {return (
         <Button buttonStyle={styles.addtaskbutton} title="Participer"
-         onPress={()=>this.setState({task:true})} />
+         onPress={()=>this.addWorker()} />
             
     )}
     else{

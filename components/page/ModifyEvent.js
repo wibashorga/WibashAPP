@@ -12,7 +12,7 @@ export default class ModifyEvent extends React.Component
   }
   render() {
     return(
-      <ScrollView style = {{marginTop: 20}}>
+      <ScrollView>
 
         <View style = {{backgroundColor: 'black', alignItems: 'center'}}>
           <Text style = {styles.title}> MODIFIER EVENEMENT </Text>

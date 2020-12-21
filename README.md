@@ -97,13 +97,18 @@ source :
 https://github.com/Kureev/react-native-side-menu
 
 ## TODO LIST
--   Ajouter la possibilité de changer le libellé d'un projet
--   Possibilité de changer le libellé d'un événement
+-   Ajouter la possibilité de changer description, titre et objectif d'un projet
+-   Possibilité de changer le nom et description d'un événement
+-   Editer les paramètres
 -   Editer des actus
 -   Designer la page home
--   Bouton participer à un projet
+-   Bouton participer à un projet (fait)
 -   Désigner un administrateur pour un projet
--   
+-   Paramètres de l'appli
+-   Supprimer un projet
+-   Supprimer une tache
+-   supprimer un event
+-   supprimer un participant
 
 ## Fonctionnalités des prochaines mises-à-jour
 -   Système de notifications (push tout d'abord)

@@ -168,7 +168,7 @@ constructor(props){
        if (this.nomtache)
        {
         let data = new FormData();
-        data.append("id_proj", this.projet.ID);
+        data.append("id_projet", this.projet.ID);
         data.append("identifiant", this.props.user.identifiant);
         data.append("pass", this.props.user.pass);
         data.append("nom", this.nomtache)
@@ -197,14 +197,14 @@ constructor(props){
     
 
     addWorker() /* je te laisse verifier car je comprends pas vraiment Ethan*/{
-        if (this.nomtache)
-        {
+        
          let data = new FormData();
-         data.append("id_proj", this.projet.ID);
+         data.append("id_projet", this.projet.ID);
          data.append("identifiant", this.props.user.identifiant);
          data.append("pass", this.props.user.pass);
-         data.append("role", this.props.user.membre)
-         if(this.contenutache)data.append("description", this.contenutache)
+         data.append("role", "Membre")
+         data.append("id_membre", this.props.user.identifiant)
+         
  
          data = formatPostData(data);
          
@@ -216,15 +216,12 @@ constructor(props){
          },
          body: data
          }).then((reponse)=> reponse.text()).then((reponse) => {
-             if (reponse.indexOf("200")===-1) message('Oups !', 
-             "Nous n'avons pu créer cette tâche... Peut-être le nom de la tâche existe-t-il déjà ?")
-         else{
-             this.setState({tasks:[...this.state.tasks, {nom:this.nomtache, description:this.contenutache}]})
+             
          }
-         }
+         
              
              ).catch(
-             (error) => console.log(error))}
+             (error) => console.log(error))
      }
 
     //bouton "Ajouter une tache"
@@ -233,7 +230,7 @@ constructor(props){
         if(this.chef.identifiant==this.props.user.identifiant)// on  ne peut ajouter une tache que si on est chef de projet
         {return (
             <Button buttonStyle={styles.addtaskbutton} title="AJOUTER UNE TACHE"
-             onPress={()=> this.addWorker} />
+             onPress={()=> this.sendTask()} />
                 
         )}
         else{
@@ -243,9 +240,9 @@ constructor(props){
 
 
 // bouton Ajoouter un participant
-taskworker(){
+workerButton(){
         
-    if(this.chef.identifiant==this.props.user.identifiant)// on  ne peut ajouter une tache que si on est chef de projet
+    if(this.projet.mine===false)
     {return (
         <Button buttonStyle={styles.addtaskbutton} title="Participer"
          onPress={()=>this.setState({task:true})} />
@@ -276,7 +273,7 @@ render(props){
             </View>
             <View style={{flex:1}}>
             {this.memberView()/**flatlist des participants au projet*/}
-            {this.taskworker/* bouton ajouter un participant */}
+            {this.workerButton()/* bouton ajouter un participant */}
             {this.taskView()}
             {this.addTask()/*bouton ajouter une tache */}
             </View>

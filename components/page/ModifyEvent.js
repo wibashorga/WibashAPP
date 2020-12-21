@@ -10,6 +10,32 @@ export default class ModifyEvent extends React.Component
     this.eventDescription = this.props.route.params.event.description || "";
     this.props.navigation.setOptions({headerTitle:this.props.route.params.event.nom})
   }
+
+  sendModifications()
+  {
+    const data = new FormData();
+    data.append("identifiant", this.props.user.identifiant)
+    data.append("pass", this.props.user.pass);
+    data.append("nom_event", this.props.route.params.event.nom)
+    if (this.eventTitle) data.append("nouveau_nom", this.eventTitle)
+    if (this.eventDescription) data.append("description", this.eventDescription);
+
+    fetch('http://www.wi-bash.fr/application/UpdateEvent.php', {
+        method: 'POST',
+        headers: {
+        Accept: 'multipart/form-data',
+        'Content-Type': "multipart/form-data; charset=utf-8"
+        },
+        body: data
+        }).then((reponse)=> reponse.text()).then((text) => {
+        
+        console.log(text)
+        this.props.navigation.goBack();
+            }
+            ).catch(
+            (error) => console.log(error))
+        
+  }
   render() {
     return(
       <ScrollView>
@@ -45,7 +71,8 @@ export default class ModifyEvent extends React.Component
             
         <View style = {{marginTop: 50}}>
 
-          <TouchableOpacity style = {[styles.button, {marginBottom: 20, backgroundColor: 'blue'}]}>
+          <TouchableOpacity style = {[styles.button, {marginBottom: 20, backgroundColor: 'blue'}]}
+          onPress = {()=>this.sendModifications()}>
             <Text style={{fontSize: 18, color:"white"}}>ENREGISTRER</Text>
           </TouchableOpacity>
 

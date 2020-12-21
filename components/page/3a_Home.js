@@ -246,9 +246,10 @@ const styles = StyleSheet.create(
       },
       titreCategorie:{
           fontSize:20,
+
       }
 
-
+// sa merdes
 
 
 

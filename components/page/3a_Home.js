@@ -155,7 +155,7 @@ export default class Home extends React.Component {
                     
 
 
-                <View style = {{flex:4, flexDirection:"column"}}>
+                <View style = {{flex:3, flexDirection:"column"}}>
 
                     <ScrollView>
 
@@ -207,6 +207,7 @@ const styles = StyleSheet.create(
        },
        card:{
            margin:1,
+           flex:1,
            backgroundColor:"white",
            padding:2,
            paddingBottom:2,

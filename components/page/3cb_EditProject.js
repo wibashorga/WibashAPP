@@ -230,7 +230,7 @@ constructor(props){
         if(this.chef.identifiant==this.props.user.identifiant)// on  ne peut ajouter une tache que si on est chef de projet
         {return (
             <Button buttonStyle={styles.addtaskbutton} title="AJOUTER UNE TACHE"
-             onPress={()=> this.sendTask()} />
+             onPress={()=> this.setState({task:true})} />
                 
         )}
         else{

@@ -80,10 +80,12 @@ Et l'évènement est automatiquement ajouté sur l'agenda Google ou IOS de ceux 
 
 ## Avancement du projet
 -   Vues identification et de création de compte opérationnelles
--   Vue Home opérationnelle
--   Vue Liste des projets et création de projets opérationnelles
+-   Vue Liste des projet, création de projets opérationnelles
+-   Vue détails du projet en construction (60%)
 -   Creation de taches pour les projets opé
 -   Vues liste des évènements opé
+-   Création d'event opé [régler le bug  avec RNPickerSelect]
+-   Modification d'event opé
 -   Home en construction
 -   Vue profil en construction
 -   API et base de données opé
@@ -105,6 +107,7 @@ https://github.com/Kureev/react-native-side-menu
 -   Bouton participer à un projet (fait)
 -   Désigner un administrateur pour un projet
 -   Paramètres de l'appli
+-   Remplacer RNPickerSelect par expo-picker
 -   Supprimer un projet
 -   Supprimer une tache
 -   supprimer un event
@@ -116,6 +119,7 @@ https://github.com/Kureev/react-native-side-menu
 -   Pouvoir cocher des "centres d'intérêt" pour chaque membre, et pouvoir cibler les membres par centre d'intérêt dans les messages
 -   Ajouter des mots-clés pour les projets ('culture', 'programmation', 'jeu vidéo', 'Apple' ...)
 -   Pourvoir gérer les paramètres : mode sombre, défilement vetical ou horizontal, couleurs etc.
+-   Voir les projets enterrés
 
 
 ## Tutos React

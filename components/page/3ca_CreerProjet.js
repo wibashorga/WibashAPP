@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, StatusBar, Dimensions, TextInput, Button, ScrollView, TouchableOpacity,Alert} from 'react-native';
 import RNPickerSelect from "react-native-picker-select";
+import {Picker} from "@react-native-picker/picker";
 import {formatPostData} from "./security";
 
 
@@ -33,7 +34,7 @@ export default class NewProject extends React.Component
         this.nom = "";
         this.description = "";
         this.objectifs = "";
-        this.type = null;
+        this.state = {type:"Programmation"}
     }
     //génère un identifiant aléatoire pour le projet
     generateID(){
@@ -48,7 +49,7 @@ export default class NewProject extends React.Component
     }
     sendProject()
     {
-        if (!this.type) this.type = "Programmation";
+        if (!this.state.type) this.state.type = "Programmation";
         if(this.nom && this.description && this.objectifs && this.type)
         {
         let data = new FormData();
@@ -104,11 +105,19 @@ export default class NewProject extends React.Component
             autoCapitalize={"words"}
             ></TextInput>
 
-            <RNPickerSelect onValueChange={(val)=>{this.type = val}}
-                items = {types} //useNativeAndroidPickerStyle={false}
-                placeholder={{label:"Type", value:null}}
-                //style={pickerMonth}
-                />
+           
+                <Picker
+                    selectedValue={this.state.type}
+                    style={{height: 50, width: 100}}
+                    onValueChange={(itemValue, itemIndex) =>
+                        this.setState({type: itemValue})
+                    }>
+                        {types.map((type)=>(
+                            <Picker.Item label={type.label} value={type.value} />        
+                        ))}
+                    
+                    </Picker>
+
 
 
             

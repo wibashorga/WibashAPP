@@ -86,6 +86,7 @@ Et l'évènement est automatiquement ajouté sur l'agenda Google ou IOS de ceux 
 -   Vues liste des évènements opé
 -   Création d'event opé [régler le bug  avec RNPickerSelect]
 -   Modification d'event opé
+-   Supprimer un projet
 -   Home en construction
 -   Vue profil en construction
 -   API et base de données opé
@@ -108,7 +109,7 @@ https://github.com/Kureev/react-native-side-menu
 -   Désigner un administrateur pour un projet
 -   Paramètres de l'appli
 -   Remplacer RNPickerSelect par expo-picker
--   Supprimer un projet
+-   Supprimer un projet (fait)
 -   Supprimer une tache
 -   supprimer un event
 -   supprimer un participant

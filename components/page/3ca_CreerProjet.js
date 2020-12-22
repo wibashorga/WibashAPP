@@ -105,10 +105,10 @@ export default class NewProject extends React.Component
             autoCapitalize={"words"}
             ></TextInput>
 
-           
+           <View>
                 <Picker
                     selectedValue={this.state.type}
-                    style={{height: 50, width: 100}}
+                    style={{height: 50, width: 150}}
                     onValueChange={(itemValue, itemIndex) =>
                         this.setState({type: itemValue})
                     }>
@@ -117,6 +117,7 @@ export default class NewProject extends React.Component
                         ))}
                     
                     </Picker>
+                    </View>
 
 
 

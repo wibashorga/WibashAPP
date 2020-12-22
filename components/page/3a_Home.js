@@ -155,7 +155,7 @@ export default class Home extends React.Component {
                     
 
 
-                <View style = {{flex:3, flexDirection:"column"}}>
+                <View style = {{flex:2, flexDirection:"column"}}>
 
                     <ScrollView>
 

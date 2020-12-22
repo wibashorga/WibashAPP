@@ -1,6 +1,5 @@
 import React from 'react';
-import Header from "./Header.js";
-
+import {Icon} from "react-native-elements";
 import {Text, View, Modal, Dimensions, StyleSheet, ScrollView, TouchableOpacity, FlatList,Image,Button,SafeAreaView, ImageBackground} from 'react-native';
 const token = "PPlaFk63u4E6";
 const windowWidth = Dimensions.get("window").width;
@@ -20,6 +19,7 @@ class Carte extends React.Component
        super(props);
        
        this.chef = this.props.projet.chef;
+       this.state = {selected:false}
         
         if (this.chef===this.props.user.identifiant) this.chef = this.props.user;
         else{
@@ -48,8 +48,21 @@ class Carte extends React.Component
             onPress = {()=>{
                 //quand on clique sur la carte on navigue vers d'édition de projet
                 //à laquelle on passe en paramètre le projet courant
-                this.props.navigation.navigate("Edit", {projet:this.props.projet, chef:this.chef})}}
-            style={{...styles.carte, backgroundColor:this.props.projet.mine?"rgb(156,220,254)":"white"}}
+               if(!this.state.selected) this.props.navigation.navigate("Edit", {projet:this.props.projet, chef:this.chef})
+               else {
+                   this.setState({selected:false})
+                this.props.unselect()
+                }
+            }}
+                
+                //quand on clique longuement on sélectionne la carte
+                onLongPress = {()=>{
+                   
+                   if(this.props.user.niveau!=3){ this.props.select(); this.setState({selected: true})}
+                
+                
+                }}
+            style={{...styles.carte, backgroundColor:this.state.selected?"red":this.props.projet.mine?"rgb(156,220,254)":"white"}}
             activeOpacity={0.8} >
                 
                 <View style={styles.imagecarte}>
@@ -79,7 +92,7 @@ export default class Projet extends React.Component {
         super(props);
         this.state = {
            user : this.props.user,
-           projets: this.props.projets || []
+           projets: this.props.projets.map((projet)=>({...projet, selected:false})) || []
         }
         
         this.setHeader()
@@ -121,6 +134,62 @@ export default class Projet extends React.Component {
           }, headerTitleStyle:{alignSelf:"center", color:"white", fontSize:23}})
         
     }
+
+    setHeaderTrashIcon()
+    {
+        this.props.navigation.setOptions({headerRight: ()=>(<Icon name = "ios-trash" type="ionicon" color = {"white"} 
+        iconStyle={{marginRight:10, padding:10}} size={35} onPress = {()=>{this.deleteSelectedProjects()}}/>)})
+    }
+    unsetHeaderTrashIcon()
+    {
+        this.props.navigation.setOptions({headerRight: ()=>{}})
+    }
+    select(item)
+    {
+        if (this.props.user.niveau!=3){
+        this.state.projets[this.state.projets.indexOf(item.item)].selected = true;
+        if (item.item.chef==this.props.user.identifiant || this.props.user.niveau<2) this.setHeaderTrashIcon();
+        else this.unsetHeaderTrashIcon()
+        }
+    }
+    unselect(item)
+    {
+        if (this.props.user.niveau!=3)
+        {
+        this.state.projets[this.state.projets.indexOf(item.item)].selected = false;
+        if (this.state.projets.filter(p=>p.selected).length==0) this.unsetHeaderTrashIcon();
+        //si aucun projet n'est sélectionné, l'icone disparait
+        }
+    }
+    deleteSelectedProjects()
+    {
+        let data = new FormData();
+        data.append("identifiant", this.state.user.identifiant);
+        data.append("pass", this.state.user.pass);
+        data.append("id_projet", "")
+    
+        for (let projet of this.state.projets.filter(p=>p.selected))
+        {
+            data.append("id_projet", projet.ID)
+        fetch('http://www.wi-bash.fr/application/DeleteProject.php', {
+        method: 'POST',
+        headers: {
+        Accept: 'multipart/form-data',
+        'Content-Type': "multipart/form-data"
+        },
+        body: data
+        }).then((reponse)=> reponse.text()).then((reponse) => {
+            if(reponse.indexOf("200")!==-1)
+            {
+            
+            }
+        }
+            ).catch(
+            (error) => console.log(error))
+        }
+        this.importProjects()
+        this.unsetHeaderTrashIcon()
+    }
     //boucle de rafraîchissement de la liste dees projets
     componentDidMount(){
         
@@ -137,18 +206,19 @@ export default class Projet extends React.Component {
 
                 
 
-                
-                
-
-
-
                 <View style = {styles.containtcarte}>
                     <FlatList 
                         data={this.state.projets} 
                         keyExtractor={(item)=>item.ID} 
                         renderItem= {(item)=><Carte projet = {item.item} 
                         navigation={this.props.navigation} membres={this.props.membres}
-                        user={this.props.user}/>} 
+                        user={this.props.user}
+                        select = {()=>this.select(item)                            
+                        }
+                        unselect = {()=>
+                            this.unselect(item)
+                        }
+                        />} 
                         horizontal = {false}/>
                 </View>
 

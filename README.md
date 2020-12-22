@@ -109,6 +109,7 @@ https://github.com/Kureev/react-native-side-menu
 -   Désigner un administrateur pour un projet
 -   Paramètres de l'appli
 -   Remplacer RNPickerSelect par expo-picker
+-   Emmettre une proposition dans un projet
 -   Supprimer un projet (fait)
 -   Supprimer une tache
 -   supprimer un event

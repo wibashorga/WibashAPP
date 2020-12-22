@@ -288,7 +288,7 @@ render(props){
 
                 <TextInput placeholder = 'nom' 
                 onChangeText={(text)=>{this.nomtache=text}}
-                style={styles.taskinput}></TextInput>
+                style={styles.taskinput} maxLength ={40}></TextInput>
                 
                 <TextInput placeholder='Description' 
                 onChangeText={(text)=>{this.contenutache = text}}

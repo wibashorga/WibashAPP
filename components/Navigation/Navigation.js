@@ -15,7 +15,7 @@ import Identification from '../page/2_Identification';
 import EditProject from "../page/3cb_EditProject.js";
 import NewProject from '../page/3ca_CreerProjet.js';
 import NewEvent from '../page/3ba_CreerEvent.js';
-import ModifyEvent from "../page/ModifyEvent.js";
+import ModifyEvent from "../page/3bb_ModifyEvent.js";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';

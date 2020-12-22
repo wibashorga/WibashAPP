@@ -168,7 +168,7 @@ constructor(props){
        if (this.nomtache)
        {
         let data = new FormData();
-        data.append("id_projet", this.projet.ID);
+        data.append("id_proj", this.projet.ID);
         data.append("identifiant", this.props.user.identifiant);
         data.append("pass", this.props.user.pass);
         data.append("nom", this.nomtache)
@@ -184,6 +184,7 @@ constructor(props){
         },
         body: data
         }).then((reponse)=> reponse.text()).then((reponse) => {
+            console.log(reponse)
             if (reponse.indexOf("200")===-1) message('Oups !', 
             "Nous n'avons pu créer cette tâche... Peut-être le nom de la tâche existe-t-il déjà ?")
         else{

@@ -195,7 +195,7 @@ export default class Projet extends React.Component {
         
         setInterval(()=>{
             this.importProjects();
-        }, 20000);
+        }, 12000);
     }
     render()
     {

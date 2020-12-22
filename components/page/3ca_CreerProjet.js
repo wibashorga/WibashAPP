@@ -50,7 +50,7 @@ export default class NewProject extends React.Component
     sendProject()
     {
         if (!this.state.type) this.state.type = "Programmation";
-        if(this.nom && this.description && this.objectifs && this.type)
+        if(this.nom && this.description && this.objectifs && this.state.type)
         {
         let data = new FormData();
         //this.description = encode_utf8(this.description);

@@ -86,6 +86,7 @@ Et l'évènement est automatiquement ajouté sur l'agenda Google ou IOS de ceux 
 -   Vues liste des évènements opé
 -   Création d'event opé [régler le bug  avec RNPickerSelect]
 -   Modification d'event opé
+-   Participer à un projet
 -   Supprimer un projet
 -   Home en construction
 -   Vue profil en construction
@@ -101,7 +102,7 @@ https://github.com/Kureev/react-native-side-menu
 
 ## TODO LIST
 -   Ajouter la possibilité de changer description, titre et objectif d'un projet
--   Possibilité de changer le nom et description d'un événement
+-   Possibilité de changer le nom et description d'un événement (fait)
 -   Editer les paramètres
 -   Editer des actus
 -   Designer la page home

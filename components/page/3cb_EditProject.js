@@ -1,7 +1,8 @@
+import { ThemeProvider } from "@react-navigation/native";
 import React from "react";
 import {Pressable} from "react-native"
 import {Text, View, Dimensions, TouchableOpacity, ScrollView, FlatList, StyleSheet, Modal, Alert} from "react-native";
-import {Button} from "react-native-elements";
+import {Button, ThemeConsumer} from "react-native-elements";
 import { TextInput } from "react-native-gesture-handler";
 import { formatPostData } from "./security";
 
@@ -44,6 +45,8 @@ class CarteTaches extends React.Component{
     {
         super(props);
         this.state= {visible:false}
+        
+
     }
 
     render()
@@ -65,6 +68,9 @@ class CarteTaches extends React.Component{
                     style = {styles.taskpopup}>
                             <Text style={{fontWeight:"bold"}}>{this.props.task.nom}</Text>
                             <Text>{this.props.task.description}</Text>
+                            
+                            {["Chef de projet", "Organisateur"].includes(this.props.role)?(<Button title = "Modifier" 
+                            onPress ={()=>this.props.navigation.navigate("modify_task")} />):null}
                     </View>
                     </TouchableOpacity>
                 </Modal>
@@ -82,6 +88,7 @@ constructor(props){
         this.state = {participants:[], task:false, tasks:[]};
         this.nomtache ='';
         this.contenu="";
+        this.role = "";
         
         this.setHeader();
         this.importTasks();
@@ -106,6 +113,8 @@ constructor(props){
         }).then((reponse)=> reponse.text()).then((json) => {
             
             json = JSON.parse(json);
+            console.log(json)
+            if (this.props.route.params.projet.mine) this.role = json.find((w)=>w.identifiant==this.props.user.identifiant).role
             
            this.setState({participants:json})
         }
@@ -133,6 +142,7 @@ constructor(props){
         })
         
     }
+    //vue liste des participants
     memberView()
     {
         return (
@@ -147,6 +157,7 @@ constructor(props){
             </View>
         )
     }
+    //vue liste des taches
     taskView()
     {
         if (this.projet.mine)
@@ -155,8 +166,10 @@ constructor(props){
                 <View style={{flex:2}}>
                     <Text style={{alignSelf:"center", fontWeight:"bold"}}>TACHES : </Text>
                 <FlatList horizontal={true} data={this.state.tasks}
-                renderItem={(item)=><CarteTaches task={item.item} isChef={this.chef.identifiant==this.props.user.identifiant}/>}
-                keyExtractor={(item)=>item.nom}>
+                renderItem={(item)=>
+                <CarteTaches task={item.item} isChef={this.chef.identifiant==this.props.user.identifiant}
+                role = {this.role} navigation = {this.props.navigation}/>}
+                keyExtractor={(item)=>item.nom} >
 
                 </FlatList>
                 </View>
@@ -188,7 +201,7 @@ constructor(props){
             if (reponse.indexOf("200")===-1) message('Oups !', 
             "Nous n'avons pu créer cette tâche... Peut-être le nom de la tâche existe-t-il déjà ?")
         else{
-            this.setState({tasks:[...this.state.tasks, {nom:this.nomtache, description:this.contenutache}]})
+            this.setState({tasks:[{nom:this.nomtache, description:this.contenutache}, ...this.state.tasks]})
         }
         }
             

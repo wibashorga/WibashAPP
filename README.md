@@ -110,7 +110,7 @@ https://github.com/Kureev/react-native-side-menu
 -   Désigner un administrateur pour un projet
 -   Paramètres de l'appli
 -   Remplacer RNPickerSelect par expo-picker
--   Emmettre une proposition dans un projet
+-   Emmettre une proposition dans un projet (fait)
 -   Supprimer un projet (fait)
 -   Supprimer une tache
 -   supprimer un event
@@ -122,6 +122,7 @@ https://github.com/Kureev/react-native-side-menu
 -   Pouvoir cocher des "centres d'intérêt" pour chaque membre, et pouvoir cibler les membres par centre d'intérêt dans les messages
 -   Ajouter des mots-clés pour les projets ('culture', 'programmation', 'jeu vidéo', 'Apple' ...)
 -   Pourvoir gérer les paramètres : mode sombre, défilement vetical ou horizontal, couleurs etc.
+-   Pouvoir transformer une proposition en tâche
 -   Voir les projets enterrés
 
 

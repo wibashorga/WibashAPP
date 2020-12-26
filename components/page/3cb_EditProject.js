@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@react-navigation/native";
 import React from "react";
-import {Pressable} from "react-native"
+import {Icon}  from "react-native-elements";
 import {Text, View, Dimensions, TouchableOpacity, ScrollView, FlatList, StyleSheet, Modal, Alert} from "react-native";
 import {Button, ThemeConsumer} from "react-native-elements";
 import { TextInput } from "react-native-gesture-handler";
@@ -9,6 +9,7 @@ import { formatPostData } from "./security";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
+
 function message(titre, phrase)
 {
     Alert.alert(titre, phrase, [
@@ -18,6 +19,8 @@ function message(titre, phrase)
         }
     ])
 }
+
+
 
 class CarteMembre extends React.Component
 {
@@ -33,10 +36,12 @@ class CarteMembre extends React.Component
         return(
             <View style={{...styles.carte, marginTop:10}}>
                 <Text>{this.props.membre.prenom.toUpperCase()+"\n"+this.props.membre.nom.toUpperCase()}</Text>
+                <Text style={{fontSize:13, fontStyle: "italic"}}>{this.props.role}</Text>
             </View>
         )
     }
 }
+
 
 //chaque tache est affichée dans une carte individuelle. Quand on appuie dessus ça affiche une petite fenêtre 
 //pour voir la totalité du contenu
@@ -60,7 +65,8 @@ class CarteTaches extends React.Component{
                 <Text style={{fontWeight:"bold"}}>{this.props.task.nom}</Text>
                 <Text>{this.props.task.description}</Text>
 
-                <Modal visible={this.state.visible} transparent={true} >
+                <Modal visible={this.state.visible} transparent={true} 
+                onRequestClose={()=>this.setState({visible:false})}>
                    <TouchableOpacity style={{backgroundColor:"rgba(200,200,200,0.4)", flex:1, 
                    justifyContent:"center"}}
                    onPress ={()=>{this.setState({visible:false})}}>
@@ -69,8 +75,12 @@ class CarteTaches extends React.Component{
                             <Text style={{fontWeight:"bold"}}>{this.props.task.nom}</Text>
                             <Text>{this.props.task.description}</Text>
                             
-                            {["Chef de projet", "Organisateur"].includes(this.props.role)?(<Button title = "Modifier" 
-                            onPress ={()=>this.props.navigation.navigate("modify_task")} />):null}
+                            {["Chef de projet", "Organisateur"].includes(this.props.role)?(
+                            <Button title = "Modifier" buttonStyle= {{marginTop:15}} 
+                            onPress ={()=>{
+                                this.setState({visible:false})
+                                this.props.navigation.navigate("ModifyTask");
+                                }} />):null}
                     </View>
                     </TouchableOpacity>
                 </Modal>
@@ -85,15 +95,27 @@ constructor(props){
     super(props);
         this.projet = this.props.route.params.projet;
         this.chef = this.props.route.params.chef;
-        this.state = {participants:[], task:false, tasks:[]};
+        this.state = {participants:[], task:false, tasks:[], suggestion:false, suggestions:[]};
         this.nomtache ='';
         this.contenu="";
         this.role = "";
+        this.suggestion = "";
         
         this.setHeader();
         this.importTasks();
         this.importWorkers();
-        
+        this.importSuggestions();
+
+    }
+    //en travaux
+    generateOptionsList()
+    {
+        if (this.role == "Membre")
+        {
+            return [
+                {title:"Ajouter une proposition"}
+            ]
+        }
     }
     /**importe la liste des participats depuis l'API 
     puis la stocke dans this.state.participants
@@ -114,14 +136,17 @@ constructor(props){
             
             json = JSON.parse(json);
             console.log(json)
-            if (this.props.route.params.projet.mine) this.role = json.find((w)=>w.identifiant==this.props.user.identifiant).role
+            if (this.props.route.params.projet.mine) {
+                this.role = json.find((w)=>w.identifiant==this.props.user.identifiant).role
+                this.setHeader()
+            }
             
            this.setState({participants:json})
         }
             ).catch(
             (error) => console.log(error))
     }
-
+//importe la liste des taches
     importTasks(){
         fetch("http://www.wi-bash.fr/application/ListeTaches.php?id_proj="+this.projet.ID).then((reponse)=>
         reponse.text()).then((reponse)=>{
@@ -131,6 +156,15 @@ constructor(props){
         this.setState({tasks:reponse})}).catch((error)=>console.log(error))
         
     }
+    importSuggestions()
+    { fetch("http://www.wi-bash.fr/application/ListeIdeeProjets.php?id_proj="+this.projet.ID).then((reponse)=>
+    reponse.text()).then((reponse)=>{
+        console.log("s:",reponse)
+        reponse = JSON.parse(reponse);
+        
+    this.setState({suggestions:reponse})}).catch((error)=>console.log(error))
+
+    }
     //permet de définir la header bar de la vue
     setHeader()
     {
@@ -138,7 +172,7 @@ constructor(props){
             headerTitleStyle:{
                 alignSelf:"center",
                 paddingRight: windowWidth/9
-            }
+            }, headerRight:["Chef de projet", "Organisateur"].includes(this.role)?()=>(<Icon name="circle-with-plus" type="entypo"/>):null
         })
         
     }
@@ -208,9 +242,41 @@ constructor(props){
             ).catch(
             (error) => console.log(error))}
     }
+
+    sendSuggestion(){
+        if (this.suggestion)
+        {
+         let data = new FormData();
+         data.append("id_projet", this.projet.ID);
+         data.append("identifiant", this.props.user.identifiant);
+         data.append("pass", this.props.user.pass);
+         data.append("proposition", this.suggestion)
+         if(this.contenutache)data.append("description", this.contenutache)
+ 
+         data = formatPostData(data);
+         
+         fetch('http://www.wi-bash.fr/application/CreaPropositionProjet.php', {
+         method: 'POST',
+         headers: {
+         Accept: 'multipart/form-data',
+         'Content-Type': "multipart/form-data"
+         },
+         body: data
+         }).then((reponse)=> reponse.text()).then((reponse) => {
+             console.log(reponse)
+             if (reponse.indexOf("200")===-1) message('Oups !', 
+             "Nous n'avons pu émettre cette proposition... Décidément, les génies sont incompris")
+         else{
+             
+         }
+         }
+             
+             ).catch(
+             (error) => console.log(error))}
+     }
     
 
-    addWorker() /* je te laisse verifier car je comprends pas vraiment Ethan*/{
+    addWorker()/*Ajoute un participant au projet*/{
         
          let data = new FormData();
          data.append("id_projet", this.projet.ID);
@@ -233,13 +299,12 @@ constructor(props){
              console.log(reponse)
          }
          
-             
              ).catch(
              (error) => console.log(error))
      }
 
     //bouton "Ajouter une tache"
-    addTask(){
+    addTaskButton(){
         
         if(this.chef.identifiant==this.props.user.identifiant)// on  ne peut ajouter une tache que si on est chef de projet
         {return (
@@ -251,49 +316,13 @@ constructor(props){
             return null;
         }
     }
+    //boite de dialogue créer une tache
+    addTaskDialog()
+    {
+        return(
 
-
-// bouton Ajoouter un participant
-workerButton(){
-        
-    if(this.projet.mine===false)
-    {return (
-        <Button buttonStyle={styles.addtaskbutton} title="Participer"
-         onPress={()=>this.addWorker()} />
-            
-    )}
-    else{
-        return null;
-    }
-}
-
-//Corps de la vue
-render(props){
-    return(
-        <View style={{flex:1}}>
-                
-            <ScrollView style={styles.scroll}>
-           
-            <View style={styles.infoview}>
-            
-            <Text>CHEF DE PROJET : {"\n"+this.chef.prenom+" "+this.chef.nom+" ("+this.chef.pseudo+")"}, 
-             {" "+this.projet.DateCrea+"\n"}</Text>
-            
-            <View style={{paddingHorizontal:15}}>
-            <Text>{"\n"+this.projet.objectifs} </Text>
-            <Text>{this.projet.description}</Text>
-            </View>
-            
-            </View>
-            <View style={{flex:1}}>
-            {this.memberView()/**flatlist des participants au projet*/}
-            {this.workerButton()/* bouton ajouter un participant */}
-            {this.taskView()}
-            {this.addTask()/*bouton ajouter une tache */}
-            </View>
-
-
-            <Modal visible={this.state.task} animationType='fade' transparent= {true}>
+            <Modal visible={this.state.task} animationType='fade' transparent= {true}
+            onRequestClose={()=>this.setState({task:false})}>
             {/*boite de dialogue qui  apparaît quand on appuie sur
             "ajouter une  tache" */}
                 <View style = {styles.addTask}>
@@ -320,6 +349,95 @@ render(props){
                 </View>
             </Modal>
 
+        )
+    }
+
+// bouton Ajoouter un participant
+workerButton(){
+        
+    if(this.projet.mine===false)
+    {return (
+        <Button buttonStyle={styles.addtaskbutton} title="Participer"
+         onPress={()=>this.addWorker()} />          
+    )}
+    else{
+        return null;
+    }
+}
+
+addSuggestionButton()
+{
+    if(this.projet.mine)
+    {return (
+        <Button buttonStyle={styles.addtaskbutton} title="Proposer quelque chose"
+         onPress={()=>this.setState({suggestion:true})} />          
+    )}
+    else{
+        return null;
+    }
+}
+
+addSuggestionDialog()
+{
+    return(<Modal visible={this.state.suggestion} animationType='fade' transparent= {true}
+            onRequestClose={()=>this.setState({suggestion:false})}>
+            {/*boite de dialogue qui  apparaît quand on appuie sur
+            "ajouter une  tache" */}
+                <View style = {styles.addTask}>
+               <Text style={{alignSelf: "flex-end", marginRight:10, fontSize:18}} 
+               onPress={()=>this.setState({suggestion:false})}>X</Text> 
+                
+                <TextInput placeholder='Une idée ?' 
+                onChangeText={(text)=>{this.suggestion = text}}
+                style={{...styles.taskinput, height:40}}></TextInput>
+                
+                <Button title = "Lancer l'idée" onPress = {()=>{
+                    this.sendSuggestion();
+                    this.setState({suggestion:false})
+                }} buttonStyle={{marginBottom:10}}/>
+
+
+                <Button title="Se dégonfler" buttonStyle={{backgroundColor:"red"}}
+                onPress={()=>{this.setState({suggestion:false})}}/>
+
+
+                </View>
+            </Modal>)
+
+}
+
+//Corps de la vue
+render(props){
+    return(
+        <View style={{flex:1}}>
+                
+            <ScrollView style={styles.scroll}>
+           
+            <View style={styles.infoview}>
+            
+            <Text>CHEF DE PROJET : {"\n"+this.chef.prenom+" "+this.chef.nom+" ("+this.chef.pseudo+")"}, 
+             {" "+this.projet.DateCrea+"\n"}</Text>
+            
+            <View style={{paddingHorizontal:15}}>
+            <Text>{"\n"+this.projet.objectifs} </Text>
+            <Text>{this.projet.description}</Text>
+            </View>
+            
+            </View>
+            <View style={{flex:1}}>
+            {this.memberView()/**flatlist des participants au projet*/}
+            {this.workerButton()/* bouton ajouter un participant */}
+            {this.taskView()}
+            <ScrollView style={styles.boite}>
+                {this.state.suggestions.map((s)=>(<Text>{s.proposition+"\n"}({s.id_membre})</Text>))}
+            </ScrollView>
+            {this.addTaskButton()/*bouton ajouter une tache */}
+            {this.addSuggestionButton()}
+            </View>
+
+
+            {this.addTaskDialog()}
+            {this.addSuggestionDialog()}
             </ScrollView>
         </View>
     )
@@ -387,7 +505,8 @@ const styles = StyleSheet.create(
        }
        ,
        taskinput:{
-           margin:15
+           margin:15,
+           textAlignVertical: "top"
        },
        addtaskbutton:{
            alignSelf:"center",
@@ -395,6 +514,9 @@ const styles = StyleSheet.create(
            marginTop:20,
            marginBottom:10,
            
+       },
+       boite:{
+           borderColor:"black",borderWidth: 2
        }
     }
 )

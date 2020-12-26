@@ -39,12 +39,15 @@ export default class NewProject extends React.Component
     //génère un identifiant aléatoire pour le projet
     generateID(){
        let id = null;
-        do
+        try{do
        {
         id = (Math.random()*1000000).toString();
         id = id.slice(0,5);
        }while(this.props.projets.map((p)=>p.ID).indexOf(id)!==-1);
-        return id;
+        return id;}
+        catch(error){
+            return (Math.random()*1000000).toString();
+        }
 
     }
     sendProject()
@@ -108,7 +111,7 @@ export default class NewProject extends React.Component
            <View>
                 <Picker
                     selectedValue={this.state.type}
-                    style={{height: 50, width: 150}}
+                    style={{height: 50, width: 250}}
                     onValueChange={(itemValue, itemIndex) =>
                         this.setState({type: itemValue})
                     }>

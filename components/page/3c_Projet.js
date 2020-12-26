@@ -131,7 +131,8 @@ export default class Projet extends React.Component {
     {
         this.props.navigation.setOptions({title : "PROJETS", headerStyle:{
             backgroundColor:"red"
-          }, headerTitleStyle:{alignSelf:"center", color:"white", fontSize:23}})
+          }, headerTitleStyle:{alignSelf:"center", color:"white", fontSize:23},
+        })
         
     }
 

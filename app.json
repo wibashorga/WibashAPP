@@ -9,11 +9,15 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon2.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
+    },
+    "android":{
+      "package":"com.wibash.wibashapp",
+      "versionCode":1
     },
     "updates": {
       "fallbackToCacheTimeout": 0

@@ -16,6 +16,7 @@ import EditProject from "../page/3cb_EditProject.js";
 import NewProject from '../page/3ca_CreerProjet.js';
 import NewEvent from '../page/3ba_CreerEvent.js';
 import ModifyEvent from "../page/3bb_ModifyEvent.js";
+import ModifyTask from "../page/3cba_ModifyTask.js";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -116,6 +117,12 @@ const ModifyEventScreen = ({navigation, route})=>{
       projets = {projets} user={utilisateur}/>
     )
   }
+const ModifyTaskScreen = ({navigation, route}) =>{
+  return(
+    <ModifyTask user = {utilisateur} route = {route} navigation = {navigation}
+    />
+  )
+}
 
   //-----------------------------
   
@@ -138,6 +145,9 @@ au bouton Edit New Project
         <Stack.Screen 
         name="new" component={CreerProjetScreen} options={{title : "Nouveau projet"}} />
         <Stack.Screen component = {EditProjectScreen} name="Edit" options={{title:""}}/>
+        <Stack.Screen component = {ModifyTaskScreen} name="ModifyTask" options={{title:""}}/>
+
+        
       </Stack.Navigator>
       
     )

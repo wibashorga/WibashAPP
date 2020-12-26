@@ -121,7 +121,7 @@ export default class CreerCompte extends React.Component
                 story: "",
                 phrase: null
               }
-              this.sayConnected(profil)
+              this.props.sayConnected(profil)
             }if (code.indexOf("INTERNAL_SERVER_ERROR")!==-1)
             {
               Alert.alert("Oups !", "Une erreur interne est survenue", [{text:"Fermer", onPress:()=>{}}])

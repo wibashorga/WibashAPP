@@ -1,11 +1,22 @@
 import React from 'react';
-import { StyleSheet, Keyboard, Text, View, ImageBackground, TouchableOpacity, Dimensions,TextInput } from 'react-native';
+import { StyleSheet,Alert, Keyboard, Text, View, ImageBackground, TouchableOpacity, Dimensions,TextInput } from 'react-native';
 
 const background = "./ressources/fond.png";
 const logo = "./ressources/logo.png";
 const token = "PPlaFk63u4E6";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
+
+
+function message(titre, phrase)
+{
+    Alert.alert(titre, phrase, [
+        {
+            text:"OK",
+            onPress: ()=>{}
+        }
+    ])
+}
 
 export default class Identification extends React.Component 
 {
@@ -37,8 +48,11 @@ export default class Identification extends React.Component
   }).then((reponse) => reponse.json()).then((membre) => {
     membre.pass = this.pass;
   this.props.sayConnected(membre);
-   }).catch((error) => {console.log(error); this.setState({wrongConnexion: true})});
+   }).catch((error) => {
+     
+    console.log(error); this.setState({wrongConnexion: true})});
         Keyboard.dismiss();
+        message("Hmmm...", "Il semblerait que votre identifiant ou votre mot de passesoit incorrect")
   }
     
     

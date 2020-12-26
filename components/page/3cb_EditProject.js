@@ -429,7 +429,7 @@ render(props){
             {this.workerButton()/* bouton ajouter un participant */}
             {this.taskView()}
             <ScrollView style={styles.boite}>
-                {this.state.suggestions.map((s)=>(<Text>{s.proposition+"\n"}({s.id_membre})</Text>))}
+                {this.state.suggestions.map((s)=>(<Text>{s.proposition+"\n"}</Text>))}
             </ScrollView>
             {this.addTaskButton()/*bouton ajouter une tache */}
             {this.addSuggestionButton()}

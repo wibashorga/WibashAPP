@@ -159,32 +159,71 @@ export default class Home extends React.Component {
 
                     <ScrollView>
 
-                            <View style = {styles.contaitActualiter}>
 
-                                <Text style = {styles.titreCategorie}>
-                                    Actualite
-                                    </Text>
+                    <View style = {styles.categorie}>
 
+                        <View style = {styles.Titre}>
+                            <Text style = {styles.textetitre} > PROJETS </Text>
 
+                        </View>
 
+                        <View style = {styles.containtcarte}>
+                        <FlatList data={this.state.projets.slice(0,5)} keyExtractor={(item)=>item.ID} 
+                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
 
-                            </View>
-
-
-                            <View style = {styles.contaitEvenements}>
-                                <Text style = {styles.titreCategorie}>Evenements a venir</Text>
-                            </View>
-
+                        </View>
+                </View>
 
 
-                            <View style = {styles.contaitProjets}>
-                                <Text style = {styles.titreCategorie}>Vos projets</Text>
-                            </View>
 
 
-                            <View style = {styles.contaitMmebres}>
-                                <Text style = {styles.titreCategorie}>Les Membres</Text>
-                            </View>
+
+                <View style = {styles.categorie}>
+
+                        <View style = {styles.Titre}>
+                            <Text style = {styles.textetitre} > MEMBRES </Text>
+
+                        </View>
+
+                        <View style = {styles.containtcarte}>
+                        <FlatList data={this.state.membres} keyExtractor={(item)=>item.identifiant} 
+                    renderItem= {(item)=><Membre membre = {item.item}/>} horizontal = {true}/>
+
+                        </View>
+                </View>
+
+
+
+
+                <View style = {styles.categorie}>
+
+                        <View style = {styles.Titre}>
+                            <Text style = {styles.textetitre} > EVÈNEMENTS </Text>
+
+                        </View>
+
+                        <View style = {styles.containtcarte}>
+                        <FlatList data={this.state.events.slice(0,4)} keyExtractor={(item)=>item.nom} 
+                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
+
+                        </View>
+                </View>
+
+
+                <View style = {styles.categorie}>
+
+                <View style = {styles.Titre}>
+                            <Text style = {styles.textetitre} > VOTE </Text>
+
+                        </View>
+
+                        <View style = {styles.containtcarte}>
+                        <FlatList data={this.state.projets.slice(0,4)} keyExtractor={(item)=>item.ID} 
+                        renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
+
+                        </View>
+                </View>
+
 
                     </ScrollView>
                 </View>
@@ -248,7 +287,91 @@ const styles = StyleSheet.create(
       titreCategorie:{
           fontSize:20,
 
+      },
+      Carte:
+       {
+        
+           width: 310,
+           height: 400,
+           marginRight: 20,
+           marginTop:30,
+           overflow: "hidden",
+           paddingLeft:10,
+          borderRadius: 20,
+          backgroundColor:"white",
+          
+       },categorie:
+       {
+           flex:1,
+           height : 290
+           
+       },
+       Titre:
+       {
+           height:50,
+           backgroundColor: "red",
+           alignItems : 'center',
+       },
+       textetitre:{
+            fontSize:40,
+            color:"white"
+       },
+       carte:
+       {
+           backgroundColor: "white",
+           width: 300,
+           height: 190,
+           marginRight: 20,
+           marginTop:10,
+           overflow: "hidden",
+           padding:10,
+          borderRadius: 20,
+          shadowColor:"#000",
+            shadowOpacity:0.39,
+            shadowRadius:8.30,
+            elevation:14
+       },
+       cartein:
+       {
+           flex : 1,
+           margin : 20,
+           backgroundColor: "#D3D3D3",
+           height : 190,
+           width : 310,
+           borderRadius : 20
+           
+       },
+       containtcarte:
+       {
+           flex : 1,
+           margin : 10,
+           
+       },
+       Titrecarte:
+       {
+           flex:1,
+           alignItems : 'center',
+       },
+       textecarte:
+       {
+           flex:4,
+          
+       }, icon:
+       {
+           marginLeft: 10,
+           marginTop: 40,
+           alignSelf: "flex-start",
+       },
+       textetitreheaders:{
+           marginTop:-30,
+           marginLeft:100,
+           marginEnd:60,
+           fontSize:40,
+           color:"white",
+      },headers:{
+          backgroundColor:"red",
       }
+       
 
 // sa merdes
 

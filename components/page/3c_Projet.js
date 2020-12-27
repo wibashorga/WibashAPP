@@ -219,7 +219,7 @@ export default class Projet extends React.Component {
                         unselect = {()=>
                             this.unselect(item)
                         }
-                        />} 
+                        /> } 
                         horizontal = {false}/>
                 </View>
 

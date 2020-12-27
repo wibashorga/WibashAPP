@@ -112,7 +112,7 @@ export default class Projet extends React.Component {
         data.append("identifiant", this.state.user.identifiant);
         data.append("pass", this.state.user.pass);
         
-        fetch('http://www.wi-bash.fr/application/ListeProjets.php', {
+        fetch('http://www.wi-bash.fr/application/Read/ListeProjets.php', {
         method: 'POST',
         headers: {
         Accept: 'multipart/form-data',
@@ -172,7 +172,7 @@ export default class Projet extends React.Component {
         for (let projet of this.state.projets.filter(p=>p.selected))
         {
             data.append("id_projet", projet.ID)
-        fetch('http://www.wi-bash.fr/application/DeleteProject.php', {
+        fetch('http://www.wi-bash.fr/application/Delete/DeleteProject.php', {
         method: 'POST',
         headers: {
         Accept: 'multipart/form-data',

@@ -153,6 +153,8 @@ constructor(props){
                      onPress:()=>{}},
                      {title:"Editer une note à l'équipe",
                      onPress:()=>{}},
+                     {title:"Paramètres",
+                     onPress:()=>{}},
                      {title:"Quitter le projet",
                      onPress:()=>{}},
                 ,{title:"Fermer",
@@ -174,7 +176,7 @@ constructor(props){
         let data = new FormData();
         data.append("id_projet", this.projet.ID);
         
-        fetch('http://www.wi-bash.fr/application/ListWorkers.php', {
+        fetch('http://www.wi-bash.fr/application/Read/ListWorkers.php', {
         method: 'POST',
         headers: {
         Accept: 'multipart/form-data',
@@ -197,7 +199,7 @@ constructor(props){
     }
 //importe la liste des taches
     importTasks(){
-        fetch("http://www.wi-bash.fr/application/ListeTaches.php?id_proj="+this.projet.ID).then((reponse)=>
+        fetch("http://www.wi-bash.fr/application/Read/ListeTaches.php?id_proj="+this.projet.ID).then((reponse)=>
         reponse.text()).then((reponse)=>{
             //console.log(reponse)
             reponse = JSON.parse(reponse);
@@ -206,7 +208,7 @@ constructor(props){
         
     }
     importSuggestions()
-    { fetch("http://www.wi-bash.fr/application/ListeIdeeProjets.php?id_proj="+this.projet.ID).then((reponse)=>
+    { fetch("http://www.wi-bash.fr/application/Read/ListeIdeeProjets.php?id_proj="+this.projet.ID).then((reponse)=>
     reponse.text()).then((reponse)=>{
         reponse = JSON.parse(reponse);
         
@@ -272,7 +274,7 @@ constructor(props){
 
         data = formatPostData(data);
         
-        fetch('http://www.wi-bash.fr/application/AddTask.php', {
+        fetch('http://www.wi-bash.fr/application/Create/AddTask.php', {
         method: 'POST',
         headers: {
         Accept: 'multipart/form-data',
@@ -304,7 +306,7 @@ constructor(props){
  
          data = formatPostData(data);
          
-         fetch('http://www.wi-bash.fr/application/CreaPropositionProjet.php', {
+         fetch('http://www.wi-bash.fr/application/Create/CreaPropositionProjet.php', {
          method: 'POST',
          headers: {
          Accept: 'multipart/form-data',
@@ -337,7 +339,7 @@ constructor(props){
  
          data = formatPostData(data);
          
-         fetch('http://www.wi-bash.fr/application/AddWorker.php', {
+         fetch('http://www.wi-bash.fr/application/Create/AddWorker.php', {
          method: 'POST',
          headers: {
          Accept: 'multipart/form-data',

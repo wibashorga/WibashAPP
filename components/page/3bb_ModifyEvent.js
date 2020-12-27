@@ -20,7 +20,7 @@ export default class ModifyEvent extends React.Component
     if (this.eventTitle) data.append("nouveau_nom", this.eventTitle)
     if (this.eventDescription) data.append("description", this.eventDescription);
 
-    fetch('http://www.wi-bash.fr/application/UpdateEvent.php', {
+    fetch('http://www.wi-bash.fr/application/Update/UpdateEvent.php', {
         method: 'POST',
         headers: {
         Accept: 'multipart/form-data',

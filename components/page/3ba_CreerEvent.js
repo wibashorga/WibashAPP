@@ -108,7 +108,7 @@ export default class NewEvent extends React.Component
         data = formatPostData(data)
 
         
-        fetch('http://www.wi-bash.fr/application/CreateEvent.php', {
+        fetch('http://www.wi-bash.fr/application/Create/CreateEvent.php', {
         method: 'POST',
         headers: {
         Accept: 'multipart/form-data',

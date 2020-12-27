@@ -92,7 +92,7 @@ export default class Evenement extends React.Component {
     }
     importEvents()
     {
-        fetch('http://www.wi-bash.fr/application/ListEvent.php').then(
+        fetch('http://www.wi-bash.fr/application/Read/ListEvent.php').then(
             (reponse)=>reponse.text()).then((text)=>
             this.setState({events:JSON.parse(text)})).catch((error)=>console.log(error))
     }

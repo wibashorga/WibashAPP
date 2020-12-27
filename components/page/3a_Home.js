@@ -41,7 +41,7 @@ export default class Home extends React.Component {
         data.append("identifiant", this.state.user.identifiant);
         data.append("pass", this.state.user.pass);
         
-        fetch('http://www.wi-bash.fr/application/ListeProjets.php', {
+        fetch('http://www.wi-bash.fr/application/Read/ListeProjets.php', {
         method: 'POST',
         headers: {
         Accept: 'multipart/form-data',
@@ -61,7 +61,7 @@ export default class Home extends React.Component {
         data.append("token", token);
         data.append("identifiant", this.state.user.identifiant);
         data.append("pass", this.state.user.pass);
-        fetch('http://www.wi-bash.fr/application/ListeMembres.php', {
+        fetch('http://www.wi-bash.fr/application/Read/ListeMembres.php', {
         method: 'POST',
         headers: {
         Accept: 'multipart/form-data',
@@ -76,7 +76,7 @@ export default class Home extends React.Component {
     }
     importEvents()
     {
-        fetch("http://www.wi-bash.fr/application/ListEvent.php").then(
+        fetch("http://www.wi-bash.fr/application/Read/ListEvent.php").then(
             (reponse)=>reponse.text()).then(
                 (json)=>{
                     let events = JSON.parse(json);

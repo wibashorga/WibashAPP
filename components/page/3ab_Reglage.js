@@ -25,7 +25,7 @@ export default class Reglage extends React.Component {
         data.append("token", token);
         data.append("identifiant", this.state.user.identifiant);
         data.append("pass", this.state.user.pass);
-        fetch('http://www.wi-bash.fr/application/ListeProjets.php', {
+        fetch('http://www.wi-bash.fr/application/Read/ListeProjets.php', {
         method: 'POST',
         headers: {
         Accept: 'multipart/form-data',

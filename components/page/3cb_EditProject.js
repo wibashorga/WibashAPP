@@ -2,7 +2,7 @@ import { ThemeProvider } from "@react-navigation/native";
 import React from "react";
 import {Icon}  from "react-native-elements";
 import {Text, View, Dimensions, TouchableOpacity, ScrollView, FlatList, StyleSheet, Modal, Alert} from "react-native";
-import {Button, ThemeConsumer} from "react-native-elements";
+import {Button,BottomSheet,ListItem} from "react-native-elements";
 import { TextInput } from "react-native-gesture-handler";
 import { formatPostData } from "./security";
 
@@ -95,7 +95,7 @@ constructor(props){
     super(props);
         this.projet = this.props.route.params.projet;
         this.chef = this.props.route.params.chef;
-        this.state = {participants:[], task:false, tasks:[], suggestion:false, suggestions:[]};
+        this.state = {participants:[], task:false, tasks:[], suggestion:false, suggestions:[], bottomSheetVisible:false};
         this.nomtache ='';
         this.contenu="";
         this.role = "";
@@ -113,9 +113,12 @@ constructor(props){
         if (this.role == "Membre")
         {
             return [
-                {title:"Ajouter une proposition"}
+                {title:"Ajouter une proposition",
+                onPress:()=>{this.setState({bottomSheetVisible:false, suggestion:true})}},
+                {title:"Quitter le projet"}
             ]
         }
+        return []
     }
     /**importe la liste des participats depuis l'API 
     puis la stocke dans this.state.participants
@@ -172,8 +175,9 @@ constructor(props){
             headerTitleStyle:{
                 alignSelf:"center",
                 paddingRight: windowWidth/9
-            }, headerRight:["Chef de projet", "Organisateur"].includes(this.role)?()=>(<Icon name="circle-with-plus" type="entypo"/>):null
-        })
+            }, headerRight:(
+            <Icon name="circle-with-plus" type="entypo"  iconStyle={{marginRight:5}}
+            onPress={this.setState({bottomSheetVisible:!this.state.bottomSheetVisible})}/>)})
         
     }
     //vue liste des participants
@@ -344,7 +348,7 @@ constructor(props){
 
                 <Button title="Annuler" buttonStyle={{backgroundColor:"red"}}
                 onPress={()=>{this.setState({task:false})}}/>
-
+                       
 
                 </View>
             </Modal>
@@ -429,7 +433,7 @@ render(props){
             {this.workerButton()/* bouton ajouter un participant */}
             {this.taskView()}
             <ScrollView style={styles.boite}>
-                {this.state.suggestions.map((s)=>(<Text>{s.proposition+"\n"}</Text>))}
+                {this.state.suggestions?this.state.suggestions.map((s)=>(<Text>{s.proposition+"\n"}</Text>)):null}
             </ScrollView>
             {this.addTaskButton()/*bouton ajouter une tache */}
             {this.addSuggestionButton()}
@@ -439,6 +443,18 @@ render(props){
             {this.addTaskDialog()}
             {this.addSuggestionDialog()}
             </ScrollView>
+            <BottomSheet
+                        isVisible={this.state.bottomSheetVisible}
+                    containerStyle={{ backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)' }}
+                    modalProps={{"onRequestClose": ()=>this.setState({bottomSheetVisible:false})}}  >
+                                    {this.generateOptionsList().map((l, i) => (
+                                        <ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
+                                        <ListItem.Content>
+                                            <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
+                                        </ListItem.Content>
+                                        </ListItem>
+                                    ))}
+                             </BottomSheet>
         </View>
     )
 }

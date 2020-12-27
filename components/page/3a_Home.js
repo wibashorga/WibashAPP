@@ -168,8 +168,7 @@ export default class Home extends React.Component {
                         </View>
 
                         <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.projets.slice(0,5)} keyExtractor={(item)=>item.ID} 
-                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
+                        
 
                         </View>
                 </View>
@@ -186,8 +185,7 @@ export default class Home extends React.Component {
                         </View>
 
                         <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.membres} keyExtractor={(item)=>item.identifiant} 
-                    renderItem= {(item)=><Membre membre = {item.item}/>} horizontal = {true}/>
+                       
 
                         </View>
                 </View>
@@ -203,9 +201,7 @@ export default class Home extends React.Component {
                         </View>
 
                         <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.events.slice(0,4)} keyExtractor={(item)=>item.nom} 
-                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
-
+                        
                         </View>
                 </View>
 
@@ -218,8 +214,7 @@ export default class Home extends React.Component {
                         </View>
 
                         <View style = {styles.containtcarte}>
-                        <FlatList data={this.state.projets.slice(0,4)} keyExtractor={(item)=>item.ID} 
-                        renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
+                        
 
                         </View>
                 </View>

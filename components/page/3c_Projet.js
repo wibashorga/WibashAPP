@@ -92,7 +92,7 @@ export default class Projet extends React.Component {
         super(props);
         this.state = {
            user : this.props.user,
-           projets: this.props.projets?this.props.projets.map((projet)=>({...projet, selected:false})) : []
+           projets: (this.props.projets && this.props.projets instanceof Array) ?this.props.projets.map((projet)=>({...projet, selected:false})) : []
         }
         
         this.setHeader()

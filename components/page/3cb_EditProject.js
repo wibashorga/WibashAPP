@@ -100,6 +100,7 @@ constructor(props){
         this.contenu="";
         this.role = "";
         this.suggestion = "";
+        console.log("bootom :", this.state.bottomSheetVisible);
         
         this.setHeader();
         this.importTasks();
@@ -110,19 +111,64 @@ constructor(props){
     //en travaux
     generateOptionsList()
     {
+       const close = ()=>{this.setState({bottomSheetVisible:false})}
+       
         if (this.role == "Membre")
         {
             return [
-                {title:"Ajouter une proposition",
-                onPress:()=>{this.setState({bottomSheetVisible:false, suggestion:true})}},
-                {title:"Quitter le projet"}
+                {title:"Proposer quelque chose",
+                onPress:()=>{close(); this.openSuggestionDialog()}},
+                {title:"Quitter le projet",
+                     onPress:()=>{}},
+
+                     {title:"Fermer",
+                     onPress:()=>{close()}}
             ]
         }
+        if (this.role=="Organisateur")
+        {
+            return [
+                {title:"Ajouter une tache",
+                     onPress:()=>{close(); this.setState({task:true})}},
+                     {title:"Proposer quelque chose",
+                     onPress:()=>{close(); this.openSuggestionDialog()}},
+                     {title:"Ajouter un participant",
+                     onPress:()=>{}},
+                     {title:"Editer une note à l'équipe",
+                     onPress:()=>{}},
+                     {title:"Quitter le projet",
+                     onPress:()=>{}},
+                ,{title:"Fermer",
+                     onPress:()=>{close()}}
+            ]
+        }
+        if (this.role=="Chef de projet")
+        {
+            return [
+                {title:"Ajouter une tache",
+                     onPress:()=>{close(); this.setState({task:true})}},
+                     {title:"Proposer quelque chose",
+                     onPress:()=>{close(); this.openSuggestionDialog()}},
+                     {title:"Ajouter un participant",
+                     onPress:()=>{}},
+                     {title:"Editer une note à l'équipe",
+                     onPress:()=>{}},
+                     {title:"Quitter le projet",
+                     onPress:()=>{}},
+                ,{title:"Fermer",
+                     onPress:()=>{close()}}
+            ]
+        }
+
         return []
     }
     /**importe la liste des participats depuis l'API 
     puis la stocke dans this.state.participants
     */
+   openSuggestionDialog()
+   {
+       this.setState({suggestion:true})
+   }
     importWorkers ()
     {
         let data = new FormData();
@@ -162,7 +208,6 @@ constructor(props){
     importSuggestions()
     { fetch("http://www.wi-bash.fr/application/ListeIdeeProjets.php?id_proj="+this.projet.ID).then((reponse)=>
     reponse.text()).then((reponse)=>{
-        console.log("s:",reponse)
         reponse = JSON.parse(reponse);
         
     this.setState({suggestions:reponse})}).catch((error)=>console.log(error))
@@ -175,9 +220,9 @@ constructor(props){
             headerTitleStyle:{
                 alignSelf:"center",
                 paddingRight: windowWidth/9
-            }, headerRight:()=> (
-            <Icon name="circle-with-plus" type="entypo"  iconStyle={{marginRight:5}}
-            onPress={this.setState({bottomSheetVisible:!this.state.bottomSheetVisible})}/>)})
+            }, headerRight:()=> this.projet.mine?(
+            <Icon name="circle-with-plus" type="entypo"  iconStyle={{marginRight:10}} size={30}
+            onPress={()=>this.setState({bottomSheetVisible:!this.state.bottomSheetVisible})}/>):null})
         
     }
     //vue liste des participants
@@ -188,7 +233,7 @@ constructor(props){
                 <Text style={{alignSelf:"center", fontWeight:"bold"}}>PARTICIPANTS : </Text>
             <FlatList horizontal={true} data = {this.state.participants}
             renderItem = {(item)=><CarteMembre membre ={item.item}/>}
-            keyExtractor = {(item)=>{item.prenom}}
+            keyExtractor = {(item)=>{item.identifiant}}
                 
                 />
 
@@ -307,19 +352,7 @@ constructor(props){
              (error) => console.log(error))
      }
 
-    //bouton "Ajouter une tache"
-    addTaskButton(){
-        
-        if(this.chef.identifiant==this.props.user.identifiant)// on  ne peut ajouter une tache que si on est chef de projet
-        {return (
-            <Button buttonStyle={styles.addtaskbutton} title="AJOUTER UNE TACHE"
-             onPress={()=> this.setState({task:true})} />
-                
-        )}
-        else{
-            return null;
-        }
-    }
+    
     //boite de dialogue créer une tache
     addTaskDialog()
     {
@@ -369,17 +402,6 @@ workerButton(){
     }
 }
 
-addSuggestionButton()
-{
-    if(this.projet.mine)
-    {return (
-        <Button buttonStyle={styles.addtaskbutton} title="Proposer quelque chose"
-         onPress={()=>this.setState({suggestion:true})} />          
-    )}
-    else{
-        return null;
-    }
-}
 
 addSuggestionDialog()
 {
@@ -435,8 +457,7 @@ render(props){
             <ScrollView style={styles.boite}>
                 {this.state.suggestions?this.state.suggestions.map((s)=>(<Text>{s.proposition+"\n"}</Text>)):null}
             </ScrollView>
-            {this.addTaskButton()/*bouton ajouter une tache */}
-            {this.addSuggestionButton()}
+            
             </View>
 
 

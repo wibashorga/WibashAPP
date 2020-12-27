@@ -175,7 +175,7 @@ constructor(props){
             headerTitleStyle:{
                 alignSelf:"center",
                 paddingRight: windowWidth/9
-            }, headerRight:(
+            }, headerRight:()=> (
             <Icon name="circle-with-plus" type="entypo"  iconStyle={{marginRight:5}}
             onPress={this.setState({bottomSheetVisible:!this.state.bottomSheetVisible})}/>)})
         

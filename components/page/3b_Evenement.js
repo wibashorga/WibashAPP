@@ -36,7 +36,8 @@ class Carte extends React.Component
     {
         if (this.props.user.niveau>=2){
         return(
-            <View style={{...styles.carte, backgroundColor:(this.urgent)?"red":"white"}}>
+           <View>
+           <View style={{...styles.carte, backgroundColor:(this.urgent)?"red":"white"}}>
                 <View style={styles.imagecarte}>
                 </View>
 
@@ -53,8 +54,14 @@ class Carte extends React.Component
             {this.props.event.description}</Text>
                 </View>
             </View>
+                <View style={styles.participate}>
+                    <Button title="Particper" onPress={()=>{}}
+                     buttonStyle={styles.buttonParticipate}/>
+                </View>
+            </View>
         )}else{
             return(
+                <View>
                 <TouchableOpacity onPress= {()=>this.props.onPress()}
                 style={{...styles.carte, backgroundColor:(this.urgent)?"red":"white"}}>
                     <View style={styles.imagecarte}>
@@ -72,7 +79,13 @@ class Carte extends React.Component
             <Text style={{color:(this.urgent)?"white":"black"}}>
                 {this.props.event.description}</Text>
                     </View>
+                    
                 </TouchableOpacity>
+                <View style={styles.participate}>
+                    <Button title="Particper" onPress={()=>{}} 
+                    buttonStyle={styles.buttonParticipate}/>
+                </View>
+                </View>
             )
         }
     }
@@ -228,7 +241,18 @@ const styles = StyleSheet.create(
             elevation:14
 
           
+       },participate:{
+           backgroundColor:"transparent",
+           marginTop:10
+
        },
+       buttonParticipate:
+       {
+           width:windowWidth/3.5,
+           alignSelf: "center",
+           
+           
+       }
     }
 )
 // Attention dans evenement il y a les enement premiere ligne

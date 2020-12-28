@@ -119,7 +119,10 @@ constructor(props){
                 {title:"Proposer quelque chose",
                 onPress:()=>{close(); this.openSuggestionDialog()}},
                 {title:"Quitter le projet",
-                     onPress:()=>{}},
+                     onPress:()=>{
+                         close();
+                         this.quitProject()
+                     }},
 
                      {title:"Fermer",
                      onPress:()=>{close()}}
@@ -155,7 +158,7 @@ constructor(props){
                      onPress:()=>{}},
                      {title:"Paramètres",
                      onPress:()=>{}},
-                     {title:"Quitter le projet",
+                     {title:"Nommer un nouveau chef de projet",
                      onPress:()=>{}},
                 ,{title:"Fermer",
                      onPress:()=>{close()}}
@@ -163,7 +166,7 @@ constructor(props){
         }
 
         return []
-    }
+}
     /**importe la liste des participats depuis l'API 
     puis la stocke dans this.state.participants
     */
@@ -347,13 +350,42 @@ constructor(props){
          },
          body: data
          }).then((reponse)=> reponse.text()).then((reponse) => {
-             console.log(reponse)
+            console.log("", reponse) 
+            if (reponse.includes("200"))
+             {
+                 message("Félicitations !", "Vous serez bientôt ajouté au projet")
+                 this.props.navigation.goBack();
+             }
          }
          
              ).catch(
              (error) => console.log(error))
      }
-
+quitProject()
+{
+    let data = new FormData();
+         data.append("id_projet", this.projet.ID);
+         data.append("identifiant", this.props.user.identifiant);
+         data.append("pass", this.props.user.pass);
+         
+ 
+         data = formatPostData(data);
+         
+         fetch('http://www.wi-bash.fr/application/Delete/QuitterProjet.php', {
+         method: 'POST',
+         headers: {
+         Accept: 'multipart/form-data',
+         'Content-Type': "multipart/form-data"
+         },
+         body: data
+         }).then((reponse)=> reponse.text()).then((reponse) => {
+             //console.log(reponse)
+         this.props.navigation.goBack();
+            }
+         
+             ).catch(
+             (error) => console.log(error))
+}
     
     //boite de dialogue créer une tache
     addTaskDialog()
@@ -417,6 +449,7 @@ addSuggestionDialog()
                 
                 <TextInput placeholder='Une idée ?' 
                 onChangeText={(text)=>{this.suggestion = text}}
+                multiline={true}
                 style={{...styles.taskinput, height:40}}></TextInput>
                 
                 <Button title = "Lancer l'idée" onPress = {()=>{
@@ -433,6 +466,25 @@ addSuggestionDialog()
             </Modal>)
 
 }
+
+boiteAIdees()
+{
+    if (this.projet.mine)
+    {
+        return(
+            <View style={{padding:5}}>
+                <Text style={{fontSize:20, marginLeft:4}}>{this.state.suggestions?"BOITE A IDEES":null}</Text>
+            <ScrollView style={styles.boite}>
+                {this.state.suggestions?this.state.suggestions.map((s)=>
+                (<View style={styles.idee}>
+                <Text style={styles.textIdee}>{s.proposition+"\n"}</Text>
+                </View>)):null}
+            </ScrollView>
+            </View>
+        )
+    }return null;
+}
+
 
 //Corps de la vue
 render(props){
@@ -456,15 +508,7 @@ render(props){
             {this.memberView()/**flatlist des participants au projet*/}
             {this.workerButton()/* bouton ajouter un participant */}
             {this.taskView()}
-            <View style={{padding:5}}>
-                <Text style={{fontSize:20, marginLeft:4}}>{this.state.suggestions?"BOITE A IDEES":null}</Text>
-            <ScrollView style={styles.boite}>
-                {this.state.suggestions?this.state.suggestions.map((s)=>
-                (<View style={styles.idee}>
-                <Text style={styles.textIdee}>{s.proposition+"\n"}</Text>
-                </View>)):null}
-            </ScrollView>
-            </View>
+            {this.boiteAIdees()}
             </View>
 
 

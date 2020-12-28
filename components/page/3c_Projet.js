@@ -191,6 +191,23 @@ export default class Projet extends React.Component {
         this.importProjects()
         this.unsetHeaderTrashIcon()
     }
+    //bouton créer un  projet
+    createProjectButton()
+    {
+        if (this.props.user.niveau!="3")
+    {
+        return (
+            <View>
+                <Button
+                    title="create new project"
+                    color="red"
+                    onPress= {()=>{this.props.navigation.navigate("new")}}
+                />
+            </View>
+        )
+    } return null;
+
+}
     //boucle de rafraîchissement de la liste dees projets
     componentDidMount(){
         
@@ -223,11 +240,7 @@ export default class Projet extends React.Component {
                         horizontal = {false}/>
                 </View>
 
-                <Button
-                    title="create new project"
-                    color="red"
-                    onPress= {()=>{this.props.navigation.navigate("new")}}
-                />
+                {this.createProjectButton()}
                                       
                 
             </ImageBackground>

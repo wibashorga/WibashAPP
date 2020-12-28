@@ -15,6 +15,7 @@ const types = [{label:"Robotique", value:"Robotique"},
 "Evènement"}, {label:"autre", value:"Autre"}]
 
 
+
 function message(titre, phrase)
 {
     Alert.alert(titre, phrase, [
@@ -34,7 +35,7 @@ export default class NewProject extends React.Component
         this.nom = "";
         this.description = "";
         this.objectifs = "";
-        this.state = {type:"Programmation"}
+        this.state = {type:"Programmation", level:"3"}
     }
     //génère un identifiant aléatoire pour le projet
     generateID(){
@@ -49,6 +50,27 @@ export default class NewProject extends React.Component
             return (Math.random()*1000000).toString();
         }
 
+    }
+    generateAvailableLevels(){
+        if (this.props.user.niveau==2)
+        {
+            return [{label:"Visible pour tous", value:"3"}, 
+            {label:"Uniquement les membres", value:"2"}]
+        }
+        if (this.props.user.niveau==1)
+        {
+            return [{label:"Visible pour tous", value:"3"}, 
+            {label:"Uniquement les membres", value:"2"},
+            {label:"Projet administrateur", value:"1"}]
+        }
+        if (this.props.user.niveau==0)
+        {
+            return [{label:"Visible pour tous", value:"3"}, 
+            {label:"Uniquement les membres", value:"2"},
+            {label:"Projet administrateur", value:"1"},
+            {label:"Projet dev", value:"0"}]
+        }
+        return []
     }
     sendProject()
     {
@@ -65,6 +87,7 @@ export default class NewProject extends React.Component
         data.append("description", this.description);
         data.append('objectifs', this.objectifs);
         data.append("type", this.type);
+        data.append("minimal_level", this.state.level);
         data = formatPostData(data);
 
         fetch('http://www.wi-bash.fr/application/Create/CreaProj.php', {
@@ -137,7 +160,21 @@ export default class NewProject extends React.Component
                  onChangeText = {(text)=>{this.description = text}}
                 multiline={true}>
 
+                    
                 </TextInput>
+           <View>
+            <Picker
+                    selectedValue={this.state.level}
+                    style={{height: 50, width: 250}}
+                    onValueChange={(itemValue, itemIndex) =>
+                        this.setState({level: itemValue})
+                    }>
+                        {this.generateAvailableLevels().map((type)=>(
+                            <Picker.Item label={type.label} value={type.value} />        
+                        ))}
+                    
+                    </Picker>
+            </View>
                 <TouchableOpacity style={styles.sendbutton}onPress = {()=>this.sendProject()}>
                     <Text  style={{color:"white", fontSize:20, textAlign:"center"}}>CREER !</Text>
                     </TouchableOpacity>

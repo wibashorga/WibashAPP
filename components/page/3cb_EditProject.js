@@ -318,7 +318,7 @@ constructor(props){
              if (reponse.indexOf("200")===-1) message('Oups !', 
              "Nous n'avons pu émettre cette proposition... Décidément, les génies sont incompris")
          else{
-             
+             this.importSuggestions()             
          }
          }
              
@@ -394,7 +394,7 @@ constructor(props){
 // bouton Ajoouter un participant
 workerButton(){
         
-    if(this.projet.mine===false)
+    if(this.projet.mine===false && this.props.user.niveau!=3)
     {return (
         <Button buttonStyle={styles.addtaskbutton} title="Participer"
          onPress={()=>this.addWorker()} />          
@@ -456,10 +456,15 @@ render(props){
             {this.memberView()/**flatlist des participants au projet*/}
             {this.workerButton()/* bouton ajouter un participant */}
             {this.taskView()}
+            <View style={{padding:5}}>
+                <Text style={{fontSize:20, marginLeft:4}}>{this.state.suggestions?"BOITE A IDEES":null}</Text>
             <ScrollView style={styles.boite}>
-                {this.state.suggestions?this.state.suggestions.map((s)=>(<Text>{s.proposition+"\n"}</Text>)):null}
+                {this.state.suggestions?this.state.suggestions.map((s)=>
+                (<View style={styles.idee}>
+                <Text style={styles.textIdee}>{s.proposition+"\n"}</Text>
+                </View>)):null}
             </ScrollView>
-            
+            </View>
             </View>
 
 
@@ -552,10 +557,24 @@ const styles = StyleSheet.create(
            backgroundColor:"black",
            marginTop:20,
            marginBottom:10,
+           padding:15,paddingHorizontal: 25
            
        },
        boite:{
-           borderColor:"black",borderWidth: 2
+           //borderColor:"black",
+           //borderWidth: 2,
+           //borderBottomWidth:
+           //paddingHorizontal:3
+           
+       },idee:
+       {
+           borderColor: "black",
+           borderWidth: 2,
+           borderBottomWidth:1
+       },
+       textIdee:{
+           padding:4
        }
+
     }
 )

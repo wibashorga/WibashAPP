@@ -17,10 +17,12 @@ import NewProject from '../page/3ca_CreerProjet.js';
 import NewEvent from '../page/3ba_CreerEvent.js';
 import ModifyEvent from "../page/3bb_ModifyEvent.js";
 import ModifyTask from "../page/3cba_ModifyTask.js";
+import Loading from "./loading.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
 import {Icon} from 'react-native-elements';
 var utilisateur={}, projets=[], events=[], membres=[];
 
@@ -34,7 +36,7 @@ function NotificationsScreen({ navigation }) {
   );
 }
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator(), StackLoading = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
  //Screens d'authentification
@@ -182,6 +184,11 @@ const HomeStackScreen = ({navigation})=>{
     )
   }
 
+const LoadingScreen = ({navigation, route}) =>{
+  return(
+    <Loading navigation = {navigation} route = {route}/>
+  )
+}
 
   
 
@@ -190,7 +197,8 @@ class Navigation extends React.Component{
   {
     super(props);
     this.state = {
-      connected: false
+      connected: false,
+      loading:true
     }
     this.id = "";
     this.pass = "";
@@ -204,12 +212,11 @@ class Navigation extends React.Component{
     this.pass = await AsyncStorage.getItem("pass")
     if (this.id && this.pass)
       {
-        
         this._connect()
       }
     }catch(e)
     {
-      console.log(e)
+      this.setState({loading:false})
     }
   }
   async _connect()
@@ -232,8 +239,8 @@ class Navigation extends React.Component{
     membre.pass = this.pass;
     utilisateur = membre;
   this.setState({connected:true});
-  console.log("Connecté !")
-   }).catch((error) => {     
+   }).catch((error) => {  
+        this.setState({loading:false})
   })
 }
   sayConnected(profil)
@@ -251,7 +258,7 @@ class Navigation extends React.Component{
   
   authentification()
   {
-    if (!this.state.connected)
+    if (!this.state.connected && !this.state.loading)
     {
       return(
       <Stack.Navigator initialRouteName="Accueil">
@@ -318,14 +325,27 @@ class Navigation extends React.Component{
     )}
   }
 
+  loadingStack()
+  {
+    if (this.state.loading && !this.state.connected)
+    {
+    return(
+      <StackLoading.Navigator>
+        <StackLoading.Screen name = "loading" component = {LoadingScreen} options={{headerShown:false}}/>
+      </StackLoading.Navigator>
+    )}
+    else{
+      return null
+    }
+  }
+
   render()
   {
   return (
     <NavigationContainer>  
-
+      {this.loadingStack()}
     {this.authentification()}
     {this.homePage()}
-
     </NavigationContainer>
   );}
 }

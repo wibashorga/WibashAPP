@@ -22,20 +22,20 @@ export default class ModifyProject extends React.Component
             <ScrollView>
                  {/*changer le titre du projet */}
                  <View style = {styles.textInputView}>
-                 <TextInput placeholder = {this.projet.nom} 
+                 <TextInput defaultValue = {this.projet.nom} 
                  onChangeText={(text)=>{this.projet.nom = text}}
                  style = {styles.titleInput}></TextInput>
                  </View>
                  
                  {/*changer la description du projet*/}
                  <View style = {styles.textInputView}>
-                 <TextInput placeholder = {this.projet.description} 
+                 <TextInput defaultValue = {this.projet.description} 
                  onChangeText={(text)=>{this.projet.description = text}}
                  style = {styles.descriptionInput}/>
                  </View>
                  {/**changer les objectifs du projet*/}
                  <View style = {styles.textInputView}>
-                 <TextInput placeholder = {this.projet.objectifs} onChangeText={(text)=>{this.projet.objectifs = text}}
+                 <TextInput defaultValue = {this.projet.objectifs} onChangeText={(text)=>{this.projet.objectifs = text}}
                  style = {styles.goalInput}></TextInput>              
                  </View>
 

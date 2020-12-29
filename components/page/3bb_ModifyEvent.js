@@ -49,12 +49,12 @@ export default class ModifyEvent extends React.Component
           <View style = {{marginTop: 20}}>
             <Text style = {{fontSize: 20}}>Titre</Text>
             
-            <TextInput style = {styles.textInput}  placeholder = {this.props.route.params.event.nom} 
+            <TextInput style = {styles.textInput}  defaultValue = {this.props.route.params.event.nom} 
             placeholderTextColor="black" onChangeText={(text)=>{if (text)this.eventTitle=text;
               else this.eventTitle = this.props.route.params.event.nom;
              this.props.navigation.setOptions({headerTitle:text?text:
               this.props.route.params.event.nom})
-            }}/>
+            }} />
           
           </View>
 
@@ -62,7 +62,7 @@ export default class ModifyEvent extends React.Component
             
             <Text style={{fontSize: 20}}>Description</Text>
             
-            <TextInput style = {styles.textInput}  placeholder = {this.props.route.params.event.description}
+            <TextInput style = {styles.textInput}  defaultValue = {this.props.route.params.event.description}
             placeholderTextColor={"black"} onChangeText={(text)=>{this.eventDescription = text}}/>
           
           </View>

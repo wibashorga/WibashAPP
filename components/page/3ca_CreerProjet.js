@@ -180,7 +180,7 @@ export default class NewProject extends React.Component
                 <View style= {styles.openSwitchView}>
                      {this.state.open?(
                      <Text>Ouvert{"\n"}
-                     <Text style={{fontSize:12, color:"rgb(100,100,100)"}}>tout le monde peut participer et s'inscrire au projet</Text></Text>):
+                     <Text style={{fontSize:12, color:"rgb(100,100,100)"}}>les participants s'inscrivent librement au projet</Text></Text>):
                      (<Text>Fermé{"\n"}
                          <Text style={{fontSize:12, color:"rgb(100,100,100)"}}>seul le chef de projet peut 
                          ajouter des participants</Text>
@@ -262,6 +262,10 @@ const styles = StyleSheet.create(
             elevation:12
             
             
+        },
+        openSwitchView:{
+            borderTopWidth:0.5,
+            margin:2.5,marginBottom:10
         }
     }
 )

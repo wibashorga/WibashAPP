@@ -17,13 +17,14 @@ import NewProject from '../page/3ca_CreerProjet.js';
 import NewEvent from '../page/3ba_CreerEvent.js';
 import ModifyEvent from "../page/3bb_ModifyEvent.js";
 import ModifyTask from "../page/3cba_ModifyTask.js";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon} from 'react-native-elements';
 var utilisateur={}, projets=[], events=[], membres=[];
 
-
+const token = "PPlaFk63u4E6";
 
 function NotificationsScreen({ navigation }) {
   return (
@@ -182,7 +183,7 @@ const HomeStackScreen = ({navigation})=>{
   }
 
 
-
+  
 
 class Navigation extends React.Component{
   constructor(props)
@@ -191,7 +192,50 @@ class Navigation extends React.Component{
     this.state = {
       connected: false
     }
+    this.id = "";
+    this.pass = "";
+    this.readLoginInfo()
+
   }
+  async readLoginInfo()
+  {
+    try{
+    this.id = await AsyncStorage.getItem("identifiant")
+    this.pass = await AsyncStorage.getItem("pass")
+    if (this.id && this.pass)
+      {
+        
+        this._connect()
+      }
+    }catch(e)
+    {
+      console.log(e)
+    }
+  }
+  async _connect()
+    {
+      
+  let data = new FormData();
+  data.append("identifiant", this.id);
+  data.append("pass", this.pass);
+  data.append("token", token);
+  fetch('http://www.wi-bash.fr/application/Read/login.php', {
+  method: 'POST',
+  headers: {
+    Accept: 'multipart/form-data',
+    'Content-Type': "multipart/form-data"
+  },
+  body: data
+  }).then((reponse) => reponse.text()).then((membre) => {
+  
+    membre = JSON.parse(membre);
+    membre.pass = this.pass;
+    utilisateur = membre;
+  this.setState({connected:true});
+  console.log("Connecté !")
+   }).catch((error) => {     
+  })
+}
   sayConnected(profil)
   {
     utilisateur = profil;

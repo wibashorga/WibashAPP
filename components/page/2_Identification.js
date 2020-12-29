@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet,Alert, Keyboard, Text, View, ImageBackground, TouchableOpacity, Dimensions,TextInput } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const background = "./ressources/fond.png";
 const logo = "./ressources/logo.png";
@@ -18,6 +19,19 @@ function message(titre, phrase)
     ])
 }
 
+async function storeLoginInfo(id, pass)
+{
+  try{
+    AsyncStorage.setItem("identifiant", id);
+    AsyncStorage.setItem("pass", pass)
+
+  }catch(e)
+  {
+
+  }
+}
+
+
 export default class Identification extends React.Component 
 {
     constructor(props)
@@ -31,7 +45,7 @@ export default class Identification extends React.Component
         profil: {},
         wrongConnexion: false, network: true}
     }
-    async _connect()
+  async _connect()
     {
       
         let data = new FormData();
@@ -46,13 +60,15 @@ export default class Identification extends React.Component
   },
   body: data
   }).then((reponse) => reponse.text()).then((membre) => {
-    console.log(membre);
+    
     membre = JSON.parse(membre);
     membre.pass = this.pass;
+    storeLoginInfo(membre.identifiant, membre.pass)
   this.props.sayConnected(membre);
    }).catch((error) => {
      
      message("Hmmm...", "Il semblerait que votre identifiant ou votre mot de passe soit incorrect")
+
     console.log(error); this.setState({wrongConnexion: true})});
         Keyboard.dismiss();
   }

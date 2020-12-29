@@ -88,6 +88,7 @@ Et l'évènement est automatiquement ajouté sur l'agenda Google ou IOS de ceux 
 -   Modification d'event opé
 -   Participer à un projet
 -   Supprimer un projet
+-   Quitter un projet
 -   Home en construction
 -   Vue profil en construction
 -   API et base de données opé

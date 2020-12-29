@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, StatusBar, Dimensions, TextInput, Button, ScrollView, TouchableOpacity,Alert} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, Dimensions, Switch, TextInput, Button, ScrollView, TouchableOpacity,Alert} from 'react-native';
 import RNPickerSelect from "react-native-picker-select";
 import {Picker} from "@react-native-picker/picker";
 import {formatPostData} from "./security";
@@ -35,7 +35,9 @@ export default class NewProject extends React.Component
         this.nom = "";
         this.description = "";
         this.objectifs = "";
-        this.state = {type:"Programmation", level:"3"}
+        this.open = 1;
+        this.state = {type:"Programmation", level:"3",
+    open:true}
     }
     //génère un identifiant aléatoire pour le projet
     generateID(){
@@ -88,6 +90,7 @@ export default class NewProject extends React.Component
         data.append('objectifs', this.objectifs);
         data.append("type", this.type);
         data.append("minimal_level", this.state.level);
+        data.append("open", this.open.toString())
         data = formatPostData(data);
 
         fetch('http://www.wi-bash.fr/application/Create/CreaProj.php', {
@@ -174,6 +177,17 @@ export default class NewProject extends React.Component
                         ))}
                     
                     </Picker>
+                <View style= {styles.openSwitchView}>
+                     {this.state.open?(
+                     <Text>Ouvert{"\n"}
+                     <Text style={{fontSize:12, color:"rgb(100,100,100)"}}>tout le monde peut participer et s'inscrire au projet</Text></Text>):
+                     (<Text>Fermé{"\n"}
+                         <Text style={{fontSize:12, color:"rgb(100,100,100)"}}>seul le chef de projet peut 
+                         ajouter des participants</Text>
+                     </Text>)}
+                     <Switch onValueChange={(value)=>{this.setState({open:!this.state.open}); this.open = value?1:0}}
+                     value={this.state.open}/>
+                 </View>
             </View>
                 <TouchableOpacity style={styles.sendbutton}onPress = {()=>this.sendProject()}>
                     <Text  style={{color:"white", fontSize:20, textAlign:"center"}}>CREER !</Text>

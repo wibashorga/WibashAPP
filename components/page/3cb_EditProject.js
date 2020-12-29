@@ -156,10 +156,12 @@ constructor(props){
                      onPress:()=>{}},
                      {title:"Editer une note à l'équipe",
                      onPress:()=>{}},
+                     {title:"Gérer les team",
+                     onPress:()=>{}},
                      {title:"Paramètres",
                      onPress:()=>{}},
-                     {title:"Nommer un nouveau chef de projet",
-                     onPress:()=>{}},
+                     {title:"Quitter le projet",
+                     onPress:()=>{message("Sorry bud'", "Vous ne pouvez pas quitter le projet sans avoir nommé un nouveau chef de projet")}},
                 ,{title:"Fermer",
                      onPress:()=>{close()}}
             ]
@@ -363,6 +365,14 @@ constructor(props){
      }
 quitProject()
 {
+    Alert.alert("o_O", "Voulez-vous vraiment quitter le projet ?", [
+        {
+            text:"Non, je reste",
+            onPress:()=>{}
+        },
+        {
+            text:"C'est bon, j'en ai assez",
+            onPress: ()=>{
     let data = new FormData();
          data.append("id_projet", this.projet.ID);
          data.append("identifiant", this.props.user.identifiant);
@@ -385,6 +395,9 @@ quitProject()
          
              ).catch(
              (error) => console.log(error))
+            }
+        }
+    ])
 }
     
     //boite de dialogue créer une tache
@@ -401,7 +414,7 @@ quitProject()
 
                 <TextInput placeholder = 'nom' 
                 onChangeText={(text)=>{this.nomtache=text}}
-                style={styles.taskinput} maxLength ={40}></TextInput>
+                style={styles.taskinput} maxLength ={70}></TextInput>
                 
                 <TextInput placeholder='Description' 
                 onChangeText={(text)=>{this.contenutache = text}}
@@ -423,10 +436,10 @@ quitProject()
         )
     }
 
-// bouton Ajoouter un participant
+// bouton Ajouter un participant
 workerButton(){
         
-    if(this.projet.mine===false && this.props.user.niveau!=3)
+    if(this.projet.mine===false && this.props.user.niveau!=3 && this.projet.open)
     {return (
         <Button buttonStyle={styles.addtaskbutton} title="Participer"
          onPress={()=>this.addWorker()} />          

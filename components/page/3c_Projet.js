@@ -65,22 +65,24 @@ class Carte extends React.Component
             style={{...styles.carte, backgroundColor:this.state.selected?"red":this.props.projet.mine?"rgb(156,220,254)":"white"}}
             activeOpacity={0.8} >
                 
-                <View style={styles.imagecarte}>
-                
-                </View>
-
+                <View style={styles.imagecarte}></View>
                 <View>
+               
                 <Text style = {{fontWeight:"bold", alignSelf:"center", fontSize:25}}>
                     {this.props.projet.nom}</Text>
+
                     <Text style={styles.textecarte}>
                         <Text style={{fontWeight:"bold"}}>Objectifs : </Text>
                         {"\n"+this.props.projet.objectifs+"\n"}</Text>
+
                     <Text style = {styles.textecarte}>
                     <Text style={{fontWeight:"bold"}}>Description : </Text>
                     {"\n"+this.props.projet.description+"\n"}
                         </Text>
+
         <Text style={styles.textecarte}> <Text style={{fontStyle:"italic"}}>Chef de projet : </Text> 
         {this.chef.pseudo}</Text>
+                
                 </View>
             </TouchableOpacity>
         )
@@ -92,10 +94,13 @@ export default class Projet extends React.Component {
         super(props);
         this.state = {
            user : this.props.user,
-           projets: (this.props.projets && this.props.projets instanceof Array) ?this.props.projets.map((projet)=>({...projet, selected:false})) : []
+           projets: 
+           (this.props.projets && this.props.projets instanceof Array) ?this.props.projets.map((projet)=>({...projet, selected:false})) : [],
+           
         }
         
         this.setHeader()
+        this.props.navigation.addListener("focus", ()=>this.importProjects());
         
         if (this.props.route.params) 
         {
@@ -217,8 +222,7 @@ export default class Projet extends React.Component {
     }
     render()
     {
-        
-        return(
+     return(
             <ImageBackground style = {styles.conteneur} 
             source = {require('./ressources/fond2projet.jpg')}>
 

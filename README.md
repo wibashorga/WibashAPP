@@ -80,6 +80,7 @@ Et l'évènement est automatiquement ajouté sur l'agenda Google ou IOS de ceux 
 
 ## Avancement du projet
 -   Vues identification et de création de compte opérationnelles
+-   connexion automatique
 -   Vue Liste des projet, création de projets opérationnelles
 -   Vue détails du projet en construction (60%)
 -   Creation de taches pour les projets opé

@@ -135,30 +135,27 @@ export default class Home extends React.Component {
                 <View style = {styles.headers}>
                     <Icon name = "menu" type = "Entypo" color = "white" iconStyle = {styles.icon}
                 onPress={()=>{this.props.navigation.navigate("Profils")}}/>
-                    
-                    <Text style = {styles.textetitreheaders} > Wi-bash </Text>
+                    <Text style = {{fontSize:30, color:"white", alignSelf:"center"}} > Wi-bash </Text>
                 </View>
                         <View style={{flex:1, flexDirection:"row"}}>
 
                             <View style={{flex:3, flexDirection:"row"}}>
-                            {this.projectCard()}
+                                {this.projectCard()}
                             </View>
+                            
                             <View style={{flex:4}}>
                                 {this.memberCard()}
                                 {this.eventCard()}
-
                             </View>
-
 
                         </View>
 
                     
 
 
-                <View style = {{flex:2, flexDirection:"column"}}>
+                <View style = {{flex:1.5, flexDirection:"column"}}>
 
                     <ScrollView>
-
 
                     <View style = {styles.categorie}>
 
@@ -172,8 +169,6 @@ export default class Home extends React.Component {
 
                         </View>
                 </View>
-
-
 
 
 
@@ -258,27 +253,16 @@ const styles = StyleSheet.create(
            alignSelf: "flex-start",
        },
        textetitreheaders:{
-           marginTop:-30, 
+           //marginTop:-30, 
            marginLeft:100,
            marginEnd:60,
            fontSize:40,
            color:"white",
-      },headers:{
+      },
+      headers:{
           backgroundColor:"red",
       },
-      contaitActualiter:{
-          height:300,
-      },
-      contaitEvenements:{
-            height:300,
-      },
-      contaitProjets:{
-        height:300,
-      },
-      contaitMmebres:{
-        height:300,
-
-      },
+      
       titreCategorie:{
           fontSize:20,
 
@@ -298,18 +282,18 @@ const styles = StyleSheet.create(
        },categorie:
        {
            flex:1,
-           height : 290
+           //height : 290
            
        },
        Titre:
        {
-           height:50,
+           //height:50,
            backgroundColor: "red",
            alignItems : 'center',
        },
        textetitre:{
-            fontSize:40,
-            color:"white"
+            fontSize:20,
+            color:"black"
        },
        carte:
        {
@@ -325,16 +309,6 @@ const styles = StyleSheet.create(
             shadowOpacity:0.39,
             shadowRadius:8.30,
             elevation:14
-       },
-       cartein:
-       {
-           flex : 1,
-           margin : 20,
-           backgroundColor: "#D3D3D3",
-           height : 190,
-           width : 310,
-           borderRadius : 20
-           
        },
        containtcarte:
        {
@@ -361,10 +335,8 @@ const styles = StyleSheet.create(
            marginTop:-30,
            marginLeft:100,
            marginEnd:60,
-           fontSize:40,
+           fontSize:10,
            color:"white",
-      },headers:{
-          backgroundColor:"red",
       }
        
 

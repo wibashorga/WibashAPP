@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet, StatusBar, Dimensions, Switch, TextInput, Button, ScrollView, TouchableOpacity,Alert} from 'react-native';
-import RNPickerSelect from "react-native-picker-select";
+import {View, Text, StyleSheet, StatusBar, Dimensions, Switch, TextInput, ScrollView, TouchableOpacity,Alert} from 'react-native';
+import {Button} from "react-native-elements"
 import {Picker} from "@react-native-picker/picker";
 import {formatPostData} from "./security";
 
@@ -189,9 +189,9 @@ export default class NewProject extends React.Component
                      value={this.state.open}/>
                  </View>
             </View>
-                <TouchableOpacity style={styles.sendbutton}onPress = {()=>this.sendProject()}>
-                    <Text  style={{color:"white", fontSize:20, textAlign:"center"}}>CREER !</Text>
-                    </TouchableOpacity>
+                <Button title="CREER !" buttonStyle={styles.sendbutton} 
+                onPress = {()=>this.sendProject()} />
+                   
 
             
         </ScrollView>
@@ -247,15 +247,12 @@ const styles = StyleSheet.create(
         sendbutton:
         {
             height: 30,
-            borderColor: "black",
-            borderWidth: 3,
             width: windowWidth*0.8,
             height: 50,
             alignSelf: "center",
             margin: 20,
             backgroundColor: "red",
             padding:5,
-            borderRadius:20,
             shadowColor:"#000",
             shadowOpacity:0.39,
             shadowRadius:4.30,

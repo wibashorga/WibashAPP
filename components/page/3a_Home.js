@@ -22,20 +22,37 @@ export default class Home extends React.Component {
         super(props);
         this.state = {
            user : this.props.user,
-           bievenue : true,
             projets: [],
             membres: [],
             events: [],
             image:""
         }
-        this.message = messages[parseInt(Math.random()*messages.length)];
+        
         this.importProjects();
         this.importMembers();
         this.importEvents();
-        setTimeout(()=> this.setState({bienvenue: false}), 1000);
+        
+        
+        this.props.navigation.addListener("focus", ()=>{
+            this.importProjects();
+            this.importMembers();
+            this.importEvents();
+            });
+    }
+    
+    setHeader(){
+        this.props.navigation.setOptions({
+            title:"WI-BASH", headerShown:true, headerStyle:{backgroundColor:"red"},
+            headerTitleStyle:{color:"white", alignSelf:"center", marginLeft:-50, fontSize:23},
+            headerLeft:()=>(<Icon name = "menu" type = "Entypo" color = "white" iconStyle = {styles.icon}
+            onPress={()=>{this.props.navigation.navigate("Profils")}}/>
+                )
+        })
     }
     importProjects ()
     {
+        if (this.props.navigation.isFocused())
+        {
         let data = new FormData();
         data.append("token", token);
         data.append("identifiant", this.state.user.identifiant);
@@ -54,9 +71,12 @@ export default class Home extends React.Component {
             this.props.setProjects(json);
         }).catch(
             (error) => console.log("coucou", error))
+        }
     }
     importMembers ()
     {
+        if (this.props.navigation.isFocused())
+        {
         let data = new FormData();
         data.append("token", token);
         data.append("identifiant", this.state.user.identifiant);
@@ -73,9 +93,12 @@ export default class Home extends React.Component {
             this.props.setMembers(json);
             this.setState({membres:json})}).catch(
             (error) => console.log(error))
+        }
     }
     importEvents()
     {
+        if (this.props.navigation.isFocused())
+        {
         fetch("http://www.wi-bash.fr/application/Read/ListEvent.php").then(
             (reponse)=>reponse.text()).then(
                 (json)=>{
@@ -84,6 +107,7 @@ export default class Home extends React.Component {
                     this.setState({events:events});
                 }
             ).catch((error)=>console.log(error))
+        }
     }
 
     projectCard()
@@ -119,10 +143,12 @@ export default class Home extends React.Component {
     }
 
     componentDidMount(){
-       setInterval(()=>{
-        this.importEvents();
-        this.importMembers();
-        this.importProjects();}, 30000)
+       setTimeout(()=>{
+           this.importEvents();
+           this.importMembers();
+           this.importProjects();
+       }, 30000)
+       this.setHeader();
     }
 
   
@@ -132,11 +158,7 @@ export default class Home extends React.Component {
             <View style = {{flex:1}}>
 
 
-                <View style = {styles.headers}>
-                    <Icon name = "menu" type = "Entypo" color = "white" iconStyle = {styles.icon}
-                onPress={()=>{this.props.navigation.navigate("Profils")}}/>
-                    <Text style = {{fontSize:30, color:"white", alignSelf:"center"}} > Wi-bash </Text>
-                </View>
+                
                         <View style={{flex:1, flexDirection:"row"}}>
 
                             <View style={{flex:3, flexDirection:"row"}}>
@@ -327,8 +349,7 @@ const styles = StyleSheet.create(
           
        }, icon:
        {
-           marginLeft: 10,
-           marginTop: 40,
+        paddingLeft:5,
            alignSelf: "flex-start",
        },
        textetitreheaders:{

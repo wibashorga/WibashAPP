@@ -94,12 +94,10 @@ export default class Projet extends React.Component {
         super(props);
         this.state = {
            user : this.props.user,
-           projets: 
-           (this.props.projets && this.props.projets instanceof Array) ?this.props.projets.map((projet)=>({...projet, selected:false})) : [],
-           
+            projets:
+                (this.props.projets && this.props.projets instanceof Array) ?this.props.projets.map((projet)=>({...projet, selected:false})) : []
         }
-        
-        this.setHeader()
+    
         this.props.navigation.addListener("focus", ()=>this.importProjects());
         
         if (this.props.route.params) 
@@ -112,6 +110,8 @@ export default class Projet extends React.Component {
     //et le stocke dans ths.state.projets
     importProjects ()
     {
+        if (this.props.navigation.isFocused())
+        {
         let data = new FormData();
         data.append("token", token);
         data.append("identifiant", this.state.user.identifiant);
@@ -131,6 +131,7 @@ export default class Projet extends React.Component {
         }
             ).catch(
             (error) => console.log(error))
+        }
     }
     setHeader()
     {
@@ -219,6 +220,7 @@ export default class Projet extends React.Component {
         setInterval(()=>{
             this.importProjects();
         }, 12000);
+        this.setHeader()
     }
     render()
     {

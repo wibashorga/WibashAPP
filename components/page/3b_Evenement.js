@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from "./Header.js";
 
-import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList,ImageBackground,Dimensions} from 'react-native';
+import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList,ImageBackground, TextInput, Dimensions} from 'react-native';
 import{Button} from "react-native-elements";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -29,8 +29,61 @@ class Carte extends React.Component
         this.annee = split[0];
         this.urgent = (split[0]==today.getFullYear() && split[1]==today.getMonth()+1
         && parseInt(split[2])-today.getDate()<=2);
+        this.state = {modifyDialog:false, dialog:false}
         
-        console.log(split[1])
+    }
+    modifyDialog(){
+        return(
+            <Modal visible={this.state.modifyDialog} animationType='fade' transparent= {true}
+            onRequestClose={()=>this.setState({modifyDialog:false})}>
+            {/*boite de dialogue qui  apparaît quand on appuie sur
+            un event */}
+                <View style = {styles.addTask}>
+               <Text style={{alignSelf: "flex-end", marginRight:10, fontSize:18}} onPress={()=>this.setState({modifyDialog:false})}>X</Text> 
+
+                <TextInput placeholder = 'nom' 
+                onChangeText={(text)=>{}}
+                style={styles.modifyInput} maxLength ={70}></TextInput>
+                
+                <TextInput placeholder='Description' 
+                onChangeText={(text)=>{}}
+                style={styles.modifyInput}></TextInput>
+                
+                <Button title = "Creer" onPress = {()=>{
+                    this.setState({modifyDialog:false})
+                }} buttonStyle={{marginBottom:10}}/>
+
+
+                <Button title="Annuler" buttonStyle={{backgroundColor:"red"}}
+                onPress={()=>{this.setState({modifyDialog:false})}}/>
+                       
+
+                </View>
+            </Modal>
+        )
+    }
+    eventDialog()
+    {
+        return(
+            <Modal visible={this.state.dialog} transparent={true} 
+                onRequestClose={()=>this.setState({visible:false})}>
+                   <TouchableOpacity style={{backgroundColor:"rgba(200,200,200,0.4)", flex:1, 
+                   justifyContent:"center"}}
+                   onPress ={()=>{this.setState({dialog:false})}}>
+                    <View 
+                    style = {styles.taskpopup}>
+                            <Text style={{fontWeight:"bold"}}>{this.props.task.nom}</Text>
+                            <Text>{this.props.task.description}</Text>
+                            
+                            {this.props.user.niveau<2?(
+                            <Button title = "Modifier" buttonStyle= {{marginTop:15}} 
+                            onPress ={()=>{
+                                this.setState({dialog:false})
+                                }} />):null}
+                    </View>
+                    </TouchableOpacity>
+                </Modal>
+        )
     }
     render()
     {
@@ -62,7 +115,10 @@ class Carte extends React.Component
         )}else{
             return(
                 <View>
-                <TouchableOpacity onPress= {()=>this.props.onPress()}
+                <TouchableOpacity onPress= {()=>{
+                    //this.props.onPress()
+                    this.setState({dialog:true})
+                }}
                 style={{...styles.carte, backgroundColor:(this.urgent)?"red":"white"}}>
                     <View style={styles.imagecarte}>
                     </View>
@@ -81,10 +137,7 @@ class Carte extends React.Component
                     </View>
                     
                 </TouchableOpacity>
-                <View style={styles.participate}>
-                    <Button title="Particper" onPress={()=>{}} 
-                    buttonStyle={styles.buttonParticipate}/>
-                </View>
+                {this.eventDialog()}
                 </View>
             )
         }
@@ -105,7 +158,7 @@ export default class Evenement extends React.Component {
     }
     importEvents()
     {
-        fetch('http://www.wi-bash.fr/application/Read/ListEvent.php').then(
+        fetch('http://www.wi-bash.fr/application/Read/ListEvent.php?identifiant='+this.props.user.identifiant).then(
             (reponse)=>reponse.text()).then((text)=>
             this.setState({events:JSON.parse(text)})).catch((error)=>console.log(error))
     }
@@ -241,7 +294,21 @@ const styles = StyleSheet.create(
             elevation:14
 
           
-       },participate:{
+       },
+       eventDialog:{
+        marginTop:(windowHeight/2)-200,
+        backgroundColor:"white",
+        paddingTop: 20,
+        paddingBottom:40,
+        marginHorizontal: 30,
+        borderRadius:20
+       },
+       modifyInput:
+       {
+        margin:15,
+        textAlignVertical: "top"
+       }
+       ,participate:{
            backgroundColor:"transparent",
            marginTop:10
 

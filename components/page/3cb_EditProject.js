@@ -19,6 +19,9 @@ function message(titre, phrase)
         }
     ])
 }
+const hashCode = function(s){
+    return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0).toString();              
+  }
 
 
 
@@ -95,46 +98,47 @@ constructor(props){
     super(props);
         this.projet = this.props.route.params.projet;
         this.chef = this.props.route.params.chef;
-        this.state = {participants:[], task:false, tasks:[], suggestion:false, suggestions:[], bottomSheetVisible:false};
+        this.state = {participants:[], task:false, tasks:[], suggestion:false, 
+            suggestions:[], bottomSheetVisible:false, reunion:false};
+
         this.nomtache ='';
         this.contenu="";
         this.role = "";
         this.suggestion = "";
         console.log("bootom :", this.state.bottomSheetVisible);
         
-        this.setHeader();
         this.importTasks();
         this.importWorkers();
         this.importSuggestions();
-
+        
     }
     //en travaux
     generateOptionsList()
     {
-       const close = ()=>{this.setState({bottomSheetVisible:false})}
-       
+        const close = ()=>{this.setState({bottomSheetVisible:false})}
+        
         if (this.role == "Membre")
         {
             return [
                 {title:"Proposer quelque chose",
                 onPress:()=>{close(); this.openSuggestionDialog()}},
                 {title:"Quitter le projet",
-                     onPress:()=>{
-                         close();
-                         this.quitProject()
-                     }},
-
-                     {title:"Fermer",
-                     onPress:()=>{close()}}
+                onPress:()=>{
+                    close();
+                    this.quitProject()
+                }},
+                
+                {title:"Fermer",
+                onPress:()=>{close()}}
             ]
         }
         if (this.role=="Organisateur")
         {
             return [
                 {title:"Ajouter une tache",
-                     onPress:()=>{close(); this.setState({task:true})}},
-                     {title:"Proposer quelque chose",
-                     onPress:()=>{close(); this.openSuggestionDialog()}},
+                onPress:()=>{close(); this.setState({task:true})}},
+                {title:"Proposer quelque chose",
+                onPress:()=>{close(); this.openSuggestionDialog()}},
                      {title:"Ajouter un participant",
                      onPress:()=>{}},
                      {title:"Editer une note à l'équipe",
@@ -142,52 +146,54 @@ constructor(props){
                      {title:"Quitter le projet",
                      onPress:()=>{}},
                 ,{title:"Fermer",
-                     onPress:()=>{close()}}
+                onPress:()=>{close()}}
             ]
         }
         if (this.role=="Chef de projet")
         {
             return [
                 {title:"Ajouter une tache",
-                     onPress:()=>{close(); this.setState({task:true})}},
-                     {title:"Proposer quelque chose",
-                     onPress:()=>{close(); this.openSuggestionDialog()}},
-                     {title:"Ajouter un participant",
-                     onPress:()=>{}},
-                     {title:"Editer une note à l'équipe",
-                     onPress:()=>{}},
-                     {title:"Gérer les team",
-                     onPress:()=>{}},
-                     {title:"Paramètres",
-                     onPress:()=>{}},
-                     {title:"Quitter le projet",
-                     onPress:()=>{message("Sorry bud'", "Vous ne pouvez pas quitter le projet sans avoir nommé un nouveau chef de projet")}},
+                onPress:()=>{close(); this.setState({task:true})}},
+                {title:"Proposer quelque chose",
+                onPress:()=>{close(); this.openSuggestionDialog()}},
+                {title:"Ajouter un participant",
+                onPress:()=>{}},
+                {title:"Editer une note à l'équipe",
+                onPress:()=>{}},
+                {title:"Décreter une réunion",
+                onPress:()=>{}},
+                {title:"Gérer les team",
+                onPress:()=>{}},
+                {title:"Paramètres",
+                onPress:()=>{}},
+                {title:"Quitter le projet",
+                onPress:()=>{message("Sorry bud'", "Vous ne pouvez pas quitter le projet sans avoir nommé un nouveau chef de projet")}},
                 ,{title:"Fermer",
-                     onPress:()=>{close()}}
+                onPress:()=>{close()}}
             ]
         }
-
+        
         return []
-}
+    }
     /**importe la liste des participats depuis l'API 
-    puis la stocke dans this.state.participants
-    */
-   openSuggestionDialog()
-   {
-       this.setState({suggestion:true})
-   }
+     puis la stocke dans this.state.participants
+     */
+    openSuggestionDialog()
+    {
+        this.setState({suggestion:true})
+    }
     importWorkers ()
     {
         let data = new FormData();
         data.append("id_projet", this.projet.ID);
         
         fetch('http://www.wi-bash.fr/application/Read/ListWorkers.php', {
-        method: 'POST',
-        headers: {
-        Accept: 'multipart/form-data',
-        'Content-Type': "multipart/form-data"
-        },
-        body: data
+            method: 'POST',
+            headers: {
+                Accept: 'multipart/form-data',
+                'Content-Type': "multipart/form-data"
+            },
+            body: data
         }).then((reponse)=> reponse.text()).then((json) => {
             
             json = JSON.parse(json);
@@ -197,52 +203,52 @@ constructor(props){
                 this.setHeader()
             }
             
-           this.setState({participants:json})
+            this.setState({participants:json})
         }
-            ).catch(
+        ).catch(
             (error) => console.log(error))
-    }
-//importe la liste des taches
-    importTasks(){
-        fetch("http://www.wi-bash.fr/application/Read/ListeTaches.php?id_proj="+this.projet.ID).then((reponse)=>
-        reponse.text()).then((reponse)=>{
+        }
+        //importe la liste des taches
+        importTasks(){
+            fetch("http://www.wi-bash.fr/application/Read/ListeTaches.php?id_proj="+this.projet.ID).then((reponse)=>
+            reponse.text()).then((reponse)=>{
             //console.log(reponse)
             reponse = JSON.parse(reponse);
             
-        this.setState({tasks:reponse})}).catch((error)=>console.log(error))
-        
-    }
-    importSuggestions()
-    { fetch("http://www.wi-bash.fr/application/Read/ListeIdeeProjets.php?id_proj="+this.projet.ID).then((reponse)=>
-    reponse.text()).then((reponse)=>{
-        reponse = JSON.parse(reponse);
-        
-    this.setState({suggestions:reponse})}).catch((error)=>console.log(error))
-
-    }
-    //permet de définir la header bar de la vue
-    setHeader()
-    {
-        this.props.navigation.setOptions({title:this.projet.nom.toUpperCase(),
-            headerTitleStyle:{
-                alignSelf:"center",
-                paddingRight: windowWidth/9
-            }, headerRight:()=> this.projet.mine?(
-            <Icon name="circle-with-plus" type="entypo"  iconStyle={{marginRight:10}} size={30}
-            onPress={()=>this.setState({bottomSheetVisible:!this.state.bottomSheetVisible})}/>):null})
-        
-    }
-    //vue liste des participants
-    memberView()
-    {
-        return (
-            <View>
+            this.setState({tasks:reponse})}).catch((error)=>console.log(error))
+            
+        }
+        importSuggestions()
+        { fetch("http://www.wi-bash.fr/application/Read/ListeIdeeProjets.php?id_proj="+this.projet.ID).then((reponse)=>
+        reponse.text()).then((reponse)=>{
+            reponse = JSON.parse(reponse);
+            
+            this.setState({suggestions:reponse})}).catch((error)=>console.log(error))
+            
+        }
+        //permet de définir la header bar de la vue
+        setHeader()
+        {
+            this.props.navigation.setOptions({title:this.projet.nom.toUpperCase(),
+                headerTitleStyle:{
+                    alignSelf:"center",
+                    paddingRight: windowWidth/9
+                }, headerRight:()=> this.projet.mine?(
+                    <Icon name="circle-with-plus" type="entypo"  iconStyle={{marginRight:10}} size={30}
+                    onPress={()=>this.setState({bottomSheetVisible:!this.state.bottomSheetVisible})}/>):null})
+                    
+                }
+                //vue liste des participants
+                memberView()
+                {
+                    return (
+                        <View>
                 <Text style={{alignSelf:"center", fontWeight:"bold"}}>PARTICIPANTS : </Text>
             <FlatList horizontal={true} data = {this.state.participants}
             renderItem = {(item)=><CarteMembre membre ={item.item}/>}
-            keyExtractor = {(item)=>{item.identifiant}}
-                
-                />
+            keyExtractor = {(item)=>{hashCode(item.identifiant)}}
+            
+            />
 
             </View>
         )
@@ -257,9 +263,9 @@ constructor(props){
                     <Text style={{alignSelf:"center", fontWeight:"bold"}}>TACHES : </Text>
                 <FlatList horizontal={true} data={this.state.tasks}
                 renderItem={(item)=>
-                <CarteTaches task={item.item} isChef={this.chef.identifiant==this.props.user.identifiant}
-                role = {this.role} navigation = {this.props.navigation}/>}
-                keyExtractor={(item)=>item.nom} >
+                    <CarteTaches task={item.item} isChef={this.chef.identifiant==this.props.user.identifiant}
+                    role = {this.role} navigation = {this.props.navigation}/>}
+                    keyExtractor={(item)=>hashCode(item.nom)} >
 
                 </FlatList>
                 </View>
@@ -268,145 +274,145 @@ constructor(props){
     }
     /**fonction qui permet de créer une tache dans la base de données */
     sendTask(){
-       if (this.nomtache)
-       {
-        let data = new FormData();
-        data.append("id_proj", this.projet.ID);
-        data.append("identifiant", this.props.user.identifiant);
-        data.append("pass", this.props.user.pass);
-        data.append("nom", this.nomtache)
-        if(this.contenutache)data.append("description", this.contenutache)
-
-        data = formatPostData(data);
-        
-        fetch('http://www.wi-bash.fr/application/Create/AddTask.php', {
-        method: 'POST',
-        headers: {
-        Accept: 'multipart/form-data',
-        'Content-Type': "multipart/form-data"
-        },
-        body: data
-        }).then((reponse)=> reponse.text()).then((reponse) => {
-            console.log(reponse)
-            if (reponse.indexOf("200")===-1) message('Oups !', 
-            "Nous n'avons pu créer cette tâche... Peut-être le nom de la tâche existe-t-il déjà ?")
-        else{
-            this.setState({tasks:[{nom:this.nomtache, description:this.contenutache}, ...this.state.tasks]})
-        }
-        }
+        if (this.nomtache)
+        {
+            let data = new FormData();
+            data.append("id_proj", this.projet.ID);
+            data.append("identifiant", this.props.user.identifiant);
+            data.append("pass", this.props.user.pass);
+            data.append("nom", this.nomtache)
+            if(this.contenutache)data.append("description", this.contenutache)
+            
+            data = formatPostData(data);
+            
+            fetch('http://www.wi-bash.fr/application/Create/AddTask.php', {
+                method: 'POST',
+                headers: {
+                    Accept: 'multipart/form-data',
+                    'Content-Type': "multipart/form-data"
+                },
+                body: data
+            }).then((reponse)=> reponse.text()).then((reponse) => {
+                console.log(reponse)
+                if (reponse.indexOf("200")===-1) message('Oups !', 
+                "Nous n'avons pu créer cette tâche... Peut-être le nom de la tâche existe-t-il déjà ?")
+                else{
+                    this.setState({tasks:[{nom:this.nomtache, description:this.contenutache}, ...this.state.tasks]})
+                }
+            }
             
             ).catch(
-            (error) => console.log(error))}
-    }
-
-    sendSuggestion(){
-        if (this.suggestion)
-        {
-         let data = new FormData();
-         data.append("id_projet", this.projet.ID);
-         data.append("identifiant", this.props.user.identifiant);
+                (error) => console.log(error))}
+            }
+            
+            sendSuggestion(){
+                if (this.suggestion)
+                {
+                    let data = new FormData();
+                    data.append("id_projet", this.projet.ID);
+                    data.append("identifiant", this.props.user.identifiant);
          data.append("pass", this.props.user.pass);
          data.append("proposition", this.suggestion)
          if(this.contenutache)data.append("description", this.contenutache)
- 
+         
          data = formatPostData(data);
          
          fetch('http://www.wi-bash.fr/application/Create/CreaPropositionProjet.php', {
-         method: 'POST',
-         headers: {
-         Accept: 'multipart/form-data',
-         'Content-Type': "multipart/form-data"
-         },
-         body: data
-         }).then((reponse)=> reponse.text()).then((reponse) => {
-             console.log(reponse)
-             if (reponse.indexOf("200")===-1) message('Oups !', 
-             "Nous n'avons pu émettre cette proposition... Décidément, les génies sont incompris")
-         else{
-             this.importSuggestions()             
-         }
-         }
-             
-             ).catch(
-             (error) => console.log(error))}
+             method: 'POST',
+             headers: {
+                 Accept: 'multipart/form-data',
+                 'Content-Type': "multipart/form-data"
+                },
+                body: data
+            }).then((reponse)=> reponse.text()).then((reponse) => {
+                console.log(reponse)
+                if (reponse.indexOf("200")===-1) message('Oups !', 
+                "Nous n'avons pu émettre cette proposition... Décidément, les génies sont incompris")
+                else{
+                    this.importSuggestions()             
+                }
+            }
+            
+            ).catch(
+                (error) => console.log(error))}
+            }
+            
+            
+            addWorker()/*Ajoute un participant au projet*/{
+                
+                let data = new FormData();
+                data.append("id_projet", this.projet.ID);
+                data.append("identifiant", this.props.user.identifiant);
+                data.append("pass", this.props.user.pass);
+                data.append("role", "membre")
+                data.append("id_membre", this.props.user.identifiant)
+                
+                
+                data = formatPostData(data);
+                
+                fetch('http://www.wi-bash.fr/application/Create/AddWorker.php', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'multipart/form-data',
+                        'Content-Type': "multipart/form-data"
+                    },
+                    body: data
+                }).then((reponse)=> reponse.text()).then((reponse) => {
+                    console.log("", reponse) 
+                    if (reponse.includes("200"))
+                    {
+                        message("Félicitations !", "Vous serez bientôt ajouté au projet")
+                        this.props.navigation.goBack();
+                    }
+                }
+                
+                ).catch(
+                    (error) => console.log(error))
      }
-    
-
-    addWorker()/*Ajoute un participant au projet*/{
-        
-         let data = new FormData();
-         data.append("id_projet", this.projet.ID);
-         data.append("identifiant", this.props.user.identifiant);
-         data.append("pass", this.props.user.pass);
-         data.append("role", "membre")
-         data.append("id_membre", this.props.user.identifiant)
-         
- 
-         data = formatPostData(data);
-         
-         fetch('http://www.wi-bash.fr/application/Create/AddWorker.php', {
-         method: 'POST',
-         headers: {
-         Accept: 'multipart/form-data',
-         'Content-Type': "multipart/form-data"
-         },
-         body: data
-         }).then((reponse)=> reponse.text()).then((reponse) => {
-            console.log("", reponse) 
-            if (reponse.includes("200"))
+     quitProject()
+     {
+         Alert.alert("o_O", "Voulez-vous vraiment quitter le projet ?", [
              {
-                 message("Félicitations !", "Vous serez bientôt ajouté au projet")
-                 this.props.navigation.goBack();
-             }
-         }
-         
-             ).catch(
-             (error) => console.log(error))
-     }
-quitProject()
-{
-    Alert.alert("o_O", "Voulez-vous vraiment quitter le projet ?", [
-        {
-            text:"Non, je reste",
-            onPress:()=>{}
-        },
-        {
-            text:"C'est bon, j'en ai assez",
-            onPress: ()=>{
-    let data = new FormData();
-         data.append("id_projet", this.projet.ID);
-         data.append("identifiant", this.props.user.identifiant);
-         data.append("pass", this.props.user.pass);
-         
- 
-         data = formatPostData(data);
-         
-         fetch('http://www.wi-bash.fr/application/Delete/QuitterProjet.php', {
-         method: 'POST',
-         headers: {
-         Accept: 'multipart/form-data',
-         'Content-Type': "multipart/form-data"
+                 text:"Non, je reste",
+                 onPress:()=>{}
+                },
+                {
+                    text:"C'est bon, j'en ai assez",
+                    onPress: ()=>{
+                        let data = new FormData();
+                        data.append("id_projet", this.projet.ID);
+                        data.append("identifiant", this.props.user.identifiant);
+                        data.append("pass", this.props.user.pass);
+                        
+                        
+                        data = formatPostData(data);
+                        
+                        fetch('http://www.wi-bash.fr/application/Delete/QuitterProjet.php', {
+                            method: 'POST',
+                            headers: {
+                                Accept: 'multipart/form-data',
+                                'Content-Type': "multipart/form-data"
          },
          body: data
-         }).then((reponse)=> reponse.text()).then((reponse) => {
-             //console.log(reponse)
-         this.props.navigation.goBack();
-            }
-         
-             ).catch(
-             (error) => console.log(error))
-            }
+        }).then((reponse)=> reponse.text()).then((reponse) => {
+            //console.log(reponse)
+            this.props.navigation.goBack();
+        }
+        
+        ).catch(
+            (error) => console.log(error))
+        }
         }
     ])
 }
-    
-    //boite de dialogue créer une tache
-    addTaskDialog()
-    {
-        return(
 
-            <Modal visible={this.state.task} animationType='fade' transparent= {true}
-            onRequestClose={()=>this.setState({task:false})}>
+//boite de dialogue créer une tache
+addTaskDialog()
+{
+    return(
+        
+        <Modal visible={this.state.task} animationType='fade' transparent= {true}
+        onRequestClose={()=>this.setState({task:false})}>
             {/*boite de dialogue qui  apparaît quand on appuie sur
             "ajouter une  tache" */}
                 <View style = {styles.addTask}>
@@ -433,17 +439,17 @@ quitProject()
                 </View>
             </Modal>
 
-        )
-    }
+)
+}
 
 // bouton Ajouter un participant
 workerButton(){
-        
+    
     if(this.projet.mine===false && this.props.user.niveau!=3 && this.projet.open)
     {return (
         <Button buttonStyle={styles.addtaskbutton} title="Participer"
-         onPress={()=>this.addWorker()} />          
-    )}
+        onPress={()=>this.addWorker()} />          
+        )}
     else{
         return null;
     }
@@ -497,7 +503,9 @@ boiteAIdees()
         )
     }return null;
 }
-
+componentDidMount(){
+this.setHeader();
+}
 
 //Corps de la vue
 render(props){

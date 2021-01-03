@@ -60,11 +60,11 @@ export default class Identification extends React.Component
   },
   body: data
   }).then((reponse) => reponse.text()).then((membre) => {
-    
+    console.log(membre)
     membre = JSON.parse(membre);
     membre.pass = this.pass;
+    this.props.sayConnected(membre);
     storeLoginInfo(membre.identifiant, membre.pass)
-  this.props.sayConnected(membre);
    }).catch((error) => {
      
      message("Hmmm...", "Il semblerait que votre identifiant ou votre mot de passe soit incorrect")

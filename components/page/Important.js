@@ -68,30 +68,14 @@ export default class Evenement extends React.Component {
         return(
             <View style = {styles.conteneur}>
 
-                <View style = {styles.Titre} >
-                    <Text style  = {{fontSize : 25}}> Important </Text>
-
-
-                </View>
-                <ImageBackground source = {require('./ressources/alertefond.jpg')} style={styles.image}>
-
-                <View style = {styles.containimage}>
-                    <FlatList data={this.state.projets} keyExtractor={(item)=>item.ID} 
-                    renderItem= {(item)=><Carte projet = {item.item}/>} />
-
-                </View>
+                
 
 
 
-                <Button
-                    
-                    title="edit new"
-                    color="red"
-                    
-                />
-                        
+                
+                        <Text style={{alignSelf:"center"}}>En construction...</Text>
 
-                </ImageBackground>
+             
 
                 
                               
@@ -118,7 +102,8 @@ const styles = StyleSheet.create(
        conteneur:
        {
            flex : 1,
-           backgroundColor: "black"
+           backgroundColor: "white",
+           justifyContent:"center",alignContent:"center"
            
            
            

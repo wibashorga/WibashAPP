@@ -67,8 +67,11 @@ export default class Home extends React.Component {
         body: data
         }).then((reponse)=> reponse.text()).then((json) => {
             json = JSON.parse(json);//on transforme la string json en objet js
+            if (this.state.projets!=json)
+            {
             this.setState({projets:json})
             this.props.setProjects(json);
+            }
         }).catch(
             (error) => console.log("coucou", error))
         }
@@ -90,8 +93,11 @@ export default class Home extends React.Component {
         body: data
         }).then((reponse)=> reponse.text()).then((json) => {
             json = JSON.parse(json);
+            if (this.state.membres!=json)
+            {
             this.props.setMembers(json);
-            this.setState({membres:json})}).catch(
+            this.setState({membres:json})}
+    }).catch(
             (error) => console.log(error))
         }
     }

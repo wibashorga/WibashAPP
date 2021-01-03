@@ -8,6 +8,10 @@ export default class ModifyEvent extends React.Component
     super(props);
     this.eventTitle = this.props.route.params.event.nom || "";
     this.eventDescription = this.props.route.params.event.description || "";
+    
+  }
+  componentDidMount()
+  {
     this.props.navigation.setOptions({headerTitle:this.props.route.params.event.nom})
   }
 

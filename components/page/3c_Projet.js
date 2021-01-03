@@ -70,7 +70,7 @@ class Carte extends React.Component
                
                 <Text style = {{fontWeight:"bold", alignSelf:"center", fontSize:25}}>
                     {this.props.projet.nom}</Text>
-
+                <Text numberOfLines={11}>
                     <Text style={styles.textecarte}>
                         <Text style={{fontWeight:"bold"}}>Objectifs : </Text>
                         {"\n"+this.props.projet.objectifs+"\n"}</Text>
@@ -82,6 +82,7 @@ class Carte extends React.Component
 
         <Text style={styles.textecarte}> <Text style={{fontStyle:"italic"}}>Chef de projet : </Text> 
         {this.chef.pseudo}</Text>
+                        </Text>
                 
                 </View>
             </TouchableOpacity>
@@ -126,6 +127,7 @@ export default class Projet extends React.Component {
         body: data
         }).then((reponse)=> reponse.text()).then((json) => {
             
+        
             this.setState({projets:JSON.parse(json)});
             this.props.setProjects(json);
         }
@@ -283,22 +285,6 @@ const styles = StyleSheet.create(
            width: 380,
            height:600
        },
-
-       carte_projet:
-       {
-           backgroundColor: "transparent",
-           height:150,
-           //marginBottom: 0,
-           width:140,
-           shadowColor: "#000",
-            shadowOffset: {
-	        width: 1,
-	        height: 5},
-            shadowOpacity: 0.55,
-            shadowRadius: 3.84,
-            elevation: 10
-
-       },
        containimage:{
            flex : 1,
        },
@@ -328,7 +314,7 @@ const styles = StyleSheet.create(
        {
         
            width: 310,
-           height: 400,
+           height: 280,
            marginRight: 20,
            marginTop:30,
            overflow: "hidden",

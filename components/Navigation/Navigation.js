@@ -86,7 +86,7 @@ const ModifyEventScreen = ({navigation, route})=>{
     return(
       <Stack.Navigator initialRouteName = {"events"}>
         <Stack.Screen 
-        name="events" component={EvenementScreen} options={{title : "EVENEMENTS", headerTitleStyle:{alignSelf:"center"}}} />
+        name="events" component={EvenementScreen} options={{title : "Agenda", headerTitleStyle:{alignSelf:"center"}}} />
         <Stack.Screen 
         name="new_event" component={CreerEventScreen} options={{title : "Nouvel évènement"}} />
   
@@ -296,7 +296,7 @@ class Navigation extends React.Component{
             iconName = 'home';
             iconType = 'Entypo'
           }
-          if (route.name === "Evenement")
+          if (route.name === "Agenda")
           {
             iconName = "flag";
             iconType = "AntDesign";
@@ -316,8 +316,8 @@ class Navigation extends React.Component{
         },})}>
 
 
-        <Tab.Screen name = "Home" component = {HomeStackScreen} />
-        <Tab.Screen name = "Evenement" component = {EventStackScreen} />
+        <Tab.Screen name = "Home" component = {HomeStackScreen}/>
+        <Tab.Screen name = "Agenda" component = {EventStackScreen} />
         <Tab.Screen name = "Projet" component = {ProjetStackScreen} />
         <Tab.Screen name = "Important" component = {ImportantScreen} />
       

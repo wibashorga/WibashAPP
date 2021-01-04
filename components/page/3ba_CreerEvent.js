@@ -131,7 +131,7 @@ export default class NewEvent extends React.Component
     }
     render()
     {
-        StatusBar.setHidden(true);
+        
         
         return(
         <ScrollView style = {styles.container} 

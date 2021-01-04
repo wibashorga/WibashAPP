@@ -17,6 +17,7 @@ import NewProject from '../page/3ca_CreerProjet.js';
 import NewEvent from '../page/3ba_CreerEvent.js';
 import ModifyEvent from "../page/3bb_ModifyEvent.js";
 import ModifyTask from "../page/3cba_ModifyTask.js";
+import ModifyProject from "../page/ModifyProject"; 
 import Loading from "./loading.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from '@react-navigation/native';
@@ -120,6 +121,12 @@ const ModifyEventScreen = ({navigation, route})=>{
       projets = {projets} user={utilisateur}/>
     )
   }
+  const ModifyProjectScreen = ({navigation, route})=>{
+    return(
+      <ModifyProject user = {utilisateur} navigation = {navigation}
+      route = {route}/>
+    )
+  }
 const ModifyTaskScreen = ({navigation, route}) =>{
   return(
     <ModifyTask user = {utilisateur} route = {route} navigation = {navigation}
@@ -149,7 +156,7 @@ au bouton Edit New Project
         name="new" component={CreerProjetScreen} options={{title : "Nouveau projet"}} />
         <Stack.Screen component = {EditProjectScreen} name="Edit" options={{title:""}}/>
         <Stack.Screen component = {ModifyTaskScreen} name="ModifyTask" options={{title:""}}/>
-
+        <Stack.Screen component = {ModifyProjectScreen} name="ModifyProject" options={{title:"Paramètres"}}/>
         
       </Stack.Navigator>
       
@@ -213,6 +220,9 @@ class Navigation extends React.Component{
     if (this.id && this.pass)
       {
         this._connect()
+      }
+      else{
+        this.setState({loading:false})
       }
     }catch(e)
     {

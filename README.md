@@ -85,7 +85,7 @@ Et l'évènement est automatiquement ajouté sur l'agenda Google ou IOS de ceux 
 -   Vue détails du projet en construction (60%)
 -   Creation de taches pour les projets opé
 -   Vues liste des évènements opé
--   Création d'event opé [régler le bug  avec RNPickerSelect]
+-   Création d'event opé
 -   Modification d'event opé
 -   Participer à un projet
 -   Supprimer un projet
@@ -111,7 +111,7 @@ https://github.com/Kureev/react-native-side-menu
 -   Bouton participer à un projet (fait)
 -   Désigner un administrateur pour un projet
 -   Paramètres de l'appli
--   Remplacer RNPickerSelect par expo-picker
+-   Remplacer RNPickerSelect par expo-picker (fait)
 -   Emmettre une proposition dans un projet (fait)
 -   Supprimer un projet (fait)
 -   Supprimer une tache

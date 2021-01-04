@@ -167,7 +167,8 @@ constructor(props){
                 {title:"Gérer les team",
                 onPress:()=>{}},
                 {title:"Paramètres",
-                onPress:()=>{}},
+                onPress:()=>{close();
+                this.props.navigation.navigate("ModifyProject", {projet:this.projet})}},
                 {title:"Quitter le projet",
                 onPress:()=>{message("Sorry bud'", "Vous ne pouvez pas quitter le projet sans avoir nommé un nouveau chef de projet")}},
                 ,{title:"Fermer",
@@ -312,7 +313,7 @@ importSuggestions()
     {
         if (this.descriptionReunion)
         {
-            
+
         }
     }
         //------------    

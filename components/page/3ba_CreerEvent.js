@@ -181,12 +181,17 @@ export default class NewEvent extends React.Component
                     
                     </Picker>
                     </View>
-                
+                <View style={styles.descripost}>
+
                 {this.ajouterDescription()}
                 
                 <Button buttonStyle={styles.sendbutton}onPress = {this.sendEvent} title="Post">
                     <Text  style={{color:"black", fontSize:25, textAlign:"center"}}>Poster</Text>
                     </Button>
+
+                </View>
+                
+                
                     
             
         </ScrollView>
@@ -259,7 +264,10 @@ const styles = StyleSheet.create(
             
         },
         pickerView:{
-            marginVertical:50,
+            marginVertical:-20
+        },
+        descripost:{
+            marginTop:50
         }
         
     }

@@ -62,7 +62,7 @@ export default class ModifyProject extends React.Component
     updateProject()
     {
         if (!this.state.type) this.state.type = "Programmation";
-        if(this.nom && this.description && this.objectifs && this.state.type)
+        if(this.projet.nom && this.projet.description && this.projet.objectifs && this.state.type)
         {
         let data = new FormData();
         //this.description = encode_utf8(this.description);
@@ -174,7 +174,7 @@ export default class ModifyProject extends React.Component
                      value={this.state.open}/>
                  </View>
             </View>
-                <Button title="CREER !" buttonStyle={styles.sendbutton} 
+                <Button title="Enregistrer les modifcations" buttonStyle={styles.sendbutton} 
                 onPress = {()=>this.updateProject()} />
                    
 

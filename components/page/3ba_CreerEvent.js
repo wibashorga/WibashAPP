@@ -173,7 +173,7 @@ export default class NewEvent extends React.Component
         selectedValue={this.state.type}
          style={{height: 50, width: 250}}
         onValueChange={(itemValue, itemIndex) =>
-      this.setState({type: itemValue})
+            this.setState({type: itemValue})
                     }>
                         {types.map((type)=>(
                             <Picker.Item label={type.label} value={type.value} />        
@@ -259,7 +259,7 @@ const styles = StyleSheet.create(
             
         },
         pickerView:{
-            marginVertical:50
+            marginVertical:50,
         }
         
     }

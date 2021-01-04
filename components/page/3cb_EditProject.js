@@ -40,7 +40,7 @@ class CarteMembre extends React.Component
         return(
             <View style={{...styles.carte, marginTop:10}}>
                 <Text>{this.props.membre.prenom.toUpperCase()+"\n"+this.props.membre.nom.toUpperCase()}</Text>
-                <Text style={{fontSize:13, fontStyle: "italic"}}>{this.props.role}</Text>
+                <Text style={{fontSize:13, fontStyle: "italic"}}>{this.props.membre.role}</Text>
             </View>
         )
     }
@@ -593,7 +593,7 @@ const styles = StyleSheet.create(
         carte:
        {
         
-           width: 80,
+           width: 100,
            height: 70,
            marginLeft:2,
            marginRight: 18,

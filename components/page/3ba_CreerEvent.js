@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, StatusBar, Dimensions, TextInput, ScrollView, Alert} from 'react-native';
+import {View, Text, StyleSheet, Platform, Dimensions, TextInput, ScrollView, Alert} from 'react-native';
 import {Button} from "react-native-elements";
 import CalendarPicker from "react-native-calendar-picker";
 import {Picker} from  "@react-native-picker/picker";
@@ -8,6 +8,7 @@ import { formatPostData } from './security';
 
 const token = "PPlaFk63u4E6";
 const date = new Date();
+const os = Platform.OS;
 
 const windowHeight = Dimensions.get("window").height;
 const windowWidth = Dimensions.get("window").width;
@@ -77,7 +78,7 @@ export default class NewEvent extends React.Component
         )}else
         {
             return (
-                <View>
+                <View style={{marginVertical:10}}>
                     <Text style={styles.info} onPress = {()=>{this.setState({description:true})}}>
                         Ajouter une description ?
                     </Text>
@@ -153,7 +154,7 @@ export default class NewEvent extends React.Component
                 
             </View>
 
-            <Text style= {styles.info}>Type : </Text>
+            <Text style= {{...styles.info, marginBottom:(os=='ios')?100:10}}>Type : </Text>
            {/* <RNPickerSelect onValueChange = {(type)=>{this.type = type}}
             items={[
             {label:"Réunion", value:"Réunion", color:'black'},
@@ -167,6 +168,7 @@ export default class NewEvent extends React.Component
         style={styles.pickerStyle}
         //useNativeAndroidPickerStyle={false}
         />*/}
+
         <Picker
         selectedValue={this.state.type}
          style={{height: 50, width: 250}}

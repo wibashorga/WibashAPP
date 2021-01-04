@@ -154,7 +154,7 @@ export default class NewEvent extends React.Component
                 
             </View>
 
-            <Text style= {{...styles.info, marginBottom:(os=='ios')?100:10}}>Type : </Text>
+            <Text style= {styles.info}>Type : </Text>
            {/* <RNPickerSelect onValueChange = {(type)=>{this.type = type}}
             items={[
             {label:"Réunion", value:"Réunion", color:'black'},
@@ -168,7 +168,7 @@ export default class NewEvent extends React.Component
         style={styles.pickerStyle}
         //useNativeAndroidPickerStyle={false}
         />*/}
-
+        <View style={styles.pickerView}>
         <Picker
         selectedValue={this.state.type}
          style={{height: 50, width: 250}}
@@ -180,6 +180,7 @@ export default class NewEvent extends React.Component
                         ))}
                     
                     </Picker>
+                    </View>
                 
                 {this.ajouterDescription()}
                 
@@ -257,6 +258,9 @@ const styles = StyleSheet.create(
             
             
         },
+        pickerView:{
+            marginVertical:50
+        }
         
     }
 )

@@ -90,8 +90,7 @@ export default class ModifyProject extends React.Component
             
             this.props.navigation.navigate("projets", {refresh:true});
         }else{
-            message("Oups", 
-            "Nous n'avons pas pu créer votre projet. Vérifiez que ce nom n'existe pas déjà...")
+            
         }
         console.log(text)
             }

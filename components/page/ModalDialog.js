@@ -9,8 +9,8 @@ const windowHeight = Dimensions.get("window").height;
 /**
  * Compoenent custom
  * Requested props :
- * onRequestClose() (quand on appuie sur le bouton retour)
  * visible (boolean)
+ * close()
  * inputCount
  * firstInputHandler / secondInputHandler
  * firstInputMaxLength / secondInputMaxLength
@@ -18,13 +18,12 @@ const windowHeight = Dimensions.get("window").height;
  * editButtonTitle
  * editAction()
  * cancelButtonTitle
- * close()
  */
 export class EditDialog extends React.Component{
     constructor(props)
     {
         super(props);
-        this.inputCount = this.props.inputCount?this.props.inputCount:1;
+        this.inputCount = this.props.inputCount||1;
 
         
     }
@@ -44,7 +43,7 @@ export class EditDialog extends React.Component{
 
                 <TextInput placeholder = {this.props.firstPlaceholder || ""} 
                 onChangeText={(text)=>this.props.firstInputHandler(text)}
-                style={styles.input} maxLength ={this.props.firstInputMaxLength}></TextInput>
+                style={styles.input} maxLength ={this.props.firstInputMaxLength||300}></TextInput>
                 
                 <TextInput placeholder = {this.props.secondPlaceholder?this.props.secondPlaceholder:""}
                 onChangeText={(text)=>this.secondInputHandler(text)}
@@ -57,7 +56,7 @@ export class EditDialog extends React.Component{
 
 
                 <Button title= {this.props.cancelButtonTitle || "Annuler"} buttonStyle={{backgroundColor:"red"}}
-                onPress={()=>{this.setState({visible:false})}}/>
+                onPress={()=>this.props.close()}/>
                        
 
                 </View>
@@ -77,7 +76,7 @@ export class EditDialog extends React.Component{
 
                 <TextInput placeholder = {this.props.firstPlaceholder || ""} 
                 onChangeText={(text)=>this.props.firstInputHandler(text)}
-                style={styles.input} maxLength ={this.props.firstInputMaxLength}></TextInput>
+                style={styles.input} maxLength ={this.props.firstInputMaxLength||300}></TextInput>
                 
                 
                 <Button title = {this.props.editButtonTitle || "Editer"} onPress = {()=>{
@@ -87,7 +86,7 @@ export class EditDialog extends React.Component{
 
 
                 <Button title= {this.props.cancelButtonTitle || "Annuler"} buttonStyle={{backgroundColor:"red"}}
-                onPress={()=>{this.setState({visible:false})}}/>
+                onPress={()=>this.props.close()}/>
                        
 
                 </View>

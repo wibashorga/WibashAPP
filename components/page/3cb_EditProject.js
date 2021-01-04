@@ -5,6 +5,7 @@ import {Text, View, Dimensions, TouchableOpacity, ScrollView, FlatList, StyleShe
 import {Button,BottomSheet,ListItem} from "react-native-elements";
 import { TextInput } from "react-native-gesture-handler";
 import { formatPostData } from "./security";
+import { EditDialog } from "./ModalDialog";
 
 
 const windowWidth = Dimensions.get("window").width;
@@ -101,11 +102,12 @@ constructor(props){
         this.state = {participants:[], task:false, tasks:[], suggestion:false, 
             suggestions:[], bottomSheetVisible:false, reunion:false};
 
-        this.nomtache ='';
-        this.contenu="";
-        this.role = "";
+        this.nomtache ='';//nom de la tache qu'on va créer
+        this.contenu="";//contenu d'une tache
+        this.role = "";//le role est défini dans importWorker
         this.suggestion = "";
-        console.log("bootom :", this.state.bottomSheetVisible);
+        this.descriptionReunion = "";
+       
         
         this.importTasks();
         this.importWorkers();
@@ -160,8 +162,8 @@ constructor(props){
                 onPress:()=>{}},
                 {title:"Editer une note à l'équipe",
                 onPress:()=>{}},
-                {title:"Décreter une réunion",
-                onPress:()=>{}},
+                {title:"Programmer une réunion",
+                onPress:()=>{close(); this.setState({reunion:true})}},
                 {title:"Gérer les team",
                 onPress:()=>{}},
                 {title:"Paramètres",
@@ -197,7 +199,6 @@ constructor(props){
         }).then((reponse)=> reponse.text()).then((json) => {
             
             json = JSON.parse(json);
-            console.log(json)
             if (this.props.route.params.projet.mine) {
                 this.role = json.find((w)=>w.identifiant==this.props.user.identifiant).role
                 this.setHeader()
@@ -218,7 +219,9 @@ constructor(props){
             this.setState({tasks:reponse})}).catch((error)=>console.log(error))
             
         }
-        importSuggestions()
+        //On récupère les suggestions depuis l'API. Puis on les stocke dans le state
+        //Elles seront affichées dans la boite à idées
+importSuggestions()
         { fetch("http://www.wi-bash.fr/application/Read/ListeIdeeProjets.php?id_proj="+this.projet.ID).then((reponse)=>
         reponse.text()).then((reponse)=>{
             reponse = JSON.parse(reponse);
@@ -293,7 +296,7 @@ constructor(props){
                 },
                 body: data
             }).then((reponse)=> reponse.text()).then((reponse) => {
-                console.log(reponse)
+                
                 if (reponse.indexOf("200")===-1) message('Oups !', 
                 "Nous n'avons pu créer cette tâche... Peut-être le nom de la tâche existe-t-il déjà ?")
                 else{
@@ -304,9 +307,18 @@ constructor(props){
             ).catch(
                 (error) => console.log(error))}
             }
+
+    sendMeeting()
+    {
+        if (this.descriptionReunion)
+        {
             
-            sendSuggestion(){
-                if (this.suggestion)
+        }
+    }
+        //------------    
+    
+        sendSuggestion(){
+        if (this.suggestion)
                 {
                     let data = new FormData();
                     data.append("id_projet", this.projet.ID);
@@ -337,8 +349,8 @@ constructor(props){
                 (error) => console.log(error))}
             }
             
-            
-            addWorker()/*Ajoute un participant au projet*/{
+    //---------------        
+    addWorker()/*Ajoute un participant au projet*/{
                 
                 let data = new FormData();
                 data.append("id_projet", this.projet.ID);
@@ -369,6 +381,9 @@ constructor(props){
                 ).catch(
                     (error) => console.log(error))
      }
+     *
+     //-------------------
+
      quitProject()
      {
          Alert.alert("o_O", "Voulez-vous vraiment quitter le projet ?", [
@@ -519,10 +534,11 @@ render(props){
             <Text>CHEF DE PROJET : {"\n"+this.chef.prenom+" "+this.chef.nom+" ("+this.chef.pseudo+")"}, 
              {" "+this.projet.DateCrea+"\n"}</Text>
             
-            <View style={{paddingHorizontal:15}}>
-            <Text>{"\n"+this.projet.objectifs} </Text>
-            <Text>{this.projet.description}</Text>
-            </View>
+            <ScrollView style={{paddingHorizontal:15, paddingVertical:2, borderColor:"black",borderWidth:1,}}
+            >
+            <Text>Objectifs {"\n"+this.projet.objectifs+"\n"} </Text>
+            <Text>Description {"\n"+this.projet.description+"\n"}</Text>
+            </ScrollView>
             
             </View>
             <View style={{flex:1}}>
@@ -535,6 +551,11 @@ render(props){
 
             {this.addTaskDialog()}
             {this.addSuggestionDialog()}
+            <EditDialog visible={this.state.reunion} inputCount={1}
+            firstInputHandler={(text)=>{this.descriptionReunion=text}} close={()=>this.setState({reunion:false})}
+            editButtonTitle="Ajouter à l'agenda" firstPlaceholder="Objet de la réunion"
+            editAction={()=>{}}/>
+
             </ScrollView>
             <BottomSheet
                         isVisible={this.state.bottomSheetVisible}

@@ -11,9 +11,9 @@ export function formatPostData(data)
             {
                 let name = entry.fieldName;
                 let value = entry.string;
-                value = value.replace('"', "''");
-                value = value.replace("--", "- -");
-                value = value.replace("#", "");
+                value = value.split('"').join("''");
+                value = value.split("--").join("- -");
+                value = value.split("#").join("");
                 newData.append(name,value);
                 
             }

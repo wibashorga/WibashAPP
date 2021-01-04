@@ -126,8 +126,8 @@ constructor(props){
                 onPress:()=>{close(); this.openSuggestionDialog()}},
                 {title:"Quitter le projet",
                 onPress:()=>{
+                    this.quitProject();
                     close();
-                    this.quitProject()
                 }},
                 
                 {title:"Fermer",
@@ -146,7 +146,8 @@ constructor(props){
                      {title:"Editer une note à l'équipe",
                      onPress:()=>{}},
                      {title:"Quitter le projet",
-                     onPress:()=>{}},
+                     onPress:()=>{close();
+                    this.quitProject()}},
                 ,{title:"Fermer",
                 onPress:()=>{close()}}
             ]
@@ -382,12 +383,13 @@ importSuggestions()
                 ).catch(
                     (error) => console.log(error))
      }
-     *
+     
      //-------------------
 
      quitProject()
      {
-         Alert.alert("o_O", "Voulez-vous vraiment quitter le projet ?", [
+        console.log("quit") 
+        Alert.alert("o_O", "Voulez-vous vraiment quitter le projet ?", [
              {
                  text:"Non, je reste",
                  onPress:()=>{}

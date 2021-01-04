@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Modal, StyleSheet,Dimensions, FlatList, SafeAreaView, ScrollView,Button, Image} from 'react-native';
+import {Text, View, Modal, StyleSheet,Dimensions, FlatList, SafeAreaView, ScrollView,Button, Image,StatusBar} from 'react-native';
 import Header from "./Header";
 import {Icon} from "react-native-elements";
 //import image from "./ressources/fondprojet.jpg";
@@ -160,6 +160,7 @@ export default class Home extends React.Component {
   
     render()
     {
+        StatusBar.setHidden(false);
         return(
             <View style = {{flex:1}}>
 

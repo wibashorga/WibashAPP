@@ -168,7 +168,7 @@ export default class NewEvent extends React.Component
         style={styles.pickerStyle}
         //useNativeAndroidPickerStyle={false}
         />*/}
-        <View style={(os="ios")?styles.pickerView:null}>
+        <View style={(os=="ios")?styles.pickerView:null}>
         <Picker
         selectedValue={this.state.type}
          style={{height: 60, width: 250}}
@@ -181,7 +181,7 @@ export default class NewEvent extends React.Component
                     
                     </Picker>
                     </View>
-            <View style={(os="ios")?styles.descripost:null}>
+            <View style={(os=="ios")?styles.descripost:null}>
 
                 {this.ajouterDescription()}
                 

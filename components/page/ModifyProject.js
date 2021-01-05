@@ -34,7 +34,7 @@ export default class ModifyProject extends React.Component
         super(props);
         this.projet = this.props.route.params.projet;
         this.state = {type:this.projet.type, level:this.projet.minimal_level,
-    open:true}
+    open:this.projet.open}
     }
     //génère un identifiant aléatoire pour le projet
     
@@ -65,8 +65,10 @@ export default class ModifyProject extends React.Component
         if(this.projet.nom && this.projet.description && this.projet.objectifs && this.state.type)
         {
         let data = new FormData();
+        console.log(this.projet.type)
         //this.description = encode_utf8(this.description);
         data.append("token", token);
+    
         data.append("identifiant", this.props.user.identifiant);
         data.append("pass", this.props.user.pass);
         data.append("id_projet", this.projet.ID);
@@ -162,7 +164,7 @@ export default class ModifyProject extends React.Component
                     
                     </Picker>
                 <View style= {styles.openSwitchView}>
-                     {this.state.open?(
+                     {this.state.open=="1"?(
                      <Text>Ouvert{"\n"}
                      <Text style={{fontSize:12, color:"rgb(100,100,100)"}}>les participants s'inscrivent librement au projet</Text></Text>):
                      (<Text>Fermé{"\n"}
@@ -170,7 +172,7 @@ export default class ModifyProject extends React.Component
                          ajouter des participants</Text>
                      </Text>)}
                      <Switch onValueChange={(value)=>{this.setState({open:!this.state.open}); this.projet.open = value?1:0}}
-                     value={this.state.open}/>
+                     value={this.state.open=="1"}/>
                  </View>
             </View>
                 <Button title="Enregistrer les modifcations" buttonStyle={styles.sendbutton} 

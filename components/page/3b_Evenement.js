@@ -4,6 +4,7 @@ import Header from "./Header.js";
 import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList,ImageBackground, TextInput, Dimensions} from 'react-native';
 import{Button} from "react-native-elements";
 import { EditDialog, DetailDialog } from './ModalDialog.js';
+import { StatusBar } from 'react-native';
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
@@ -47,7 +48,8 @@ class Carte extends React.Component
         )
     }
     render()
-    {
+    {   
+        StatusBar.setHidden(false)
             return(
                 <View>
                 <TouchableOpacity onPress= {()=>{

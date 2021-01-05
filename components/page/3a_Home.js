@@ -182,14 +182,14 @@ export default class Home extends React.Component {
                     
 
 
-                <View style = {{flex:1.5, flexDirection:"column"}}>
+                <View style = {{flex:3, flexDirection:"column"}}>
 
                     <ScrollView>
 
                     <View style = {styles.categorie}>
 
                         <View style = {styles.Titre}>
-                            <Text style = {styles.textetitre} > PROJETS </Text>
+                            <Text style = {styles.textetitre} > Actu </Text>
 
                         </View>
 
@@ -230,18 +230,9 @@ export default class Home extends React.Component {
                 </View>
 
 
-                <View style = {styles.categorie}>
+               
 
-                <View style = {styles.Titre}>
-                            <Text style = {styles.textetitre} > VOTE </Text>
-
-                        </View>
-
-                        <View style = {styles.containtcarte}>
-                        
-
-                        </View>
-                </View>
+               
 
 
                     </ScrollView>

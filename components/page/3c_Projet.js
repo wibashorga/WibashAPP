@@ -66,6 +66,8 @@ class Carte extends React.Component
             activeOpacity={0.8} >
                 
                 <View style={styles.imagecarte}></View>
+                <Image source={require("./ressources/logo.png")} 
+                style= {{width:100, height:100, alignSelf:"center" , borderRadius:15}}></Image>
                 <View>
                
                 <Text style = {{fontWeight:"bold", alignSelf:"center", fontSize:25}}>
@@ -313,8 +315,8 @@ const styles = StyleSheet.create(
        carte:
        {
         
-           width: 310,
-           height: 280,
+           width: 360,
+           height: 380,
            marginRight: 20,
            marginTop:30,
            overflow: "hidden",

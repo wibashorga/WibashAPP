@@ -317,8 +317,8 @@ const styles = StyleSheet.create(
        Titre:
        {
            //height:50,
-           backgroundColor: "red",
-           alignItems : 'center',
+           
+           
        },
        textetitre:{
             fontSize:20,

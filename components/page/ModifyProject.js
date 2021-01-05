@@ -1,11 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, StatusBar, Dimensions, Switch, TextInput, ScrollView, TouchableOpacity,Alert} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, Dimensions, Switch, TextInput, ScrollView,Platform, TouchableOpacity,Alert} from 'react-native';
 import {Button} from "react-native-elements"
 import {Picker} from "@react-native-picker/picker";
 import {formatPostData} from "./security";
 
 
 const token = "PPlaFk63u4E6";
+const os = Platform.OS;
 
 const windowHeight = Dimensions.get("window").height;
 const windowWidth = Dimensions.get("window").width;
@@ -120,7 +121,9 @@ export default class ModifyProject extends React.Component
             autoCapitalize={"sentences"}
             ></TextInput>
 
-           <View>
+           <View style={(os=="ios")?styles.iospicker:null}>
+
+               
                 <Picker
                     selectedValue={this.state.type}
                     style={{height: 50, width: 250}}
@@ -136,7 +139,10 @@ export default class ModifyProject extends React.Component
 
 
 
-            
+
+            <View style={(os=="ios")?styles.iosobject:null}>
+
+
             <TextInput onChangeText = {(text)=>{this.projet.objectifs = text}}
             defaultValue = {this.projet.objectifs} style={{...styles.textinput, height:windowHeight/4,
             width:windowWidth*0.95}}
@@ -150,34 +156,55 @@ export default class ModifyProject extends React.Component
 
                     
                 </TextInput>
-           <View>
-            <Picker
-                    selectedValue={this.state.level}
-                    style={{height: 50, width: 250}}
-                    onValueChange={(itemValue, itemIndex) =>
-                        {this.setState({level: itemValue}); this.projet.minimal_level = itemValue;
-                    }
-                    }>
-                        {this.generateAvailableLevels().map((type)=>(
-                            <Picker.Item label={type.label} value={type.value} />        
-                        ))}
-                    
-                    </Picker>
-                <View style= {styles.openSwitchView}>
-                     {this.state.open=="1"?(
-                     <Text>Ouvert{"\n"}
-                     <Text style={{fontSize:12, color:"rgb(100,100,100)"}}>les participants s'inscrivent librement au projet</Text></Text>):
-                     (<Text>Fermé{"\n"}
-                         <Text style={{fontSize:12, color:"rgb(100,100,100)"}}>seul le chef de projet peut 
-                         ajouter des participants</Text>
-                     </Text>)}
-                     <Switch onValueChange={(value)=>{this.setState({open:!this.state.open}); this.projet.open = value?1:0}}
-                     value={this.state.open=="1"}/>
-                 </View>
+
             </View>
-                <Button title="Enregistrer les modifcations" buttonStyle={styles.sendbutton} 
-                onPress = {()=>this.updateProject()} />
-                   
+
+
+            
+            
+           <View>
+
+               <View style={(os=="ios")?styles.iospicker2:null}>
+                    <Picker
+                            selectedValue={this.state.level}
+                            style={{height: 50, width: 250}}
+                            onValueChange={(itemValue, itemIndex) =>
+                                {this.setState({level: itemValue}); this.projet.minimal_level = itemValue;
+                            }
+                            }>
+                                {this.generateAvailableLevels().map((type)=>(
+                                    <Picker.Item label={type.label} value={type.value} />        
+                                ))}
+                            
+                            </Picker>
+
+               </View>
+
+               <View style={(os=="ios")?styles.iosobject2:null}>
+                        <View style= {styles.openSwitchView}>
+                                {this.state.open?(
+                                <Text>Ouvert{"\n"}
+                                <Text style={{fontSize:12, color:"rgb(100,100,100)"}}>les participants s'inscrivent librement au projet</Text></Text>):
+                                (<Text>Fermé{"\n"}
+                                    <Text style={{fontSize:12, color:"rgb(100,100,100)"}}>seul le chef de projet peut 
+                                    ajouter des participants</Text>
+                                </Text>)}
+                                <Switch onValueChange={(value)=>{this.setState({open:!this.state.open}); this.projet.open = value?1:0}}
+                                value={this.state.open}/>
+                            </View>
+                        </View>
+                            <Button title="Enregistrer les modifcations" buttonStyle={styles.sendbutton} 
+                            onPress = {()=>this.updateProject()} />
+                            
+
+
+               </View>
+
+               <View style={(os=="ios")?styles.margebas:null}>
+
+            </View>
+            
+                
 
             
         </ScrollView>
@@ -249,6 +276,28 @@ const styles = StyleSheet.create(
         openSwitchView:{
             borderTopWidth:0.5,
             margin:2.5,marginBottom:10
+        },
+        iospicker:{
+            marginVertical:-50,
+            alignSelf:"center"
+            
+        },
+        iosobject:{
+            marginTop:190,
+            alignSelf:"center"
+        },
+        iosobject2:{
+            marginTop:170,
+            
+
+        },iospicker2:{
+            marginVertical:-40,
+            alignSelf:"center"
+
+        },
+        margebas:{
+            width:150,
+            height:90,
         }
     }
 )

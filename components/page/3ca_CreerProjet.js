@@ -1,11 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, StatusBar, Dimensions, Switch, TextInput, ScrollView, TouchableOpacity,Alert} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, Dimensions,Platform, Switch, TextInput, ScrollView, TouchableOpacity,Alert} from 'react-native';
 import {Button} from "react-native-elements"
 import {Picker} from "@react-native-picker/picker";
 import {formatPostData} from "./security";
 
 
 const token = "PPlaFk63u4E6";
+const os = Platform.OS;
 
 const windowHeight = Dimensions.get("window").height;
 const windowWidth = Dimensions.get("window").width;
@@ -134,7 +135,7 @@ export default class NewProject extends React.Component
             autoCapitalize={"words"}
             ></TextInput>
 
-           <View>
+           <View style={(os=="ios")?styles.iospicker:null}>
                 <Picker
                     selectedValue={this.state.type}
                     style={{height: 50, width: 250}}
@@ -146,12 +147,16 @@ export default class NewProject extends React.Component
                         ))}
                     
                     </Picker>
-                    </View>
+         </View>
 
 
 
-            
-            <TextInput onChangeText = {(text)=>{this.objectifs = text}}
+
+
+         <View style={(os=="ios")?styles.iosobject:null} >
+
+
+         <TextInput onChangeText = {(text)=>{this.objectifs = text}}
             placeholder = {"Objectifs"} style={{...styles.textinput, height:windowHeight/4,
             width:windowWidth*0.95}}
             multiline = {true}/>
@@ -165,8 +170,10 @@ export default class NewProject extends React.Component
 
                     
                 </TextInput>
-           <View>
-            <Picker
+        <View style={(os=="ios")?styles.iospicker2:null}>
+
+            <View>
+            <Picker style= {styles.openSwitchView}
                     selectedValue={this.state.level}
                     style={{height: 50, width: 250}}
                     onValueChange={(itemValue, itemIndex) =>
@@ -177,7 +184,17 @@ export default class NewProject extends React.Component
                         ))}
                     
                     </Picker>
-                <View style= {styles.openSwitchView}>
+
+            </View>
+
+
+
+
+            <View style={(os=="ios")?styles.iosobject2:null}>
+
+            <View>
+               </View>         
+                <View >
                      {this.state.open?(
                      <Text>Ouvert{"\n"}
                      <Text style={{fontSize:12, color:"rgb(100,100,100)"}}>les participants s'inscrivent librement au projet</Text></Text>):
@@ -190,9 +207,17 @@ export default class NewProject extends React.Component
                  </View>
             </View>
                 <Button title="CREER !" buttonStyle={styles.sendbutton} 
-                onPress = {()=>this.sendProject()} />
-                   
+                onPress = {()=>this.sendProject()} />      
 
+
+
+         </View>
+
+            </View>
+            <View style={(os=="ios")?styles.margebas:null}>
+
+            </View>
+           
             
         </ScrollView>
         )
@@ -263,6 +288,28 @@ const styles = StyleSheet.create(
         openSwitchView:{
             borderTopWidth:0.5,
             margin:2.5,marginBottom:10
+        },
+        iospicker:{
+            marginVertical:-50,
+            alignSelf:"center"
+            
+        },
+        iosobject:{
+            marginTop:190,
+            alignSelf:"center"
+        },
+        iosobject2:{
+            marginTop:170,
+            
+
+        },iospicker2:{
+            marginVertical:-40,
+            alignSelf:"center"
+
+        },
+        margebas:{
+            width:150,
+            height:90,
         }
     }
 )

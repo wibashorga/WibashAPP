@@ -164,18 +164,20 @@ au bouton Edit New Project
   }
 
 // Stack Home Page
-const HomeStackScreen = ({navigation})=>{
+/*const HomeStackScreen = ({navigation})=>{
   return(
     <Stack.Navigator initialRouteName = {"Home"}>
       <Stack.Screen 
-      name="Home" component={HomeScreen} options={{title : "" , headerShown:false}} />
+      name="Home" component={HomeScreen} options={{title : "" , headerShown:false, 
+      headerRight:()=>(<Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}
+      onPress={()=>{}}/>)}} />
       <Stack.Screen 
       name="Profils" component={ProfilScreen}  />
       
     </Stack.Navigator>
       
   )
-}
+}*/
   
 
   const ImportantScreen = ({navigation,route}) => {
@@ -210,7 +212,22 @@ class Navigation extends React.Component{
     this.id = "";
     this.pass = "";
     this.readLoginInfo()
+    this.HomeStackScreen = this.HomeStackScreen.bind(this)
 
+  }
+  HomeStackScreen({navigation}){
+    return(
+      <Stack.Navigator initialRouteName = {"Home"}>
+        <Stack.Screen 
+        name="Home" component={HomeScreen} options={{title : "" , headerShown:false, 
+        headerRight:()=>(<Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}
+        onPress={()=>{this.setState({connected:false, loading:false})}}/>)}} />
+        <Stack.Screen 
+        name="Profils" component={ProfilScreen}  />
+        
+      </Stack.Navigator>
+        
+    )
   }
   async readLoginInfo()
   {
@@ -326,7 +343,7 @@ class Navigation extends React.Component{
         },})}>
 
 
-        <Tab.Screen name = "Home" component = {HomeStackScreen}/>
+        <Tab.Screen name = "Home" component = {this.HomeStackScreen}/>
         <Tab.Screen name = "Agenda" component = {EventStackScreen} />
         <Tab.Screen name = "Projet" component = {ProjetStackScreen} />
         <Tab.Screen name = "Important" component = {ImportantScreen} />

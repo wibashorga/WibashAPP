@@ -39,7 +39,10 @@ class CarteMembre extends React.Component
 
         return(
             <View style={{...styles.carte, marginTop:10}}>
-                <Text onPress={()=>{this.props.onPress(this.props.membre)}}>{this.props.membre.prenom.toUpperCase()+"\n"+this.props.membre.nom.toUpperCase()}</Text>
+                <TouchableOpacity onPress={()=>{this.props.onPress(this.props.membre)}}>
+                <Text>
+                    {this.props.membre.prenom.toUpperCase()+"\n"+this.props.membre.nom.toUpperCase()}</Text>
+                    </TouchableOpacity>
                 <Text style={{fontSize:13, fontStyle: "italic"}}>{this.props.membre.role}</Text>
             </View>
         )

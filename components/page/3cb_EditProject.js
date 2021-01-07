@@ -39,7 +39,7 @@ class CarteMembre extends React.Component
 
         return(
             <View style={{...styles.carte, marginTop:10}}>
-                <Text>{this.props.membre.prenom.toUpperCase()+"\n"+this.props.membre.nom.toUpperCase()}</Text>
+                <Text onPress={()=>{this.props.onPress(this.props.membre)}}>{this.props.membre.prenom.toUpperCase()+"\n"+this.props.membre.nom.toUpperCase()}</Text>
                 <Text style={{fontSize:13, fontStyle: "italic"}}>{this.props.membre.role}</Text>
             </View>
         )
@@ -99,14 +99,15 @@ constructor(props){
     super(props);
         this.projet = this.props.route.params.projet;
         this.chef = this.props.route.params.chef;
-        this.state = {participants:[], task:false, tasks:[], suggestion:false, 
-            suggestions:[], bottomSheetVisible:false, reunion:false};
+        this.state = {participants: this.projet.workers || [], task:false, tasks:[], suggestion:false, 
+            suggestions:[], bottomSheetVisible:false, reunion:false, workerOptions:false};
 
         this.nomtache ='';//nom de la tache qu'on va créer
         this.contenu="";//contenu d'une tache
         this.role = "";//le role est défini dans importWorker
         this.suggestion = "";
         this.descriptionReunion = "";
+        this.selectedMember = "";
        
         
         this.importTasks();
@@ -114,7 +115,20 @@ constructor(props){
         this.importSuggestions();
         
     }
-    //en travaux
+     //permet de définir la header bar de la vue
+     setHeader()
+     {
+         this.props.navigation.setOptions({title:this.projet.nom.toUpperCase(),
+             headerTitleStyle:{
+                 alignSelf:"center",
+                 paddingRight: windowWidth/9
+             }, headerRight:()=> this.projet.mine?(
+                 <Icon name="circle-with-plus" type="entypo"  iconStyle={{marginRight:10}} size={30}
+                 onPress={()=>this.setState({bottomSheetVisible:!this.state.bottomSheetVisible})}/>):null})
+                 
+             }
+
+    //liste des options quand on appuie sur le bouton "+" en haut à droite
     generateOptionsList()
     {
         const close = ()=>{this.setState({bottomSheetVisible:false})}
@@ -179,15 +193,63 @@ constructor(props){
         
         return []
     }
+
+    generateWorkerOptions()
+    {
+       const close = ()=>{this.setState({workerOptions:false})}
+        if (this.selectedMember)
+       {
+        if (this.role==="Organisateur")
+        {
+            if (this.projet.open)
+            {
+            return[
+                {title:"Nommer "+this.selectedMember.prenom+" "+this.selectedMember.nom+" organisateur",
+                onPress:()=>{},
+            disabled:this.selectedMember.role=="Organisateur"}, 
+                
+                {title:"Retirer du projet",
+                onPress:()=>{},
+                disabled:this.selectedMember.role=="Chef de projet"},
+                {title:"Fermer", 
+            onPress:()=>{close()}}
+            ]
+            }else{
+                return [
+                    {title:"Nommer organisateur (le projet est fermé)",
+                onPress:()=>{},disabled:true},
+                {title:"Fermer", 
+            onPress:()=>{close()}}
+                ]
+            }
+        }
+        if (this.role == "Chef de projet")
+        {
+            return[
+                
+                {title:(this.selectedMember.role=="Organisateur")?"Enlever à "+this.selectedMember.prenom+" "+this.selectedMember.nom+" le titre d'organisateur":
+                "Nommer "+this.selectedMember.prenom+" "+this.selectedMember.nom+" organisateur",
+                onPress:()=>{
+                    if (this.selectedMember.role=="Organisateur")this.sendWorkerStatus(this.selectedMember.identifiant, "Membre");
+                    else this.sendWorkerStatus(this.selectedMember.identifiant, "Organisateur")
+                    close();  this.selectedMember=""}},            
+                {title:"Nommer chef de projet à ma place",
+                onPress:()=>{}},
+                {title:"Retirer du projet",
+                onPress:()=>{this.sendWorkerStatus(this.selectedMember.identifiant, "out"); close()}},
+                {title:"Fermer", 
+            onPress:()=>{close()}}
+            ]
+        }
+    }return []
+    }
     /**importe la liste des participats depuis l'API 
      puis la stocke dans this.state.participants
      */
-    openSuggestionDialog()
-    {
-        this.setState({suggestion:true})
-    }
     importWorkers ()
     {
+        if (this.props.user.niveau !== 3 && this.projet.mine)
+        {
         let data = new FormData();
         data.append("id_projet", this.projet.ID);
         
@@ -211,46 +273,55 @@ constructor(props){
         ).catch(
             (error) => console.log(error))
         }
-        //importe la liste des taches
+}
+sendWorkerStatus(id_membre, role)
+{
+    let data = new FormData();
+        data.append("identifiant", this.props.user.identifiant);
+        data.append("pass", this.props.user.pass);
+        data.append("id_projet", this.projet.ID);
+        data.append("id_membre", id_membre)
+        data.append("role", role)
+        fetch('http://www.wi-bash.fr/application/Update/WorkerStatus.php', {
+        method: 'POST',
+        headers: {
+        Accept: 'multipart/form-data',
+        'Content-Type': "multipart/form-data"
+        },
+        body: data
+        }).then((reponse)=> reponse.text()).then((reponse) => {
+            if (reponse.indexOf("200")!==-1) this.importWorkers()
+        }
+            ).catch(
+            (error) => console.log(error))
+        
+}
+        //importe la liste des taches, puis la stocke dans this.state.tasks
         importTasks(){
+            if (this.props.user.niveau !== 3 && this.projet.mine)
+            {
             fetch("http://www.wi-bash.fr/application/Read/ListeTaches.php?id_proj="+this.projet.ID).then((reponse)=>
             reponse.text()).then((reponse)=>{
             //console.log(reponse)
             reponse = JSON.parse(reponse);
             
             this.setState({tasks:reponse})}).catch((error)=>console.log(error))
-            
+            }
         }
-        //On récupère les suggestions depuis l'API. Puis on les stocke dans le state
-        //Elles seront affichées dans la boite à idées
-importSuggestions()
-        { fetch("http://www.wi-bash.fr/application/Read/ListeIdeeProjets.php?id_proj="+this.projet.ID).then((reponse)=>
-        reponse.text()).then((reponse)=>{
-            reponse = JSON.parse(reponse);
-            
-            this.setState({suggestions:reponse})}).catch((error)=>console.log(error))
-            
-        }
-        //permet de définir la header bar de la vue
-        setHeader()
-        {
-            this.props.navigation.setOptions({title:this.projet.nom.toUpperCase(),
-                headerTitleStyle:{
-                    alignSelf:"center",
-                    paddingRight: windowWidth/9
-                }, headerRight:()=> this.projet.mine?(
-                    <Icon name="circle-with-plus" type="entypo"  iconStyle={{marginRight:10}} size={30}
-                    onPress={()=>this.setState({bottomSheetVisible:!this.state.bottomSheetVisible})}/>):null})
-                    
-                }
-                //vue liste des participants
-                memberView()
+ //vue liste des participants
+memberView()
                 {
                     return (
                         <View>
                 <Text style={{alignSelf:"center", fontWeight:"bold"}}>PARTICIPANTS : </Text>
             <FlatList horizontal={true} data = {this.state.participants}
-            renderItem = {(item)=><CarteMembre membre ={item.item}/>}
+            renderItem = {(item)=><CarteMembre membre ={item.item} onPress = {(worker)=>{
+                if (item.item.role!=="Chef de projet" && ["Chef de projet", "Oranisateur"].includes(this.role))
+                {
+                    this.setState({workerOptions:true});
+                    this.selectedMember =  worker;
+                }
+            }}/>}
             keyExtractor = {(item)=>{hashCode(item.identifiant)}}
             
             />
@@ -385,7 +456,8 @@ importSuggestions()
      }
      
      //-------------------
-
+     //permet de quitter un projet dans la base de données
+     //on retourne directement à la vue "liste des projets"
      quitProject()
      {
         console.log("quit") 
@@ -413,7 +485,7 @@ importSuggestions()
          },
          body: data
         }).then((reponse)=> reponse.text()).then((reponse) => {
-            //console.log(reponse)
+            console.log(reponse)
             this.props.navigation.goBack();
         }
         
@@ -424,6 +496,12 @@ importSuggestions()
     ])
 }
 
+
+    //ouvre la boite de dialogue qui permet de créer une suggestion
+    openSuggestionDialog()
+    {
+        this.setState({suggestion:true})
+    }
 //boite de dialogue créer une tache
 addTaskDialog()
 {
@@ -460,6 +538,18 @@ addTaskDialog()
 )
 }
 
+        //On récupère les suggestions depuis l'API. Puis on les stocke dans le state
+        //Elles seront affichées dans la boite à idées
+importSuggestions()
+        { 
+            fetch("http://www.wi-bash.fr/application/Read/ListeIdeeProjets.php?id_proj="+this.projet.ID).then((reponse)=>
+        reponse.text()).then((reponse)=>{
+            reponse = JSON.parse(reponse);
+            
+            this.setState({suggestions:reponse})}).catch((error)=>console.log(error))
+            
+        }
+       
 // bouton Ajouter un participant
 workerButton(){
     
@@ -523,7 +613,11 @@ boiteAIdees()
 }
 componentDidMount(){
 this.setHeader();
+
 }
+
+
+
 
 //Corps de la vue
 render(props){
@@ -566,6 +660,19 @@ render(props){
                     modalProps={{"onRequestClose": ()=>this.setState({bottomSheetVisible:false})}}  >
                                     {this.generateOptionsList().map((l, i) => (
                                         <ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
+                                        <ListItem.Content>
+                                            <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
+                                        </ListItem.Content>
+                                        </ListItem>
+                                    ))}
+            </BottomSheet>
+            <BottomSheet
+             isVisible={this.state.workerOptions}
+              containerStyle={{ backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)' }}
+            modalProps={{"onRequestClose": ()=>this.setState({workerOptions:false})}}  >
+             {this.generateWorkerOptions().map((l, i) => (
+                                        <ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}
+                                        disabled={l.disabled}>
                                         <ListItem.Content>
                                             <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
                                         </ListItem.Content>

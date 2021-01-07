@@ -103,9 +103,8 @@ source :
 https://github.com/Kureev/react-native-side-menu
 
 ## TODO LIST
--   Ajouter la possibilité de changer description, titre et objectif d'un projet
+-   Ajouter la possibilité de changer description, titre et objectif d'un projet (fait)
 -   Possibilité de changer le nom et description d'un événement (fait)
--   Editer les paramètres
 -   Editer des actus
 -   Designer la page home
 -   Bouton participer à un projet (fait)

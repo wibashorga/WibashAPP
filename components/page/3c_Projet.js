@@ -129,14 +129,43 @@ export default class Projet extends React.Component {
         body: data
         }).then((reponse)=> reponse.text()).then((json) => {
             
+            json = JSON.parse(json)
         
-            this.setState({projets:JSON.parse(json)});
+           if (this.state.projets.map(p=>{p.ID, p.mine,p.nom, p.objectifs})!== json.map(p=>{p.ID, p.mine,p.nom, p.objectifs}))
+            {
+    
+                this.setState({projets:json});
             this.props.setProjects(json);
+            for (let p of this.state.projets) 
+            {
+                this.importWorkers(p.ID)
+            }
+        }
         }
             ).catch(
             (error) => console.log(error))
         }
     }
+    importWorkers (id_projet)
+    {
+        let data = new FormData();
+        data.append("id_projet", id_projet);
+        
+        fetch('http://www.wi-bash.fr/application/Read/ListWorkers.php', {
+            method: 'POST',
+            headers: {
+                Accept: 'multipart/form-data',
+                'Content-Type': "multipart/form-data"
+            },
+            body: data
+        }).then((reponse)=> reponse.text()).then((json) => {
+            
+            json = JSON.parse(json);
+            this.state.projets[this.state.projets.findIndex((p)=>p.ID==id_projet)].workers = json;
+        }
+        ).catch(
+            (error) => console.log(error))
+        }
     setHeader()
     {
         this.props.navigation.setOptions({title : "PROJETS", headerStyle:{
@@ -171,6 +200,10 @@ export default class Projet extends React.Component {
         if (this.state.projets.filter(p=>p.selected).length==0) this.unsetHeaderTrashIcon();
         //si aucun projet n'est sélectionné, l'icone disparait
         }
+    }
+    unselectAll()
+    {
+        for (let p of this.state.projets) this.unselect(p)
     }
     deleteSelectedProjects()
     {
@@ -221,10 +254,15 @@ export default class Projet extends React.Component {
     //boucle de rafraîchissement de la liste dees projets
     componentDidMount(){
         
-        setInterval(()=>{
+        this.intervalID = setInterval(()=>{
             this.importProjects();
-        }, 12000);
-        this.setHeader()
+        }, 20000);
+        this.setHeader();
+        
+        
+    }
+    componentWillUnmount(){
+        clearInterval(this.intervalID)
     }
     render()
     {
@@ -315,10 +353,10 @@ const styles = StyleSheet.create(
        carte:
        {
         
-           width: 360,
+           width: windowWidth*0.95,
            height: 380,
-           marginRight: 20,
-           marginTop:30,
+           alignSelf:"center",
+           marginVertical:10,
            overflow: "hidden",
            paddingLeft:10,
           borderRadius: 20,

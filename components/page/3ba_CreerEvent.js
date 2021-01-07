@@ -148,7 +148,7 @@ export default class NewEvent extends React.Component
         
             <View style = {{flex:1, flexDirection:"row", marginVertical:10}}>
                 
-                <CalendarPicker onDateChange={(date)=>{this.setState({date:date.calendar()})}}
+                <CalendarPicker onDateChange={(date)=>{console.log(date.calendar());this.setState({date:date.calendar()})}}
                 months={mois} weekdays={days} startFromMonday={true}
                 previousTitle="précédent" nextTitle="suivant" minDate = {new Date()}/>
                 

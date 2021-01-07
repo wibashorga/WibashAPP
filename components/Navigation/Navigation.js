@@ -221,7 +221,7 @@ class Navigation extends React.Component{
         <Stack.Screen 
         name="Home" component={HomeScreen} options={{title : "" , headerShown:false, 
         headerRight:()=>(<Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}
-        onPress={()=>{this.setState({connected:false, loading:false})}}/>)}} />
+        onPress={()=>{this.setState({loading:false, connected:false})}}/>)}} />
         <Stack.Screen 
         name="Profils" component={ProfilScreen}  />
         
@@ -370,8 +370,8 @@ class Navigation extends React.Component{
   {
   return (
     <NavigationContainer>  
-      {this.loadingStack()}
     {this.authentification()}
+      {this.loadingStack()}
     {this.homePage()}
     </NavigationContainer>
   );}

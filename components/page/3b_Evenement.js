@@ -100,8 +100,8 @@ export default class Evenement extends React.Component {
        {
         fetch('http://www.wi-bash.fr/application/Read/ListEvent.php?identifiant='+this.props.user.identifiant).then(
             (reponse)=>reponse.text()).then((text)=>{
-                
-            this.setState({events:JSON.parse(text)})}).catch((error)=>console.log(error))
+                let events = JSON.parse(text)
+                if (this.state.events !== events) this.setState({events:JSON.parse(text)})}).catch((error)=>console.log(error))
        }
     }
     //boucle de rafraichissement

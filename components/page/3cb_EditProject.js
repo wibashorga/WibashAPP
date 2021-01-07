@@ -123,8 +123,9 @@ constructor(props){
                  alignSelf:"center",
                  paddingRight: windowWidth/9
              }, headerRight:()=> this.projet.mine?(
-                 <Icon name="circle-with-plus" type="entypo"  iconStyle={{marginRight:10}} size={30}
-                 onPress={()=>this.setState({bottomSheetVisible:!this.state.bottomSheetVisible})}/>):null})
+                 <TouchableOpacity onPress={()=>
+                    this.setState({bottomSheetVisible:!this.state.bottomSheetVisible})}><Icon name="circle-with-plus" type="entypo"  iconStyle={{marginRight:10}} size={30}
+                 /></TouchableOpacity>):null})
                  
              }
 
@@ -204,13 +205,14 @@ constructor(props){
             if (this.projet.open)
             {
             return[
-                {title:"Nommer "+this.selectedMember.prenom+" "+this.selectedMember.nom+" organisateur",
-                onPress:()=>{},
-            disabled:this.selectedMember.role=="Organisateur"}, 
-                
-                {title:"Retirer du projet",
-                onPress:()=>{},
-                disabled:this.selectedMember.role=="Chef de projet"},
+                {title:(this.selectedMember.role=="Organisateur")?"Enlever à "+this.selectedMember.prenom+" "+this.selectedMember.nom+" le titre d'organisateur":
+                "Nommer "+this.selectedMember.prenom+" "+this.selectedMember.nom+" organisateur",
+                onPress:()=>{
+                    if (this.selectedMember.role=="Organisateur")this.sendWorkerStatus(this.selectedMember.identifiant, "Membre");
+                    else this.sendWorkerStatus(this.selectedMember.identifiant, "Organisateur")
+                    close();  this.selectedMember=""}}, 
+                    {title:"Retirer du projet",
+                    onPress:()=>{this.sendWorkerStatus(this.selectedMember.identifiant, "out"); close(); this.selectedMember=""}},
                 {title:"Fermer", 
             onPress:()=>{close()}}
             ]
@@ -236,7 +238,7 @@ constructor(props){
                 {title:"Nommer chef de projet à ma place",
                 onPress:()=>{}},
                 {title:"Retirer du projet",
-                onPress:()=>{this.sendWorkerStatus(this.selectedMember.identifiant, "out"); close()}},
+                onPress:()=>{this.sendWorkerStatus(this.selectedMember.identifiant, "out"); close(); this.selectedMember=""}},
                 {title:"Fermer", 
             onPress:()=>{close()}}
             ]

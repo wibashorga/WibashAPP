@@ -6,7 +6,7 @@ import Home from "../page/3a_Home";
 import Reglage from "../page/3ab_Reglage";
 import Profil from "../page/3ac_Profil";
 import Projet from "../page/3c_Projet";
-import {Text, View, Modal, StyleSheet, FlatList, SafeAreaView, ScrollView,Button} from 'react-native';
+import {Text, View, Modal, StyleSheet, TouchableOpacity,Button} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Evenement from "../page/3b_Evenement"
 import Important from "../page/Important"
@@ -220,8 +220,9 @@ class Navigation extends React.Component{
       <Stack.Navigator initialRouteName = {"Home"}>
         <Stack.Screen 
         name="Home" component={HomeScreen} options={{title : "" , headerShown:false, 
-        headerRight:()=>(<Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}
-        onPress={()=>{this.setState({loading:false, connected:false})}}/>)}} />
+        headerRight:()=>(<TouchableOpacity onPress={()=>{this.setState({loading:false, connected:false})}}>
+          <Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}
+        /></TouchableOpacity>)}} />
         <Stack.Screen 
         name="Profils" component={ProfilScreen}  />
         

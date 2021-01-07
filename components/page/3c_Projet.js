@@ -177,8 +177,8 @@ export default class Projet extends React.Component {
 
     setHeaderTrashIcon()
     {
-        this.props.navigation.setOptions({headerRight: ()=>(<Icon name = "ios-trash" type="ionicon" color = {"white"} 
-        iconStyle={{marginRight:10, padding:10}} size={35} onPress = {()=>{this.deleteSelectedProjects()}}/>)})
+        this.props.navigation.setOptions({headerRight: ()=>(<TouchableOpacity onPress = {()=>{this.deleteSelectedProjects()}}><Icon name = "ios-trash" type="ionicon" color = {"white"} 
+        iconStyle={{marginRight:10, padding:10}} size={35} /></TouchableOpacity>)})
     }
     unsetHeaderTrashIcon()
     {

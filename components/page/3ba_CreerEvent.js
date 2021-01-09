@@ -4,6 +4,7 @@ import {Button} from "react-native-elements";
 import CalendarPicker from "react-native-calendar-picker";
 import {Picker} from  "@react-native-picker/picker";
 import { formatPostData } from './security';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 
 
 const token = "PPlaFk63u4E6";
@@ -22,6 +23,16 @@ function message(titre, phrase)
         }
     ])
 }
+
+
+LocaleConfig.locales['fr'] = {
+  monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+  monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
+  dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+  dayNamesShort: ['Dim.','Lun.','Mar.','Mer.','Jeu.','Ven.','Sam.'],
+  today: 'Aujourd\'hui'
+};
+LocaleConfig.defaultLocale = 'fr';
 
 
 let days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
@@ -52,7 +63,7 @@ export default class NewEvent extends React.Component
         this.state ={
             description:false,
             jours:days,
-            date:null,
+            date:this.props.route.params || null,
             type:""
         };
         
@@ -92,16 +103,13 @@ export default class NewEvent extends React.Component
         if(this.nom && this.state.type && this.state.date)
         {
             
-            this.date = this.state.date.split('/');
-            this.date = this.date[2]+"-"+this.date[0]+"-"+this.date[1];
-        let data = new FormData();
         let type = this.state.type.toString();
-        console.log(type.replaceAll)
+        let data = new FormData();
         data.append("token", token);
         data.append("identifiant", this.props.user.identifiant);
         data.append("pass", this.props.user.pass);
         data.append("nom", this.nom);
-        data.append("date", this.date.toString());
+        data.append("date", this.state.date.dateString);
         data.append('type', type);
         if (this.decisions) data.append("decisions", this.decisions);
         if (this.description) data.append("description", this.description);
@@ -132,7 +140,9 @@ export default class NewEvent extends React.Component
     }
     render()
     {
-        
+        let today = new Date()
+        today = today.toLocaleDateString().split("/")
+        today = "20"+today[2]+"-"+today[0]+"-"+today[1]
         
         return(
         <ScrollView style = {styles.container} 
@@ -148,26 +158,14 @@ export default class NewEvent extends React.Component
         
             <View style = {{flex:1, flexDirection:"row", marginVertical:10}}>
                 
-                <CalendarPicker onDateChange={(date)=>{console.log(date.calendar());this.setState({date:date.calendar()})}}
-                months={mois} weekdays={days} startFromMonday={true}
-                previousTitle="précédent" nextTitle="suivant" minDate = {new Date()}/>
+                <Calendar onDayPress = {(day)=>{this.setState({date:day});}} current= {this.props.route.params || null}
+                markedDates={this.state.date?{[this.state.date.dateString]:{selected:true}}:null}
+                minDate={today} style={styles.calendar}/>
                 
             </View>
 
             <Text style= {styles.info}>Type : </Text>
-           {/* <RNPickerSelect onValueChange = {(type)=>{this.type = type}}
-            items={[
-            {label:"Réunion", value:"Réunion", color:'black'},
-            {label:'Evenement', value:"Evenement"},
-            {label:"Sortie", value:"Sortie"},
-            {label:"Journée de formation", value:"Journée de formation"},
-            {label:"Autre", value:'Autre'}
-            ]
-            }
-        placeholder= {{label:"Sélectionner un type...", value:null, color:'grey'}}
-        style={styles.pickerStyle}
-        //useNativeAndroidPickerStyle={false}
-        />*/}
+           
         <View style={(os=="ios")?styles.pickerView:null}>
         <Picker
         selectedValue={this.state.type}
@@ -224,6 +222,10 @@ const styles = StyleSheet.create(
             color: "black",
             fontSize: 18,
             
+        },
+        calendar:{
+            width:windowWidth-1,
+            marginBottom:5
         },
         textinput:
         {

@@ -2,8 +2,9 @@ import React from 'react';
 import Header from "./Header.js";
 
 import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList,ImageBackground, TextInput, Dimensions} from 'react-native';
-import{Button} from "react-native-elements";
+import{Button, Icon} from "react-native-elements";
 import { EditDialog, DetailDialog } from './ModalDialog.js';
+import {Calendar} from "react-native-calendars"
 import { StatusBar } from 'react-native';
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -92,6 +93,7 @@ export default class Evenement extends React.Component {
         }
         
         this.importEvents();
+        this.props.navigation.addListener("focus", ()=>this.importEvents())
         
     }
     importEvents()
@@ -104,10 +106,29 @@ export default class Evenement extends React.Component {
                 if (this.state.events !== events) this.setState({events:JSON.parse(text)})}).catch((error)=>console.log(error))
        }
     }
+    setHeader()
+    {
+        if (this.state.user.niveau=="0" || this.state.user.niveau=="1")
+        {
+
+            this.props.navigation.setOptions({headerRight:()=>(<TouchableOpacity style={{marginRight:12}}
+            onPress={()=>this.props.navigation.navigate("new_event")}>
+                <Icon name="plus" type="evilicon" size={35}></Icon>
+            </TouchableOpacity>)})
+        }
+    }
+    generateMarkedDates()
+    {
+        let dates = {}
+        for (let e of this.state.events) dates[e.date] = {selected:true}
+        return dates || []
+
+    }
     //boucle de rafraichissement
     componentDidMount()
     {
         this.intervalID = setInterval(()=>this.importEvents(), 20000)
+        this.setHeader()
     }
     componentWillUnmount()
     {
@@ -144,23 +165,30 @@ export default class Evenement extends React.Component {
                 <ImageBackground source = {require('./ressources/evenmfond.jpg')} style={styles.image}>
 
                 <View style={styles.containcarte}>
-                    <FlatList data={this.state.events} keyExtractor={(item)=>hashCode(item.nom)} 
+                <View style={styles.calendar}>
+                <Calendar onDayPress = {(day)=>{this.setState({date:day});}}
+                markedDates={this.generateMarkedDates()}
+                minDate={today} theme=
+                {{calendarBackground:"white", textDayFontSize:16}} onDayPress= {(day)=>{
+                    if (this.state.user.niveau=="0" || this.state.user.niveau=="1")
+                    {
+                        this.props.navigation.navigate("new_event", day)
+                    }
+                }}/>
+                   </View>
+                    <View style={styles.flatList}>                    
+                        <FlatList data={this.state.events} keyExtractor={(item)=>hashCode(item.nom+item.date)} 
                     renderItem= {(item)=><Carte event = {item.item} user = {this.state.user}
                     navigation={this.props.navigation}/>} horizontal = {true}/>
+                    </View>
+
 
                 </View>
                 
 
 
-
-                <View style = {styles.containtcarte}>
-                        
-
-                </View>
-
-
                 
-                {this.showButtonEdit()}
+                {/*this.showButtonEdit()*/}
                 </ImageBackground>
 
                 
@@ -187,10 +215,17 @@ const styles = StyleSheet.create(
        conteneur:
        {
            flex : 1,
-           backgroundColor: "black"
-           
-           
-           
+           backgroundColor: "black"    
+       },
+       calendar:{
+            flex:1,
+           // marginTop:-50,
+            height:50
+       },
+       flatList:{
+            flex:1,
+            //backgroundColor:"red",
+            marginBottom:-150
        },
        image: {
         flex: 1,
@@ -211,8 +246,10 @@ const styles = StyleSheet.create(
        containcarte:
        {
            flex : 1,
-           paddingVertical:50,
-           marginTop: (windowHeight/2)-200
+           //paddingVertical:50,
+           flexDirection:"column",
+           justifyContent:"space-between"
+           
           
            //backgroundColor:"red"
            
@@ -228,12 +265,12 @@ const styles = StyleSheet.create(
            width: 160,
            height: 150,
            marginRight: 20,
-           marginTop:30,
+           //marginTop:30,
            overflow: "hidden",
            paddingLeft:10,
           borderRadius: 20,
           backgroundColor:"white",
-          opacity:0.8,
+          opacity:0.9,
           shadowColor:"#000",
             shadowOpacity:0.39,
             shadowRadius:8.30,

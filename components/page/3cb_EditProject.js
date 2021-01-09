@@ -127,7 +127,7 @@ constructor(props){
                  paddingRight: windowWidth/9
              }, headerRight:()=> this.projet.mine?(
                  <TouchableOpacity onPress={()=>
-                    this.setState({bottomSheetVisible:!this.state.bottomSheetVisible})}><Icon name="circle-with-plus" type="entypo"  iconStyle={{marginRight:10}} size={30}
+                    this.setState({bottomSheetVisible:!this.state.bottomSheetVisible})}><Icon name="plus" type="evilicon"  iconStyle={{marginRight:10}} size={30}
                  /></TouchableOpacity>):null})
                  
              }
@@ -200,22 +200,30 @@ constructor(props){
 
     generateWorkerOptions()
     {
-       const close = ()=>{this.setState({workerOptions:false})}
+       const close = ()=>{this.setState({workerOptions:false})}//on ferme le bottomsheet (voir fonction render())
+
         if (this.selectedMember)
        {
+        let member = this.selectedMember.prenom+" "+this.selectedMember.nom;
         if (this.role==="Organisateur")
         {
             if (this.projet.open)
             {
             return[
-                {title:(this.selectedMember.role=="Organisateur")?"Enlever à "+this.selectedMember.prenom+" "+this.selectedMember.nom+" le titre d'organisateur":
-                "Nommer "+this.selectedMember.prenom+" "+this.selectedMember.nom+" organisateur",
+                {title:(this.selectedMember.role=="Organisateur")?"Enlever à "+member+" le titre d'organisateur":
+                "Nommer "+member+" organisateur",
                 onPress:()=>{
                     if (this.selectedMember.role=="Organisateur")this.sendWorkerStatus(this.selectedMember.identifiant, "Membre");
                     else this.sendWorkerStatus(this.selectedMember.identifiant, "Organisateur")
                     close();  this.selectedMember=""}}, 
                     {title:"Retirer du projet",
-                    onPress:()=>{this.sendWorkerStatus(this.selectedMember.identifiant, "out"); close(); this.selectedMember=""}},
+                    onPress:()=>{
+                        Alert.alert("o_O", "Voulez-vous vraiment retirer "+member+" du projet",[{
+                            title:"OUI",
+                            onPress:()=>{
+                                this.sendWorkerStatus(this.selectedMember.identifiant, "out")
+                            }
+                        }], {title:"NON", onPress:()=>{}}) ; close(); this.selectedMember=""}},
                 {title:"Fermer", 
             onPress:()=>{close()}}
             ]
@@ -232,14 +240,19 @@ constructor(props){
         {
             return[
                 
-                {title:(this.selectedMember.role=="Organisateur")?"Enlever à "+this.selectedMember.prenom+" "+this.selectedMember.nom+" le titre d'organisateur":
-                "Nommer "+this.selectedMember.prenom+" "+this.selectedMember.nom+" organisateur",
+                {title:(this.selectedMember.role=="Organisateur")?"Enlever à "+member+" le titre d'organisateur":
+                "Nommer "+member+" organisateur",
                 onPress:()=>{
                     if (this.selectedMember.role=="Organisateur")this.sendWorkerStatus(this.selectedMember.identifiant, "Membre");
                     else this.sendWorkerStatus(this.selectedMember.identifiant, "Organisateur")
                     close();  this.selectedMember=""}},            
                 {title:"Nommer chef de projet à ma place",
-                onPress:()=>{}},
+                onPress:()=>{Alert.alert("o_O", "Voulez-vous vraiment céder le poste ?"+member+" du projet",[{
+                    title:"OUI",
+                    onPress:()=>{
+                        this.sendWorkerStatus(this.selectedMember.identifiant, "Chef de projet")
+                    }
+                }], {title:"NON", onPress:()=>{}})}},
                 {title:"Retirer du projet",
                 onPress:()=>{this.sendWorkerStatus(this.selectedMember.identifiant, "out"); close(); this.selectedMember=""}},
                 {title:"Fermer", 
@@ -321,7 +334,7 @@ memberView()
                 <Text style={{alignSelf:"center", fontWeight:"bold"}}>PARTICIPANTS : </Text>
             <FlatList horizontal={true} data = {this.state.participants}
             renderItem = {(item)=><CarteMembre membre ={item.item} onPress = {(worker)=>{
-                if (item.item.role!=="Chef de projet" && ["Chef de projet", "Oranisateur"].includes(this.role))
+                if (item.item.role!=="Chef de projet" && ["Chef de projet", "Oranisateur"].includes(this.role) && item.item.identifiant!==this.props.user.identifiant)
                 {
                     this.setState({workerOptions:true});
                     this.selectedMember =  worker;

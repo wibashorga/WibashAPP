@@ -67,7 +67,7 @@ const HomeScreen = ({navigation,route}) => {
   const CreerEventScreen = ({navigation, route})=>{
     return(
       <NewEvent navigation = {navigation} user = {utilisateur} projets = {projets}
-      /*setNew = {(p)=>{projets.push(p)}}*//>
+      route={route}/*setNew = {(p)=>{projets.push(p)}}*//>
     )
   }
 

@@ -162,7 +162,7 @@ export default class Home extends React.Component {
     {
         StatusBar.setHidden(false);
         return(
-            <View style = {{flex:1}}>
+            <ScrollView style = {{flex:1}}>
 
 
                 
@@ -184,7 +184,7 @@ export default class Home extends React.Component {
 
                 <View style = {{flex:3, flexDirection:"column"}}>
 
-                    <ScrollView>
+                    
 
                     <View style = {styles.categorie}>
 
@@ -235,9 +235,9 @@ export default class Home extends React.Component {
                
 
 
-                    </ScrollView>
+                    
                 </View>
-            </View>            
+            </ScrollView>            
         )
     }
 }

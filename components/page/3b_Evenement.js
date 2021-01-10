@@ -72,7 +72,7 @@ class Carte extends React.Component
                 {"Type : "+this.props.event.type}</Text>
             <Text style={{color:(this.urgent)?"white":"black"}} numberOfLines={3}>
                 {this.props.event.description}</Text>
-                {this.props.event.projet?(<Text style={{fontStyle:"italic"}}>Projet</Text>):null}
+                {this.props.event.projet?(<Text style={{fontStyle:"italic", alignSelf:"flex-end", marginRight:5}}>Projet</Text>):null}
                     </View>
                     
                 </TouchableOpacity>
@@ -263,8 +263,9 @@ const styles = StyleSheet.create(
        {
         
            width: 160,
-           height: 150,
+           height: 135,
            marginRight: 20,
+           marginBottom:-30,
            //marginTop:30,
            overflow: "hidden",
            paddingLeft:10,

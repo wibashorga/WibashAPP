@@ -6,10 +6,12 @@ import {Button,BottomSheet,ListItem} from "react-native-elements";
 import { TextInput } from "react-native-gesture-handler";
 import { formatPostData } from "./security";
 import { EditDialog } from "./ModalDialog";
+import { Calendar, LocaleConfig } from "react-native-calendars";
 
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
+const token = "PPlaFk63u4E6";
 
 function message(titre, phrase)
 {
@@ -103,7 +105,9 @@ constructor(props){
         this.projet = this.props.route.params.projet;
         this.chef = this.props.route.params.chef;
         this.state = {participants: this.projet.workers || [], task:false, tasks:[], suggestion:false, 
-            suggestions:[], bottomSheetVisible:false, reunion:false, workerOptions:false};
+            suggestions:[], bottomSheetVisible:false, reunion:false, 
+            workerOptions:false, calendarVisible:false,
+        meetingDate:null, numberOfLines:15};
 
         this.nomtache ='';//nom de la tache qu'on va créer
         this.contenu="";//contenu d'une tache
@@ -266,8 +270,7 @@ constructor(props){
      */
     importWorkers ()
     {
-        if (this.props.user.niveau !== 3 && this.projet.mine)
-        {
+        
         let data = new FormData();
         data.append("id_projet", this.projet.ID);
         
@@ -290,11 +293,11 @@ constructor(props){
         }
         ).catch(
             (error) => console.log(error))
-        }
+        
 }
 sendWorkerStatus(id_membre, role)
 {
-    let data = new FormData();
+        let data = new FormData();
         data.append("identifiant", this.props.user.identifiant);
         data.append("pass", this.props.user.pass);
         data.append("id_projet", this.projet.ID);
@@ -398,13 +401,77 @@ memberView()
             ).catch(
                 (error) => console.log(error))}
             }
+            //---------
 
     sendMeeting()
     {
-        if (this.descriptionReunion)
+        if (this.descriptionReunion && this.state.meetingDate)
         {
+        let data = new FormData();
+        data.append("token", token);
+        data.append("identifiant", this.props.user.identifiant);
+        data.append("pass", this.props.user.pass);
+        data.append("nom", "Reunion " + this.projet.nom);
+        data.append("date", this.state.meetingDate.dateString);
+        data.append('type', "Réunion");
+        data.append("id_projet", this.projet.ID)
+        if (this.decisions) data.append("decisions", this.decisions);
+        data.append("description", this.descriptionReunion);
+        data = formatPostData(data)
 
+        
+        fetch('http://www.wi-bash.fr/application/Create/CreateEvent.php', {
+        method: 'POST',
+        headers: {
+        Accept: 'multipart/form-data',
+        'Content-Type': "multipart/form-data; charset=utf-8"
+        },
+        body: data
+        }).then((reponse)=> reponse.text()).then((text) => {
+        console.log(text)
+            if (text.search("200")!==-1) {
+        }else message ('Oups', "Nous n'avons pas pu créer la réunion")
+        
+            }
+            ).catch(
+            (error) => console.log(error))
         }
+    }
+    meetingCalendar()
+    {
+       if  (this.role==="Chef de projet")
+       {
+        return(
+            <Modal visible={this.state.calendarVisible} transparent={true} 
+                onRequestClose={()=>this.setState({calendarVisible:false})}>
+
+                <TouchableOpacity style={{backgroundColor:"rgba(200,200,200,0.4)", flex:1, 
+                   justifyContent:"center"}}
+                   onPress ={()=>{this.setState({calendarVisible:false})}}>
+                    
+                    <Calendar onDayPress = {(day)=>{this.setState({meetingDate:day});}}
+                markedDates={this.state.meetingDate?{[this.state.meetingDate.dateString]:{selected:true}}:null}
+                minDate={new Date()}/>
+                
+                <TouchableOpacity style={styles.calendarButton}
+                 onPress={()=>{ 
+                     if (this.state.meetingDate)
+                     {this.sendMeeting()
+                    this.setState({calendarVisible:false})
+                    }
+                    }}>
+                    <Text style={{color:"white", alignSelf:"center"}}>CONFIRMER</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{...styles.calendarButton, backgroundColor:"red"}}
+                 onPress={()=>{ this.setState({calendarVisible:false})
+                    }}>
+                    <Text style={{color:"white", alignSelf:"center"}}>ANNULER</Text>
+                    </TouchableOpacity>
+                    </TouchableOpacity>
+                </Modal>
+
+        )
+    } return null;
     }
         //------------    
     
@@ -646,13 +713,17 @@ render(props){
            
             <View style={styles.infoview}>
             
-            <Text>CHEF DE PROJET : {"\n"+this.chef.prenom+" "+this.chef.nom+" ("+this.chef.pseudo+")"}, 
-             {" "+this.projet.DateCrea+"\n"}</Text>
+            {/*<Text>CHEF DE PROJET : {"\n"+this.chef.prenom+" "+this.chef.nom+" ("+this.chef.pseudo+")"}, 
+             {" "+this.projet.DateCrea+"\n"}</Text>*/}
+             <Text>{this.projet.type}</Text>
             
             <ScrollView style={{paddingHorizontal:15, paddingVertical:2, borderColor:"black",borderWidth:1,}}
             >
-            <Text>Objectifs {"\n"+this.projet.objectifs+"\n"} </Text>
-            <Text>Description {"\n"+this.projet.description+"\n"}</Text>
+                <Text numberOfLines={this.state.numberOfLines}
+                onPress={()=>{this.setState({numberOfLines:(this.state.numberOfLines)?null:15})}}>
+            Objectifs {"\n"+this.projet.objectifs+"\n\n"}
+            Description {"\n"+this.projet.description+"\n"}
+            </Text>
             </ScrollView>
             
             </View>
@@ -669,7 +740,8 @@ render(props){
             <EditDialog visible={this.state.reunion} inputCount={1}
             firstInputHandler={(text)=>{this.descriptionReunion=text}} close={()=>this.setState({reunion:false})}
             editButtonTitle="Ajouter à l'agenda" firstPlaceholder="Objet de la réunion"
-            editAction={()=>{}}/>
+            editAction={()=>{this.setState({reunion:false, calendarVisible:true})}}/>
+            {this.meetingCalendar()}
 
             </ScrollView>
             <BottomSheet
@@ -788,7 +860,12 @@ const styles = StyleSheet.create(
        },
        textIdee:{
            padding:4
-       }
+       }, 
+       calendarButton:{backgroundColor:"black", 
+       width:200, 
+       margin:7, 
+       alignSelf:"center", 
+       padding:15}
 
     }
 )

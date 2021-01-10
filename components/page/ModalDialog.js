@@ -47,7 +47,7 @@ export class EditDialog extends React.Component{
                 
                 <TextInput placeholder = {this.props.secondPlaceholder?this.props.secondPlaceholder:""}
                 onChangeText={(text)=>this.secondInputHandler(text)}
-                style={styles.input}></TextInput>
+                style={styles.input} multiline={true}></TextInput>
                 
                 <Button title = {this.props.editButtonTitle || "Editer"} onPress = {()=>{
                     this.props.editAction();
@@ -75,7 +75,7 @@ export class EditDialog extends React.Component{
                {()=>{if(this.props.close)this.props.close()}}>X</Text> 
 
                 <TextInput placeholder = {this.props.firstPlaceholder || ""} 
-                onChangeText={(text)=>this.props.firstInputHandler(text)}
+                onChangeText={(text)=>this.props.firstInputHandler(text)} multiline={true}
                 style={styles.input} maxLength ={this.props.firstInputMaxLength||300}></TextInput>
                 
                 

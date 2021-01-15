@@ -15,6 +15,26 @@ const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",
 On y voit le résumé des informations les plus importantes sur les projets et les membres
 
 */
+class Carte extends React.Component
+{
+    constructor(props)
+    {
+        super(props);
+        
+    }
+    render()
+    {
+
+        
+        return(
+            <View style={styles.carte}>
+                <Text style = {{fontWeight:"bold"}}>{this.props.projet.nom}</Text>
+                <Text>{this.props.projet.description}</Text>
+            </View>
+        )
+    }
+}
+
 
 export default class Home extends React.Component {
     constructor(props)
@@ -190,6 +210,10 @@ export default class Home extends React.Component {
 
                         <View style = {styles.Titre}>
                             <Text style = {styles.textetitre} > Actu </Text>
+
+                            <FlatList data={this.state.projets.slice(0,5)} keyExtractor={(item)=>item.ID} 
+                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
+
 
                         </View>
 

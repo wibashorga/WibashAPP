@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, View, Modal, StyleSheet,Dimensions, FlatList, SafeAreaView, ScrollView,Button, Image,StatusBar} from 'react-native';
 import Header from "./Header";
 import {Icon} from "react-native-elements";
+import {formatPostData} from "./security"
 //import image from "./ressources/fondprojet.jpg";
 import * as ImagePicker from "expo-image-picker";
 
@@ -57,6 +58,7 @@ export default class Home extends React.Component {
         data.append("token", token);
         data.append("identifiant", this.state.user.identifiant);
         data.append("pass", this.state.user.pass);
+        formatPostData(data)
         
         fetch('http://www.wi-bash.fr/application/Read/ListeProjets.php', {
         method: 'POST',
@@ -164,7 +166,7 @@ export default class Home extends React.Component {
         return(
             <ScrollView style = {{flex:1}}>
 
-
+                <Text style={styles.bienvenue}>BIENVENUE, {this.props.user.prenom.toUpperCase()}</Text>
                 
                         <View style={{flex:1, flexDirection:"row"}}>
 
@@ -245,7 +247,11 @@ export default class Home extends React.Component {
 // il va falloir adapter le designe entierement en noir
 const styles = StyleSheet.create(
     {
-       modal:
+      bienvenue:{
+          alignSelf:"center",fontSize:22,
+          fontWeight:"bold",marginBottom: 10
+      },
+        modal:
        {
            backgroundColor: "rgb(156, 23, 84)",
            alignSelf: "center",

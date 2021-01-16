@@ -6,6 +6,7 @@ import{Button, Icon} from "react-native-elements";
 import { EditDialog, DetailDialog } from './ModalDialog.js';
 import {Calendar} from "react-native-calendars"
 import { StatusBar } from 'react-native';
+import {formatPostData} from "./security"
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
@@ -18,6 +19,31 @@ const hashCode = function(s){
 const mois = ["Janvier", "Février", "Mars", "Avril",
 "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
 const today = new Date();
+
+function participateToEvent(nom_event, date, user)
+{
+    let data = new FormData();
+    data.append("identifiant", user.identifiant);
+    data.append("pass", user.pass)
+    data.append("nom_event", nom_event);
+    data.append("date", date)
+    data = formatPostData(data)
+    fetch('http://www.wi-bash.fr/application/Create/AddEventParticipant.php', {
+        method: 'POST',
+        headers: {
+        Accept: 'multipart/form-data',
+        'Content-Type': "multipart/form-data; charset=utf-8"
+        },
+        body: data
+        }).then((reponse)=> reponse.text()).then((text) => {
+        
+        console.log(text)
+            }
+            ).catch(
+            (error) => console.log(error))
+    
+
+}
 
 //Chaque event est représenté par une carte individuelle
 class Carte extends React.Component
@@ -44,7 +70,8 @@ class Carte extends React.Component
             close = {close}
             titre ={this.props.event.nom} description = {this.jour+" "+this.mois+" "+this.annee+
         "\n"+(this.props.event.description||"")} editAction={(this.props.user.niveau<=1&& 
-            !(this.props.event.projet))?(()=>this.props.navigation.navigate("modify_event", {event:this.props.event})):null} auxiliarAction ={close}
+            !(this.props.event.projet))?(()=>this.props.navigation.navigate("modify_event", {event:this.props.event})):null} 
+            auxiliarAction ={()=>{close(); participateToEvent(this.props.event.nom, this.props.event.date, this.props.user)}}
         auxiliarActionTitle={(this.props.event.projet)?null:'Participer'}/>
         )
     }
@@ -102,6 +129,7 @@ export default class Evenement extends React.Component {
        {
         fetch('http://www.wi-bash.fr/application/Read/ListEvent.php?identifiant='+this.props.user.identifiant).then(
             (reponse)=>reponse.text()).then((text)=>{
+                console.log(text, "meeerde")
                 let events = JSON.parse(text)
                 if (this.state.events !== events) this.setState({events:JSON.parse(text)})}).catch((error)=>console.log(error))
        }

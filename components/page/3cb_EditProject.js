@@ -353,7 +353,7 @@ memberView()
     //vue liste des taches
     taskView()
     {
-        if (this.projet.mine)
+        if (this.projet.mine && this.state.tasks)
         {
             return (
                 <View style={{flex:2}}>
@@ -429,7 +429,8 @@ memberView()
         body: data
         }).then((reponse)=> reponse.text()).then((text) => {
         console.log(text)
-            if (text.search("200")!==-1) {
+            if (text.search("200")!==-1) {message("Well done !", "Votre réunion a bien été ajoutée à l'agenda.\n"+
+            "Seuls les participants au projet pourront la consulter dans leur calendrier")
         }else message ('Oups', "Nous n'avons pas pu créer la réunion")
         
             }
@@ -721,8 +722,8 @@ render(props){
             >
                 <Text numberOfLines={this.state.numberOfLines}
                 onPress={()=>{this.setState({numberOfLines:(this.state.numberOfLines)?null:15})}}>
-            Objectifs {"\n"+this.projet.objectifs+"\n\n"}
-            Description {"\n"+this.projet.description+"\n"}
+            <Text style={{alignSelf:"center"}}> OBJECTIFS </Text> {"\n"+this.projet.objectifs+"\n\n"}
+            <Text style={{alignSelf:"center"}}> DESCRIPTION </Text> {"\n"+this.projet.description+"\n"}
             </Text>
             </ScrollView>
             

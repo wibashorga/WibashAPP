@@ -7,6 +7,7 @@ const windowHeight = Dimensions.get("window").height;
 // test
 export default class Accueil extends React.Component 
 {
+  
   render()
   {
     return(

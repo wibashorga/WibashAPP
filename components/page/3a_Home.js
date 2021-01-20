@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, View, Modal, StyleSheet,Dimensions, FlatList, SafeAreaView, ScrollView,Button, Image,StatusBar} from 'react-native';
-import Header from "./Header";
+import {load_events, load_members} from "../../API/api_request";
+import {url} from "../../API/api_table"
 import {Icon} from "react-native-elements";
 import {formatPostData} from "./security"
 //import image from "./ressources/fondprojet.jpg";
@@ -106,35 +107,28 @@ export default class Home extends React.Component {
         data.append("token", token);
         data.append("identifiant", this.state.user.identifiant);
         data.append("pass", this.state.user.pass);
-        fetch('http://www.wi-bash.fr/application/Read/ListeMembres.php', {
-        method: 'POST',
-        headers: {
-        Accept: 'multipart/form-data',
-        'Content-Type': "multipart/form-data"
-        },
-        body: data
-        }).then((reponse)=> reponse.text()).then((json) => {
+       
+        load_members(data,(json) => {
             json = JSON.parse(json);
             if (this.state.membres!=json)
             {
             this.props.setMembers(json);
-            this.setState({membres:json})}
-    }).catch(
-            (error) => console.log(error))
-        }
-    }
+            this.setState({membres:json})
+            }})
+    }}
+
     importEvents()
     {
         if (this.props.navigation.isFocused())
         {
-        fetch("http://www.wi-bash.fr/application/Read/ListEvent.php").then(
-            (reponse)=>reponse.text()).then(
-                (json)=>{
-                    let events = JSON.parse(json);
-                    this.props.setEvents(events);
-                    this.setState({events:events});
-                }
-            ).catch((error)=>console.log(error))
+            let data = new FormData();
+            data.append("identifiant", this.props.user.identifiant)
+            
+            load_events(data, (json)=>{
+                let events = JSON.parse(json);
+                this.props.setEvents(events);
+                this.setState({events:events});
+            })
         }
     }
 
@@ -149,6 +143,7 @@ export default class Home extends React.Component {
             </View>
         )
     }
+
     memberCard(){
        return( <View style={styles.card}>
                 <Text style={styles.textetitre}>MEMBRES</Text>
@@ -182,7 +177,7 @@ export default class Home extends React.Component {
   
     render()
     {
-        StatusBar.setHidden(false);
+        
         return(
             <ScrollView style = {{flex:1}}>
 

@@ -6,6 +6,8 @@ import{Button, Icon} from "react-native-elements";
 import { EditDialog, DetailDialog } from './ModalDialog.js';
 import {Calendar} from "react-native-calendars"
 import { StatusBar } from 'react-native';
+import * as api from "../../API/api_request";
+import {url} from "../../API/api_table"
 import {formatPostData} from "./security"
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -25,23 +27,9 @@ function participateToEvent(nom_event, date, user)
     let data = new FormData();
     data.append("identifiant", user.identifiant);
     data.append("pass", user.pass)
-    data.append("nom_event", nom_event);
+    data.append("nom", nom_event);
     data.append("date", date)
-    data = formatPostData(data)
-    fetch('http://www.wi-bash.fr/application/Create/AddEventParticipant.php', {
-        method: 'POST',
-        headers: {
-        Accept: 'multipart/form-data',
-        'Content-Type': "multipart/form-data; charset=utf-8"
-        },
-        body: data
-        }).then((reponse)=> reponse.text()).then((text) => {
-        
-        console.log(text)
-            }
-            ).catch(
-            (error) => console.log(error))
-    
+    api.add_participant_event(data) 
 
 }
 
@@ -57,22 +45,34 @@ class Carte extends React.Component
         this.jour = split[2];
         this.annee = split[0];
         this.urgent = (split[0]==today.getFullYear() && split[1]==today.getMonth()+1
-        && parseInt(split[2])-today.getDate()<=2);
-        this.state = {visible:false}
+        && parseInt(this.jour)-today.getDate()<=2);
+        this.state = {visible:false, participants:""}      
+    
         
+        
+    }
+    
+    checkEventIsMine()
+    {
+        if (this.state.participants instanceof Array) return this.state.participants.find((p)=>p.id_membre==this.props.user.identifiant)
+        return false
     }
     
     eventDialog()
     {
         const close = ()=>this.setState({visible:false})
+        const formatParticipants = (p) => {try{return "Participants : "+p.map((m)=>m.prenom+" "+m.nom).join(", ")}
+        catch(e){return ""}}
+        
         return(
             <DetailDialog visible = {this.state.visible} 
             close = {close}
             titre ={this.props.event.nom} description = {this.jour+" "+this.mois+" "+this.annee+
-        "\n"+(this.props.event.description||"")} editAction={(this.props.user.niveau<=1&& 
+        "\n"+(this.props.event.description||"")+"\n"+formatParticipants(this.props.event.projet || this.state.participants)}
+        editAction={(this.props.user.niveau<=1 && 
             !(this.props.event.projet))?(()=>this.props.navigation.navigate("modify_event", {event:this.props.event})):null} 
             auxiliarAction ={()=>{close(); participateToEvent(this.props.event.nom, this.props.event.date, this.props.user)}}
-        auxiliarActionTitle={(this.props.event.projet)?null:'Participer'}/>
+        auxiliarActionTitle={(this.props.event.projet)?null:(this.checkEventIsMine())?null:'Participer'}/>
         )
     }
     render()
@@ -81,7 +81,10 @@ class Carte extends React.Component
             return(
                 <View>
                 <TouchableOpacity onPress= {()=>{
-                    //this.props.onPress()
+                     let data = new FormData()
+                     data.append("nom", this.props.event.nom)
+                     data.append("date", this.props.event.date)
+                    api.load_participants_event(data, (text)=>{this.setState({participants:JSON.parse(text)})})
                     this.setState({visible:true})
                 }}
                 style={{...styles.carte, backgroundColor:(this.urgent)?"red":this.props.event.projet?"rgb(156,220,254)":"white"}}>
@@ -129,7 +132,7 @@ export default class Evenement extends React.Component {
        {
         fetch('http://www.wi-bash.fr/application/Read/ListEvent.php?identifiant='+this.props.user.identifiant).then(
             (reponse)=>reponse.text()).then((text)=>{
-                console.log(text, "meeerde")
+                //console.log(text, "meeerde")
                 let events = JSON.parse(text)
                 if (this.state.events !== events) this.setState({events:JSON.parse(text)})}).catch((error)=>console.log(error))
        }
@@ -214,9 +217,6 @@ export default class Evenement extends React.Component {
                 </View>
                 
 
-
-                
-                {/*this.showButtonEdit()*/}
                 </ImageBackground>
 
                 

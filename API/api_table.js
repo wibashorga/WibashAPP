@@ -8,7 +8,7 @@ export const url = {
 wibash:{
     read:{
         liste_projets:{url: wibash_prefix+"Read/ListeProjets.php", args:[]},
-        liste_events:{url:wibash_prefix+"Read/ListEvents.php", args:["identifiant"]},
+        liste_events:{url:wibash_prefix+"Read/ListEvent.php", args:["identifiant"]},
         liste_membres:{url:wibash_prefix+"Read/ListeMembres.php",args:["token","identifiant", "pass"]},
         liste_participants_projets:{url:wibash_prefix+"Read/ListWorkers.php", args:["id_projet"]},
         liste_taches:{url:wibash_prefix+"Read/ListeTaches.php",args:[/**... */]},
@@ -21,6 +21,7 @@ wibash:{
         creer_proposition_projet:{url: wibash_prefix+"Create/CreaPropositionProjet.php", args:[/**to be continued */]},
         creer_event:{url: wibash_prefix+"Create/CreateEvent.php", args:["token", "identifiant", "pass", "nom", "date", "type", "#description"]},
         creer_participant_projet:{url: wibash_prefix+"Create/AddWorker.php", args:[/**to be continued */]},
+        creer_participant_event:{url: wibash_prefix+"Create/AddParticipantEvent.php", args:[/**to be continued */]},
         creer_tache:{url: wibash_prefix+"Create/AddTask.php", args:["identifiant", "pass", "nom", "#description"]},
     },
     update:{
@@ -39,9 +40,10 @@ wibash:{
     ypepin:{
         read:{
             liste_projets:{url: ypepin_prefix+"Read/ListeProjets.php", args:[]},
-            liste_events:{url:ypepin_prefix+"Read/ListEvents.php", args:["identifiant"]},
+            liste_events:{url:ypepin_prefix+"Read/ListEvent.php", args:["identifiant"]},
             liste_membres:{url:ypepin_prefix+"Read/ListeMembres.php",args:["token","identifiant", "pass"]},
             liste_participants_projets:{url:ypepin_prefix+"Read/ListWorkers.php", args:["id_projet"]},
+            liste_participants_event:{url:ypepin_prefix+"Read/ListeParticipantsEvent.php", args:["nom", "date"]},
             liste_taches:{url:ypepin_prefix+"Read/ListeTaches.php",args:[/**... */]},
             liste_idees_projet:{url:ypepin_prefix+"Read/ListeIdeeProjets.php",args:["id_proj"]},
             login:{url:ypepin_prefix+"Read/login.php", args:["token","identifiant", "pass"]},
@@ -52,6 +54,7 @@ wibash:{
             creer_proposition_projet:{url: ypepin_prefix+"Create/CreaPropositionProjet.php", args:[/**to be continued */]},
             creer_event:{url: ypepin_prefix+"Create/CreateEvent.php", args:["token", "identifiant", "pass", "nom", "date", "type", "#description"]},
             creer_participant_projet:{url: ypepin_prefix+"Create/AddWorker.php", args:[/**to be continued */]},
+            creer_participant_event:{url: ypepin_prefix+"Create/AddParticipantEvent.php", args:[/**to be continued */]},
             creer_tache:{url: ypepin_prefix+"Create/AddTask.php", args:["identifiant", "pass", "nom", "#description"]},
         },
         update:{

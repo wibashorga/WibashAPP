@@ -29,7 +29,7 @@ function participateToEvent(nom_event, date, user)
     data.append("pass", user.pass)
     data.append("nom", nom_event);
     data.append("date", date)
-    api.add_participant_event(data) 
+    api.add_participant_to_event(data) 
 
 }
 

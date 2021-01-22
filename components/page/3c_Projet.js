@@ -1,6 +1,7 @@
 import React from 'react';
 import {Icon} from "react-native-elements";
 import {Text, View, Modal, Dimensions, StyleSheet, ScrollView, TouchableOpacity, FlatList,Image,Button,SafeAreaView, ImageBackground} from 'react-native';
+import {load_projects} from "../../API/api_request";
 const token = "PPlaFk63u4E6";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -120,30 +121,15 @@ export default class Projet extends React.Component {
         data.append("identifiant", this.state.user.identifiant);
         data.append("pass", this.state.user.pass);
         
-        fetch('http://www.wi-bash.fr/application/Read/ListeProjets.php', {
-        method: 'POST',
-        headers: {
-        Accept: 'multipart/form-data',
-        'Content-Type': "multipart/form-data"
-        },
-        body: data
-        }).then((reponse)=> reponse.text()).then((json) => {
-            
+        load_projects(data, (json) => {
             json = JSON.parse(json)
-        
            if (this.state.projets.map(p=>{p.ID, p.mine,p.nom, p.objectifs})!== json.map(p=>{p.ID, p.mine,p.nom, p.objectifs}))
             {
-    
-                this.setState({projets:json});
+            this.setState({projets:json});
             this.props.setProjects(json);
-            for (let p of this.state.projets) 
-            {
-                this.importWorkers(p.ID)
-            }
+            for (let p of this.state.projets) this.importWorkers(p.ID)
         }
-        }
-            ).catch(
-            (error) => console.log(error))
+        })
         }
     }
     importWorkers (id_projet)

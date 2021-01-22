@@ -1,11 +1,12 @@
 import React from 'react';
 import {Text, View, Modal, StyleSheet,Dimensions, FlatList, SafeAreaView, ScrollView,Button, Image,StatusBar} from 'react-native';
-import {load_events, load_members} from "../../API/api_request";
-import {url} from "../../API/api_table"
+import {load_events, load_members, load_projects, load_actus, create_actu} from "../../API/api_request";
+import {url} from "../../API/api_table";
 import {Icon} from "react-native-elements";
 import {formatPostData} from "./security"
 //import image from "./ressources/fondprojet.jpg";
 import * as ImagePicker from "expo-image-picker";
+import { EditDialog } from './ModalDialog';
 
 const token = "PPlaFk63u4E6";
 const windowWidth = Dimensions.get("window").width;
@@ -47,7 +48,9 @@ export default class Home extends React.Component {
             projets: [],
             membres: [],
             events: [],
-            image:""
+            image:"",
+            actuDialogVisible:false,
+            actus:[]
         }
         
         this.importProjects();
@@ -60,6 +63,8 @@ export default class Home extends React.Component {
             this.importMembers();
             this.importEvents();
             });
+            load_actus(null, (reponse)=>{this.setState({actus: JSON.parse(reponse)})})
+            
     }
     
     setHeader(){
@@ -80,23 +85,15 @@ export default class Home extends React.Component {
         data.append("identifiant", this.state.user.identifiant);
         data.append("pass", this.state.user.pass);
         formatPostData(data)
-        
-        fetch('http://www.wi-bash.fr/application/Read/ListeProjets.php', {
-        method: 'POST',
-        headers: {
-        Accept: 'multipart/form-data',
-        'Content-Type': "multipart/form-data"
-        },
-        body: data
-        }).then((reponse)=> reponse.text()).then((json) => {
+
+        load_projects(data, (json) => {
             json = JSON.parse(json);//on transforme la string json en objet js
             if (this.state.projets!=json)
             {
             this.setState({projets:json})
             this.props.setProjects(json);
             }
-        }).catch(
-            (error) => console.log("coucou", error))
+        })
         }
     }
     importMembers ()
@@ -129,6 +126,17 @@ export default class Home extends React.Component {
                 this.props.setEvents(events);
                 this.setState({events:events});
             })
+        }
+    }
+    create_actu()
+    {
+        if (this.actuContent)
+        {
+            let data = new FormData()
+            data.append("identifiant", this.props.user.identifiant)
+            data.append("pass", this.props.user.pass)
+            data.append("actu", this.actuContent);
+            create_actu(data,(reponse)=> load_actus(null, (reponse)=>{this.setState({actus: JSON.parse(reponse)})}))
         }
     }
 
@@ -166,12 +174,19 @@ export default class Home extends React.Component {
     }
 
     componentDidMount(){
-       setTimeout(()=>{
-           this.importEvents();
+       
+        this.interval = setTimeout(()=>{
+            load_actus(null, (reponse)=>{this.setState({actus: JSON.parse(reponse)})})
+            this.importEvents();
            this.importMembers();
            this.importProjects();
        }, 30000)
+       
        this.setHeader();
+    }
+    componentWillUnmount()
+    {
+        clearInterval(this.interval)
     }
 
   
@@ -208,8 +223,16 @@ export default class Home extends React.Component {
                         <View style = {styles.Titre}>
                             <Text style = {styles.textetitre} > Actu </Text>
 
-                            <FlatList data={this.state.projets.slice(0,5)} keyExtractor={(item)=>item.ID} 
-                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
+
+                    {this.state.actus.map(actu=>(<Text>{actu.actu}</Text>))}
+                    <EditDialog visible={this.state.actuDialogVisible} inputCount={1}
+            firstInputHandler={(text)=>{this.actuContent=text}} close={()=>this.setState({actuDialogVisible:false})}
+            editButtonTitle="Editer l'actu" firstPlaceholder="Quelle bonne nouvelle allez-vous annoncer ?"
+            editAction={()=>{this.create_actu()
+                this.setState({actuDialogVisible:false})
+                this.actuContent=""}}/>
+            <Button title="Actu" onPress={()=>{this.setState({actuDialogVisible:true})}}/>
+
 
 
                         </View>
@@ -226,7 +249,9 @@ export default class Home extends React.Component {
 
                         <View style = {styles.Titre}>
                             <Text style = {styles.textetitre} > MEMBRES </Text>
-
+                            
+                            <FlatList data={this.state.projets.slice(0,5)} keyExtractor={(item)=>item.ID} 
+                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
                         </View>
 
                         <View style = {styles.containtcarte}>

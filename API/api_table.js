@@ -42,10 +42,11 @@ wibash:{
             liste_projets:{url: ypepin_prefix+"Read/ListeProjets.php", args:[]},
             liste_events:{url:ypepin_prefix+"Read/ListEvent.php", args:["identifiant"]},
             liste_membres:{url:ypepin_prefix+"Read/ListeMembres.php",args:["token","identifiant", "pass"]},
-            liste_participants_projets:{url:ypepin_prefix+"Read/ListWorkers.php", args:["id_projet"]},
+            liste_participants_projet:{url:ypepin_prefix+"Read/ListWorkers.php", args:["id_projet"]},
             liste_participants_event:{url:ypepin_prefix+"Read/ListeParticipantsEvent.php", args:["nom", "date"]},
             liste_taches:{url:ypepin_prefix+"Read/ListeTaches.php",args:[/**... */]},
             liste_idees_projet:{url:ypepin_prefix+"Read/ListeIdeeProjets.php",args:["id_proj"]},
+            liste_actus:{url:ypepin_prefix+"Read/ListeActus.php",args:["id_proj"]},
             login:{url:ypepin_prefix+"Read/login.php", args:["token","identifiant", "pass"]},
         },
         create:{
@@ -54,8 +55,9 @@ wibash:{
             creer_proposition_projet:{url: ypepin_prefix+"Create/CreaPropositionProjet.php", args:[/**to be continued */]},
             creer_event:{url: ypepin_prefix+"Create/CreateEvent.php", args:["token", "identifiant", "pass", "nom", "date", "type", "#description"]},
             creer_participant_projet:{url: ypepin_prefix+"Create/AddWorker.php", args:[/**to be continued */]},
-            creer_participant_event:{url: ypepin_prefix+"Create/AddParticipantEvent.php", args:[/**to be continued */]},
+            creer_participant_event:{url: ypepin_prefix+"Create/AddParticipantEvent.php", args:["identifiant", "pass", "nom", "date"]},
             creer_tache:{url: ypepin_prefix+"Create/AddTask.php", args:["identifiant", "pass", "nom", "#description"]},
+            creer_actu:{url: ypepin_prefix+"Create/CreateActu.php", args:["identifiant", "pass", "actu"]},
         },
         update:{
             udpate_event:{url: ypepin_prefix+"Create/UpdateEvent.php", args:[/**to be continued */]},
@@ -66,7 +68,8 @@ wibash:{
         },
         delete:{
             delete_event:{url: ypepin_prefix+"Create/DeleteEvent.php", args:[/**to be continued */]},
-            delete_projet:{url: ypepin_prefix+"Create/DeleteProject.php", args:[/**to be continued */]},
+            delete_project:{url: ypepin_prefix+"Create/DeleteProject.php", args:[/**to be continued */]},
+            delete_task:{url: ypepin_prefix+"Create/DeleteTask.php", args:["id_projet", "nom"]},
             quitter_projet:{url: ypepin_prefix+"Create/QuitterProjet.php", args:[/**to be continued */]},
         }
     }

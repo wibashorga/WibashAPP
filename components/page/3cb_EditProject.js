@@ -6,6 +6,7 @@ import {Button,BottomSheet,ListItem} from "react-native-elements";
 import { TextInput } from "react-native-gesture-handler";
 import { formatPostData } from "./security";
 import { EditDialog } from "./ModalDialog";
+import * as api from "../../API/api_request";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 
 
@@ -269,30 +270,15 @@ constructor(props){
      puis la stocke dans this.state.participants
      */
     importWorkers ()
-    {
-        
+    {   
         let data = new FormData();
         data.append("id_projet", this.projet.ID);
-        
-        fetch('http://www.wi-bash.fr/application/Read/ListWorkers.php', {
-            method: 'POST',
-            headers: {
-                Accept: 'multipart/form-data',
-                'Content-Type': "multipart/form-data"
-            },
-            body: data
-        }).then((reponse)=> reponse.text()).then((json) => {
-            
+        api.load_project_workers(data, (json)=>{
             json = JSON.parse(json);
             if (this.props.route.params.projet.mine) {
                 this.role = json.find((w)=>w.identifiant==this.props.user.identifiant).role
                 this.setHeader()
-            }
-            
-            this.setState({participants:json})
-        }
-        ).catch(
-            (error) => console.log(error))
+            }this.setState({participants:json})})
         
 }
 sendWorkerStatus(id_membre, role)
@@ -321,12 +307,9 @@ sendWorkerStatus(id_membre, role)
         importTasks(){
             if (this.props.user.niveau !== 3 && this.projet.mine)
             {
-            fetch("http://www.wi-bash.fr/application/Read/ListeTaches.php?id_proj="+this.projet.ID).then((reponse)=>
-            reponse.text()).then((reponse)=>{
-            //console.log(reponse)
-            reponse = JSON.parse(reponse);
-            
-            this.setState({tasks:reponse})}).catch((error)=>console.log(error))
+            let data = new FormData();
+            data.append("id_proj", this.projet.ID)
+            api.load_tasks(data, (reponse)=>this.setState({tasks:JSON.parse(reponse)}))
             }
         }
  //vue liste des participants
@@ -337,7 +320,7 @@ memberView()
                 <Text style={{alignSelf:"center", fontWeight:"bold"}}>PARTICIPANTS : </Text>
             <FlatList horizontal={true} data = {this.state.participants}
             renderItem = {(item)=><CarteMembre membre ={item.item} onPress = {(worker)=>{
-                if (item.item.role!=="Chef de projet" && ["Chef de projet", "Oranisateur"].includes(this.role) && item.item.identifiant!==this.props.user.identifiant)
+                if (item.item.role!=="Chef de projet" && ["Chef de projet", "Organisateur"].includes(this.role) && item.item.identifiant!==this.props.user.identifiant)
                 {
                     this.setState({workerOptions:true});
                     this.selectedMember =  worker;
@@ -353,7 +336,7 @@ memberView()
     //vue liste des taches
     taskView()
     {
-        if (this.projet.mine && this.state.tasks)
+        if (this.projet.mine && this.state.tasks.length)
         {
             return (
                 <View style={{flex:2}}>
@@ -417,25 +400,12 @@ memberView()
         data.append("id_projet", this.projet.ID)
         if (this.decisions) data.append("decisions", this.decisions);
         data.append("description", this.descriptionReunion);
-        data = formatPostData(data)
-
         
-        fetch('http://www.wi-bash.fr/application/Create/CreateEvent.php', {
-        method: 'POST',
-        headers: {
-        Accept: 'multipart/form-data',
-        'Content-Type': "multipart/form-data; charset=utf-8"
-        },
-        body: data
-        }).then((reponse)=> reponse.text()).then((text) => {
-        console.log(text)
+        api.create_event(data, (text) => {
             if (text.search("200")!==-1) {message("Well done !", "Votre réunion a bien été ajoutée à l'agenda.\n"+
             "Seuls les participants au projet pourront la consulter dans leur calendrier")
-        }else message ('Oups', "Nous n'avons pas pu créer la réunion")
-        
-            }
-            ).catch(
-            (error) => console.log(error))
+        }else message ('Oups', "Nous n'avons pas pu créer la réunion")})
+
         }
     }
     meetingCalendar()

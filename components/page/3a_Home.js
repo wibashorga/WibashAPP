@@ -92,7 +92,7 @@ class DoubleCarteMembre extends React.Component
             </View>
         )}else{
             return(
-             <View>
+             <View style={styles.CarteMembre}>
             {this.memberDescritpion(this.membre1)}
             </View>   
             )
@@ -122,9 +122,11 @@ export default class Home extends React.Component {
         
         
         this.props.navigation.addListener("focus", ()=>{
-            this.importProjects();
-            this.importMembers();
-            this.importEvents();
+            this.importProjects(true);
+            this.importMembers(true)
+            this.importEvents(true);
+            
+
             });
             load_actus(null, (reponse)=>{this.setState({actus: JSON.parse(reponse)})})
             
@@ -139,9 +141,9 @@ export default class Home extends React.Component {
                 )
         })
     }
-    importProjects ()
+    importProjects (force)
     {
-        if (this.props.navigation.isFocused())
+        if (this.props.navigation.isFocused() && force==false)
         {
         let data = new FormData();
         data.append("token", token);
@@ -159,9 +161,9 @@ export default class Home extends React.Component {
         })
         }
     }
-    importMembers ()
+    importMembers (force)
     {
-        if (this.props.navigation.isFocused())
+        if (this.props.navigation.isFocused() && !force)
         {
         let data = new FormData();
         data.append("token", token);
@@ -256,7 +258,7 @@ export default class Home extends React.Component {
   
     render()
     {
-        
+        console.log("render")
         return(
             <ScrollView style = {{flex:1}}
             >
@@ -318,8 +320,9 @@ export default class Home extends React.Component {
                         </View>
 
                         <View style = {{...styles.containtcarte, height:180}}>
-                            <FlatList nestedScrollEnabled={true} data={setListAsPairs(this.state.membres)} keyExtractor={(item)=>item.ID} 
-                    renderItem= {(item)=><DoubleCarteMembre membres = {item.item}/>}/>
+                            <FlatList nestedScrollEnabled={true} data={setListAsPairs(this.state.membres)} keyExtractor={(item)=>
+                            item[0].identifiant}
+                    renderItem= {(item)=><DoubleCarteMembre membres = {item.item}/>} />
                        
 
                         </View>
@@ -421,12 +424,12 @@ const styles = StyleSheet.create(
        CarteMembre:
        {
         
-           width: 150,
+           width: 140,
            height: 100,
-           marginRight: 20,
+           marginRight: 10,
            marginTop:30,
            overflow: "hidden",
-           paddingLeft:10,
+           paddingLeft:5,
           borderRadius: 20,
           backgroundColor:"white",
           

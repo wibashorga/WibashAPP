@@ -1,7 +1,7 @@
 import React from 'react';
 import {Icon} from "react-native-elements";
 import {Text, View, Modal, Dimensions, StyleSheet, ScrollView, TouchableOpacity, FlatList,Image,Button,SafeAreaView, ImageBackground} from 'react-native';
-import {load_projects} from "../../API/api_request";
+import {load_projects, load_project_workers, load_tasks} from "../../API/api_request";
 const token = "PPlaFk63u4E6";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -21,7 +21,13 @@ class Carte extends React.Component
        
        this.chef = this.props.projet.chef;
        this.state = {selected:false}
-        
+       let data = new FormData(); data.append("id_proj",this.props.projet.ID)
+       data.append("id_projet", this.props.projet.ID)
+       this.workers = [];
+       this.tasks = []
+       if (this.props.projet.mine)load_tasks(data, (reponse)=>{this.tasks=JSON.parse(reponse)})
+       load_project_workers(data, (reponse)=>{this.workers=JSON.parse(reponse)})
+
         if (this.chef===this.props.user.identifiant) this.chef = this.props.user;
         else{
             try{
@@ -49,7 +55,9 @@ class Carte extends React.Component
             onPress = {()=>{
                 //quand on clique sur la carte on navigue vers d'édition de projet
                 //à laquelle on passe en paramètre le projet courant
-               if(!this.state.selected) this.props.navigation.navigate("Edit", {projet:this.props.projet, chef:this.chef})
+               if(!this.state.selected) this.props.navigation.navigate("Edit", {projet:this.props.projet, 
+                chef:this.chef, tasks:this.tasks, 
+            workers:this.workers})
                else {
                    this.setState({selected:false})
                 this.props.unselect()
@@ -101,6 +109,7 @@ export default class Projet extends React.Component {
             projets:
                 (this.props.projets && this.props.projets instanceof Array) ?this.props.projets.map((projet)=>({...projet, selected:false})) : []
         }
+        this.dataImported = false;
     
         this.props.navigation.addListener("focus", ()=>this.importProjects());
         
@@ -127,31 +136,13 @@ export default class Projet extends React.Component {
             {
             this.setState({projets:json});
             this.props.setProjects(json);
-            for (let p of this.state.projets) this.importWorkers(p.ID)
         }
+        
         })
         }
     }
-    importWorkers (id_projet)
-    {
-        let data = new FormData();
-        data.append("id_projet", id_projet);
-        
-        fetch('http://www.wi-bash.fr/application/Read/ListWorkers.php', {
-            method: 'POST',
-            headers: {
-                Accept: 'multipart/form-data',
-                'Content-Type': "multipart/form-data"
-            },
-            body: data
-        }).then((reponse)=> reponse.text()).then((json) => {
-            
-            json = JSON.parse(json);
-            this.state.projets[this.state.projets.findIndex((p)=>p.ID==id_projet)].workers = json;
-        }
-        ).catch(
-            (error) => console.log(error))
-        }
+    
+
     setHeader()
     {
         this.props.navigation.setOptions({title : "PROJETS", headerStyle:{

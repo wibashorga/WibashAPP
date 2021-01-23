@@ -46,7 +46,11 @@ class Carte extends React.Component
         this.annee = split[0];
         this.urgent = (split[0]==today.getFullYear() && split[1]==today.getMonth()+1
         && parseInt(this.jour)-today.getDate()<=2);
-        this.state = {visible:false, participants:""}      
+        this.state = {visible:false, participants:""}   
+        let data = new FormData()
+        data.append("nom", this.props.event.nom)
+        data.append("date", this.props.event.date)
+        api.load_participants_event(data, (text)=>{this.setState({participants:JSON.parse(text)})})   
     
         
         

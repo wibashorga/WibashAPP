@@ -44,9 +44,9 @@ wibash:{
             liste_membres:{url:ypepin_prefix+"Read/ListeMembres.php",args:["token","identifiant", "pass"]},
             liste_participants_projet:{url:ypepin_prefix+"Read/ListWorkers.php", args:["id_projet"]},
             liste_participants_event:{url:ypepin_prefix+"Read/ListeParticipantsEvent.php", args:["nom", "date"]},
-            liste_taches:{url:ypepin_prefix+"Read/ListeTaches.php",args:[/**... */]},
+            liste_taches:{url:ypepin_prefix+"Read/ListeTaches.php",args:["id_proj"]},
             liste_idees_projet:{url:ypepin_prefix+"Read/ListeIdeeProjets.php",args:["id_proj"]},
-            liste_actus:{url:ypepin_prefix+"Read/ListeActus.php",args:["id_proj"]},
+            liste_actus:{url:ypepin_prefix+"Read/ListeActus.php",args:[]},
             login:{url:ypepin_prefix+"Read/login.php", args:["token","identifiant", "pass"]},
         },
         create:{

@@ -7,6 +7,7 @@ import {formatPostData} from "./security"
 //import image from "./ressources/fondprojet.jpg";
 import * as ImagePicker from "expo-image-picker";
 import { EditDialog } from './ModalDialog';
+import { TouchableOpacity } from 'react-native';
 
 const token = "PPlaFk63u4E6";
 const windowWidth = Dimensions.get("window").width;
@@ -18,6 +19,19 @@ const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",
 On y voit le résumé des informations les plus importantes sur les projets et les membres
 
 */
+function setListAsPairs(array)
+{
+    let l = [];
+    let max = (array.length%2 == 0)?array.length-1:array.length-2;
+    let i;
+    for (i = 1; i <= max; i+=2)
+    {
+        l.push([array[i-1], array[i]])
+    }
+    if (i===array.length) l.push([array[array.length-1]])
+    return l;
+}
+
 class Carte extends React.Component
 {
     constructor(props)
@@ -37,6 +51,54 @@ class Carte extends React.Component
         )
     }
 }
+class DoubleCarteMembre extends React.Component
+{
+    constructor(props)
+    {
+        super(props);
+        this.membre1 = this.props.membres[0];
+        this.membre1.role = ["dev", "administrateur", "membre", "visiteur"][this.membre1.niveau]
+        if (this.props.membres.length==2)
+        {
+            this.membre2 = this.props.membres[1];
+        this.membre2.role = ["dev", "administrateur", "membre", "visiteur"][this.membre2.niveau]
+        }
+        
+        
+    }
+    memberDescritpion(membre)
+    {
+     return(
+        <View style={styles.CarteMembre}>
+        <Text style = {{fontWeight:"bold"}}>{membre.prenom+" "+membre.nom}</Text>
+        <Text>{membre.story} {membre.role}</Text>
+    </View>
+     )   
+    }
+    render()
+    {
+
+        if (this.props.membres.length==2)
+        {
+        return(
+            <View style={{flexDirection:"row"}}>
+            <View style={styles.CarteMembre}>
+                {this.memberDescritpion(this.membre1)}
+            </View>
+            
+            <View style={styles.CarteMembre}>
+                {this.memberDescritpion(this.membre2)}
+            </View>
+            </View>
+        )}else{
+            return(
+             <View>
+            {this.memberDescritpion(this.membre1)}
+            </View>   
+            )
+        }
+    }
+}
 
 
 export default class Home extends React.Component {
@@ -50,7 +112,8 @@ export default class Home extends React.Component {
             events: [],
             image:"",
             actuDialogVisible:false,
-            actus:[]
+            actus:[],
+            enableScrollViewScroll: true,
         }
         
         this.importProjects();
@@ -111,6 +174,7 @@ export default class Home extends React.Component {
             {
             this.props.setMembers(json);
             this.setState({membres:json})
+            
             }})
     }}
 
@@ -194,7 +258,8 @@ export default class Home extends React.Component {
     {
         
         return(
-            <ScrollView style = {{flex:1}}>
+            <ScrollView style = {{flex:1}}
+            >
 
                 <Text style={styles.bienvenue}>BIENVENUE, {this.props.user.prenom.toUpperCase()}</Text>
                 
@@ -248,13 +313,13 @@ export default class Home extends React.Component {
                 <View style = {styles.categorie}>
 
                         <View style = {styles.Titre}>
-                            <Text style = {styles.textetitre} > MEMBRES </Text>
+                            <Text style = {styles.textetitre} > Les basheurs : </Text>
                             
-                            <FlatList data={this.state.projets.slice(0,5)} keyExtractor={(item)=>item.ID} 
-                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
                         </View>
 
-                        <View style = {styles.containtcarte}>
+                        <View style = {{...styles.containtcarte, height:180}}>
+                            <FlatList nestedScrollEnabled={true} data={setListAsPairs(this.state.membres)} keyExtractor={(item)=>item.ID} 
+                    renderItem= {(item)=><DoubleCarteMembre membres = {item.item}/>}/>
                        
 
                         </View>
@@ -271,6 +336,8 @@ export default class Home extends React.Component {
                         </View>
 
                         <View style = {styles.containtcarte}>
+                            <FlatList data={this.state.projets.slice(0,5)} keyExtractor={(item)=>item.ID} 
+                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
                         
                         </View>
                 </View>
@@ -283,7 +350,8 @@ export default class Home extends React.Component {
 
                     
                 </View>
-            </ScrollView>            
+            </ScrollView> 
+                       
         )
     }
 }
@@ -349,7 +417,22 @@ const styles = StyleSheet.create(
           borderRadius: 20,
           backgroundColor:"white",
           
-       },categorie:
+       },
+       CarteMembre:
+       {
+        
+           width: 150,
+           height: 100,
+           marginRight: 20,
+           marginTop:30,
+           overflow: "hidden",
+           paddingLeft:10,
+          borderRadius: 20,
+          backgroundColor:"white",
+          
+       },
+       
+       categorie:
        {
            flex:1,
            //height : 290

@@ -66,7 +66,7 @@ post_request(url.ypepin.read.liste_membres.url, args, success_callback, fail_cal
 
 /**Liste des taches dans un projet. Args : id_proj */
 export const load_tasks = async (args, success_callback, fail_callback) => 
-post_request(url.ypepin.read.liste_taches.url, args, success_callback, fail_callback)
+get_request(url.ypepin.read.liste_taches.url, args, success_callback, fail_callback)
 
 export const load_actus = async (args, success_callback, fail_callback) => 
 get_request(url.ypepin.read.liste_actus.url, args, success_callback, fail_callback)

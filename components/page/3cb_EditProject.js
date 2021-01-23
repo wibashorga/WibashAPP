@@ -105,7 +105,7 @@ constructor(props){
     super(props);
         this.projet = this.props.route.params.projet;
         this.chef = this.props.route.params.chef;
-        this.state = {participants: this.projet.workers || [], task:false, tasks:[], suggestion:false, 
+        this.state = {participants: this.props.route.params.workers || [], task:false, tasks:this.props.route.params.tasks || [], suggestion:false, 
             suggestions:[], bottomSheetVisible:false, reunion:false, 
             workerOptions:false, calendarVisible:false,
         meetingDate:null, numberOfLines:15};
@@ -121,6 +121,8 @@ constructor(props){
         this.importTasks();
         this.importWorkers();
         this.importSuggestions();
+
+        console.log(this.projet.nom+" :",this.props.route.params.workers)
         
     }
      //permet de définir la header bar de la vue
@@ -309,7 +311,7 @@ sendWorkerStatus(id_membre, role)
             {
             let data = new FormData();
             data.append("id_proj", this.projet.ID)
-            api.load_tasks(data, (reponse)=>this.setState({tasks:JSON.parse(reponse)}))
+            api.load_tasks(data, (reponse)=>{console.log(reponse);this.setState({tasks:JSON.parse(reponse)})})
             }
         }
  //vue liste des participants

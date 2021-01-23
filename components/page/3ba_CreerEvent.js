@@ -5,6 +5,7 @@ import CalendarPicker from "react-native-calendar-picker";
 import {Picker} from  "@react-native-picker/picker";
 import { formatPostData } from './security';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
+import {create_event} from "../../API/api_request"
 
 
 const token = "PPlaFk63u4E6";
@@ -114,25 +115,13 @@ export default class NewEvent extends React.Component
         if (this.decisions) data.append("decisions", this.decisions);
         if (this.description) data.append("description", this.description);
         data = formatPostData(data)
+        
+        create_event(data, (text) => {
+            console.log(text)
+                if (text.search("200")!==-1) {
+                this.props.navigation.navigate("events", {refresh:true});
+            }else message ('Oups', "Nous n'avons pas pu créer le nouvel évènement")})
 
-        
-        fetch('http://www.wi-bash.fr/application/Create/CreateEvent.php', {
-        method: 'POST',
-        headers: {
-        Accept: 'multipart/form-data',
-        'Content-Type': "multipart/form-data; charset=utf-8"
-        },
-        body: data
-        }).then((reponse)=> reponse.text()).then((text) => {
-        console.log(text)
-            if (text.search("200")!==-1) {
-            
-            this.props.navigation.navigate("events", {refresh:true});
-        }else message ('Oups', "Nous n'avons pas pu créer le nouvel évènement")
-        
-            }
-            ).catch(
-            (error) => console.log(error))
         }else{
             
                 message("Erreur", "Veuillez renseigner au moins le nom, le type et la date")

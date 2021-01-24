@@ -49,6 +49,11 @@ C'est un peu la même que projet sauf que ce sont des:
 Et l'évènement est automatiquement ajouté sur l'agenda Google ou IOS de ceux qui ont choisi `"je participe"` ou `"peut-être"`.
 
 # Notes à l'équipe de dev :
+    ## git commit :
+        -  git pull:
+        - git add .
+        - git commit -m "votre message"
+        - git push
 
 ## Dépendances a installer
 
@@ -131,3 +136,4 @@ https://github.com/Kureev/react-native-side-menu
 
 ### Le cycle d'un composant react :
 https://www.codingame.com/playgrounds/41961/cycle-de-vie-dun-composant-react-render-et-componentdidmount
+

@@ -81,19 +81,27 @@ class Carte extends React.Component
                
                 <Text style = {{fontWeight:"bold", alignSelf:"center", fontSize:25}}>
                     {this.props.projet.nom}</Text>
-                <Text numberOfLines={11}>
-                    <Text style={styles.textecarte}>
-                        <Text style={{fontWeight:"bold"}}>Objectifs : </Text>
-                        {"\n"+this.props.projet.objectifs+"\n"}</Text>
+
+
+                <Text numberOfLines={10}>
+                    <Text style={styles.textecarte} >
+
+                        <Text style={{fontWeight:"bold"}} >Objectifs : </Text>
+
+                        <Text> {"\n"+this.props.projet.objectifs+"\n"} </Text>
+                        
+                    </Text >
 
                     <Text style = {styles.textecarte}>
-                    <Text style={{fontWeight:"bold"}}>Description : </Text>
-                    {"\n"+this.props.projet.description+"\n"}
-                        </Text>
+                        <Text style={{fontWeight:"bold"}}>Description : </Text>
 
-        <Text style={styles.textecarte}> <Text style={{fontStyle:"italic"}}>Chef de projet : </Text> 
-        {this.chef.pseudo}</Text>
-                        </Text>
+                          {"\n"+this.props.projet.description+"\n"}
+                    </Text>
+
+                    <Text style={styles.textecarte}> <Text style={{fontStyle:"italic"}}>Chef de projet : </Text> 
+                        {this.chef.pseudo}</Text>
+                       
+                </Text>
                 
                 </View>
             </TouchableOpacity>
@@ -313,7 +321,7 @@ const styles = StyleSheet.create(
        },
        textecarte:
        {
-           fontSize:18
+           fontSize:15
        },
        containtcarte:
        {

@@ -17,7 +17,7 @@ const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",
 
 /*La vue home se conçoit globalement comme un tableau de bord
 On y voit le résumé des informations les plus importantes sur les projets et les membres
-
+ihyviuvbpvb
 */
 function setListAsPairs(array)
 {
@@ -70,8 +70,14 @@ class DoubleCarteMembre extends React.Component
     {
      return(
         <View style={styles.CarteMembre}>
+          <Image source={require("./ressources/logo.png")} 
+                style= {{width:100, height:100, alignSelf:"center" , borderRadius:15}}></Image>
+            
         <Text style = {{fontWeight:"bold"}}>{membre.prenom+" "+membre.nom}</Text>
-        <Text>{membre.story} {membre.role}</Text>
+        <Text  style = {{fontWeight:"bold"}}>Role: </Text>
+        <Text> {membre.role}</Text>
+        <Text  style = {{fontWeight:"bold"}}>Histoire: </Text>
+        <Text > {membre.story}</Text>
     </View>
      )   
     }
@@ -87,6 +93,7 @@ class DoubleCarteMembre extends React.Component
             </View>
             
             <View style={styles.CarteMembre}>
+           
                 {this.memberDescritpion(this.membre2)}
             </View>
             </View>
@@ -210,7 +217,7 @@ export default class Home extends React.Component {
     {
         return(
             <View style={styles.card}>
-                <Text style={styles.textetitre}>PROJETS</Text>
+                <Text style={styles.textetitrestatut}>PROJETS</Text>
                 <Text>A Wi-Bash il y a en ce moment  :</Text>
                 <Text>• {this.state.projets.length} projets</Text>
                 <Text>• Vous participez à {this.state.projets.filter((p)=>p.mine).length} d'entre eux</Text>
@@ -220,7 +227,7 @@ export default class Home extends React.Component {
 
     memberCard(){
        return( <View style={styles.card}>
-                <Text style={styles.textetitre}>MEMBRES</Text>
+                <Text style={styles.textetitrestatut}>MEMBRES</Text>
                 <Text>Nous comptons {this.state.membres.filter((p)=>p.niveau<3).length+(this.state.user.niveau<3?1:0)} membres</Text>
                 <Text>Mais aussi {this.state.membres.filter(p=>p.niveau==3).length} visiteurs</Text>
                 
@@ -231,7 +238,7 @@ export default class Home extends React.Component {
     {
         return(
             <View style={styles.card}>
-                <Text style={styles.textetitre}>EVENEMENTS</Text>
+                <Text style={styles.textetitrestatut}>EVENEMENTS</Text>
                 <Text>Actuellement, {this.state.events.length}  évènements sont à venir</Text>
                 
                 
@@ -290,39 +297,45 @@ export default class Home extends React.Component {
                         <View style = {styles.Titre}>
                             <Text style = {styles.textetitre} > Actu </Text>
 
+                        {this.state.actus.map(actu=>(
+                                    <Text style={styles.actu}>
+                                        {actu.actu}
+                                    </Text>
+                        ))}
 
-                    {this.state.actus.map(actu=>(<Text>{actu.actu}</Text>))}
+                            <Button style={styles.bontonActu}
+                                title="ajouter actualite" 
+                                color = "red"
+                                onPress={()=>{this.setState({actuDialogVisible:true})}} 
+                                /*Remplacer par un logo plus *//>
+
+
                     <EditDialog visible={this.state.actuDialogVisible} inputCount={1}
-            firstInputHandler={(text)=>{this.actuContent=text}} close={()=>this.setState({actuDialogVisible:false})}
-            editButtonTitle="Editer l'actu" firstPlaceholder="Quelle bonne nouvelle allez-vous annoncer ?"
-            editAction={()=>{this.create_actu()
-                this.setState({actuDialogVisible:false})
-                this.actuContent=""}}/>
-            <Button title="Actu" onPress={()=>{this.setState({actuDialogVisible:true})}}/>
-
+                        firstInputHandler={(text)=>{this.actuContent=text}} close={()=>this.setState({actuDialogVisible:false})}
+                        editButtonTitle="Editer l'actu" firstPlaceholder="Quelle bonne nouvelle allez-vous annoncer ?"
+                         editAction={()=>{this.create_actu()
+                         this.setState({actuDialogVisible:false})
+                    this.actuContent=""}}/>
+            
 
 
                         </View>
 
-                        <View style = {styles.containtcarte}>
-                        
-
-                        </View>
                 </View>
 
 
 
-                <View style = {styles.categorie}>
+                <View style = {styles.categorie} /* modifier le style*/ >
 
                         <View style = {styles.Titre}>
                             <Text style = {styles.textetitre} > Les basheurs : </Text>
                             
                         </View>
 
-                        <View style = {{...styles.containtcarte, height:180}}>
+                        <View style = {{...styles.containtcarte, height:300}}>
                             <FlatList nestedScrollEnabled={true} data={setListAsPairs(this.state.membres)} keyExtractor={(item)=>
                             item[0].identifiant}
-                    renderItem= {(item)=><DoubleCarteMembre membres = {item.item}/>} />
+                    renderItem= {(item)=><DoubleCarteMembre membres = {item.item}/>}   horizontal = {true}/>
                        
 
                         </View>
@@ -425,9 +438,9 @@ const styles = StyleSheet.create(
        {
         
            width: 140,
-           height: 100,
+           height: 290,
            marginRight: 10,
-           marginTop:30,
+           marginTop:0,
            overflow: "hidden",
            paddingLeft:5,
           borderRadius: 20,
@@ -448,8 +461,14 @@ const styles = StyleSheet.create(
            
        },
        textetitre:{
-            fontSize:20,
-            color:"black"
+            fontSize:30,
+            color:"black",
+            fontWeight:"bold"
+       },
+       textetitrestatut:
+       {
+           fontSize:20,
+           color:"black"
        },
        carte:
        {
@@ -492,11 +511,32 @@ const styles = StyleSheet.create(
            marginEnd:60,
            fontSize:10,
            color:"white",
-      }
+      },
+      actu:
+      {
+          backgroundColor:"white",
+          margin:5,
+          borderRadius:10,
+          padding:6
+      },
+     
        
 
-// sa merdes
+/*
 
+Ligne de code pour changer une image contre une dans le tel.
+
+ <View style = {styles.conteneurimage}>
+                            <Image source={this.state.image?{uri:this.state.image}:require("./ressources/logo.png")}
+                                    style= {{width:120, height:120, alignSelf:"center" , borderRadius:15}}/>
+                    </View>
+
+     <Button title="Choisir une image " onPress={()=>this.openImagePickerAsync()} width={100}/>
+                    <Text>contenue</Text>
+
+                </View>
+
+*/
 
 
 

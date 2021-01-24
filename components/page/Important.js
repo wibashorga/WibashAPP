@@ -1,8 +1,23 @@
 import React from 'react';
-import Header from "./Header.js";
+
 
 import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList,ImageBackground,Button,SafeAreaView} from 'react-native';
 const token = "PPlaFk63u4E6";
+
+
+
+function setListAsPairs(array)
+{
+    let l = [];
+    let max = (array.length%2 == 0)?array.length-1:array.length-2;
+    let i;
+    for (i = 1; i <= max; i+=2)
+    {
+        l.push([array[i-1], array[i]])
+    }
+    if (i===array.length) l.push([array[array.length-1]])
+    return l;
+}
 
 
 class Carte extends React.Component

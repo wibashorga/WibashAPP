@@ -3,11 +3,17 @@
 import * as React from 'react';
 import Accueil from '../page/1_Accueil';
 import Home from "../page/3a_Home";
+import Menu from "../page/Menu.js";
 import Reglage from "../page/3ab_Reglage";
 import Profil from "../page/3ac_Profil";
 import Projet from "../page/3c_Projet";
 import {Text, View, Modal, StyleSheet, TouchableOpacity,Button} from 'react-native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { 
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem
+} from '@react-navigation/drawer';
 import Evenement from "../page/3b_Evenement"
 import Important from "../page/Important"
 import CreerCompte from "../page/1b_CreerCompte";
@@ -47,6 +53,55 @@ const AccueilScreen =({ navigation}) => {
   );
 }
  
+
+// Screen du profil
+const ProfilScreen = ({navigation}) => {
+  return(
+    <Profil navigation = {navigation} user = {utilisateur}/>
+  )
+}
+
+/*
+// Stack des profils
+function CustomDrawerContent(props) {
+  return(
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      <DrawerItem
+        label="Close drawer"
+        onPress={() => props.navigation.closeDrawer()}
+      />
+    </DrawerContentScrollView>
+  )
+}
+
+function MyDrawer() {
+  if (this.state.loading && !this.state.connected)
+  {
+    return (
+      <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} />}>
+        <Drawer.Screen name="Home" component={HomeScreen} options={{title : "" , headerShown:false, 
+          headerRight:()=>(<TouchableOpacity onPress={()=>{this.setState({loading:false, connected:false})}}>
+          <Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}/>
+          </TouchableOpacity>)}} />
+        <Drawer.Screen name="MyProfil" component={MyProfilScreen} />
+      </Drawer.Navigator>
+    );
+  }
+  else {
+    <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} initialRouteName='Home'/>}>
+      <Drawer.Screen name="Profils" component={ProfilsScreen} />
+    </Drawer.Navigator>
+  }
+}
+*/
+
+// Screen du menu
+const MenuScreen = ({navigation}) => {
+  return(
+    <Menu navigation = {navigation} user = {utilisateur}/>
+  )
+}
 
 //Screens du corps de l'appli
 const HomeScreen = ({navigation,route}) => {
@@ -137,11 +192,7 @@ const ModifyTaskScreen = ({navigation, route}) =>{
   //-----------------------------
   
 //cette vue va dans le 
-  const ProfilScreen = ({navigation,route}) => {
-    return(
-      <Profil navigation = {navigation} user = {utilisateur}/>
-    )
-  }
+  
 /**Stack des projets
 ProjetScreen correspond à la page "liste des projets"
 CreerProjetScreen correspond à la page de création de projet. on y arrive grâce
@@ -164,21 +215,59 @@ au bouton Edit New Project
   }
 
 // Stack Home Page
-/*const HomeStackScreen = ({navigation})=>{
-  return(
-    <Stack.Navigator initialRouteName = {"Home"}>
-      <Stack.Screen 
-      name="Home" component={HomeScreen} options={{title : "" , headerShown:false, 
-      headerRight:()=>(<Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}
-      onPress={()=>{}}/>)}} />
-      <Stack.Screen 
-      name="Profils" component={ProfilScreen}  />
-      
-    </Stack.Navigator>
-      
-  )
-}*/
-  
+/*
+const HomeStackScreen = () => {
+    if (this.state.connected)
+    {
+      return(
+        <Stack.Navigator initialRouteName = {"Home"}>
+          <Stack.Screen 
+          name="Home" component={HomeScreen} options={{title : "" , headerShown:false, 
+          headerRight:()=>(<TouchableOpacity onPress={()=>{this.setState({loading:false, connected:false})}}>
+            <Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}
+          /></TouchableOpacity>)}} />
+          <Stack.Screen 
+          name="MyProfil" component={MyProfilScreen}  />
+          
+        </Stack.Navigator>
+      )
+    }
+    else {
+      return(
+        <Stack.Navigator initialRouteName = {"Home"}>
+          <Stack.Screen 
+            name="Home" component={HomeScreen} options={{title : "" , headerShown:false, 
+            headerRight:()=>(<TouchableOpacity onPress={()=>{this.setState({loading:false, connected:false})}}>
+            <Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}
+            /></TouchableOpacity>)}} />
+        </Stack.Navigator>
+      );
+    }
+  }
+/*
+
+/*
+const HomeDrawerScreen = () => {
+      <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} />}>
+        <Drawer.Screen name="Home" component={HomeScreen} options={{title : "" , headerShown:false, 
+          headerRight:()=>(<TouchableOpacity onPress={()=>{this.setState({loading:false, connected:false})}}>
+          <Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}/>
+          </TouchableOpacity>)}} />
+        <Drawer.Screen name="MyProfil" component={MyProfilScreen} />
+      </Drawer.Navigator>
+}
+
+
+  else {
+    <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} initialRouteName='Home'/>}>
+      <Drawer.Screen name="Home" component={HomeScreen} options={{title : "" , headerShown:false, 
+          headerRight:()=>(<TouchableOpacity onPress={()=>{this.setState({loading:false, connected:false})}}>
+          <Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}/>
+          </TouchableOpacity>)}} />
+    </Drawer.Navigator>
+  }
+}
+*/
 
   const ImportantScreen = ({navigation,route}) => {
     return(
@@ -215,21 +304,60 @@ class Navigation extends React.Component{
     this.HomeStackScreen = this.HomeStackScreen.bind(this)
 
   }
-  HomeStackScreen({navigation}){
+
+  MenuStackScreen() {
     return(
-      <Stack.Navigator initialRouteName = {"Home"}>
-        <Stack.Screen 
-        name="Home" component={HomeScreen} options={{title : "" , headerShown:false, 
-        headerRight:()=>(<TouchableOpacity onPress={()=>{this.setState({loading:false, connected:false})}}>
-          <Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}
-        /></TouchableOpacity>)}} />
-        <Stack.Screen 
-        name="Profils" component={ProfilScreen}  />
-        
+      <Stack.Navigator initialRouteName={"MenuScreen"} >
+        <Stack.Screen name="MenuScreen" component={MenuScreen}/>
+        <Stack.Screen name={"Profil"} component={ProfilScreen}/>
       </Stack.Navigator>
-        
     )
   }
+
+  
+  HomeStackScreen({navigation}) {
+      return(
+        <Stack.Navigator initialRouteName = {"Home"}>
+          <Stack.Screen 
+          name="Home" component={HomeScreen} 
+          options={{title : "" ,headerShown:false, 
+            headerRight:()=>(
+              <TouchableOpacity onPress={()=>{this.setState({loading:false, connected:false})}}>
+                <Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}/>
+              </TouchableOpacity>)}}/>
+          <Stack.Screen name="Menu" component={this.MenuStackScreen} screenOptions={{headerShown:false}}/>
+        </Stack.Navigator>
+      )
+  }
+
+  
+  /*
+  HomeDrawerScreen() {
+    if (this.state.connected)
+    {
+      return (
+        <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} />}>
+          <Drawer.Screen name="Home" component={HomeScreen} options={{title : "" , headerShown:false, 
+            headerRight:()=>(<TouchableOpacity onPress={()=>{this.setState({loading:false, connected:false})}}>
+            <Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}/>
+            </TouchableOpacity>)}} />
+          <Drawer.Screen name="MyProfil" component={MyProfilScreen} />
+        </Drawer.Navigator>
+      );
+    }
+    else {
+      return(
+        <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} initialRouteName='Home'/>}>
+          <Drawer.Screen name="Home" component={HomeScreen} options={{title : "" , headerShown:false, 
+            headerRight:()=>(<TouchableOpacity onPress={()=>{this.setState({loading:false, connected:false})}}>
+            <Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}/>
+            </TouchableOpacity>)}} />
+        </Drawer.Navigator>
+      );
+    }
+  }
+  */
+
   async readLoginInfo()
   {
     try{
@@ -314,7 +442,7 @@ class Navigation extends React.Component{
     if (this.state.connected)
     {return (
       
-      <Tab.Navigator initialRouteName = "Home" 
+      <Tab.Navigator initialRouteName = {'Home'}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName, iconType;
@@ -352,7 +480,7 @@ class Navigation extends React.Component{
       </Tab.Navigator>
     )}
   }
-
+  
   loadingStack()
   {
     if (this.state.loading && !this.state.connected)
@@ -367,12 +495,27 @@ class Navigation extends React.Component{
     }
   }
 
+  menuStack() {
+    if (this.state.connected) {
+      return(
+        <Stack.Navigator initialRouteName={"Menu"}>
+          {<Stack.Screen name="Menu" component={MenuScreen}/>}
+          <Stack.Screen name={"Profil"} component={ProfilScreen}/>
+        </Stack.Navigator>
+      )
+    }
+    else {
+      <Stack.Navigator initialRouteName={"Menu"}>
+          {<Stack.Screen name="Menu" component={MenuScreen}/>}
+      </Stack.Navigator>
+    }
+  }
   render()
   {
   return (
     <NavigationContainer>  
     {this.authentification()}
-      {this.loadingStack()}
+    {this.loadingStack()}
     {this.homePage()}
     </NavigationContainer>
   );}

@@ -217,7 +217,7 @@ export default class Home extends React.Component {
     {
         return(
             <View style={styles.card}>
-                <Text style={styles.textetitre}>PROJETS</Text>
+                <Text style={styles.textetitrestatut}>PROJETS</Text>
                 <Text>A Wi-Bash il y a en ce moment  :</Text>
                 <Text>• {this.state.projets.length} projets</Text>
                 <Text>• Vous participez à {this.state.projets.filter((p)=>p.mine).length} d'entre eux</Text>
@@ -227,7 +227,7 @@ export default class Home extends React.Component {
 
     memberCard(){
        return( <View style={styles.card}>
-                <Text style={styles.textetitre}>MEMBRES</Text>
+                <Text style={styles.textetitrestatut}>MEMBRES</Text>
                 <Text>Nous comptons {this.state.membres.filter((p)=>p.niveau<3).length+(this.state.user.niveau<3?1:0)} membres</Text>
                 <Text>Mais aussi {this.state.membres.filter(p=>p.niveau==3).length} visiteurs</Text>
                 
@@ -238,7 +238,7 @@ export default class Home extends React.Component {
     {
         return(
             <View style={styles.card}>
-                <Text style={styles.textetitre}>EVENEMENTS</Text>
+                <Text style={styles.textetitrestatut}>EVENEMENTS</Text>
                 <Text>Actuellement, {this.state.events.length}  évènements sont à venir</Text>
                 
                 
@@ -296,11 +296,18 @@ export default class Home extends React.Component {
 
                         <View style = {styles.Titre}>
                             <Text style = {styles.textetitre} > Actu </Text>
-                            <Button title="Actu" onPress={()=>{this.setState({actuDialogVisible:true})}} /*Remplacer par un logo plus *//>
 
+                        {this.state.actus.map(actu=>(
+                                    <Text style={styles.actu}>
+                                        {actu.actu}
+                                    </Text>
+                        ))}
 
-
-                    {this.state.actus.map(actu=>(<Text>{actu.actu}</Text>))}
+                            <Button style={styles.bontonActu}
+                                title="ajouter actualite" 
+                                color = "red"
+                                onPress={()=>{this.setState({actuDialogVisible:true})}} 
+                                /*Remplacer par un logo plus *//>
 
 
                     <EditDialog visible={this.state.actuDialogVisible} inputCount={1}
@@ -454,8 +461,14 @@ const styles = StyleSheet.create(
            
        },
        textetitre:{
-            fontSize:20,
-            color:"black"
+            fontSize:30,
+            color:"black",
+            fontWeight:"bold"
+       },
+       textetitrestatut:
+       {
+           fontSize:20,
+           color:"black"
        },
        carte:
        {
@@ -498,11 +511,32 @@ const styles = StyleSheet.create(
            marginEnd:60,
            fontSize:10,
            color:"white",
-      }
+      },
+      actu:
+      {
+          backgroundColor:"white",
+          margin:5,
+          borderRadius:10,
+          padding:6
+      },
+     
        
 
-// sa merdes
+/*
 
+Ligne de code pour changer une image contre une dans le tel.
+
+ <View style = {styles.conteneurimage}>
+                            <Image source={this.state.image?{uri:this.state.image}:require("./ressources/logo.png")}
+                                    style= {{width:120, height:120, alignSelf:"center" , borderRadius:15}}/>
+                    </View>
+
+     <Button title="Choisir une image " onPress={()=>this.openImagePickerAsync()} width={100}/>
+                    <Text>contenue</Text>
+
+                </View>
+
+*/
 
 
 

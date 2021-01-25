@@ -17,7 +17,7 @@ const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",
 
 /*La vue home se conçoit globalement comme un tableau de bord
 On y voit le résumé des informations les plus importantes sur les projets et les membres
-ihyviuvbpvb
+ihyviuvbpvboob
 */
 function setListAsPairs(array)
 {

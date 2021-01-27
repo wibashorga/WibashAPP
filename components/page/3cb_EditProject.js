@@ -291,22 +291,12 @@ sendWorkerStatus(id_membre, role)
         data.append("id_projet", this.projet.ID);
         data.append("id_membre", id_membre)
         data.append("role", role)
-        fetch('http://www.wi-bash.fr/application/Update/WorkerStatus.php', {
-        method: 'POST',
-        headers: {
-        Accept: 'multipart/form-data',
-        'Content-Type': "multipart/form-data"
-        },
-        body: data
-        }).then((reponse)=> reponse.text()).then((reponse) => {
-            if (reponse.indexOf("200")!==-1) this.importWorkers()
-        }
-            ).catch(
-            (error) => console.log(error))
+        api.change_worker_status(data,(reponse) => {
+            if (reponse.indexOf("200")!==-1) this.importWorkers()})
         
 }
         //importe la liste des taches, puis la stocke dans this.state.tasks
-        importTasks(){
+    importTasks(){
             if (this.props.user.niveau !== 3 && this.projet.mine)
             {
             let data = new FormData();

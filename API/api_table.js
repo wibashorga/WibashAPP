@@ -58,6 +58,8 @@ wibash:{
             creer_participant_event:{url: ypepin_prefix+"Create/AddParticipantEvent.php", args:["identifiant", "pass", "nom", "date"]},
             creer_tache:{url: ypepin_prefix+"Create/AddTask.php", args:["identifiant", "pass", "nom", "#description"]},
             creer_actu:{url: ypepin_prefix+"Create/CreateActu.php", args:["identifiant", "pass", "actu"]},
+            creer_memo:{url: ypepin_prefix+"Create/CreateMemo.php", args:["identifiant", "pass", "contenu", "id_projet"]},
+            
         },
         update:{
             udpate_event:{url: ypepin_prefix+"Update/UpdateEvent.php", args:[/**to be continued */]},

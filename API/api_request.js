@@ -124,3 +124,7 @@ post_request(url.ypepin.create.delete_event.url, args, success_callback, fail_ca
  */
 export const edit_my_account = async (args, success_callback, fail_callback) => 
 post_request(url.ypepin.update.update_account.url, args, success_callback, fail_callback)
+
+export const change_worker_status = async (args, success_callback, fail_callback) => 
+post_request(url.ypepin.update.update_worker_status.url, args, success_callback, fail_callback)
+

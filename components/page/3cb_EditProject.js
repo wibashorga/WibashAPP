@@ -27,6 +27,19 @@ const hashCode = function(s){
     return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0).toString();              
   }
 
+function setListAsPairs(array)
+{
+    let l = [];
+    let max = (array.length%2 == 0)?array.length-1:array.length-2;
+    let i;
+    for (i = 1; i <= max; i+=2)
+    {
+        l.push([array[i-1], array[i]])
+    }
+    if (i===array.length) l.push([array[array.length-1]])
+    return l;
+}
+
 
 
 class CarteMembre extends React.Component
@@ -97,6 +110,39 @@ class CarteTaches extends React.Component{
             </TouchableOpacity>
         ) 
     }
+    }
+    class DoubleCarteTaches extends React.Component
+    {
+        constructor(props)
+    {
+        super(props);
+        this.tache1 = this.props.task[0];
+        if (this.props.task.length==2)
+        {
+            this.tache2 = this.props.task[1];
+        }
+        
+        
+    }
+        render(){
+            if (this.tache2)
+            {
+            return(
+                <View style = {{flexDirection:"row"}}>
+                    <CarteTaches task={this.tache1} isChef={this.props.isChef}
+                    role={this.props.role} navigation = {this.props.navigation}/>
+                    
+                    <CarteTaches task={this.tache2} isChef={this.props.isChef}
+                    role={this.props.role} navigation = {this.props.navigation}/>
+
+                </View>
+            )}else{
+                return(
+                <CarteTaches task={this.tache1} isChef={this.props.isChef}
+                role={this.props.role} navigation = {this.props.navigation}/>
+                )
+            }
+        }
     }
 
 
@@ -188,7 +234,7 @@ constructor(props){
                 {title:"Ajouter un participant",
                 onPress:()=>{}},
                 {title:"Editer une note à l'équipe",
-                onPress:()=>{close(); this.setState({createMemoDialog})}},
+                onPress:()=>{close(); this.setState({createMemoDialog:true})}},
                 {title:"Programmer une réunion",
                 onPress:()=>{close(); this.setState({reunion:true})}},
                 {title:"Gérer les team",
@@ -332,13 +378,13 @@ memberView()
         if (this.projet.mine && this.state.tasks.length)
         {
             return (
-                <View style={{flex:2}}>
+                <View style={{flex:2, height:240}}>
                     <Text style={{alignSelf:"center", fontWeight:"bold"}}>TACHES : </Text>
-                <FlatList horizontal={true} data={this.state.tasks}
+                <FlatList nestedScrollEnabled={true}  data={setListAsPairs(this.state.tasks)}
                 renderItem={(item)=>
-                    <CarteTaches task={item.item} isChef={this.chef.identifiant==this.props.user.identifiant}
+                    <DoubleCarteTaches task={item.item} isChef={this.chef.identifiant==this.props.user.identifiant}
                     role = {this.role} navigation = {this.props.navigation}/>}
-                    keyExtractor={(item)=>hashCode(item.nom)} >
+                    keyExtractor={(item)=>hashCode(item[0].nom)} >
 
                 </FlatList>
                 </View>
@@ -513,7 +559,7 @@ memberView()
              data.append("pass", this.props.user.pass)
              data.append("contenu", this.memo)
              data.append("id_projet", this.projet.ID)
-             api.create_memo(data)
+             api.create_memo(data, (text)=>console.log(text))
              this.setState({createMemoDialog:false})
 
          }
@@ -692,16 +738,14 @@ render(props){
            
             <View style={styles.infoview}>
             
-            {/*<Text>CHEF DE PROJET : {"\n"+this.chef.prenom+" "+this.chef.nom+" ("+this.chef.pseudo+")"}, 
-             {" "+this.projet.DateCrea+"\n"}</Text>*/}
              <Text>{this.projet.type}</Text>
             
-            <ScrollView style={{paddingHorizontal:15, paddingVertical:2, borderColor:"black",borderWidth:1,}}
+            <ScrollView style={styles.descriptionBox}
             >
                 <Text numberOfLines={this.state.numberOfLines}
                 onPress={()=>{this.setState({numberOfLines:(this.state.numberOfLines)?null:15})}}>
-            <Text style={{alignSelf:"center"}}> OBJECTIFS </Text> {"\n"+this.projet.objectifs+"\n\n"}
-            <Text style={{alignSelf:"center"}}> DESCRIPTION </Text> {"\n"+this.projet.description+"\n"}
+            <Text style={{alignSelf:"center"}}>OBJECTIFS </Text> {"\n"+this.projet.objectifs+"\n\n"}
+            <Text style={{alignSelf:"center"}}>DESCRIPTION </Text> {"\n"+this.projet.description+"\n"}
             </Text>
             </ScrollView>
             
@@ -773,6 +817,12 @@ const styles = StyleSheet.create(
             padding:5
             //backgroundColor:"red"
         },
+        descriptionBox:
+        {paddingHorizontal:15, 
+            paddingVertical:2, 
+            borderColor:"black",
+            borderWidth:1,},
+
         
         carte:
        {

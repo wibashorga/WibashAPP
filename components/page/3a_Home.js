@@ -31,6 +31,9 @@ function setListAsPairs(array)
     if (i===array.length) l.push([array[array.length-1]])
     return l;
 }
+const hashCode = function(s){
+    return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0).toString();              
+  }
 
 class Carte extends React.Component
 {
@@ -104,6 +107,24 @@ class DoubleCarteMembre extends React.Component
             </View>   
             )
         }
+    }
+}
+
+
+class CarteActu extends React.Component
+{
+    constructor(props)
+    {
+        super(props);   
+    }
+    render()
+    { return(
+            <View>
+                <Text style={styles.actu}>
+                                        {this.props.actu.actu}
+                                    </Text>
+            </View>
+        )
     }
 }
 
@@ -296,13 +317,11 @@ export default class Home extends React.Component {
 
                         <View style = {styles.Titre}>
                             <Text style = {styles.textetitre} > Actu </Text>
-
-                        {this.state.actus.map(actu=>(
-                                    <Text style={styles.actu}>
-                                        {actu.actu}
-                                    </Text>
-                        ))}
-
+                        <View style={{height:240}}>
+                        <FlatList nestedScrollEnabled={true} data={this.state.actus} renderItem={(item)=>
+                        <CarteActu actu={item.item}/>} keyExtractor={(actu)=>hashCode(actu.actu)}/>
+                        </View>
+                        
                             <Button style={styles.bontonActu}
                                 title="ajouter actualite" 
                                 color = "red"

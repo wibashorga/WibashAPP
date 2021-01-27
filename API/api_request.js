@@ -117,6 +117,10 @@ export const delete_event = async (args, success_callback, fail_callback) =>
 post_request(url.ypepin.create.delete_event.url, args, success_callback, fail_callback)
 
 //Update
-
+/**Modifier les informations de son compte:
+ * On peut changer son nom, son prenom, sa story, sa phrase de la mort... etc
+ * Les arguments obligatoires sont : "identifiant", "pass"
+ * Les arguments optionnels sont : "nom", "prenom", "story", "new_pass", "phrase", "mail"
+ */
 export const edit_my_account = async (args, success_callback, fail_callback) => 
 post_request(url.ypepin.update.update_account.url, args, success_callback, fail_callback)

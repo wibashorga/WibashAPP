@@ -108,7 +108,8 @@ constructor(props){
         this.state = {participants: this.props.route.params.workers || [], task:false, tasks:this.props.route.params.tasks || [], suggestion:false, 
             suggestions:[], bottomSheetVisible:false, reunion:false, 
             workerOptions:false, calendarVisible:false,
-        meetingDate:null, numberOfLines:15};
+        meetingDate:null, numberOfLines:15,
+        createMemoDialog: false};
 
         this.nomtache ='';//nom de la tache qu'on va créer
         this.contenu="";//contenu d'une tache
@@ -169,7 +170,7 @@ constructor(props){
                      {title:"Ajouter un participant",
                      onPress:()=>{}},
                      {title:"Editer une note à l'équipe",
-                     onPress:()=>{}},
+                     onPress:()=>{close(); this.setState({createMemoDialog})}},
                      {title:"Quitter le projet",
                      onPress:()=>{close();
                     this.quitProject()}},
@@ -187,7 +188,7 @@ constructor(props){
                 {title:"Ajouter un participant",
                 onPress:()=>{}},
                 {title:"Editer une note à l'équipe",
-                onPress:()=>{}},
+                onPress:()=>{close(); this.setState({createMemoDialog})}},
                 {title:"Programmer une réunion",
                 onPress:()=>{close(); this.setState({reunion:true})}},
                 {title:"Gérer les team",
@@ -502,6 +503,21 @@ memberView()
                 ).catch(
                     (error) => console.log(error))
      }
+
+     createMemo()
+     {
+         if (this.memo)
+         {
+             let data = new FormData()
+             data.append("identifiant", this.props.user.identifiant)
+             data.append("pass", this.props.user.pass)
+             data.append("contenu", this.memo)
+             data.append("id_projet", this.projet.ID)
+             api.create_memo(data)
+             this.setState({createMemoDialog:false})
+
+         }
+     }
      
      //-------------------
      //permet de quitter un projet dans la base de données
@@ -705,6 +721,12 @@ render(props){
             editButtonTitle="Ajouter à l'agenda" firstPlaceholder="Objet de la réunion"
             editAction={()=>{this.setState({reunion:false, calendarVisible:true})}}/>
             {this.meetingCalendar()}
+            
+            <EditDialog visible={this.state.createMemoDialog} inputCount={1}
+            firstInputHandler={(text)=>{this.memo=text}} close={()=>this.setState({createMemoDialog:false})}
+            editButtonTitle="Publier la note" firstPlaceholder="Quoi de neuf dans le projet ?"
+            editAction={()=>{this.createMemo()}}/>
+
 
             </ScrollView>
             <BottomSheet

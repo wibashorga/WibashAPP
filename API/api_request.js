@@ -94,6 +94,9 @@ post_request(url.ypepin.create.creer_event.url, args, success_callback, fail_cal
 export const create_actu = async (args, success_callback, fail_callback) => 
 post_request(url.ypepin.create.creer_actu.url, args, success_callback, fail_callback)
 
+export const create_memo = async (args, success_callback, fail_callback) => 
+post_request(url.ypepin.create.creer_memo.url, args, success_callback, fail_callback)
+
 export const add_participant_to_event = async (args, success_callback, fail_callback) => 
 post_request(url.ypepin.create.creer_participant_event.url, args, success_callback, fail_callback)
 

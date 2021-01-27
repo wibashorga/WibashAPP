@@ -87,6 +87,7 @@ post_request(url.ypepin.read.liste_participants_event.url, args, success_callbac
 export const create_account = async (args, success_callback, fail_callback) => 
 post_request(url.ypepin.create.creer_compte.url, args, success_callback, fail_callback)
 
+/**Créer un évènement */
 export const create_event = async (args, success_callback, fail_callback) => 
 post_request(url.ypepin.create.creer_event.url, args, success_callback, fail_callback)
 
@@ -96,6 +97,7 @@ post_request(url.ypepin.create.creer_actu.url, args, success_callback, fail_call
 export const add_participant_to_event = async (args, success_callback, fail_callback) => 
 post_request(url.ypepin.create.creer_participant_event.url, args, success_callback, fail_callback)
 
+/**Ajouter un participant à un projet */
 export const add_worker_to_project = async (args, success_callback, fail_callback) => 
 post_request(url.ypepin.create.creer_participant_projet.url, args, success_callback, fail_callback)
 
@@ -114,3 +116,7 @@ post_request(url.ypepin.create.delete_task.url, args, success_callback, fail_cal
 export const delete_event = async (args, success_callback, fail_callback) => 
 post_request(url.ypepin.create.delete_event.url, args, success_callback, fail_callback)
 
+//Update
+
+export const edit_my_account = async (args, success_callback, fail_callback) => 
+post_request(url.ypepin.update.update_account.url, args, success_callback, fail_callback)

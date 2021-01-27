@@ -25,11 +25,11 @@ wibash:{
         creer_tache:{url: wibash_prefix+"Create/AddTask.php", args:["identifiant", "pass", "nom", "#description"]},
     },
     update:{
-        udpate_event:{url: wibash_prefix+"Create/UpdateEvent.php", args:[/**to be continued */]},
-        update_projet:{url: wibash_prefix+"Create/UpdateProject.php", args:[/**to be continued */]},
-        update_task:{url: wibash_prefix+"Create/UpdateTask.php", args:[/**to be continued */]},
-        upgrade_member:{url: wibash_prefix+"Create/UpgradeMember.php", args:[/**to be continued */]},
-        update_worker_status:{url: wibash_prefix+"Create/WorkerStatus.php", args:["identifiant","pass", "id_membre", "role"]},
+        udpate_event:{url: wibash_prefix+"Update/UpdateEvent.php", args:[/**to be continued */]},
+        update_projet:{url: wibash_prefix+"Update/UpdateProject.php", args:[/**to be continued */]},
+        update_task:{url: wibash_prefix+"Update/UpdateTask.php", args:[/**to be continued */]},
+        upgrade_member:{url: wibash_prefix+"Update/UpgradeMember.php", args:[/**to be continued */]},
+        update_worker_status:{url: wibash_prefix+"Update/WorkerStatus.php", args:["identifiant","pass", "id_membre", "role"]},
     },
     delete:{
         delete_event:{url: wibash_prefix+"Create/DeleteEvent.php", args:[/**to be continued */]},
@@ -60,11 +60,13 @@ wibash:{
             creer_actu:{url: ypepin_prefix+"Create/CreateActu.php", args:["identifiant", "pass", "actu"]},
         },
         update:{
-            udpate_event:{url: ypepin_prefix+"Create/UpdateEvent.php", args:[/**to be continued */]},
-            update_projet:{url: ypepin_prefix+"Create/UpdateProject.php", args:[/**to be continued */]},
-            update_task:{url: ypepin_prefix+"Create/UpdateTask.php", args:[/**to be continued */]},
-            upgrade_member:{url: ypepin_prefix+"Create/UpgradeMember.php", args:[/**to be continued */]},
-            update_worker_status:{url: ypepin_prefix+"Create/WorkerStatus.php", args:["identifiant","pass", "id_membre", "role"]},
+            udpate_event:{url: ypepin_prefix+"Update/UpdateEvent.php", args:[/**to be continued */]},
+            update_projet:{url: ypepin_prefix+"Update/UpdateProject.php", args:[/**to be continued */]},
+            update_task:{url: ypepin_prefix+"Update/UpdateTask.php", args:[/**to be continued */]},
+            upgrade_member:{url: ypepin_prefix+"Update/UpgradeMember.php", args:[/**to be continued */]},
+            update_worker_status:{url: ypepin_prefix+"Update/WorkerStatus.php", args:["identifiant","pass", "id_membre", "role"]},
+            update_account:{url: ypepin_prefix+"Update/UpdateAccount.php", args:["identifiant","pass", "#args : story, nom, etc."]},
+            
         },
         delete:{
             delete_event:{url: ypepin_prefix+"Create/DeleteEvent.php", args:[/**to be continued */]},

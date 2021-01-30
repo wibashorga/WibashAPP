@@ -73,7 +73,7 @@ class DoubleCarteMembre extends React.Component
     {
      return(
         <View style={styles.CarteMembre}>
-          <Image source={require("./ressources/logo.png")} 
+          <Image source={{uri:membre.photo_profil||"./ressources/logo.png"}} 
                 style= {{width:100, height:100, alignSelf:"center" , borderRadius:15}}></Image>
             
         <Text style = {{fontWeight:"bold"}}>{membre.prenom+" "+membre.nom}</Text>
@@ -171,7 +171,7 @@ export default class Home extends React.Component {
     }
     importProjects (force)
     {
-        if (this.props.navigation.isFocused() && force==false)
+        if (this.props.navigation.isFocused() || force==true)
         {
         let data = new FormData();
         data.append("token", token);
@@ -181,11 +181,10 @@ export default class Home extends React.Component {
 
         load_projects(data, (json) => {
             json = JSON.parse(json);//on transforme la string json en objet js
-            if (this.state.projets!=json)
-            {
+            
             this.setState({projets:json})
             this.props.setProjects(json);
-            }
+            
         })
         }
     }

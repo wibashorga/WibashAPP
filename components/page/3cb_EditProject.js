@@ -144,6 +144,43 @@ class CarteTaches extends React.Component{
             }
         }
     }
+    //-----
+
+    class CarteSuggestion extends React.Component
+    {
+        constructor(props)
+        {super(props)
+            
+        
+        }
+       
+        render(props)
+        {
+            let s = this.props.suggestion;
+            
+            if (this.props.uid==s.id_membre|| this.props.isChief)
+            {
+
+            return(
+                <View style={styles.idee}>
+                <Text style={styles.textIdee}>{s.proposition+"\n"}</Text>
+                <TouchableOpacity style={{alignSelf:"flex-end", marginRight:5, padding:3}}>
+                    <Icon name="trash" type = "entypo"/></TouchableOpacity>
+                </View>
+            )
+            }else
+            {
+                return(
+                    <View style={styles.idee}>
+                    <Text style={styles.textIdee}>{s.proposition+"\n"}</Text>
+                    </View>
+                )
+            }
+        }
+    }
+
+    //-----
+
 
 
 export default class EditProject extends React.Component{
@@ -713,9 +750,9 @@ boiteAIdees()
                 <Text style={{fontSize:20, marginLeft:4}}>{this.state.suggestions?"BOITE A IDEES":null}</Text>
             <ScrollView style={styles.boite}>
                 {this.state.suggestions?this.state.suggestions.map((s)=>
-                (<View style={styles.idee}>
-                <Text style={styles.textIdee}>{s.proposition+"\n"}</Text>
-                </View>)):null}
+                (<CarteSuggestion suggestion={s} isChief={this.projet.chef==this.props.user.identifiant}
+                uid={this.props.user.identifiant}/> 
+                )):null}
             </ScrollView>
             </View>
         )
@@ -821,7 +858,12 @@ const styles = StyleSheet.create(
         {paddingHorizontal:15, 
             paddingVertical:2, 
             borderColor:"black",
-            borderWidth:1,},
+            
+            shadowColor:"red",
+            shadowOpacity:0.39,
+            shadowRadius:8.30,
+            elevation:14
+        },
 
         
         carte:

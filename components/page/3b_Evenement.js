@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from "./Header.js";
 
+
 import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList,ImageBackground, TextInput, Dimensions} from 'react-native';
 import{Button, Icon} from "react-native-elements";
 import { EditDialog, DetailDialog } from './ModalDialog.js';
@@ -9,6 +10,7 @@ import { StatusBar } from 'react-native';
 import * as api from "../../API/api_request";
 import {url} from "../../API/api_table"
 import {formatPostData} from "./security"
+import {lightBlue} from "./custom";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
@@ -91,7 +93,7 @@ class Carte extends React.Component
                     api.load_participants_event(data, (text)=>{this.setState({participants:JSON.parse(text)})})
                     this.setState({visible:true})
                 }}
-                style={{...styles.carte, backgroundColor:(this.urgent)?"red":this.props.event.projet?"rgb(156,220,254)":"white"}}>
+                style={{...styles.carte, backgroundColor:(this.urgent)?"red":this.props.event.projet?lightBlue:"white"}}>
                     <View style={styles.imagecarte}>
                     </View>
     
@@ -209,7 +211,7 @@ export default class Evenement extends React.Component {
                     {
                         this.props.navigation.navigate("new_event", day)
                     }
-                }}/>
+                }} style={{height:windowHeight/1.5}}/>
                    </View>
                     <View style={styles.flatList}>                    
                         <FlatList data={this.state.events} keyExtractor={(item)=>hashCode(item.nom+item.date)} 

@@ -3,25 +3,38 @@ import formatPostData from "./security"
 
 const token = "PPlaFk63u4E6";
 
-async function storeProjects(projets)
+async function storeItem(itemKey, itemValue)
 {
     try {
-    AsyncStorage.setItem("projets", JSON.stringify(projets))
-    }catch(e)
-    {
+        AsyncStorage.setItem(itemKey, JSON.stringify(itemValue))
+        }catch(e)
+        {
+    
+        }
+} 
 
-    }
-}
-
-async function storeMembers(membres)
+export const storeProjects = (projets)=>storeItem("projets", projets)
+export const storeMembers = (membres)=>storeItem("projets", membres)
+async function load_item_from_storage(itemKey, success_callback, fail_callback)
 {
     try{
-        AsyncStorage.setItem("membres", JSON.stringify(membres))
+
+        let result = await AsyncStorage.getItem(itemKey)
+        if (success_callback)
+        {
+            success_callback(result)
+        }
+
     }catch(e)
     {
-
+        if (fail_callback)
+        {
+            fail_callback(itemKey);
+        }
     }
 }
+ export const load_projects_from_storage = (success_callback, fail_callback) => 
+ load_item_from_storage("projets", success_callback, fail_callback)
 
 async function storePendingProject(projet)
 {

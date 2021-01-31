@@ -47,6 +47,7 @@ wibash:{
             liste_taches:{url:ypepin_prefix+"Read/ListeTaches.php",args:["id_proj"]},
             liste_idees_projet:{url:ypepin_prefix+"Read/ListeIdeeProjets.php",args:["id_proj"]},
             liste_actus:{url:ypepin_prefix+"Read/ListeActus.php",args:[]},
+            liste_memos_projet:{url:ypepin_prefix+"Read/ListeMemosProjet.php",args:["id", "pass", "id_projet"]},
             login:{url:ypepin_prefix+"Read/login.php", args:["token","identifiant", "pass"]},
         },
         create:{

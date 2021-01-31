@@ -38,8 +38,10 @@ export class EditDialog extends React.Component{
         onRequestClose={()=>this.props.onRequestClose()}>
 
             <View style = {styles.view}>
-               <Text style={{alignSelf: "flex-end", marginRight:10, fontSize:18}} onPress=
-               {()=>{if(this.props.close)this.props.close()}}>X</Text> 
+                <TouchableOpacity onPress=
+               {()=>{if(this.props.close)this.props.close()}}>
+               <Text style={{alignSelf: "flex-end", marginRight:10, fontSize:18}}>X</Text> 
+               </TouchableOpacity>
 
                 <TextInput placeholder = {this.props.firstPlaceholder || ""} 
                 onChangeText={(text)=>this.props.firstInputHandler(text)}
@@ -52,10 +54,11 @@ export class EditDialog extends React.Component{
                 <Button title = {this.props.editButtonTitle || "Editer"} onPress = {()=>{
                     this.props.editAction();
                     if (this.props.close) this.props.close()
-                }} buttonStyle={{marginBottom:10}}/>
+                }} buttonStyle={styles.editButton}/>
 
 
-                <Button title= {this.props.cancelButtonTitle || "Annuler"} buttonStyle={{backgroundColor:"red"}}
+                <Button title= {this.props.cancelButtonTitle || "Annuler"} buttonStyle={{...style.buttonStyle, 
+                backgroundColor:"red"}}
                 onPress={()=>this.props.close()}/>
                        
 
@@ -71,10 +74,13 @@ export class EditDialog extends React.Component{
             }}>
 
             <View style = {styles.view}>
-               <Text style={{alignSelf: "flex-end", marginRight:10, fontSize:18}} onPress=
-               {()=>{if(this.props.close)this.props.close()}}>X</Text> 
+               <TouchableOpacity onPress=
+               {()=>{if(this.props.close)this.props.close()}}>
+               <Text style={{alignSelf: "flex-end", marginRight:10, fontSize:18}}>X</Text> 
+               </TouchableOpacity>
 
                 <TextInput placeholder = {this.props.firstPlaceholder || ""} 
+                style={styles.textinput}
                 onChangeText={(text)=>this.props.firstInputHandler(text)} multiline={true}
                 style={styles.input} maxLength ={this.props.firstInputMaxLength||300}></TextInput>
                 
@@ -82,10 +88,10 @@ export class EditDialog extends React.Component{
                 <Button title = {this.props.editButtonTitle || "Editer"} onPress = {()=>{
                     this.props.editAction();
                     if (this.props.close) this.props.close()
-                }} buttonStyle={{marginBottom:10}}/>
+                }} buttonStyle={styles.editButton}/>
 
 
-                <Button title= {this.props.cancelButtonTitle || "Annuler"} buttonStyle={{backgroundColor:"red"}}
+                <Button title= {this.props.cancelButtonTitle || "Annuler"} buttonStyle={{...styles.editButton, backgroundColor:"red"}}
                 onPress={()=>this.props.close()}/>
                        
 
@@ -144,7 +150,13 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         paddingBottom:40,
         marginHorizontal: 30,
-        borderRadius:20
+        borderRadius:20,
+        justifyContent:"space-between",
+        height:windowHeight/2.7
+    },
+    editButton:{
+        height:windowHeight/15,
+        marginBottom:10
     },
     
     input:{
@@ -160,5 +172,8 @@ const styles = StyleSheet.create({
         alignSelf:"center",
         opacity:1
 
+    },textinput:{
+        height:windowHeight/4,
+        textAlignVertical:"top"
     }
 })

@@ -8,6 +8,7 @@ import { formatPostData } from "./security";
 import { EditDialog } from "./ModalDialog";
 import * as api from "../../API/api_request";
 import { Calendar, LocaleConfig } from "react-native-calendars";
+import { lightBlue } from "./custom";
 
 
 const windowWidth = Dimensions.get("window").width;
@@ -40,7 +41,8 @@ function setListAsPairs(array)
     return l;
 }
 
-
+const themes = [{theme:"participants", color:"orange"},{theme:"taches", color:lightBlue},
+{theme:"idees", color:"black"}, {theme:"notes", color:"white", textColor:"black"}]
 
 class CarteMembre extends React.Component
 {
@@ -65,6 +67,29 @@ class CarteMembre extends React.Component
     }
 }
 
+class CarteTheme extends React.Component
+{
+    constructor(props)
+    {super(props)
+    }
+   
+    render(props)
+    {
+
+        return(
+        <TouchableOpacity onPress={()=>{}} style={{height:windowHeight/10, 
+                width:windowWidth/3.1, backgroundColor:this.props.color, 
+            alignContent:"center", justifyContent:"center", marginTop:15}}
+            onPress={this.props.onPress}>
+                <Text style={{alignSelf:"center", color:this.props.textColor||"white", fontSize:windowHeight/50, 
+            fontWeight:"bold"}}>
+                    {this.props.theme.toUpperCase()}
+                    </Text>
+        </TouchableOpacity>
+        
+        )
+    }
+}
 
 //chaque tache est affichée dans une carte individuelle. Quand on appuie dessus ça affiche une petite fenêtre 
 //pour voir la totalité du contenu
@@ -82,7 +107,8 @@ class CarteTaches extends React.Component{
        
         return(
             <TouchableOpacity style = {{...
-                styles.carte, width: 150, height:100,  backgroundColor:(this.urgent)?"red":"white"}} 
+                styles.carte, width: 150, height:100,  backgroundColor:(this.urgent)?"red":"white",
+                flex:1}} 
                 onPress={()=>{this.setState({visible:true})}}>
 
                 <Text style={{fontWeight:"bold"}}>{this.props.task.nom}</Text>
@@ -128,7 +154,7 @@ class CarteTaches extends React.Component{
             if (this.tache2)
             {
             return(
-                <View style = {{flexDirection:"row"}}>
+                <View style = {{flexDirection:"row", alignSelf:"center", justifyContent:"space-between"}}>
                     <CarteTaches task={this.tache1} isChef={this.props.isChef}
                     role={this.props.role} navigation = {this.props.navigation}/>
                     
@@ -192,7 +218,8 @@ constructor(props){
             suggestions:[], bottomSheetVisible:false, reunion:false, 
             workerOptions:false, calendarVisible:false,
         meetingDate:null, numberOfLines:15,
-        createMemoDialog: false};
+        createMemoDialog: false,
+        selectedTheme:"participants"};
 
         this.nomtache ='';//nom de la tache qu'on va créer
         this.contenu="";//contenu d'une tache
@@ -389,45 +416,9 @@ sendWorkerStatus(id_membre, role)
             }
         }
  //vue liste des participants
-memberView()
-                {
-                    return (
-                        <View>
-                <Text style={{alignSelf:"center", fontWeight:"bold"}}>PARTICIPANTS : </Text>
-            <FlatList horizontal={true} data = {this.state.participants}
-            renderItem = {(item)=><CarteMembre membre ={item.item} onPress = {(worker)=>{
-                if (item.item.role!=="Chef de projet" && ["Chef de projet", "Organisateur"].includes(this.role) && item.item.identifiant!==this.props.user.identifiant)
-                {
-                    this.setState({workerOptions:true});
-                    this.selectedMember =  worker;
-                }
-            }}/>}
-            keyExtractor = {(item)=>{hashCode(item.identifiant)}}
-            
-            />
 
-            </View>
-        )
-    }
     //vue liste des taches
-    taskView()
-    {
-        if (this.projet.mine && this.state.tasks.length)
-        {
-            return (
-                <View style={{flex:2, height:240}}>
-                    <Text style={{alignSelf:"center", fontWeight:"bold"}}>TACHES : </Text>
-                <FlatList nestedScrollEnabled={true}  data={setListAsPairs(this.state.tasks)}
-                renderItem={(item)=>
-                    <DoubleCarteTaches task={item.item} isChef={this.chef.identifiant==this.props.user.identifiant}
-                    role = {this.role} navigation = {this.props.navigation}/>}
-                    keyExtractor={(item)=>hashCode(item[0].nom)} >
-
-                </FlatList>
-                </View>
-            )
-        }
-    }
+   
     /**fonction qui permet de créer une tache dans la base de données */
     sendTask(){
         if (this.nomtache)
@@ -642,6 +633,18 @@ memberView()
         }
     ])
 }
+        //On récupère les suggestions depuis l'API. Puis on les stocke dans le state
+        //Elles seront affichées dans la boite à idées
+        importSuggestions()
+        { 
+            fetch("http://www.wi-bash.fr/application/Read/ListeIdeeProjets.php?id_proj="+this.projet.ID).then((reponse)=>
+        reponse.text()).then((reponse)=>{
+            reponse = JSON.parse(reponse);
+            
+            this.setState({suggestions:reponse})}).catch((error)=>console.log(error))
+            
+        }
+       
 
 
     //ouvre la boite de dialogue qui permet de créer une suggestion
@@ -685,30 +688,8 @@ addTaskDialog()
 )
 }
 
-        //On récupère les suggestions depuis l'API. Puis on les stocke dans le state
-        //Elles seront affichées dans la boite à idées
-importSuggestions()
-        { 
-            fetch("http://www.wi-bash.fr/application/Read/ListeIdeeProjets.php?id_proj="+this.projet.ID).then((reponse)=>
-        reponse.text()).then((reponse)=>{
-            reponse = JSON.parse(reponse);
-            
-            this.setState({suggestions:reponse})}).catch((error)=>console.log(error))
-            
-        }
-       
-// bouton Ajouter un participant
-workerButton(){
-    
-    if(this.projet.mine===false && this.props.user.niveau!=3 && this.projet.open)
-    {return (
-        <Button buttonStyle={styles.addtaskbutton} title="Participer"
-        onPress={()=>this.addWorker()} />          
-        )}
-    else{
-        return null;
-    }
-}
+
+
 
 
 addSuggestionDialog()
@@ -740,14 +721,63 @@ addSuggestionDialog()
             </Modal>)
 
 }
+/**
+ * Ci-dessous les composants visuels 
+ */
+memberView()
+{
+    if (this.state.selectedTheme=="participants")  
+    {      
+    return (
+            <View style={styles.memberView}>
+                <Text style={{alignSelf:"center", fontWeight:"bold"}}>PARTICIPANTS : </Text>
+            <FlatList horizontal={true} data = {this.state.participants}
+            renderItem = {(item)=><CarteMembre membre ={item.item} onPress = {(worker)=>{
+                if (item.item.role!=="Chef de projet" && ["Chef de projet", "Organisateur"].includes(this.role) && item.item.identifiant!==this.props.user.identifiant)
+                {
+                    this.setState({workerOptions:true});
+                    this.selectedMember =  worker;
+                }
+            }}/>}
+            keyExtractor = {(item)=>{hashCode(item.identifiant)}}
+            
+            />
+
+            </View>
+        )
+    }else return null;
+    }
+
+taskView()
+{
+    if (this.state.selectedTheme=="taches" && this.projet.mine && this.state.tasks.length)
+    {
+        return (
+            <View style={{flex:2, height:windowHeight/2}}>
+                <Text style={{alignSelf:"center", fontWeight:"bold", margin:5}}>TACHES : </Text>
+            <FlatList nestedScrollEnabled={true}  data={setListAsPairs(this.state.tasks)}
+            
+            renderItem={(item)=>
+                
+                <DoubleCarteTaches task={item.item} isChef={this.chef.identifiant==this.props.user.identifiant}
+                role = {this.role} navigation = {this.props.navigation}/>}
+                keyExtractor={(item)=>hashCode(item[0].nom)} >
+
+            </FlatList>
+            </View>
+        )
+    }else return null
+}
 
 boiteAIdees()
 {
-    if (this.projet.mine)
+    if (this.projet.mine && this.state.selectedTheme=="idees")
     {
+       if (this.state.suggestions)
+       {
         return(
             <View style={{padding:5}}>
-                <Text style={{fontSize:20, marginLeft:4}}>{this.state.suggestions?"BOITE A IDEES":null}</Text>
+                <Text style={{fontSize:20, marginLeft:4}}>BOITE A IDEES</Text>
             <ScrollView style={styles.boite}>
                 {this.state.suggestions?this.state.suggestions.map((s)=>
                 (<CarteSuggestion suggestion={s} isChief={this.projet.chef==this.props.user.identifiant}
@@ -755,8 +785,26 @@ boiteAIdees()
                 )):null}
             </ScrollView>
             </View>
-        )
-    }return null;
+        )}else{
+        return(
+            <View style={{alignContent:"center", justifyContent:"center"}}>
+                <Text style={{alignSelf:"center"}}>Aucune idée</Text>
+            </View>
+        )}
+
+        }
+}
+// bouton Ajouter un participant
+workerButton(){
+    
+    if(this.projet.mine===false && this.props.user.niveau!=3 && this.projet.open)
+    {return (
+        <Button buttonStyle={styles.addtaskbutton} title="Participer"
+        onPress={()=>this.addWorker()} />          
+        )}
+    else{
+        return null;
+    }
 }
 componentDidMount(){
 this.setHeader();
@@ -788,6 +836,10 @@ render(props){
             
             </View>
             <View style={{flex:1}}>
+                <FlatList data = {themes} renderItem = {(theme)=>(<CarteTheme theme={theme.item.theme}
+                color={theme.item.color} textColor={theme.item.textColor} 
+                onPress={()=>this.setState({selectedTheme:theme.item.theme})}/>)} 
+               /* keyExtractor={(item)=>hashCode(item.theme)}*/ horizontal={true}/>
             {this.memberView()/**flatlist des participants au projet*/}
             {this.workerButton()/* bouton ajouter un participant */}
             {this.taskView()}
@@ -942,7 +994,10 @@ const styles = StyleSheet.create(
        width:200, 
        margin:7, 
        alignSelf:"center", 
-       padding:15}
+       padding:15},
+       memberView:{
+           justifyContent:"space-around"
+       }
 
     }
 )

@@ -2,6 +2,8 @@ import React from 'react';
 import {Icon} from "react-native-elements";
 import {Text, View, Modal, Dimensions, StyleSheet, ScrollView, TouchableOpacity, FlatList,Image,Button,SafeAreaView, ImageBackground} from 'react-native';
 import {load_projects, load_project_workers, load_tasks} from "../../API/api_request";
+import {WiText} from "./custom"
+
 const token = "PPlaFk63u4E6";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -92,11 +94,10 @@ class Carte extends React.Component
                         
                     </Text >
 
-                    <Text style = {styles.textecarte}>
-                        <Text style={{fontWeight:"bold"}}>Description : </Text>
+                    <WiText style = {styles.textecarte}> *Description* :
 
                           {"\n"+this.props.projet.description+"\n"}
-                    </Text>
+                    </WiText>
 
                     <Text style={styles.textecarte}> <Text style={{fontStyle:"italic"}}>Chef de projet : </Text> 
                         {this.chef.pseudo}</Text>

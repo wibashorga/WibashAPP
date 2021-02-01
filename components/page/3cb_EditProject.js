@@ -8,7 +8,7 @@ import { formatPostData } from "./security";
 import { EditDialog } from "./ModalDialog";
 import * as api from "../../API/api_request";
 import { Calendar, LocaleConfig } from "react-native-calendars";
-import { lightBlue } from "./custom";
+import { lightBlue, WiText } from "./custom";
 
 
 const windowWidth = Dimensions.get("window").width;
@@ -827,11 +827,13 @@ render(props){
             
             <ScrollView style={styles.descriptionBox}
             >
-                <Text numberOfLines={this.state.numberOfLines}
-                onPress={()=>{this.setState({numberOfLines:(this.state.numberOfLines)?null:15})}}>
+                <WiText numberOfLines={this.state.numberOfLines}
+                onPress={()=>{this.setState({numberOfLines:(this.state.numberOfLines)?null:15})}}
+                dataDetectorType={"link"}>
             <Text style={{alignSelf:"center"}}>OBJECTIFS </Text> {"\n"+this.projet.objectifs+"\n\n"}
-            <Text style={{alignSelf:"center"}}>DESCRIPTION </Text> {"\n"+this.projet.description+"\n"}
-            </Text>
+            <Text style={{alignSelf:"center"}}>DESCRIPTION </Text>{"\n"+this.projet.description+"\n"}
+            </WiText>
+            
             </ScrollView>
             
             </View>

@@ -18,14 +18,14 @@ export default class ModifyEvent extends React.Component
 
   sendModifications()
   {
-    const data = new FormData();
+    let data = new FormData();
     data.append("identifiant", this.props.user.identifiant)
     data.append("pass", this.props.user.pass);
     data.append("nom_event", this.props.route.params.event.nom)
     if (this.eventTitle) data.append("nouveau_nom", this.eventTitle)
     if (this.eventDescription) data.append("description", this.eventDescription);
     data = formatPostData(data)
-    fetch('http://www.wi-bash.fr/application/Update/UpdateEvent.php', {
+    fetch('http://www.ypepin.com/application/Update/UpdateEvent.php', {
         method: 'POST',
         headers: {
         Accept: 'multipart/form-data',

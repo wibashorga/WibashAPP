@@ -432,7 +432,7 @@ sendWorkerStatus(id_membre, role)
             
             data = formatPostData(data);
             
-            fetch('http://www.wi-bash.fr/application/Create/AddTask.php', {
+            fetch('https://www.ypepin.com/application/Create/AddTask.php', {
                 method: 'POST',
                 headers: {
                     Accept: 'multipart/form-data',
@@ -441,16 +441,21 @@ sendWorkerStatus(id_membre, role)
                 body: data
             }).then((reponse)=> reponse.text()).then((reponse) => {
                 
-                if (reponse.indexOf("200")===-1) message('Oups !', 
+                if (reponse.indexOf("200")===-1) {message('Oups !', 
                 "Nous n'avons pu créer cette tâche... Peut-être le nom de la tâche existe-t-il déjà ?")
+                console.log(reponse)}
                 else{
                     this.setState({tasks:[{nom:this.nomtache, description:this.contenutache}, ...this.state.tasks]})
                 }
+            
             }
             
             ).catch(
                 (error) => console.log(error))}
-            }
+            this.nomtache = "";
+            this.contenutache = "";
+
+}
             //---------
 
     sendMeeting()
@@ -589,6 +594,7 @@ sendWorkerStatus(id_membre, role)
              data.append("id_projet", this.projet.ID)
              api.create_memo(data, (text)=>console.log(text))
              this.setState({createMemoDialog:false})
+             this.memo = "";
 
          }
      }
@@ -903,9 +909,9 @@ const styles = StyleSheet.create(
 
         },
         infoview:{
-            flex:2,
+            flex:3,
             fontSize:20,
-            padding:5
+            padding:0
             //backgroundColor:"red"
         },
         descriptionBox:

@@ -19,13 +19,15 @@ export class WiText extends React.Component
     if (this.text instanceof String) customizable= true;
     else {
         try{
-            this.text=this.text.join("")
+          this.text.push("")  
+          this.text=this.text.join("")
+          console.log(this.text)
             customizable = true
         }catch(e){}
     }
     if (customizable)
     {
-    let boldRegexp = /[ ]\*.+\*[ ]/g
+    let boldRegexp = /[ \n]\*.+\*[ ]/g
     let plainText = this.text.split(boldRegexp)
     let boldText = this.text.match(boldRegexp) || []
     boldText = boldText.map((item)=>(
@@ -50,4 +52,28 @@ export class WiText extends React.Component
        </Text>
      )
    }
+}
+
+class WiCard extends React.Component
+{
+  constructor(props)
+  {
+    super(props);
+
+  }
+  componentDidMount()
+  {
+    if (this.props.onload) this.props.onload()
+  }
+  render()
+  {
+    if (this.props.type=="small")
+    {
+
+    }
+    if (this.props.type=="big")
+    {
+
+    }
+  }
 }

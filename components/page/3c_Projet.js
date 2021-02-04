@@ -126,6 +126,7 @@ export default class Projet extends React.Component {
         {
             if (this.props.route.params.refresh) this.importProjects();
         }
+        this.importProjects()
         
     }
     // cette fonction récupère la liste des projets depuis l'API
@@ -239,7 +240,7 @@ export default class Projet extends React.Component {
 }
     //boucle de rafraîchissement de la liste dees projets
     componentDidMount(){
-        
+        this.importProjects()
         this.intervalID = setInterval(()=>{
             this.importProjects();
         }, 20000);

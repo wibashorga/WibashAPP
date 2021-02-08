@@ -1,6 +1,7 @@
 import React from "react";
 import {Modal, View, Text, TextInput, StyleSheet, Dimensions, TouchableOpacity} from "react-native";
 import {Button} from "react-native-elements";
+import {WiText} from "./custom"
 
 
 const windowWidth = Dimensions.get("window").width;
@@ -101,6 +102,16 @@ export class EditDialog extends React.Component{
         }
     }
 }
+/**
+ * visible
+ * close function (fires when click on any part of the view)
+ * description
+ * title
+ * editAction (function)
+ * editButtonTitle (facultatif)
+ * auxiliarAction
+ * auxiliarActionTitle
+ */
 
 export class DetailDialog extends React.Component
 {
@@ -120,11 +131,11 @@ export class DetailDialog extends React.Component
                    onPress ={()=>{this.props.close()}}>
                     <View 
                     style = {styles.popup}>
-                            <Text style={{fontWeight:"bold"}}>{this.props.titre}</Text>
-                            <Text>{this.props.description}</Text>
+                            <Text style={{fontWeight:"bold"}}>{this.props.title}</Text>
+                            <WiText>{this.props.description}</WiText>
                             
                             {this.props.editAction?(
-                            <Button title = "Modifier" buttonStyle= {{marginTop:15}} 
+                            <Button title = {this.props.editButtonTitle || "Modifier"}buttonStyle= {{marginTop:15}} 
                             onPress ={()=>{
                                 this.props.close()
                                 this.props.editAction();

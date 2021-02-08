@@ -229,7 +229,8 @@ export default class Home extends React.Component {
             data.append("identifiant", this.props.user.identifiant)
             data.append("pass", this.props.user.pass)
             data.append("actu", this.actuContent);
-            create_actu(data,(reponse)=> load_actus(null, (reponse)=>{this.setState({actus: JSON.parse(reponse)})}))
+            create_actu(data,(reponse)=> load_actus(null, (reponse)=>
+            {this.setState({actus: JSON.parse(reponse)})}))
         }
     }
 
@@ -316,16 +317,19 @@ export default class Home extends React.Component {
 
                         <View style = {styles.Titre}>
                             <Text style = {styles.textetitre} > Actu </Text>
+                            <TouchableOpacity onPress={()=>load_actus(null, (reponse)=>
+            {this.setState({actus: JSON.parse(reponse)}); console.log(reponse)})}
+                            ><Icon name="refresh" type="evilicon" size={35}/></TouchableOpacity>
                         <View style={{height:240}}>
                         <FlatList nestedScrollEnabled={true} data={this.state.actus} renderItem={(item)=>
-                        <CarteActu actu={item.item}/>} keyExtractor={(actu)=>hashCode(actu.actu)}/>
+                        <CarteActu actu={item.item}/>} keyExtractor={(actu)=>hashCode(actu.actu+actu.date)}/>
                         </View>
                         
-                            <Button style={styles.bontonActu}
+                            {(this.props.user.niveau<2)?<Button style={styles.bontonActu}
                                 title="ajouter actualite" 
                                 color = "red"
                                 onPress={()=>{this.setState({actuDialogVisible:true})}} 
-                                /*Remplacer par un logo plus *//>
+                                /*Remplacer par un logo plus *//>:null}
 
 
                     <EditDialog visible={this.state.actuDialogVisible} inputCount={1}

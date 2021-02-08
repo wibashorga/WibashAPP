@@ -8,7 +8,8 @@ import { formatPostData } from "./security";
 import { EditDialog } from "./ModalDialog";
 import * as api from "../../API/api_request";
 import { Calendar, LocaleConfig } from "react-native-calendars";
-import { lightBlue, WiText } from "./custom";
+import { DetailBox, lightBlue, WiText } from "./custom";
+import { set } from "react-native-reanimated";
 
 
 const windowWidth = Dimensions.get("window").width;
@@ -98,6 +99,7 @@ class CarteTaches extends React.Component{
     {
         super(props);
         this.state= {visible:false}
+        this.closeDialog = ()=>{this.setState({visible:false})}
         
 
     }
@@ -113,26 +115,18 @@ class CarteTaches extends React.Component{
 
                 <Text style={{fontWeight:"bold"}}>{this.props.task.nom}</Text>
                 <Text>{this.props.task.description}</Text>
+                <DetailBox visible= {this.props.visible} close = {()=> this.closeDialog()}
+                title = {this.props.task.nom} description = {this.props.task.description}
+                editAction = {["Chef de projet", "Organisateur"].includes(this.props.role)?()=>{
+                    this.setState({visible:false})
+                    this.props.navigation.navigate("ModifyTask");
+                    }:null} auxiliarAction = {["Chef de projet", "Organisateur"].includes(this.props.role)?
+                    ()=>{Alert.alert("Cette tâche est-elle terminée ?", "",[
+                        {title:"OUI", onPress:this.props.onToggleSetAchived}
+                        , {title:"NON",onPress:()=>{this.closeDialog()}}
+                    ])}:null} auxiliarActionTitle = {"Tache Accomplie"}/>
 
-                <Modal visible={this.state.visible} transparent={true} 
-                onRequestClose={()=>this.setState({visible:false})}>
-                   <TouchableOpacity style={{backgroundColor:"rgba(200,200,200,0.4)", flex:1, 
-                   justifyContent:"center"}}
-                   onPress ={()=>{this.setState({visible:false})}}>
-                    <View 
-                    style = {styles.taskpopup}>
-                            <Text style={{fontWeight:"bold"}}>{this.props.task.nom}</Text>
-                            <Text>{this.props.task.description}</Text>
-                            
-                            {["Chef de projet", "Organisateur"].includes(this.props.role)?(
-                            <Button title = "Modifier" buttonStyle= {{marginTop:15}} 
-                            onPress ={()=>{
-                                this.setState({visible:false})
-                                this.props.navigation.navigate("ModifyTask");
-                                }} />):null}
-                    </View>
-                    </TouchableOpacity>
-                </Modal>
+                
             </TouchableOpacity>
         ) 
     }
@@ -147,7 +141,10 @@ class CarteTaches extends React.Component{
         {
             this.tache2 = this.props.task[1];
         }
-        
+        const setAchieved = (tache) => {
+            api.set_task_as_achieved({identifiant:this.props.user.identifiant, pass:this.props.user.pass,
+            id_projet:tache.id,nom:tache.nom})
+        }
         
     }
         render(){
@@ -156,16 +153,18 @@ class CarteTaches extends React.Component{
             return(
                 <View style = {{flexDirection:"row", alignSelf:"center", justifyContent:"space-between"}}>
                     <CarteTaches task={this.tache1} isChef={this.props.isChef}
-                    role={this.props.role} navigation = {this.props.navigation}/>
+                    role={this.props.role} navigation = {this.props.navigation}
+                    onToggleSetAchived={()=>setAchieved(this.tache2)}/>
                     
                     <CarteTaches task={this.tache2} isChef={this.props.isChef}
-                    role={this.props.role} navigation = {this.props.navigation}/>
+                    role={this.props.role} navigation = {this.props.navigation}
+                    onToggleSetAchived={()=>setAchieved(this.tache2)}/>
 
                 </View>
             )}else{
                 return(
                 <CarteTaches task={this.tache1} isChef={this.props.isChef}
-                role={this.props.role} navigation = {this.props.navigation}/>
+                role={this.props.role} navigation = {this.props.navigation} onToggleSetAchived={()=>setAchieved(this.tache2)}/>
                 )
             }
         }
@@ -530,7 +529,7 @@ sendWorkerStatus(id_membre, role)
          
          data = formatPostData(data);
          
-         fetch('http://www.wi-bash.fr/application/Create/CreaPropositionProjet.php', {
+         fetch('http://www.ypepin.com/application/Create/CreaPropositionProjet.php', {
              method: 'POST',
              headers: {
                  Accept: 'multipart/form-data',
@@ -563,7 +562,7 @@ sendWorkerStatus(id_membre, role)
                 
                 data = formatPostData(data);
                 
-                fetch('http://www.wi-bash.fr/application/Create/AddWorker.php', {
+                fetch('http://www.ypepin.com/application/Create/AddWorker.php', {
                     method: 'POST',
                     headers: {
                         Accept: 'multipart/form-data',
@@ -621,7 +620,7 @@ sendWorkerStatus(id_membre, role)
                         
                         data = formatPostData(data);
                         
-                        fetch('http://www.wi-bash.fr/application/Delete/QuitterProjet.php', {
+                        fetch('http://www.ypepin.com/application/Delete/QuitterProjet.php', {
                             method: 'POST',
                             headers: {
                                 Accept: 'multipart/form-data',
@@ -643,7 +642,7 @@ sendWorkerStatus(id_membre, role)
         //Elles seront affichées dans la boite à idées
         importSuggestions()
         { 
-            fetch("http://www.wi-bash.fr/application/Read/ListeIdeeProjets.php?id_proj="+this.projet.ID).then((reponse)=>
+            fetch("http://www.ypepin.com/application/Read/ListeIdeeProjets.php?id_proj="+this.projet.ID).then((reponse)=>
         reponse.text()).then((reponse)=>{
             reponse = JSON.parse(reponse);
             
@@ -766,7 +765,7 @@ taskView()
             renderItem={(item)=>
                 
                 <DoubleCarteTaches task={item.item} isChef={this.chef.identifiant==this.props.user.identifiant}
-                role = {this.role} navigation = {this.props.navigation}/>}
+                role = {this.role} navigation = {this.props.navigation} user={this.props.user}/>}
                 keyExtractor={(item)=>hashCode(item[0].nom)} >
 
             </FlatList>
@@ -831,14 +830,13 @@ render(props){
             
              <Text>{this.projet.type}</Text>
             
-            <ScrollView style={styles.descriptionBox}
-            >
-                <WiText numberOfLines={this.state.numberOfLines}
+            <ScrollView style={styles.descriptionBox}>
+                <Text numberOfLines={this.state.numberOfLines}
                 onPress={()=>{this.setState({numberOfLines:(this.state.numberOfLines)?null:15})}}
                 dataDetectorType={"link"}>
-            <Text style={{alignSelf:"center"}}>OBJECTIFS </Text> {"\n"+this.projet.objectifs+"\n\n"}
-            <Text style={{alignSelf:"center"}}>DESCRIPTION </Text>{"\n"+this.projet.description+"\n"}
-            </WiText>
+            <Text style={{alignSelf:"center"}}>OBJECTIFS </Text> <WiText>{"\n"+this.projet.objectifs+"\n\n"}</WiText>
+            <Text style={{alignSelf:"center"}}>DESCRIPTION </Text> <WiText>{"\n"+this.projet.description+"\n"}</WiText>
+            </Text>
             
             </ScrollView>
             

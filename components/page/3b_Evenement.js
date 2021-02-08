@@ -73,7 +73,7 @@ class Carte extends React.Component
         return(
             <DetailDialog visible = {this.state.visible} 
             close = {close}
-            titre ={this.props.event.nom} description = {this.jour+" "+this.mois+" "+this.annee+
+            title ={this.props.event.nom} description = {this.jour+" "+this.mois+" "+this.annee+
         "\n"+(this.props.event.description||"")+"\n"+formatParticipants(this.props.event.projet || this.state.participants)}
         editAction={(this.props.user.niveau<=1 && 
             !(this.props.event.projet))?(()=>this.props.navigation.navigate("modify_event", {event:this.props.event})):null} 

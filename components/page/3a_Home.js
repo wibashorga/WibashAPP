@@ -14,6 +14,8 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",
 "Alors, motivÃ© aujourd'hui ? ", "Wi-Bash n'etait pas complet sans vous "];
+const empty_data = new FormData();
+empty_data.append("empty", "data")
 
 /*La vue home se conçoit globalement comme un tableau de bord
 On y voit le résumé des informations les plus importantes sur les projets et les membres
@@ -156,7 +158,7 @@ export default class Home extends React.Component {
             
 
             });
-            load_actus(null, (reponse)=>{this.setState({actus: JSON.parse(reponse)})})
+            load_actus(empty_data, (reponse)=>{this.setState({actus: JSON.parse(reponse)})})
             
     }
     
@@ -229,7 +231,7 @@ export default class Home extends React.Component {
             data.append("identifiant", this.props.user.identifiant)
             data.append("pass", this.props.user.pass)
             data.append("actu", this.actuContent);
-            create_actu(data,(reponse)=> load_actus(null, (reponse)=>
+            create_actu(data,(reponse)=> load_actus(empty_data, (reponse)=>
             {this.setState({actus: JSON.parse(reponse)})}))
         }
     }
@@ -287,6 +289,8 @@ export default class Home extends React.Component {
     render()
     {
         console.log("render")
+        
+        
         return(
             <ScrollView style = {{flex:1}}
             >
@@ -317,7 +321,7 @@ export default class Home extends React.Component {
 
                         <View style = {styles.Titre}>
                             <Text style = {styles.textetitre} > Actu </Text>
-                            <TouchableOpacity onPress={()=>load_actus(null, (reponse)=>
+                            <TouchableOpacity onPress={()=>load_actus(empty_data, (reponse)=>
             {this.setState({actus: JSON.parse(reponse)}); console.log(reponse)})}
                             ><Icon name="refresh" type="evilicon" size={35}/></TouchableOpacity>
                         <View style={{height:240}}>

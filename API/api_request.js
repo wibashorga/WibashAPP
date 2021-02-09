@@ -7,7 +7,9 @@ function post_request(request_url, data, success_callback, fail_callback)
     if (!data instanceof FormData && data instanceof Object)
     {
         let formData = new FormData();
-        for (let property in data) formData.append(property, data[property])
+        for (let property in data) {
+            formData.append(property, data[property])
+        }
         data = formData;
     }
     
@@ -81,7 +83,7 @@ export const load_tasks = (args, success_callback, fail_callback) =>
 get_request(url.ypepin.read.liste_taches.url, args, success_callback, fail_callback)
 
 export const load_actus = (args, success_callback, fail_callback) => 
-get_request(url.ypepin.read.liste_actus.url, args, success_callback, fail_callback)
+post_request(url.ypepin.read.liste_actus.url, args, success_callback, fail_callback)
 
 /**liste des participants à un projet. Args: id_projet */
 export const load_project_workers =  (args, success_callback, fail_callback) => 

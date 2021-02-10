@@ -8,7 +8,8 @@ import { formatPostData } from "./security";
 import { EditDialog } from "./ModalDialog";
 import * as api from "../../API/api_request";
 import { Calendar, LocaleConfig } from "react-native-calendars";
-import { DetailBox, lightBlue, WiText } from "./custom";
+import {lightBlue, WiText } from "./custom";
+import {DetailDialog} from "./ModalDialog"
 import { set } from "react-native-reanimated";
 
 
@@ -115,15 +116,15 @@ class CarteTaches extends React.Component{
 
                 <Text style={{fontWeight:"bold"}}>{this.props.task.nom}</Text>
                 <Text>{this.props.task.description}</Text>
-                <DetailBox visible= {this.props.visible} close = {()=> this.closeDialog()}
+                <DetailDialog visible= {this.state.visible} close = {()=> this.closeDialog()}
                 title = {this.props.task.nom} description = {this.props.task.description}
                 editAction = {["Chef de projet", "Organisateur"].includes(this.props.role)?()=>{
                     this.setState({visible:false})
                     this.props.navigation.navigate("ModifyTask");
                     }:null} auxiliarAction = {["Chef de projet", "Organisateur"].includes(this.props.role)?
                     ()=>{Alert.alert("Cette tâche est-elle terminée ?", "",[
-                        {title:"OUI", onPress:this.props.onToggleSetAchived}
-                        , {title:"NON",onPress:()=>{this.closeDialog()}}
+                        {text:"OUI", onPress:this.props.onToggleSetAchived}
+                        , {text:"NON",onPress:()=>{this.closeDialog()}}
                     ])}:null} auxiliarActionTitle = {"Tache Accomplie"}/>
 
                 
@@ -755,7 +756,7 @@ memberView()
 
 taskView()
 {
-    if (this.state.selectedTheme=="taches" && this.projet.mine && this.state.tasks.length)
+    if (this.state.selectedTheme=="taches" && this.projet.mine && this.state.tasks)
     {
         return (
             <View style={{flex:2, height:windowHeight/2}}>

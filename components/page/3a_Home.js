@@ -14,8 +14,8 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",
 "Alors, motivÃ© aujourd'hui ? ", "Wi-Bash n'etait pas complet sans vous "];
-const empty_data = new FormData();
-empty_data.append("empty", "data")
+const empty_data = new FormData();//les requetes de rafraichissement doivent être POST pour éviter la mise en cache
+empty_data.append("empty", "data")//on leur passe en paramètre un corps vide empty_data
 
 /*La vue home se conçoit globalement comme un tableau de bord
 On y voit le résumé des informations les plus importantes sur les projets et les membres

@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, TextInput, ScrollView} from 'react-native';
 import { formatPostData } from './security';
+import {Icon} from "react-native-elements"
+import {delete_event} from "../../API/api_request"
 
 export default class ModifyEvent extends React.Component
 {
@@ -13,7 +15,10 @@ export default class ModifyEvent extends React.Component
   }
   componentDidMount()
   {
-    this.props.navigation.setOptions({headerTitle:this.props.route.params.event.nom})
+    this.props.navigation.setOptions({headerTitle:this.props.route.params.event.nom, headerRight:()=>(
+    <TouchableOpacity onPress={()=>{delete_event({})}}>
+      <Icon name="trash" type="entypo"/>
+    </TouchableOpacity>)})
   }
 
   sendModifications()
@@ -25,7 +30,7 @@ export default class ModifyEvent extends React.Component
     if (this.eventTitle) data.append("nouveau_nom", this.eventTitle)
     if (this.eventDescription) data.append("description", this.eventDescription);
     data = formatPostData(data)
-    fetch('http://www.ypepin.com/application/Update/UpdateEvent.php', {
+    fetch('https://www.ypepin.com/application/Update/UpdateEvent.php', {
         method: 'POST',
         headers: {
         Accept: 'multipart/form-data',
@@ -102,10 +107,10 @@ export default class ModifyEvent extends React.Component
   render() {
     return(
       <ScrollView>
-
+          {/*}
         <View style = {{backgroundColor: 'black', alignItems: 'center'}}>
           <Text style = {styles.title}> MODIFIER EVENEMENT </Text>
-        </View>
+        </View>*/}
 
         <View style = {{margin:5}}>
 
@@ -115,8 +120,8 @@ export default class ModifyEvent extends React.Component
             <TextInput style = {styles.textInput}  defaultValue = {this.props.route.params.event.nom} 
             placeholderTextColor="black" onChangeText={(text)=>{if (text)this.eventTitle=text;
               else this.eventTitle = this.props.route.params.event.nom;
-             this.props.navigation.setOptions({headerTitle:text?text:
-              this.props.route.params.event.nom})
+            /* this.props.navigation.setOptions({headerTitle:text?text:
+              this.props.route.params.event.nom})*/
             }} />
           
           </View>

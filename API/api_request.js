@@ -4,7 +4,7 @@ import {formatPostData} from "./security"
 
 function post_request(request_url, data, success_callback, fail_callback)
 {
-    if (!data instanceof FormData && data instanceof Object)
+    if (!(data instanceof FormData) && data instanceof Object)
     {
         let formData = new FormData();
         for (let property in data) {
@@ -20,7 +20,10 @@ function post_request(request_url, data, success_callback, fail_callback)
         method: 'POST',
         headers: {
         Accept: 'multipart/form-data',
-        'Content-Type': "multipart/form-data"
+        'Content-Type': "multipart/form-data",
+        'Cache-Control': 'reload, no-store, no-cache',
+            'Pragma': 'no-cache',
+            'Expires': 0
         },
         body: data
         }).then((reponse)=> reponse.text()).then((text) => {
@@ -80,7 +83,7 @@ post_request(url.ypepin.read.liste_membres.url, args, success_callback, fail_cal
 
 /**Liste des taches dans un projet. Args : id_proj */
 export const load_tasks = (args, success_callback, fail_callback) => 
-get_request(url.ypepin.read.liste_taches.url, args, success_callback, fail_callback)
+post_request(url.ypepin.read.liste_taches.url, args, success_callback, fail_callback)
 
 export const load_actus = (args, success_callback, fail_callback) => 
 post_request(url.ypepin.read.liste_actus.url, args, success_callback, fail_callback)
@@ -149,6 +152,7 @@ post_request(url.ypepin.update.update_worker_status.url, args, success_callback,
 
 
 export const set_task_as_achieved =   (args, success_callback, fail_callback) => {
-    if (args instanceof FormData) args.append("achieved", "1")
-post_request(url.ypepin.update.update_worker_status.url, args, success_callback, fail_callback)
+    if (args instanceof FormData) args.append("achievement", "1")
+    if (args instanceof Object) args = {...args, achievement:"1"}
+post_request(url.ypepin.update.update_task.url, args, success_callback, fail_callback)
 }

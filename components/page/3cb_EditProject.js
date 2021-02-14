@@ -8,7 +8,7 @@ import { formatPostData } from "./security";
 import { EditDialog } from "./ModalDialog";
 import * as api from "../../API/api_request";
 import { Calendar, LocaleConfig } from "react-native-calendars";
-import {lightBlue, WiText } from "./custom";
+import {lightBlue, WiText, colors} from "./custom";
 import {DetailDialog} from "./ModalDialog"
 import { set } from "react-native-reanimated";
 
@@ -99,7 +99,7 @@ class CarteTaches extends React.Component{
     constructor(props)
     {
         super(props);
-        this.state= {visible:false}
+        this.state= {visible:false, achieved:this.props.task.achieved=="1"}
         this.closeDialog = ()=>{this.setState({visible:false})}
         
 
@@ -107,29 +107,50 @@ class CarteTaches extends React.Component{
 
     render()
     {
-       
+        let achieved = this.state.achieved
+        console.log(this.props.task.nom+": ",  achieved)
+        let bg_color = "white", textColor="black";
+        if(this.urgent)
+        {
+            bg_color="red";
+            textColor = "white"
+        }
+        if(achieved) {
+            bg_color=colors.green
+        }
+
         return(
             <TouchableOpacity style = {{...
-                styles.carte, width: 150, height:100,  backgroundColor:(this.urgent)?"red":"white",
+                styles.carte, width: 150, height:100,  backgroundColor:bg_color,
                 flex:1}} 
                 onPress={()=>{this.setState({visible:true})}}>
 
-                <Text style={{fontWeight:"bold"}}>{this.props.task.nom}</Text>
-                <Text>{this.props.task.description}</Text>
+                <Text style={{fontWeight:"bold", color:textColor}}>{this.props.task.nom}</Text>
+                <Text style={{color:textColor}}>{achieved?"":this.props.task.description}</Text>
+
+                {(achieved)?<Icon type="ionicons" name="check" size={25} color="green"/>:null
+                /* icone tache accomplie*/}
+
                 <DetailDialog visible= {this.state.visible} close = {()=> this.closeDialog()}
                 title = {this.props.task.nom} description = {this.props.task.description}
-                editAction = {["Chef de projet", "Organisateur"].includes(this.props.role)?()=>{
+                editAction = {["Chef de projet", "Organisateur"].includes(this.props.role)&&
+                !achieved?()=>{
                     this.setState({visible:false})
                     this.props.navigation.navigate("ModifyTask");
-                    }:null} auxiliarAction = {["Chef de projet", "Organisateur"].includes(this.props.role)?
+                    }:null} 
+            auxiliarAction = {["Chef de projet", "Organisateur"].includes(this.props.role)
+                    && !achieved?
                     ()=>{Alert.alert("Cette tâche est-elle terminée ?", "",[
-                        {text:"OUI", onPress:this.props.onToggleSetAchived}
+                        {text:"OUI", onPress:()=>{api.set_task_as_achieved({identifiant:this.props.user.identifiant, pass:this.props.user.pass,
+                            id_projet:this.props.task.id,nom:this.props.task.nom}, (reponse)=>{
+                                if (reponse.indexOf("200")!==-1)this.setState({achieved:true})})}}
                         , {text:"NON",onPress:()=>{this.closeDialog()}}
                     ])}:null} auxiliarActionTitle = {"Tache Accomplie"}/>
 
                 
             </TouchableOpacity>
         ) 
+        
     }
     }
     class DoubleCarteTaches extends React.Component
@@ -142,30 +163,29 @@ class CarteTaches extends React.Component{
         {
             this.tache2 = this.props.task[1];
         }
-        const setAchieved = (tache) => {
-            api.set_task_as_achieved({identifiant:this.props.user.identifiant, pass:this.props.user.pass,
-            id_projet:tache.id,nom:tache.nom})
-        }
+        
         
     }
         render(){
+            
             if (this.tache2)
             {
             return(
                 <View style = {{flexDirection:"row", alignSelf:"center", justifyContent:"space-between"}}>
                     <CarteTaches task={this.tache1} isChef={this.props.isChef}
                     role={this.props.role} navigation = {this.props.navigation}
-                    onToggleSetAchived={()=>setAchieved(this.tache2)}/>
+                    user={this.props.user}/>
                     
                     <CarteTaches task={this.tache2} isChef={this.props.isChef}
                     role={this.props.role} navigation = {this.props.navigation}
-                    onToggleSetAchived={()=>setAchieved(this.tache2)}/>
+                    user={this.props.user}/>
 
                 </View>
             )}else{
                 return(
                 <CarteTaches task={this.tache1} isChef={this.props.isChef}
-                role={this.props.role} navigation = {this.props.navigation} onToggleSetAchived={()=>setAchieved(this.tache2)}/>
+                role={this.props.role} navigation = {this.props.navigation} 
+                user={this.props.user}/>
                 )
             }
         }
@@ -412,7 +432,7 @@ sendWorkerStatus(id_membre, role)
             {
             let data = new FormData();
             data.append("id_proj", this.projet.ID)
-            api.load_tasks(data, (reponse)=>{console.log(reponse);this.setState({tasks:JSON.parse(reponse)})})
+            api.load_tasks(data, (reponse)=>{console.log("tasks", reponse);this.setState({tasks:JSON.parse(reponse)})})
             }
         }
  //vue liste des participants
@@ -756,8 +776,10 @@ memberView()
 
 taskView()
 {
-    if (this.state.selectedTheme=="taches" && this.projet.mine && this.state.tasks)
+    if (this.state.selectedTheme=="taches" && this.projet.mine)
     {
+        if (this.state.tasks)
+        {
         return (
             <View style={{flex:2, height:windowHeight/2}}>
                 <Text style={{alignSelf:"center", fontWeight:"bold", margin:5}}>TACHES : </Text>
@@ -770,8 +792,12 @@ taskView()
                 keyExtractor={(item)=>hashCode(item[0].nom)} >
 
             </FlatList>
+            
             </View>
-        )
+        )}
+        else{
+            return(<View><Text style={{alignSelf:"center"}}>Aucune tâche</Text></View>)
+        }
     }else return null
 }
 
@@ -794,7 +820,7 @@ boiteAIdees()
         )}else{
         return(
             <View style={{alignContent:"center", justifyContent:"center"}}>
-                <Text style={{alignSelf:"center"}}>Aucune idée</Text>
+                <Text style={{alignSelf:"center"}}>Aucune idée proposée pour le moment</Text>
             </View>
         )}
 
@@ -835,8 +861,8 @@ render(props){
                 <Text numberOfLines={this.state.numberOfLines}
                 onPress={()=>{this.setState({numberOfLines:(this.state.numberOfLines)?null:15})}}
                 dataDetectorType={"link"}>
-            <Text style={{alignSelf:"center"}}>OBJECTIFS </Text> <WiText>{"\n"+this.projet.objectifs+"\n\n"}</WiText>
-            <Text style={{alignSelf:"center"}}>DESCRIPTION </Text> <WiText>{"\n"+this.projet.description+"\n"}</WiText>
+            <Text>OBJECTIFS </Text> <WiText>{"\n"+this.projet.objectifs+"\n\n"}</WiText>
+            <Text>DESCRIPTION </Text> <WiText>{"\n"+this.projet.description+"\n"}</WiText>
             </Text>
             
             </ScrollView>
@@ -845,7 +871,9 @@ render(props){
             <View style={{flex:1}}>
                 <FlatList data = {themes} renderItem = {(theme)=>(<CarteTheme theme={theme.item.theme}
                 color={theme.item.color} textColor={theme.item.textColor} 
-                onPress={()=>this.setState({selectedTheme:theme.item.theme})}/>)} 
+                onPress={()=>{this.setState({selectedTheme:theme.item.theme})
+            this.importTasks(); this.importSuggestions(); this.importWorkers();
+                }}/>)} 
                /* keyExtractor={(item)=>hashCode(item.theme)}*/ horizontal={true}/>
             {this.memberView()/**flatlist des participants au projet*/}
             {this.workerButton()/* bouton ajouter un participant */}

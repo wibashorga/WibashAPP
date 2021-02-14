@@ -1,10 +1,35 @@
 import React from "react";
+import { View } from "react-native";
 import {Text} from "react-native"
 import {EditDialog, DetailDialog} from "./ModalDialog"
-export const lightBlue ="rgb(156,220,254)";
 
+export const lightBlue ="rgb(156,220,254)";
+export const colors ={
+  lightBlue:"rgb(156,220,254)",//bleu clair
+  green:"rgb(220,252,198)",
+  red:"red",
+  blue:"blue"
+}
 export type EditBox = EditDialog;
 export type DetailBox = DetailDialog;
+
+export const months_long = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet",
+"Aout", "Septembre", "Octobre", "Novembre", "Décembre"]
+export const months_short = ["Jan.", "Fev.", "Mars", "Avr.", "Mai", "Juin", "Juil.",
+"Aout", "Sep.", "Oct.", "Nov.", "Dec."]
+
+export class WiFlatButton extends React.Component
+{
+  constructor(props)
+  {
+    super(props)
+  }
+  render(){
+    return(
+<View></View>
+    )
+  }
+}
 
 export class WiText extends React.Component
 {
@@ -18,19 +43,19 @@ export class WiText extends React.Component
   split()
   {
     let customizable = false;
+
     
-    if (this.text instanceof String) customizable= true;
+    if (typeof this.text === typeof "a") customizable= true;
     else {
         try{
           //this.text.push("")  
           this.text=this.text.join("")
-          console.log(this.text)
             customizable = true
         }catch(e){}
     }
     if (customizable)
     {
-    let boldRegexp = /[ \n]\*.+\*[ .$]/g
+    let boldRegexp = /[( |^)\n]\*.+\*[ .$]/g
     let plainText = this.text.split(boldRegexp)
     let boldText = this.text.match(boldRegexp) || []
     boldText = boldText.map((item)=>(
@@ -79,4 +104,29 @@ class WiCard extends React.Component
 
     }
   }
+}
+
+
+
+export function sqlToUserDate(date, type="date", numericMonth=false, shortMonth=false)
+{
+  let dataType = date.indexOf(":")!==-1?"heure":"date";
+  let dateReg = /[0-9]{4}-[0-9]{2}-[0-9]{2}/g;
+  let hourReg = /[0-9]{2}-[0-9]{2}-[0-9]{2}/
+  if (dateReg.test(date)==false) throw "Malheureusement la date ne possède pas un format correct (sqlToUserDate)";
+  let finalDate =  date.match(dateReg)[0].split("-")
+  let mois = parseInt(finalDate[1])
+  if (numericMonth==false) {
+    if (shortMonth) mois = month_short[mois-1]
+    else mois = months_long[mois-1]
+  }
+    let jour = finalDate[2];
+    let annee = finalDate[0];
+  
+  finalDate = jour+" "+mois+" "+annee;
+  if (type=="heure" && dataType=="heure")
+  {
+    finalDate+= date.match(hourReg)[0]
+  } 
+  return finalDate;
 }

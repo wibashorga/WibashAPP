@@ -129,7 +129,7 @@ const HomeScreen = ({navigation,route}) => {
 const ModifyEventScreen = ({navigation, route})=>{
   return(
     <ModifyEvent navigation = {navigation} route = {route}
-    user = {utilisateur}/>
+    user = {utilisateur} />
   )
 }
 

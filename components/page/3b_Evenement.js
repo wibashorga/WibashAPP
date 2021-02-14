@@ -53,7 +53,7 @@ class Carte extends React.Component
         data.append("nom", this.props.event.nom)
         data.append("date", this.props.event.date)
         api.load_participants_event(data, (text)=>{this.setState({participants:JSON.parse(text)})})   
-    
+        
         
         
     }
@@ -83,6 +83,7 @@ class Carte extends React.Component
     }
     render()
     {   
+        let titleSize = (this.props.event.nom.length<20)?22:17
         StatusBar.setHidden(false)
             return(
                 <View>
@@ -99,7 +100,7 @@ class Carte extends React.Component
     
                     <View>
                     <Text style = {{fontWeight:"bold", alignSelf:"center",
-                fontSize: 22, color:(this.urgent)?"white":"black"}}>
+                fontSize: titleSize, color:(this.urgent)?"white":"black"}}>
                         {this.props.event.nom}</Text>
                     <Text style={{color:(this.urgent)?"white":"black"}}>
                         {this.jour+" "+this.mois+" "+this.annee}

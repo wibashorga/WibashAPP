@@ -8,6 +8,7 @@ import {formatPostData} from "./security"
 import * as ImagePicker from "expo-image-picker";
 import { EditDialog } from './ModalDialog';
 import { TouchableOpacity } from 'react-native';
+import { sqlToUserDate, WiText } from './custom';
 
 const token = "PPlaFk63u4E6";
 const windowWidth = Dimensions.get("window").width;
@@ -51,7 +52,8 @@ class Carte extends React.Component
         return(
             <View style={styles.carte}>
                 <Text style = {{fontWeight:"bold"}}>{this.props.projet.nom}</Text>
-                <Text>{this.props.projet.description}</Text>
+                <WiText>{this.props.projet.description}</WiText>
+                
             </View>
         )
     }
@@ -117,14 +119,16 @@ class CarteActu extends React.Component
 {
     constructor(props)
     {
-        super(props);   
+        super(props); 
+          
     }
     render()
     { return(
             <View>
-                <Text style={styles.actu}>
-                                        {this.props.actu.actu}
-                                    </Text>
+                <WiText style={styles.actu}>
+                    {this.props.actu.actu}</WiText>
+                    <Text style={{alignSelf: "flex-end"}}>{sqlToUserDate(this.props.actu.date)}</Text>
+
             </View>
         )
     }
@@ -543,7 +547,8 @@ const styles = StyleSheet.create(
           backgroundColor:"white",
           margin:5,
           borderRadius:10,
-          padding:6
+          padding:6,
+          fontSize:18
       },
      
        

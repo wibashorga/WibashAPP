@@ -29,7 +29,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs"
+import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
+import {Dimensions} from "react-native"
 
 import {Icon} from 'react-native-elements';
 var utilisateur={}, projets=[], events=[], membres=[];
@@ -396,6 +397,7 @@ class Navigation extends React.Component{
     {return (
       
       <Tab.Navigator tabBarPosition="bottom" initialRouteName = {'Home'} lazy
+      initialLayout = {{ width: Dimensions.get('window').width }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName, iconType;

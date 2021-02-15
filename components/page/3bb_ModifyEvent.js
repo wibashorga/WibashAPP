@@ -3,6 +3,8 @@ import {View, Text, TouchableOpacity, StyleSheet, TextInput, ScrollView} from 'r
 import { formatPostData } from './security';
 import {Icon} from "react-native-elements"
 import {delete_event} from "../../API/api_request"
+import {Calendar} from "react-native-calendars"
+import {sqlToUserDate, windowHeight, windowWidth} from "./custom"
 
 export default class ModifyEvent extends React.Component
 {
@@ -11,6 +13,9 @@ export default class ModifyEvent extends React.Component
     super(props);
     this.eventTitle = this.props.route.params.event.nom || "";
     this.eventDescription = this.props.route.params.event.description || "";
+    this.state={
+      date:this.props.route.params.event.date
+    }
     
   }
   componentDidMount()
@@ -29,6 +34,7 @@ export default class ModifyEvent extends React.Component
     data.append("nom_event", this.props.route.params.event.nom)
     if (this.eventTitle) data.append("nouveau_nom", this.eventTitle)
     if (this.eventDescription) data.append("description", this.eventDescription);
+    if (this.state.date) data.append("date", this.state.date)
     data = formatPostData(data)
     fetch('https://www.ypepin.com/application/Update/UpdateEvent.php', {
         method: 'POST',
@@ -105,6 +111,8 @@ export default class ModifyEvent extends React.Component
         )
     } */
   render() {
+    let marked = {}
+    marked[this.state.date] = {selected:true}
     return(
       <ScrollView>
           {/*}
@@ -122,7 +130,7 @@ export default class ModifyEvent extends React.Component
               else this.eventTitle = this.props.route.params.event.nom;
             /* this.props.navigation.setOptions({headerTitle:text?text:
               this.props.route.params.event.nom})*/
-            }} />
+            }}  multiline/>
           
           </View>
 
@@ -135,6 +143,14 @@ export default class ModifyEvent extends React.Component
             multiline={true}/>
           
           </View>
+          <Calendar onDayPress = {(day)=>{this.setState({date:day});}}
+                markedDates={marked}
+                minDate={new Date()} theme=
+                {{calendarBackground:"white", textDayFontSize:16}} onDayPress= {(day)=>{
+                    this.setState({date:day.dateString})
+                    
+                }} style={{height:330, width:windowWidth}}/>
+                <Text>{sqlToUserDate(this.state.date)}</Text>
 
         </View>
             
@@ -166,17 +182,28 @@ const styles = StyleSheet.create({
     },
   textInput:
     {
-      borderWidth: 1, 
-      padding: 5, 
-      marginTop: 10, 
-      borderRadius: 10
+      alignSelf: "center",
+            margin: 5,
+            width: windowWidth-20,
+            color: "black",
+            padding:7,
+            textAlignVertical:'top',
+            backgroundColor:"white",
+           // borderRadius:20,
+            shadowColor:"#000",
+            shadowOpacity:0.39,
+            shadowRadius:8.30,
+            elevation:14
+
 		},
 	button:
 	{
-    borderRadius: 5, 
+    //borderRadius: 5, 
+    margin:5,
     padding: 10,
     alignItems: 'center',
     color:"white"
-	}
+	},
+
 });
 

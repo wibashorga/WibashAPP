@@ -252,7 +252,6 @@ const styles = StyleSheet.create(
         },
         textinput:
         {
-            height: 23,
             width: windowWidth*0.95,
             height: 30,
             alignSelf: "center",

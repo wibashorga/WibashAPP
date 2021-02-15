@@ -274,7 +274,7 @@ class Navigation extends React.Component{
         <Stack.Navigator initialRouteName = {"Home"}>
           <Stack.Screen 
           name="Home" component={HomeScreen} 
-          options={{title : "WI-BASH" , 
+          options={{headerTitle : "WI-BASH" , 
             headerRight:()=>(
               <TouchableOpacity onPress={()=>{this.setState({loading:false, connected:false})}}>
                 <Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}/>
@@ -427,7 +427,7 @@ class Navigation extends React.Component{
         },})}>
 
 
-        <Tab.Screen name = "Home" component = {this.HomeStackScreen}/>
+        <Tab.Screen name = "Home" component = {this.HomeStackScreen} title="WI-BASH"/>
         <Tab.Screen name = "Agenda" component = {EventStackScreen} />
         <Tab.Screen name = "Projet" component = {ProjetStackScreen} />
         <Tab.Screen name = "Important" component = {ImportantScreen} />

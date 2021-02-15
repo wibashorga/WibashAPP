@@ -1,7 +1,11 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Dimensions } from "react-native";
 import {Text} from "react-native"
 import {EditDialog, DetailDialog} from "./ModalDialog"
+
+
+export const windowWidth = Dimensions.get("window").width;
+export const windowHeight = Dimensions.get("window").height;
 
 export const lightBlue ="rgb(156,220,254)";
 export const colors ={

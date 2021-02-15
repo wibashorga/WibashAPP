@@ -44,6 +44,14 @@ function post_request(request_url, data, success_callback, fail_callback)
 }
 function get_request(request_url, args, success_callback, fail_callback)
 {
+    if (args instanceof Object)
+    {
+        let formData = new FormData();
+        for (let property in args) {
+            formData.append(property, args[property])
+        }
+        args = formData
+    }
     if (request_url && (args instanceof FormData || args==null))
     {
         let adress = request_url+"?";
@@ -71,13 +79,16 @@ function get_request(request_url, args, success_callback, fail_callback)
 }
 //Read
 
+/**args : identifiant */
 export const load_events = (args, success_callback, fail_callback) => 
 get_request(url.ypepin.read.liste_events.url, args, success_callback, fail_callback)
 
-
+/**args: identifiant, pass */
 export const load_projects = (args, success_callback, fail_callback) => 
 post_request(url.ypepin.read.liste_projets.url, args, success_callback, fail_callback)
 
+
+/** args: identifiant, pass */
 export const load_members = (args, success_callback, fail_callback) => 
 post_request(url.ypepin.read.liste_membres.url, args, success_callback, fail_callback)
 

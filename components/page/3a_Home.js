@@ -141,9 +141,9 @@ export default class Home extends React.Component {
         super(props);
         this.state = {
            user : this.props.user,
-            projets: [],
+            projets: this.props.projets || [],
             membres: [],
-            events: [],
+            events: this.props.events || [],
             image:"",
             actuDialogVisible:false,
             actus:[],

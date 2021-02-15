@@ -30,10 +30,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
-import {Dimensions} from "react-native"
+import {Dimensions} from "react-native";
+import * as api from "../../API/api_request"
 
 import {Icon} from 'react-native-elements';
-var utilisateur={}, projets=[], events=[], membres=[];
+var utilisateur={}, projets=[], events=[], membres=[], actus = [];
 
 const token = "PPlaFk63u4E6";
 
@@ -109,7 +110,8 @@ const MenuScreen = ({navigation}) => {
 const HomeScreen = ({navigation,route}) => {
     return(
       <Home navigation = {navigation} user = {utilisateur} setProjects = {(p)=>{projets=p}}
-      setMembers = {(m)=>{membres=m}} setEvents = {(e)=>{events =e}}/>
+      setMembers = {(m)=>{membres=m}} setEvents = {(e)=>{events =e}} events={events}
+      projets={projets}/>
     )
   }
 
@@ -348,7 +350,11 @@ class Navigation extends React.Component{
     membre = JSON.parse(membre);
     membre.pass = this.pass;
     utilisateur = membre;
-  this.setState({connected:true});
+    api.load_events({identifiant:membre.identifiant}, (json)=>{events=JSON.parse(json)})
+    api.load_projects({identifiant:membre.identifiant, pass:membre.pass}, (json)=>{projets=JSON.parse(json);})
+    api.load_members({identifiant:membre.identifiant, pass:membre.pass}, (json)=>{mebres=JSON.parse(json)
+      this.setState({connected:true});}, ()=>this.setState({connected:true}))
+  
    }).catch((error) => {  
         this.setState({loading:false})
   })
@@ -396,8 +402,8 @@ class Navigation extends React.Component{
     if (this.state.connected)
     {return (
       
-      <Tab.Navigator tabBarPosition="bottom" initialRouteName = {'Home'} lazy
-      initialLayout = {{ width: Dimensions.get('window').width }}
+      <Tab.Navigator tabBarPosition="bottom" initialRouteName = {'Home'} lazy = {!membres.length}
+            initialLayout = {{ width: Dimensions.get('window').width }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName, iconType;

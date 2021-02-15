@@ -155,10 +155,7 @@ export default class Projet extends React.Component {
 
     setHeader()
     {
-        this.props.navigation.setOptions({title : "PROJETS", headerStyle:{
-            backgroundColor:"red"
-          }, headerTitleStyle:{alignSelf:"center", color:"white", fontSize:23},
-        })
+        
         
     }
 
@@ -244,7 +241,7 @@ export default class Projet extends React.Component {
         this.intervalID = setInterval(()=>{
             this.importProjects();
         }, 20000);
-        this.setHeader();
+        
         
         
     }

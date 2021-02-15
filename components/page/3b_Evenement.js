@@ -149,10 +149,7 @@ export default class Evenement extends React.Component {
         if (this.state.user.niveau=="0" || this.state.user.niveau=="1")
         {
 
-            this.props.navigation.setOptions({headerRight:()=>(<TouchableOpacity style={{marginRight:12}}
-            onPress={()=>this.props.navigation.navigate("new_event")}>
-                <Icon name="plus" type="evilicon" size={35}></Icon>
-            </TouchableOpacity>)})
+            //this.props.navigation.setOptions({})
         }
     }
     generateMarkedDates()
@@ -200,7 +197,7 @@ export default class Evenement extends React.Component {
 
                 
 
-                <ImageBackground source = {require('./ressources/evenmfond.jpg')} style={styles.image}>
+                <ImageBackground  style={styles.image}>
 
                 <View style={styles.containcarte}>
                 <View style={styles.calendar}>

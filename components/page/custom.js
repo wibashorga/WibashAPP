@@ -26,7 +26,10 @@ export class WiFlatButton extends React.Component
   }
   render(){
     return(
-<View></View>
+      <TouchableOpacity 
+                 onPress={this.props.onPress}>
+                    <Text style={{color:"white", alignSelf:"center"}}>CONFIRMER</Text>
+                    </TouchableOpacity>
     )
   }
 }
@@ -107,7 +110,12 @@ class WiCard extends React.Component
 }
 
 
-
+/**Transforme une date au format date ou datetime SQL en date lisible par l'utilisateur
+ * date : string date au format sql
+ * type : si type vaut "heure" et que le format de date est datetime on affiche aussi l'heure
+ * numericMonth: true --> le mois est affiché sous forme de nombre (par défaut : false)
+ * shortMonth : si les mois ne sont pas au format numérique, affiche les mois sous forme abrégée (par défaut : false)
+ * */
 export function sqlToUserDate(date, type="date", numericMonth=false, shortMonth=false)
 {
   let dataType = date.indexOf(":")!==-1?"heure":"date";

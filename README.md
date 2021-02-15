@@ -98,6 +98,7 @@ Et l'évènement est automatiquement ajouté sur l'agenda Google ou IOS de ceux 
 -   Home en construction
 -   Vue profil en construction
 -   API et base de données opé
+-    Marquer une tache comme accomplie
 
 
 C'est tout pour le moment. On mettra les dependances au fil du temps.
@@ -113,7 +114,7 @@ https://github.com/Kureev/react-native-side-menu
 -   Editer des actus
 -   Designer la page home
 -   Bouton participer à un projet (fait)
--   Désigner un administrateur pour un projet
+-   Désigner un administrateur pour un projet (fait)
 -   Paramètres de l'appli
 -   Remplacer RNPickerSelect par expo-picker (fait)
 -   Emmettre une proposition dans un projet (fait)
@@ -121,6 +122,7 @@ https://github.com/Kureev/react-native-side-menu
 -   Supprimer une tache
 -   supprimer un event
 -   supprimer un participant
+-   Changer le statut d'un visiteur ou d'un membre
 
 ## Fonctionnalités des prochaines mises-à-jour
 -   Système de notifications (push tout d'abord)

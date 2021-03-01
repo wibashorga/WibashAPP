@@ -406,8 +406,10 @@ export default class Home extends React.Component {
 const styles = StyleSheet.create(
     {
       bienvenue:{
-          alignSelf:"center",fontSize:22,
-          fontWeight:"bold",marginBottom: 10
+          alignSelf:"center",
+          fontSize:22,
+          fontWeight:"bold",
+          margin: 10
       },
         modal:
        {

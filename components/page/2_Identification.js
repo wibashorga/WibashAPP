@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   textinput:
   {
     marginBottom: 90,
-    marginLeft:20,
+    alignSelf:"center",
     paddingVertical: -1, 
     backgroundColor:'white',
     borderRadius:20,
@@ -137,14 +137,7 @@ const styles = StyleSheet.create({
     height: windowHeight/19,
     padding:10
   },
-  bottomView:
-  {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignContent: "center",
 
-  },
   bouton:
   {
     marginBottom: 20,

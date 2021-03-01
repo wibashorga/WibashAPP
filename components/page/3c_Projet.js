@@ -90,7 +90,7 @@ class Carte extends React.Component
 
                         <Text style={{fontWeight:"bold"}} >Objectifs : </Text>
 
-                        <Text> {"\n"+this.props.projet.objectifs+"\n"} </Text>
+                        <WiText> {"\n"+this.props.projet.objectifs+"\n"} </WiText>
                         
                     </Text >
 

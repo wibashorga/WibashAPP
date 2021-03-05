@@ -102,13 +102,13 @@ class Carte extends React.Component
                     <Text style = {{fontWeight:"bold", alignSelf:"center",
                 fontSize: titleSize, color:(this.urgent)?"white":"black"}}>
                         {this.props.event.nom}</Text>
+            <Text style={{color:(this.urgent)?"white":"black"}} numberOfLines={3}>
+                {this.props.event.description}</Text>
                     <Text style={{color:(this.urgent)?"white":"black"}}>
                         {this.jour+" "+this.mois+" "+this.annee}
                         </Text>
             <Text style= {{color:(this.urgent)?"white":"black"}}>
                 {"Type : "+this.props.event.type}</Text>
-            <Text style={{color:(this.urgent)?"white":"black"}} numberOfLines={3}>
-                {this.props.event.description}</Text>
                 {this.props.event.projet?(<Text style={{fontStyle:"italic", alignSelf:"flex-end", marginRight:5}}>Projet</Text>):null}
                     </View>
                     

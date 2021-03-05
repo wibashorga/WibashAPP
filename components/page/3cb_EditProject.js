@@ -236,6 +236,7 @@ constructor(props){
         this.chef = this.props.route.params.chef;
         this.state = {participants: this.props.route.params.workers || [], task:false, tasks:this.props.route.params.tasks || [], suggestion:false, 
             suggestions:[], bottomSheetVisible:false, reunion:false, 
+            memos:[],
             workerOptions:false, calendarVisible:false,
         meetingDate:null, numberOfLines:15,
         createMemoDialog: false,
@@ -435,10 +436,12 @@ sendWorkerStatus(id_membre, role)
             api.load_tasks(data, (reponse)=>{console.log("tasks", reponse);this.setState({tasks:JSON.parse(reponse)})})
             }
         }
- //vue liste des participants
 
-    //vue liste des taches
-   
+        importMemos(){
+            
+    api.load_memos_from_project({identifiant:this.props.user.identifiant, pass:this.props.user.pass, 
+        id_projet: this.projet.ID}, (text)=>{this.setState({memos:JSON.parse(text)})})
+        }
     /**fonction qui permet de créer une tache dans la base de données */
     sendTask(){
         if (this.nomtache)
@@ -826,6 +829,18 @@ boiteAIdees()
 
         }
 }
+
+memoView()
+{
+    if (this.projet.mine && this.state.selectedTheme=="notes" && this.state.memos)
+    {
+        return(
+            <View>
+                {this.state.memos.map((memo)=><Text>{memo.contenu}</Text>)}
+            </View>
+        )
+    } 
+}
 // bouton Ajouter un participant
 workerButton(){
     
@@ -840,6 +855,9 @@ workerButton(){
 }
 componentDidMount(){
 this.setHeader();
+
+api.load_memos_from_project({identifiant:this.props.user.identifiant, pass:this.props.user.pass, 
+    id_projet: this.projet.ID}, (text)=>{this.setState({memos:JSON.parse(text)})})
 
 }
 
@@ -872,13 +890,14 @@ render(props){
                 <FlatList data = {themes} renderItem = {(theme)=>(<CarteTheme theme={theme.item.theme}
                 color={theme.item.color} textColor={theme.item.textColor} 
                 onPress={()=>{this.setState({selectedTheme:theme.item.theme})
-            this.importTasks(); this.importSuggestions(); this.importWorkers();
+            this.importTasks(); this.importSuggestions(); this.importWorkers(); this.importMemos();
                 }}/>)} 
                /* keyExtractor={(item)=>hashCode(item.theme)}*/ horizontal={true}/>
             {this.memberView()/**flatlist des participants au projet*/}
             {this.workerButton()/* bouton ajouter un participant */}
             {this.taskView()}
             {this.boiteAIdees()}
+            {this.memoView()}
             </View>
 
 

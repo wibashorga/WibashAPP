@@ -107,6 +107,7 @@ post_request(url.ypepin.read.liste_participants_projet.url, args, success_callba
 export const load_participants_event =   (args, success_callback, fail_callback) => 
 post_request(url.ypepin.read.liste_participants_event.url, args, success_callback, fail_callback)
 
+/**identifiant, pass, id_projet */
 export const load_memos_from_project =   (args, success_callback, fail_callback) => 
 post_request(url.ypepin.read.liste_memos_projet.url, args, success_callback, fail_callback)
 

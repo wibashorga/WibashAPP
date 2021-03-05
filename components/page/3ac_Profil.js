@@ -1,63 +1,56 @@
 import React from 'react';
-import {Text, View, Modal, StyleSheet, FlatList,Button,Image, TouchableOpacity, ScrollView} from 'react-native';
-const token = "PPlaFk63u4E6";
+import {    
+    Text, View, Modal, StyleSheet, FlatList,Button,Image, 
+    TouchableOpacity, ScrollView, Dimensions
+} from 'react-native';
 import * as ImagePicker from "expo-image-picker";
-import { ButtonGroup, Icon } from 'react-native-elements'
-
+import { Icon, Avatar } from 'react-native-elements';
+import { TextInput } from 'react-native-gesture-handler';
+import {edit_my_account} from '../../API/api_request'
+const token = "PPlaFk63u4E6";
 /*
 const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",
 "Alors, motivÃ© aujourd'hui ? ", "Wi-Bash n'etait pas complet sans vous", "Anthony COLVIL est un homme parfait"];
 */
 
-class GroupOfButton extends React.Component {
-    constructor () {
-        super()
-        this.state = {
-          selectedIndex: 0
-        }
-        this.updateIndex = this.updateIndex.bind(this)
-        this.component1 = () => /*<TouchableOpacity style={{}}>BOis</TouchableOpacity>//*/<Text>Hello</Text>
-        this.component2 = () => <Text>World</Text>
-        this.component3 = () => <Text>ButtonGroup</Text>
-      }
-      updateIndex (selectedIndex) {
-        this.setState({selectedIndex})
-      }
-      setHeader() {
-        this.props.navigation.setOptions({
-          headerShown: false
-        })
-      }
+const windowWidth = Dimensions.get("window").width;
 
-      componentDidMount(){
-        this.setHeader();
-      }
-
-      render () {
-        const buttons = [{ element: this.component1 }, { element: this.component2 }, { element: this.component3 }]
-        const { selectedIndex } = this.state
-        return (
-          <ButtonGroup
-            selectedIndex={selectedIndex}
-            onPress={this.updateIndex(selectedIndex)}
-            buttons={buttons}
-            containerStyle={{height: 100}} />
-        )
-      }
+// Pour l'affichage des champs du profil
+const equivalences = {
+    nom:'Nom',
+    prenom:'Prénom',
+    story:'Histoire',
+    role:'Rôle',
+    identifiant:'Identifiant',
+    pass:'Mot de passe',
+    competences:'Compétences',
+    mail:'Adresse mail'
 }
 
-selector = new GroupOfButton;
 
 export default class Profil extends React.Component {
+    
     constructor(props)
     {
         super(props);
+        this.user = this.props.user; //JSON.parse(JSON.stringify(this.props.user))
+        this.user.role=["dev", "administrateur", "membre", "visiteur"][this.user.niveau];
         this.state = {
-           user : this.props.user,
-           bienvenue : true
-        }
-        
+            nom:false, //[etat du node (true pour l'interface modification et false pour un simple affichage), un champ de l'utilisateur]
+            prenom:false,
+            story:false,
+            role:false,
+            identifiant:false,
+            pass:false,
+            /*
+            competences:false,
+            mail:false,
+            */
+            
+        };
+        this.temoin = JSON.parse(JSON.stringify(this.user))
     }
+    
     async  openImagePickerAsync(){
         try{
         let permissionResult = {granted:true}//await ImagePicker.requestMediaLibraryPermissionsAsync(false);
@@ -75,7 +68,7 @@ export default class Profil extends React.Component {
           this.setState({image:pickerResult.uri})
         }catch(error){console.log(error)}
       }
-
+    /*
       setHeader() {
         this.props.navigation.setOptions({
           headerShown: false
@@ -85,29 +78,189 @@ export default class Profil extends React.Component {
       componentDidMount(){
         this.setHeader();
      }
-     
+     */
+    
+    modifyAccountInfo () {
+        let data = new FormData();
+        data.append("identifiant", this.user.identifiant);
+        data.append("pass", this.user.pass);
+        data.append("nom", this.user.nom);
+        data.append("prenom", this.user.prenom);
+        data.append("story", this.user.story);
+        data.append("niveau", this.user.niveau);
+        
+        edit_my_account(data,(reponse) => {
+                if (reponse.indexOf("200")!==-1) {
+                    console.log(reponse);
+                    this.temoin = JSON.parse(JSON.stringify(this.user));
+                    this.setState({nom:false, prenom:false, role:false, identifiant:false, pass:false, story:false});
+                    //this.props.setUser(this.user);
+                }
+            },
+            (error) => {
+                if (reponse.indexOf("500")!==-1) {
+                    console.log(error);
+                }
+            }
+        );
+    } 
+
+    showModificationButtons() {
+        console.log('bouton') //debug
+        let stateEntries = Object.entries(this.state);
+        let valuesToChange = [];
+        if (this.state.nom || this.state.prenom || this.state.story || this.state.identifiant || this.state.pass || this.state.role) {
+            for (let [key, val] of stateEntries) {
+                if (val === true) {
+                    valuesToChange.push(key);
+                }
+            }
+            console.log('suspect 1', valuesToChange); //debug
+
+            return(
+                <View style={{alignItems:'center', marginBottom:30}}>
+                    <TouchableOpacity style={{backgroundColor:'red', padding:10, width:windowWidth*0.5, alignItems:'center', borderRadius:10}}
+                        onPress={()=>{this.modifyAccountInfo(); console.log('enregistrement')}}>
+                        <Text style={{fontWeight:'bold', color:'white'}}>Enregistrer les modifications</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={{marginTop:10, backgroundColor:'blue', padding:10, width:windowWidth*0.5, alignItems:'center', borderRadius:10}}
+                        onPress={()=>{console.log('user', this.user); console.log('temoin',this.temoin); //state.temoin);
+                            //this.user[value] = 'test'}}//this.temoin[value]} } //state.temoin[value]} }; 
+                            this.props.setUser(JSON.parse(JSON.stringify(this.temoin)));
+                            //this.user = JSON.parse(JSON.stringify(this.temoin)); 
+                            console.log('re-user:', this.user, '\nprops.user:', this.props.user);
+                            this.setState({nom:false, prenom:false, role:false, identifiant:false, pass:false, story:false})}}>
+                        <Text style={{fontWeight:'bold', color:'white'}}>Annuler</Text>
+                    </TouchableOpacity>
+                </View>
+            )
+        }
+        else {
+            return null;
+        }
+    }
+    /*
+    showModifiedsign(isModified) {
+        if (isModified) {
+            return(
+                <View> 
+                    <Text style={{fontWeight:'bold', color:'orange'}}>!</Text>
+                </View>
+            )
+        }
+    }
+    */
+    showModifiedSign(information) {
+        if (this.temoin[information] != this.user[information]) { //state.temoin[information] != this.user[information]) {
+            console.log('sign ?')
+            return(
+                <View style={{justifyContent:'flex-end', alignItems:'center', backgroundColor:'yellow'}}>
+                    <Text style={{fontWeight:'bold', color:'orange'}}>!</Text>
+                </View>
+            )
+        }
+    }
+    
+
+    statutPlate(information) {
+        if (this.state[information]) {
+                     return(
+                         <View style={(['nom','prenom'].includes(information))?
+                            ((information=='nom')?styles.statusModificationPlate1a:styles.statusModificationPlate1b):styles.statusModificationPlate2}>
+                             <View style={{marginRight:10, flex:8}}>
+                                 <Text style={{fontWeight:"bold", color:(['nom','prenom'].includes(information))?'white':'black'}}>{equivalences[information]}  : </Text>
+                                     <TextInput defaultValue={(this.user[information]=='')?'...':this.user[information]}
+                                         secureTextEntry={(['pass','identifiant'].includes(information))?true:false}
+                                         onChangeText={(text)=>{this.user[information] = text; 
+                                            console.log('in biten', this.user[information], this.props.user[information]); 
+                                            this.showModifiedSign(information)}}
+                                         returnKeyType='done' style={[styles.textInput, {borderColor:(['nom','prenom'].includes(information))?'white':'black',
+                                         color:(['nom','prenom'].includes(information))?'white':'black'}]}>
+                                     </TextInput>
+                             </View>
+                             
+                             {/*
+                             {this.showModifiedSign(information)}
+                             {this.modificationDetector(information)}
+                             {this.setState({modified:(this.state[information] != this.state.temoin[information])?true:false})}
+                             <View>
+                                 <Icon type='octicon' name='check' color='lightgreen' onPress={()=>{this.modifyAccountInfo(information)}}/>
+                                 <Icon type='octicon' name='x' 
+                                    color={(['nom','prenom'].includes(information))?'fuchsia':'red'} 
+                                    onPress={()=>{this.setState((state,props) =>{return {[information]:false}});
+                                        this.state.user[information] = this.temoin[information]}}/>
+                             </View>
+                             */}
+                         </View>   
+                     )
+        }
+            
+        
+        else {
+                return(
+                    <View 
+                        style={(['nom','prenom'].includes(information))?
+                            ((information=='nom')?styles.statusPlate1a:styles.statusPlate1b):styles.statusPlate2}>
+                        <View style={{marginRight:10, flex:8}}>
+                            <Text style={(['nom','prenom'].includes(information))?
+                                {fontWeight:"bold",color:'white'}:{fontWeight:"bold"}}>
+                                {equivalences[information]} : {(this.temoin[information]=='')?'...':this.temoin[information]} {/*state.temoin[information]=='')?'...':this.state.temoin[information]}*/} 
+                            </Text>
+                        </View>
+                        <View>
+                            <View style={{flex:1}}>
+                                <Icon type='octicon' name='pencil' 
+                                color={(['nom','prenom'].includes(information))?'lightgrey':'grey'} 
+                                size='20' 
+                                onPress={()=>{this.setState({[information]:true})}}/>
+                            </View>
+                        </View>
+                    </View>
+                )
+            }
+        
+    }
+
     render()
     {
         
         return(
             <ScrollView style={{flex:1}}>
+
                 <View style={styles.header}>
-                    <Text style={styles.text}>Profil</Text>
+                    {/*
+                    <Avatar size='large' overlayContainerStyle={{backgroundColor: 'grey'}} rounded title="MD">
+                        <Avatar.Accessory/>
+                    </Avatar>
+                    */}
+                    <View >
+                        <Text style={styles.text}>Profil</Text>
+                    </View>
+
                 </View>
-                <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
-                    <Icon type='feather' name='user' raised='true' color='lightgrey'/>
-                    <Icon type='feather' name='mouse-pointer' raised='true' color='lightgrey'/>
-                    <Icon name='sc-telegram' type='evilicon' raised='true' color='lightgrey'/>
-                    <Icon name='chart' type='evilicon' raised='true' color='lightgrey'/>
+
+                <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', backgroundColor:'white', paddingRight:40, paddingLeft:40, paddingTop:20}}>
+                    <Icon type='feather' name='user' color='lightgrey' size='30'/>
+                    <Icon type='feather' name='mouse-pointer' color='lightgrey'/>
+                    <Icon name='sc-telegram' type='evilicon' color='lightgrey' size='40'/>
+                    <Icon name='chart' type='evilicon' color='lightgrey' size='40'/>
+                    <Icon type='feather' name='globe' color='lightgrey' color='red'/>
                 </View>
+
                     <View style={styles.body}>
-                        {/*{selector.render()}*/}
+                        {/*
+                        <View style={{flexDirection:'row-reverse', margin:20, marginVertical:0}}><Icon type='octicon' name='pencil' color='grey' onPress={()=>this.props.navigation.navigate("ModifyProfil")}/></View>
+                        */}
                         <View style={styles.infoPlates}>
-                            <TouchableOpacity style={styles.statusPlate1}/>
-                            <TouchableOpacity style={styles.statusPlate2}/>
-                            <TouchableOpacity style={styles.statusPlate2}/>
-                            <TouchableOpacity style={styles.statusPlate2}/>
+                            {this.statutPlate('nom')}
+                            {this.statutPlate('prenom')}
+                            {this.statutPlate('story')}
+                            {this.statutPlate('role')}
+                            {this.statutPlate('identifiant')}
+                            {this.statutPlate('pass')}
                         </View>
+                        {this.showModificationButtons()}
                     </View>
             </ScrollView>
         )
@@ -116,8 +269,10 @@ export default class Profil extends React.Component {
 
 styles = StyleSheet.create({
     header:{
+        flexDirection:'row',
         height: 120,
         backgroundColor:'red',
+        padding:20,
         alignItems:'center',
         justifyContent:'center'
     },
@@ -128,29 +283,100 @@ styles = StyleSheet.create({
     },
     body:{
         flex:5,
-        backgroundColor:'white'
+        backgroundColor:'white',
+        paddingTop:30
     },
     infoPlates:{
-        marginTop: 40,
+        marginTop: 30,
         padding: 40,
+        paddingTop:10,
         alignItems:'center',
         backgroundColor:'white'
     },
-    statusPlate1:{
-        borderRadius:5,
+    statusPlate1a:{
+        borderRadius:10,
         backgroundColor:'red',
         height:70,
-        width: '100%',
-        //shadowOffset: {width: 100, height:100},
-        shadowOpacity: 0.5
+        width: windowWidth*0.78,//'100%',
+        shadowColor:'lightgrey',
+        shadowOffset: {width: 0, height:10},
+        shadowOpacity: 1,
+        shadowRadius:10,
+        padding:10,
+        flexDirection:'row'
+    },
+    statusPlate1b:{
+        borderRadius:10,
+        backgroundColor:'red',
+        height:70,
+        width: windowWidth*0.78,//'100%',
+        shadowColor:'lightgrey',
+        shadowOffset: {width: 0, height:10},
+        shadowOpacity: 1,
+        shadowRadius:10,
+        padding:10,
+        marginTop:20,
+        flexDirection:'row'
     },
     statusPlate2:{
         marginTop: 20,
-        borderRadius:5,
-        backgroundColor:'lightgrey',
+        borderRadius:10,
+        backgroundColor:'lavender',
         height:70,
-        width: '100%',
-        shadowOpacity: 0.5
+        width: windowWidth*0.78,//'100%',
+        shadowColor:'lightgrey',
+        shadowOffset: {width: 0, height:10},
+        shadowOpacity: 1,
+        shadowRadius:10,
+        padding:10,
+        flexDirection:'row'
+    },
+    statusModificationPlate1a:{
+        borderRadius:10,
+        backgroundColor:'red',
+        width: windowWidth*0.78,//'100%',
+        shadowColor:'lightgrey',
+        shadowOffset: {width: 0, height:10},
+        shadowOpacity: 1,
+        shadowRadius:10,
+        padding:10,
+        flexDirection:'row'
+    },
+    statusModificationPlate1b:{
+        marginTop: 20,
+        borderRadius:10,
+        backgroundColor:'red',
+        width: windowWidth*0.78,//'100%',
+        shadowColor:'lightgrey',
+        shadowOffset: {width: 0, height:10},
+        shadowOpacity: 1,
+        shadowRadius:10,
+        padding:10,
+        flexDirection:'row'
+    },
+    statusModificationPlate2:{
+        marginTop: 20,
+        borderRadius:10,
+        backgroundColor:'lavender',
+        width: windowWidth*0.78,//'100%',
+        shadowColor:'lightgrey',
+        shadowOffset: {width: 0, height:10},
+        shadowOpacity: 1,
+        shadowRadius:10,
+        padding:10,
+        flexDirection:'row'
+    },
+    textInput:{
+        marginTop:5, 
+        borderWidth:1, 
+        padding:10, 
+        borderRadius:10
+    },
+    modificationButton:{
+        marginTop:30, 
+        borderWidth:1, 
+        padding:10, 
+        borderRadius:10
     }
 })
 

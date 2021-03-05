@@ -171,7 +171,7 @@ export default class Home extends React.Component {
             title:"WI-BASH", headerShown:true, headerStyle:{backgroundColor:"red"},
             headerTitleStyle:{color:"white", alignSelf:"center", marginLeft:-50, fontSize:23},
             headerLeft:()=>(<Icon name = "menu" type = "Entypo" color = "white" iconStyle = {styles.icon}
-            onPress={()=>{this.props.navigation.navigate("Profils")}}/>
+            onPress={()=>{this.props.navigation.navigate("Profil")}}/>
                 )
         })
     }

@@ -60,7 +60,7 @@ const AccueilScreen =({ navigation}) => {
 // Screen du profil
 const ProfilScreen = ({navigation}) => {
   return(
-    <Profil navigation = {navigation} user = {utilisateur}/>
+    <Profil navigation = {navigation} user = {utilisateur} setUser={(u)=>{utilisateur=u}}/>
   )
 }
 
@@ -281,7 +281,7 @@ class Navigation extends React.Component{
               <TouchableOpacity onPress={()=>{this.setState({loading:false, connected:false})}}>
                 <Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}/>
               </TouchableOpacity>)}}/>
-          <Stack.Screen name="Menu" component={this.MenuStackScreen} screenOptions={{headerShown:false}}/>
+              <Stack.Screen name="Profil" component={ProfilScreen}/>
         </Stack.Navigator>
       )
   }
@@ -455,7 +455,8 @@ class Navigation extends React.Component{
       return null
     }
   }
-
+  
+  /*
   menuStack() {
     if (this.state.connected) {
       return(
@@ -471,6 +472,8 @@ class Navigation extends React.Component{
       </Stack.Navigator>
     }
   }
+  */
+
   render()
   {
   return (

@@ -49,9 +49,7 @@ const themes = [{theme:"participants", color:"orange"},{theme:"taches", color:li
 class CarteMembre extends React.Component
 {
     constructor(props)
-    {super(props)
-        
-    
+    {super(props)    
     }
    
     render(props)
@@ -64,6 +62,26 @@ class CarteMembre extends React.Component
                     {this.props.membre.prenom.toUpperCase()+"\n"+this.props.membre.nom.toUpperCase()}</Text>
                     </TouchableOpacity>
                 <Text style={{fontSize:13, fontStyle: "italic"}}>{this.props.membre.role}</Text>
+            </View>
+        )
+    }
+}
+
+class CarteMemo extends React.Component
+{
+    constructor(props)
+    {super(props)    
+    }
+   
+    render(props)
+    {
+
+        return(
+            <View>
+                <TouchableOpacity style={{backgroundColor:"white", margin:10, marginVertical:25}}>
+                    <Text>{this.props.memo.contenu}</Text>
+                    </TouchableOpacity>
+                
             </View>
         )
     }
@@ -835,9 +853,10 @@ memoView()
     if (this.projet.mine && this.state.selectedTheme=="notes" && this.state.memos)
     {
         return(
-            <View>
-                {this.state.memos.map((memo)=><Text>{memo.contenu}</Text>)}
-            </View>
+            <FlatList data={this.state.memos}
+
+            renderItem={(item)=>
+                <CarteMemo memo={item.item}/>}></FlatList>
         )
     } 
 }

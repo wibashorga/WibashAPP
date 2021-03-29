@@ -228,24 +228,13 @@ export default class Profil extends React.Component {
         return(
             <ScrollView style={{flex:1}}>
 
-                <View style={styles.header}>
-                    {/*
-                    <Avatar size='large' overlayContainerStyle={{backgroundColor: 'grey'}} rounded title="MD">
-                        <Avatar.Accessory/>
-                    </Avatar>
-                    */}
-                    <View >
-                        <Text style={styles.text}>Profil</Text>
-                    </View>
-
-                </View>
-
+                
                 <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', backgroundColor:'white', paddingRight:40, paddingLeft:40, paddingTop:20}}>
-                    <Icon type='feather' name='user' color='lightgrey' size='30'/>
+                    <Icon type='feather' name='user' color='red' size='30'/>
                     <Icon type='feather' name='mouse-pointer' color='lightgrey'/>
                     <Icon name='sc-telegram' type='evilicon' color='lightgrey' size='40'/>
                     <Icon name='chart' type='evilicon' color='lightgrey' size='40'/>
-                    <Icon type='feather' name='globe' color='lightgrey' color='red'/>
+                    <Icon type='feather' name='globe' color='lightgrey' color='lightgrey'/>
                 </View>
 
                     <View style={styles.body}>
@@ -270,7 +259,7 @@ export default class Profil extends React.Component {
 styles = StyleSheet.create({
     header:{
         flexDirection:'row',
-        height: 120,
+        height: 100,
         backgroundColor:'red',
         padding:20,
         alignItems:'center',

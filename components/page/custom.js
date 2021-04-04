@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Dimensions } from "react-native";
 import {Text} from "react-native"
-import {EditDialog, DetailDialog} from "./ModalDialog"
+import {EditDialog, DetailDialog, SuccesMessage} from "./ModalDialog"
 
 
 export const windowWidth = Dimensions.get("window").width;
@@ -37,6 +37,8 @@ export class WiFlatButton extends React.Component
     )
   }
 }
+
+
 
 export class WiText extends React.Component
 {

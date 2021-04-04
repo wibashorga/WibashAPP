@@ -7,6 +7,8 @@ import * as ImagePicker from "expo-image-picker";
 import { Icon, Avatar } from 'react-native-elements';
 import { TextInput } from 'react-native-gesture-handler';
 import {edit_my_account} from '../../API/api_request'
+import {WiSuccesMessage} from "./custom"
+import { SuccessMessage } from './ModalDialog';
 const token = "PPlaFk63u4E6";
 /*
 const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",
@@ -83,6 +85,7 @@ export default class Profil extends React.Component {
     modifyAccountInfo () {
         let data = new FormData();
         data.append("identifiant", this.user.identifiant);
+        // pour l'instant l'application ne doit pas permettre de changer d'identifiant
         data.append("pass", this.user.pass);
         data.append("nom", this.user.nom);
         data.append("prenom", this.user.prenom);
@@ -92,10 +95,11 @@ export default class Profil extends React.Component {
         edit_my_account(data,(reponse) => {
                 if (reponse.indexOf("200")!==-1) {
                     console.log(reponse);
-                    this.temoin = JSON.parse(JSON.stringify(this.user));
+                    this.temoin = this.user;
                     this.setState({nom:false, prenom:false, role:false, identifiant:false, pass:false, story:false});
-                    //this.props.setUser(this.user);
-                }
+                    this.props.setUser(this.user);
+                    this.setState({success:true})
+                }else{console.log("Echec")}
             },
             (error) => {
                 if (reponse.indexOf("500")!==-1) {
@@ -170,7 +174,8 @@ export default class Profil extends React.Component {
                             ((information=='nom')?styles.statusModificationPlate1a:styles.statusModificationPlate1b):styles.statusModificationPlate2}>
                              <View style={{marginRight:10, flex:8}}>
                                  <Text style={{fontWeight:"bold", color:(['nom','prenom'].includes(information))?'white':'black'}}>{equivalences[information]}  : </Text>
-                                     <TextInput defaultValue={(this.user[information]=='')?'...':this.user[information]}
+                                     
+                                     <TextInput defaultValue={(this.user[information]=='')?'...':this.user[information]} multiline
                                          secureTextEntry={(['pass','identifiant'].includes(information))?true:false}
                                          onChangeText={(text)=>{this.user[information] = text; 
                                             console.log('in biten', this.user[information], this.props.user[information]); 
@@ -178,6 +183,7 @@ export default class Profil extends React.Component {
                                          returnKeyType='done' style={[styles.textInput, {borderColor:(['nom','prenom'].includes(information))?'white':'black',
                                          color:(['nom','prenom'].includes(information))?'white':'black'}]}>
                                      </TextInput>
+
                              </View>
                              
                              {/*
@@ -201,7 +207,8 @@ export default class Profil extends React.Component {
                 return(
                     <View 
                         style={(['nom','prenom'].includes(information))?
-                            ((information=='nom')?styles.statusPlate1a:styles.statusPlate1b):styles.statusPlate2}>
+                            ((information=='nom')?styles.statusPlate1a:styles.statusPlate1b):
+                            (information=="story")?{...styles.statusPlateHistoire}:styles.statusPlate2}>
                         <View style={{marginRight:10, flex:8}}>
                             <Text style={(['nom','prenom'].includes(information))?
                                 {fontWeight:"bold",color:'white'}:{fontWeight:"bold"}}>
@@ -210,10 +217,12 @@ export default class Profil extends React.Component {
                         </View>
                         <View>
                             <View style={{flex:1}}>
-                                <Icon type='octicon' name='pencil' 
+                                <TouchableOpacity onPress={()=>{this.setState({[information]:true})}}>
+                                    <Icon type='octicon' name='pencil' 
                                 color={(['nom','prenom'].includes(information))?'lightgrey':'grey'} 
-                                size='20' 
-                                onPress={()=>{this.setState({[information]:true})}}/>
+                                size={20} 
+                                />
+                                </TouchableOpacity>
                             </View>
                         </View>
                     </View>
@@ -230,10 +239,10 @@ export default class Profil extends React.Component {
 
                 
                 <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', backgroundColor:'white', paddingRight:40, paddingLeft:40, paddingTop:20}}>
-                    <Icon type='feather' name='user' color='red' size='30'/>
+                    <Icon type='feather' name='user' color='red' size={30}/>
                     <Icon type='feather' name='mouse-pointer' color='lightgrey'/>
-                    <Icon name='sc-telegram' type='evilicon' color='lightgrey' size='40'/>
-                    <Icon name='chart' type='evilicon' color='lightgrey' size='40'/>
+                    <Icon name='sc-telegram' type='evilicon' color='lightgrey' size={40}/>
+                    <Icon name='chart' type='evilicon' color='lightgrey' size={40}/>
                     <Icon type='feather' name='globe' color='lightgrey' color='lightgrey'/>
                 </View>
 
@@ -248,6 +257,8 @@ export default class Profil extends React.Component {
                             {this.statutPlate('role')}
                             {this.statutPlate('identifiant')}
                             {this.statutPlate('pass')}
+                            <SuccessMessage visible={this.state.success} successMessage= "Vos modifications ont été enregistrées avec succès"
+                           close={()=>{this.setState({success:false})}}/>
                         </View>
                         {this.showModificationButtons()}
                     </View>
@@ -312,6 +323,20 @@ styles = StyleSheet.create({
         borderRadius:10,
         backgroundColor:'lavender',
         height:70,
+        width: windowWidth*0.78,//'100%',
+        shadowColor:'lightgrey',
+        shadowOffset: {width: 0, height:10},
+        shadowOpacity: 1,
+        shadowRadius:10,
+        padding:10,
+        flexDirection:'row'
+    },
+    
+    statusPlateHistoire:{
+        marginTop: 20,
+        borderRadius:10,
+        backgroundColor:'lavender',
+        //height:70,
         width: windowWidth*0.78,//'100%',
         shadowColor:'lightgrey',
         shadowOffset: {width: 0, height:10},

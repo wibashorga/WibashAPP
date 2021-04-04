@@ -154,6 +154,29 @@ export class DetailDialog extends React.Component
     }
 }
 
+export class SuccessMessage extends React.Component
+{
+    render()
+    {    
+    return(
+            <Modal visible={this.props.visible} transparent={true} 
+                onRequestClose={()=>this.props.close()}>
+                   <TouchableOpacity style={{backgroundColor:"rgba(200,200,200,0.4)", flex:1, 
+                   justifyContent:"center"}}
+                   onPress ={()=>{this.props.close()}}>
+                    <View 
+                    style = {styles.popup}>
+                         <Text>{this.props.successMessage}</Text>
+                    </View>
+                    </TouchableOpacity>
+                </Modal>
+        )
+    }
+}
+
+
+
+
 const styles = StyleSheet.create({
     view:{
         marginTop:(windowHeight/2)-200,

@@ -66,7 +66,6 @@ export default class Identification extends React.Component
     this.props.sayConnected(membre);
     storeLoginInfo(membre.identifiant, membre.pass)
    }).catch((error) => {
-     
      message("Hmmm...", "Il semblerait que votre identifiant ou votre mot de passe soit incorrect")
 
     console.log(error); this.setState({wrongConnexion: true})});

@@ -70,20 +70,37 @@ class CarteMembre extends React.Component
 class CarteMemo extends React.Component
 {
     constructor(props)
-    {super(props)    
+    {super(props)
+        this.state = {
+            editMode:false
+        }
+        this.text = this.props.memo.contenu
     }
    
     render(props)
     {
-
+        if (this.state.editMode)
+        {
+            return (
+                <View>
+                <TextInput defaultValue = {this.text} multiline
+                onChangeText = {(text)=> {this.text = text}} style = {{...styles.carteMemo, backgroundColor:"rgb(200,200,230)"}}>
+                </TextInput>
+                <Button title = "EDITER" onPress = {()=>this.setState({editMode:false})}/>
+                </View>
+            )
+        }
+        else
+        {
         return(
             <View>
-                <TouchableOpacity style={{backgroundColor:"white", margin:10, marginVertical:25}}>
-                    <Text>{this.props.memo.contenu}</Text>
+                <TouchableOpacity style={styles.carteMemo}
+                onPress= {()=>this.setState({editMode:true})}>
+                    <WiText>{this.props.memo.contenu}</WiText>
                     </TouchableOpacity>
                 
             </View>
-        )
+        )}
     }
 }
 
@@ -1012,6 +1029,10 @@ const styles = StyleSheet.create(
 
           
        },
+       carteMemo:{backgroundColor:"white", 
+       margin:10, 
+       marginVertical:25},
+
        nomProjet:{
            fontWeight: "600",
            fontSize: 25,

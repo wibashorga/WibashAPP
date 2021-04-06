@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, StatusBar, Dimensions, Switch, TextInput, Scroll
 import {Button} from "react-native-elements"
 import {Picker} from "@react-native-picker/picker";
 import {formatPostData} from "./security";
+import {LoadingMessage} from "./ModalDialog"
 
 
 const token = "PPlaFk63u4E6";
@@ -35,7 +36,8 @@ export default class ModifyProject extends React.Component
         super(props);
         this.projet = this.props.route.params.projet;
         this.state = {type:this.projet.type, level:this.projet.minimal_level,
-    open:this.projet.open}
+    open:this.projet.open,
+loading:false}
     }
     //génère un identifiant aléatoire pour le projet
     
@@ -65,7 +67,8 @@ export default class ModifyProject extends React.Component
         if (!this.state.type) this.state.type = "Programmation";
         if(this.projet.nom && this.projet.description && this.projet.objectifs && this.state.type)
         {
-        let data = new FormData();
+        this.setState({loading:true})
+            let data = new FormData();
         console.log(this.projet.type)
         //this.description = encode_utf8(this.description);
         data.append("token", token);
@@ -89,7 +92,8 @@ export default class ModifyProject extends React.Component
         },
         body: data
         }).then((reponse)=> reponse.text()).then((text) => {
-        if (text.search("200")!==-1) {
+            this.setState({loading:false})
+            if (text.search("200")!==-1) {
             
             this.props.navigation.navigate("projets", {refresh:true});
         }else{
@@ -98,7 +102,7 @@ export default class ModifyProject extends React.Component
         console.log(text)
             }
             ).catch(
-            (error) => console.log(error))
+            (error) => this.setState({loading:false}))
         }else{
             Alert.alert("Erreur", "Veuillez remplir tous les champs", [
                 {
@@ -115,7 +119,8 @@ export default class ModifyProject extends React.Component
         contentContainerStyle={styles.content}
         contentInset = {{left:0, right:0, top:0, bottom:-20}}>
             
-            
+            <LoadingMessage close = {()=>this.setState({loading:false})} visible={this.state.loading} 
+            message="Modifications en cours..."/>
             <TextInput style = {styles.textinput} defaultValue = {this.projet.nom} 
             onChangeText = {(text)=>{this.projet.nom = text}} style={{...styles.textinput}}
             autoCapitalize={"sentences"}

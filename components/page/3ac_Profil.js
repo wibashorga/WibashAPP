@@ -48,7 +48,7 @@ export default class Profil extends React.Component {
             competences:false,
             mail:false,
             */
-            
+            success:false
         };
         this.temoin = JSON.parse(JSON.stringify(this.user))
     }
@@ -110,7 +110,7 @@ export default class Profil extends React.Component {
     } 
 
     showModificationButtons() {
-        console.log('bouton') //debug
+        //console.log('bouton') //debug
         let stateEntries = Object.entries(this.state);
         let valuesToChange = [];
         if (this.state.nom || this.state.prenom || this.state.story || this.state.identifiant || this.state.pass || this.state.role) {
@@ -119,7 +119,7 @@ export default class Profil extends React.Component {
                     valuesToChange.push(key);
                 }
             }
-            console.log('suspect 1', valuesToChange); //debug
+            //console.log('suspect 1', valuesToChange); //debug
 
             return(
                 <View style={{alignItems:'center', marginBottom:30}}>

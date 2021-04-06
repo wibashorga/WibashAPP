@@ -16,6 +16,7 @@ export const colors ={
 }
 export type EditBox = EditDialog;
 export type DetailBox = DetailDialog;
+//export const SuccesMessage = SuccesMessage;
 
 export const months_long = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet",
 "Aout", "Septembre", "Octobre", "Novembre", "Décembre"]

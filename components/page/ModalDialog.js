@@ -1,7 +1,8 @@
 import React from "react";
-import {Modal, View, Text, TextInput, StyleSheet, Dimensions, TouchableOpacity} from "react-native";
+import {Modal, View, Text, TextInput, StyleSheet, Dimensions, TouchableOpacity, ActivityIndicator} from "react-native";
 import {Button} from "react-native-elements";
 import {WiText} from "./custom"
+import { Icon} from "react-native-elements";
 
 
 const windowWidth = Dimensions.get("window").width;
@@ -166,7 +167,8 @@ export class SuccessMessage extends React.Component
                    onPress ={()=>{this.props.close()}}>
                     <View 
                     style = {styles.popup}>
-                         <Text>{this.props.successMessage}</Text>
+                         <Text>{this.props.successMessage || "Vos opérations on été effectuées avec succès"}</Text>
+                         <Icon type="ionicons" name="check" size={25} color="green"/>
                     </View>
                     </TouchableOpacity>
                 </Modal>
@@ -174,6 +176,26 @@ export class SuccessMessage extends React.Component
     }
 }
 
+export class LoadingMessage extends React.Component
+{
+    render()
+    {    
+    return(
+            <Modal visible={this.props.visible} transparent={true} 
+                onRequestClose={()=>this.props.close()}>
+                   <View style={{backgroundColor:"rgba(200,200,200,0.4)", flex:1, 
+                   justifyContent:"center"}}>
+                    <View 
+                    style = {styles.popup}>
+                         <Text>{this.props.message}</Text>
+                         <ActivityIndicator size="large" color = "black"/>
+
+                    </View>
+                    </View>
+                </Modal>
+        )
+    }
+}
 
 
 

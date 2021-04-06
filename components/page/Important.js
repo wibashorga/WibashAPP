@@ -1,7 +1,9 @@
 import React from 'react';
-
+import { ActivityIndicator } from 'react-native';
+import {colors} from "./custom"
 
 import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList,ImageBackground,Button,SafeAreaView} from 'react-native';
+//import { colors } from 'react-native-elements';
 const token = "PPlaFk63u4E6";
 
 
@@ -89,6 +91,7 @@ export default class Evenement extends React.Component {
 
                 
                         <Text style={{alignSelf:"center"}}>En construction...</Text>
+                        {/*<ActivityIndicator color={colors.lightBlue} size = "large"/>*/}
 
              
 

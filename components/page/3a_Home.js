@@ -5,7 +5,7 @@ import {url} from "../../API/api_table";
 import {Icon} from "react-native-elements";
 import {formatPostData} from "./security"
 //import image from "./ressources/fondprojet.jpg";
-import * as ImagePicker from "expo-image-picker";
+
 import { EditDialog } from './ModalDialog';
 import { TouchableOpacity } from 'react-native';
 import { sqlToUserDate, WiText } from './custom';
@@ -84,7 +84,7 @@ class DoubleCarteMembre extends React.Component
         <Text  style = {{fontWeight:"bold"}}>Role: </Text>
         <Text> {membre.role}</Text>
         <Text  style = {{fontWeight:"bold"}}>Histoire: </Text>
-        <Text > {membre.story}</Text>
+        <Text numberOfLines={6}> {membre.story}</Text>
     </View>
      )   
     }
@@ -469,7 +469,7 @@ const styles = StyleSheet.create(
        CarteMembre:
        {
         
-           width: 140,
+           width: 150,
            height: 290,
            marginRight: 10,
            marginTop:0,

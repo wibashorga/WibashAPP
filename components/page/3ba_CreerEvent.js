@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, Platform, Dimensions, TextInput, ScrollView, Alert} from 'react-native';
 import {Button} from "react-native-elements";
-import CalendarPicker from "react-native-calendar-picker";
+import {LoadingMessage} from "./ModalDialog";
 import {Picker} from  "@react-native-picker/picker";
 import { formatPostData } from './security';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
@@ -65,7 +65,7 @@ export default class NewEvent extends React.Component
             description:false,
             jours:days,
             date:this.props.route.params || null,
-            type:""
+            type:"",loading:false
         };
         
         //this.handleMonthChange = this.handleMonthChange.bind(this);
@@ -75,7 +75,7 @@ export default class NewEvent extends React.Component
 
     ajouterDescription()
     {
-       if (this.state.description){ return(
+        return(
         <View>
             <Text style={styles.info}>Description : </Text>
                 <TextInput placeholder={"Que va-t-il se passer ?"} 
@@ -87,23 +87,14 @@ export default class NewEvent extends React.Component
                 </TextInput>
                 </View>
                 
-        )}else
-        {
-            return (
-                <View style={{marginVertical:10}}>
-                    <Text style={styles.info} onPress = {()=>{this.setState({description:true})}}>
-                        Ajouter une description ?
-                    </Text>
-                </View>
-            )
-        }
+        )
     }
     //La fonction send event permet de creer un évènement dans la base de données
     sendEvent()
     {
         if(this.nom && this.state.type && this.state.date)
         {
-            
+        this.setState({loading:true})
         let type = this.state.type.toString();
         let data = new FormData();
         data.append("token", token);
@@ -117,10 +108,10 @@ export default class NewEvent extends React.Component
         data = formatPostData(data)
         
         create_event(data, (text) => {
-            console.log(text)
+                this.setState({loading:false})
                 if (text.search("200")!==-1) {
                 this.props.navigation.navigate("events", {refresh:true});
-            }else message ('Oups', "Nous n'avons pas pu créer le nouvel évènement")})
+            }else message ('Oups', "Nous n'avons pas pu créer le nouvel évènement")}, ()=>this.setState({loading:false}))
 
         }else{
             
@@ -138,7 +129,8 @@ export default class NewEvent extends React.Component
         contentContainerStyle={styles.content}
         contentInset = {{left:0, right:0, top:0, bottom:-20}}>
             
-            
+            <LoadingMessage close={()=>this.setState({loading:false})} visible = {this.state.loading}/>
+
             <TextInput style = {styles.textinput} placeholder = {"Nom de l'évènement"} 
             onChangeText = {(text)=>{this.nom = text}} style={{...styles.textinput}}
             autoCapitalize = {"sentences"}
@@ -218,7 +210,7 @@ const styles = StyleSheet.create(
         },
         textinput:
         {
-            height: 20,
+            height: 25,
             width: windowWidth*0.95,
             height: 30,
             alignSelf: "center",

@@ -5,6 +5,7 @@ import {Icon} from "react-native-elements"
 import {delete_event} from "../../API/api_request"
 import {Calendar} from "react-native-calendars"
 import {sqlToUserDate, windowHeight, windowWidth} from "./custom"
+import { LoadingMessage } from './ModalDialog';
 
 export default class ModifyEvent extends React.Component
 {
@@ -14,7 +15,8 @@ export default class ModifyEvent extends React.Component
     this.eventTitle = this.props.route.params.event.nom || "";
     this.eventDescription = this.props.route.params.event.description || "";
     this.state={
-      date:this.props.route.params.event.date
+      date:this.props.route.params.event.date,
+      loading:false
     }
     
   }
@@ -28,6 +30,7 @@ export default class ModifyEvent extends React.Component
 
   sendModifications()
   {
+    this.setState({loading:true})
     let data = new FormData();
     data.append("identifiant", this.props.user.identifiant)
     data.append("pass", this.props.user.pass);
@@ -44,12 +47,12 @@ export default class ModifyEvent extends React.Component
         },
         body: data
         }).then((reponse)=> reponse.text()).then((text) => {
-        
-        console.log(text)
+        this.setState({loading:false})
+        //console.log(text)
         this.props.navigation.goBack();
             }
             ).catch(
-            (error) => console.log(error))
+            (error) => this.setState({loading:false}))
         
   }
 
@@ -121,6 +124,8 @@ export default class ModifyEvent extends React.Component
         </View>*/}
 
         <View style = {{margin:5}}>
+          <LoadingMessage message = "Modifications en cours..."
+          visible = {this.state.loading} close = {()=>{this.setState({loading:false})}}/>
 
           <View style = {{marginTop: 20}}>
             <Text style = {{fontSize: 20}}>Titre</Text>

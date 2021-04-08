@@ -421,12 +421,13 @@ constructor(props){
                     else this.sendWorkerStatus(this.selectedMember.identifiant, "Organisateur")
                     close();  this.selectedMember=""}},            
                 {title:"Nommer chef de projet à ma place",
-                onPress:()=>{Alert.alert("o_O", "Voulez-vous vraiment céder le poste ?"+member+" du projet",[{
-                    title:"OUI",
+                onPress:()=>{Alert.alert("o_O", "Voulez-vous vraiment céder le poste ? Et nommer "+member+" chef du projet",[{
+                    text:"OUI",
                     onPress:()=>{
-                        this.sendWorkerStatus(this.selectedMember.identifiant, "Chef de projet")
-                    }
-                }], {title:"NON", onPress:()=>{}})}},
+                        console.log("press")
+                        this.sendWorkerStatus(this.selectedMember.identifiant, "Chef de projet");
+                        this.setState({bottomSheetVisible:false})
+                    }}, {text:"NON", onPress:()=>{}}], {title:"NON", onPress:()=>{}})}},
                 {title:"Retirer du projet",
                 onPress:()=>{this.sendWorkerStatus(this.selectedMember.identifiant, "out"); close(); this.selectedMember=""}},
                 {title:"Fermer", 
@@ -458,7 +459,7 @@ sendWorkerStatus(id_membre, role)
         data.append("id_projet", this.projet.ID);
         data.append("id_membre", id_membre)
         data.append("role", role)
-        api.change_worker_status(data,(reponse) => {
+        api.change_worker_status(data,(reponse) => {console.log(reponse);
             if (reponse.indexOf("200")!==-1) this.importWorkers()})
         
 }
@@ -621,7 +622,7 @@ sendWorkerStatus(id_membre, role)
                 
                 data = formatPostData(data);
                 
-                fetch('http://www.ypepin.com/application/Create/AddWorker.php', {
+                fetch('https://www.ypepin.com/application/Create/AddWorker.php', {
                     method: 'POST',
                     headers: {
                         Accept: 'multipart/form-data',
@@ -629,7 +630,7 @@ sendWorkerStatus(id_membre, role)
                     },
                     body: data
                 }).then((reponse)=> reponse.text()).then((reponse) => {
-                    console.log("", reponse) 
+                    console.log("e", reponse) 
                     if (reponse.includes("200"))
                     {
                         message("Félicitations !", "Vous serez bientôt ajouté au projet")
@@ -679,7 +680,7 @@ sendWorkerStatus(id_membre, role)
                         
                         data = formatPostData(data);
                         
-                        fetch('http://www.ypepin.com/application/Delete/QuitterProjet.php', {
+                        fetch('https://www.ypepin.com/application/Delete/QuitterProjet.php', {
                             method: 'POST',
                             headers: {
                                 Accept: 'multipart/form-data',
@@ -701,7 +702,7 @@ sendWorkerStatus(id_membre, role)
         //Elles seront affichées dans la boite à idées
         importSuggestions()
         { 
-            fetch("http://www.ypepin.com/application/Read/ListeIdeeProjets.php?id_proj="+this.projet.ID).then((reponse)=>
+            fetch("https://www.ypepin.com/application/Read/ListeIdeeProjets.php?id_proj="+this.projet.ID).then((reponse)=>
         reponse.text()).then((reponse)=>{
             reponse = JSON.parse(reponse);
             

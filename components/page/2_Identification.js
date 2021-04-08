@@ -52,7 +52,7 @@ export default class Identification extends React.Component
   data.append("identifiant", this.id);
   data.append("pass", this.pass);
   data.append("token", token);
-  fetch('http://www.wi-bash.fr/application/Read/login.php', {
+  fetch('https://www.ypepin.com/application/Read/login.php', {
   method: 'POST',
   headers: {
     Accept: 'multipart/form-data',

@@ -168,3 +168,5 @@ export const set_task_as_achieved =   (args, success_callback, fail_callback) =>
     if (args instanceof Object) args = {...args, achievement:"1"}
 post_request(url.ypepin.update.update_task.url, args, success_callback, fail_callback)
 }
+export const update_member =  (args, success_callback, fail_callback) => 
+post_request(url.ypepin.update.update_member.url, args, success_callback, fail_callback)

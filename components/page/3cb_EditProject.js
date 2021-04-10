@@ -858,7 +858,7 @@ boiteAIdees()
             </View>
         )}else{
         return(
-            <View style={{alignContent:"center", justifyContent:"center"}}>
+            <View style={{alignContent:"center", justifyContent:"center", paddingTop:10}}>
                 <Text style={{alignSelf:"center"}}>Aucune idée proposée pour le moment</Text>
             </View>
         )}

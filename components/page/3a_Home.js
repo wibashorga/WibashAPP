@@ -6,7 +6,7 @@ import {Icon} from "react-native-elements";
 import {formatPostData} from "./security"
 //import image from "./ressources/fondprojet.jpg";
 
-import { EditDialog } from './ModalDialog';
+import { EditDialog, LoadingMessage } from './ModalDialog';
 import { TouchableOpacity } from 'react-native';
 import { sqlToUserDate, WiText } from './custom';
 
@@ -70,22 +70,23 @@ class DoubleCarteMembre extends React.Component
             this.membre2 = this.props.membres[1];
         this.membre2.role = ["dev", "administrateur", "membre", "visiteur"][this.membre2.niveau]
         }
-        
+        this.state = {loading:false}
         
     }
     memberDescritpion(membre)
     {
      return(
-        <View style={styles.CarteMembre}>
+        <TouchableOpacity onPress = {()=>{this.props.navigateToDetails(membre)}} 
+        style={styles.CarteMembre}>
           <Image source={{uri:membre.photo_profil||"./ressources/logo.png"}} 
                 style= {{width:100, height:100, alignSelf:"center" , borderRadius:15}}></Image>
             
         <Text style = {{fontWeight:"bold"}}>{membre.prenom+" "+membre.nom}</Text>
         <Text  style = {{fontWeight:"bold"}}>Role: </Text>
-        <Text> {membre.role}</Text>
+        <Text>{membre.role}</Text>
         <Text  style = {{fontWeight:"bold"}}>Histoire: </Text>
-        <Text numberOfLines={6}> {membre.story}</Text>
-    </View>
+        <Text numberOfLines={6}>{membre.story}</Text>
+    </TouchableOpacity>
      )   
     }
     render()
@@ -95,6 +96,7 @@ class DoubleCarteMembre extends React.Component
         {
         return(
             <View style={{flexDirection:"row"}}>
+                
             <View style={styles.CarteMembre}>
                 {this.memberDescritpion(this.membre1)}
             </View>
@@ -365,7 +367,8 @@ export default class Home extends React.Component {
                         <View style = {{...styles.containtcarte, height:300}}>
                             <FlatList nestedScrollEnabled={true} data={setListAsPairs(this.state.membres)} keyExtractor={(item)=>
                             item[0].identifiant}
-                    renderItem= {(item)=><DoubleCarteMembre membres = {item.item}/>}   horizontal = {true}/>
+                    renderItem= {(item)=><DoubleCarteMembre membres = {item.item} 
+                    navigateToDetails = {(membre)=>this.props.navigation.navigate("ProfilMembre", {membre:membre})}/>}   horizontal = {true}/>
                        
 
                         </View>

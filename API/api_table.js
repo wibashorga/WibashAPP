@@ -66,7 +66,7 @@ wibash:{
             udpate_event:{url: ypepin_prefix+"Update/UpdateEvent.php", args:[/**to be continued */]},
             update_projet:{url: ypepin_prefix+"Update/UpdateProject.php", args:[/**to be continued */]},
             update_task:{url: ypepin_prefix+"Update/UpdateTask.php", args:[/**to be continued */]},
-            upgrade_member:{url: ypepin_prefix+"Update/UpgradeMember.php", args:[/**to be continued */]},
+            update_member:{url: ypepin_prefix+"Update/UpdateMember.php", args:[/**to be continued */]},
             update_worker_status:{url: ypepin_prefix+"Update/WorkerStatus.php", args:["identifiant","pass", "id_membre", "role"]},
             update_account:{url: ypepin_prefix+"Update/UpdateAccount.php", args:["identifiant","pass", "#args : story, nom, etc."]},
             

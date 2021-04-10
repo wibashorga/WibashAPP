@@ -3,6 +3,7 @@
 import * as React from 'react';
 import Accueil from '../page/1_Accueil';
 import Home from "../page/3a_Home";
+import DetailsMembre from "../page/3ad_DetailsMembre";
 import Menu from "../page/Menu.js";
 import Reglage from "../page/3ab_Reglage";
 import Profil from "../page/3ac_Profil";
@@ -112,6 +113,12 @@ const HomeScreen = ({navigation,route}) => {
       <Home navigation = {navigation} user = {utilisateur} setProjects = {(p)=>{projets=p}}
       setMembers = {(m)=>{membres=m}} setEvents = {(e)=>{events =e}} events={events}
       projets={projets}/>
+    )
+  }
+  const ProfilMembreScreen = ({navigation, route}) =>
+  {
+    return(
+      <DetailsMembre navigation = {navigation} route = {route}/>
     )
   }
 
@@ -271,7 +278,7 @@ class Navigation extends React.Component{
   }
 
   
-  HomeStackScreen({navigation}) {
+  HomeStackScreen({navigation, route}) {
       return(
         <Stack.Navigator initialRouteName = {"Home"}>
           <Stack.Screen 
@@ -282,6 +289,7 @@ class Navigation extends React.Component{
                 <Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}/>
               </TouchableOpacity>)}}/>
               <Stack.Screen name="Profil" component={ProfilScreen}/>
+              <Stack.Screen name="ProfilMembre" component={ProfilMembreScreen} />
         </Stack.Navigator>
       )
   }

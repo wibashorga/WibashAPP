@@ -294,14 +294,17 @@ export default class Home extends React.Component {
   
     render()
     {
-        console.log("render")
+        let date = new Date()
+        let message;
+        if (date.getHours()>16) message = "BONSOIR"
+        else message = "BIENVENUE";
         
         
         return(
             <ScrollView style = {{flex:1}}
             >
 
-                <Text style={styles.bienvenue}>BIENVENUE, {this.props.user.prenom.toUpperCase()}</Text>
+                <Text style={styles.bienvenue}>{message}, {this.props.user.prenom.toUpperCase()}</Text>
                 
                         <View style={{flex:1, flexDirection:"row"}}>
 

@@ -111,6 +111,10 @@ post_request(url.ypepin.read.liste_participants_event.url, args, success_callbac
 export const load_memos_from_project =   (args, success_callback, fail_callback) => 
 post_request(url.ypepin.read.liste_memos_projet.url, args, success_callback, fail_callback)
 
+export const load_suggestions_from_project =   (args, success_callback, fail_callback) => 
+post_request(url.ypepin.read.liste_suggestions_projet.url, args, success_callback, fail_callback)
+
+
 
 //Create
 
@@ -145,10 +149,14 @@ post_request(url.ypepin.create.creer_tache.url, args, success_callback, fail_cal
 //Delete
 
 export const delete_task =   (args, success_callback, fail_callback) => 
-post_request(url.ypepin.create.delete_task.url, args, success_callback, fail_callback)
+post_request(url.ypepin.delete.delete_task.url, args, success_callback, fail_callback)
 
 export const delete_event =   (args, success_callback, fail_callback) => 
-post_request(url.ypepin.create.delete_event.url, args, success_callback, fail_callback)
+post_request(url.ypepin.delete.delete_event.url, args, success_callback, fail_callback)
+
+
+export const delete_suggestion =   (args, success_callback, fail_callback) => 
+post_request(url.ypepin.delete.delete_suggestion.url, args, success_callback, fail_callback)
 
 //Update
 /**Modifier les informations de son compte:

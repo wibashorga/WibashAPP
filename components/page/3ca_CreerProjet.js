@@ -94,7 +94,7 @@ export default class NewProject extends React.Component
         data.append("open", this.open.toString())
         data = formatPostData(data);
 
-        fetch('http://www.wi-bash.fr/application/Create/CreaProj.php', {
+        fetch('https://www.ypepin.com/application/Create/CreaProj.php', {
         method: 'POST',
         headers: {
         Accept: 'multipart/form-data',

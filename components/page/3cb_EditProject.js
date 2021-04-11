@@ -588,25 +588,16 @@ sendWorkerStatus(id_membre, role)
          if(this.contenutache)data.append("description", this.contenutache)
          
          data = formatPostData(data);
-         
-         fetch('http://www.ypepin.com/application/Create/CreaPropositionProjet.php', {
-             method: 'POST',
-             headers: {
-                 Accept: 'multipart/form-data',
-                 'Content-Type': "multipart/form-data"
-                },
-                body: data
-            }).then((reponse)=> reponse.text()).then((reponse) => {
-                console.log(reponse)
-                if (reponse.indexOf("200")===-1) message('Oups !', 
-                "Nous n'avons pu émettre cette proposition... Décidément, les génies sont incompris")
-                else{
-                    this.importSuggestions()             
-                }
+
+         api.add_suggestion_to_project(data,(reponse) => {
+            console.log(reponse)
+            if (reponse.indexOf("200")===-1) message('Oups !', 
+            "Nous n'avons pu émettre cette proposition... Décidément, les génies sont incompris")
+            else{
+                this.importSuggestions()             
             }
-            
-            ).catch(
-                (error) => console.log(error))}
+        })
+         }
             }
             
     //---------------        
@@ -702,6 +693,9 @@ sendWorkerStatus(id_membre, role)
         //Elles seront affichées dans la boite à idées
         importSuggestions()
         { 
+            const data = new FormData()
+            data.append("id_proj", this.projet.ID);
+            //
             fetch("https://www.ypepin.com/application/Read/ListeIdeeProjets.php?id_proj="+this.projet.ID).then((reponse)=>
         reponse.text()).then((reponse)=>{
             reponse = JSON.parse(reponse);

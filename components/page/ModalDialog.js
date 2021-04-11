@@ -175,7 +175,25 @@ export class SuccessMessage extends React.Component
         )
     }
 }
-
+export class FailureMessage extends React.Component
+{
+    render()
+    {    
+    return(
+            <Modal visible={this.props.visible} transparent={true} 
+                onRequestClose={()=>this.props.close()}>
+                   <TouchableOpacity style={{backgroundColor:"rgba(200,200,200,0.4)", flex:1, 
+                   justifyContent:"center"}}
+                   onPress ={()=>{this.props.close()}}>
+                    <View 
+                    style = {styles.popup}>
+                         <Text>{this.props.message || "Echec de l'opération"}</Text>
+                    </View>
+                    </TouchableOpacity>
+                </Modal>
+        )
+    }
+}
 export class LoadingMessage extends React.Component
 {
     render()

@@ -45,6 +45,7 @@ wibash:{
             liste_participants_projet:{url:ypepin_prefix+"Read/ListWorkers.php", args:["id_projet"]},
             liste_participants_event:{url:ypepin_prefix+"Read/ListeParticipantsEvent.php", args:["nom", "date"]},
             liste_taches:{url:ypepin_prefix+"Read/ListeTaches.php",args:["id_proj"]},
+            liste_suggestions_projet:{url:ypepin_prefix+"Read/ListeIdeeProjets.php",args:["id_proj"]},
             liste_idees_projet:{url:ypepin_prefix+"Read/ListeIdeeProjets.php",args:["id_proj"]},
             liste_actus:{url:ypepin_prefix+"Read/ListeActus.php",args:[]},
             liste_memos_projet:{url:ypepin_prefix+"Read/ListeMemosProjet.php",args:["id", "pass", "id_projet"]},
@@ -72,10 +73,11 @@ wibash:{
             
         },
         delete:{
-            delete_event:{url: ypepin_prefix+"Create/DeleteEvent.php", args:[/**to be continued */]},
-            delete_project:{url: ypepin_prefix+"Create/DeleteProject.php", args:[/**to be continued */]},
-            delete_task:{url: ypepin_prefix+"Create/DeleteTask.php", args:["id_projet", "nom"]},
-            quitter_projet:{url: ypepin_prefix+"Create/QuitterProjet.php", args:[/**to be continued */]},
+            delete_event:{url: ypepin_prefix+"Delete/DeleteEvent.php", args:[/**to be continued */]},
+            delete_project:{url: ypepin_prefix+"Delete/DeleteProject.php", args:[/**to be continued */]},
+            delete_task:{url: ypepin_prefix+"Delete/DeleteTask.php", args:["id_projet", "nom"]},
+            delete_suggestion:{url: ypepin_prefix+"Delete/DeleteSuggestion.php", args:["id_projet", "nom"]},
+            quitter_projet:{url: ypepin_prefix+"Delete/QuitterProjet.php", args:[/**to be continued */]},
         }
     }
 }

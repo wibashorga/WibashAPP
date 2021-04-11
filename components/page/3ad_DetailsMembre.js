@@ -34,8 +34,9 @@ export default class DetailsMembre extends React.Component {
         <Text style = {{fontWeight:"bold", fontSize:24, alignSelf: "center"}}>{this.membre.prenom+" "+this.membre.nom}
         <Text  style = {{fontStyle:"italic", fontWeight:"normal", fontSize:15}}>({this.membre.role}) </Text></Text>
         <Text style={{fontSize:18}}>
+            <Text dataDetectorType = "email">{this.membre.mail}</Text>
         <Text>Ma phrase favorite :{"\n\n"+this.membre.phrase+"\n\n"}</Text>
-        <Text >{this.membre.story}</Text>
+        <WiText>{this.membre.story}</WiText>
         </Text>
            
             </View>
@@ -56,7 +57,7 @@ const styles = StyleSheet.create(
        {
            flex : 1,
            backgroundColor: "white",
-           justifyContent:"center",alignContent:"center",
+           justifyContent:"center",
            paddingHorizontal:3
            
        },

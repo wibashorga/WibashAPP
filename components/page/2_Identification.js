@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet,Alert, Keyboard, Text, View, ImageBackground, TouchableOpacity, Dimensions,TextInput } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import getNotificationToken from "./Notifications.js";
+import * as api from "../../API/api_request";
+import { LoadingMessage } from './ModalDialog.js';
 const background = "./ressources/fond.png";
 const logo = "./ressources/logo.png";
 const token = "PPlaFk63u4E6";
@@ -43,11 +45,12 @@ export default class Identification extends React.Component
       this.textinput2 = React.createRef();
       this.state = {
         profil: {},
-        wrongConnexion: false, network: true}
+        wrongConnexion: false, network: true,
+      loading:false}
     }
   async _connect()
     {
-      
+      this.setState({loading:true})
      let notif_token;
      try {const notif_token = getNotificationToken();}
      catch(e){console.log(e)}
@@ -66,15 +69,19 @@ export default class Identification extends React.Component
   },
   body: data
   }).then((reponse) => reponse.text()).then((membre) => {
-    console.log(membre)
+    this.setState({loading:false})
     membre = JSON.parse(membre);
     membre.pass = this.pass;
+    api.load_events({identifiant:membre.identifiant}, (json)=>{events=JSON.parse(json)})
+    api.load_projects({identifiant:membre.identifiant, pass:membre.pass}, (json)=>{this.props.setProjects(JSON.parse(json))})
+    api.load_members({identifiant:membre.identifiant, pass:membre.pass}, (json)=>{this.props.setMembers(JSON.parse(json))})
+    
     this.props.sayConnected(membre);
     storeLoginInfo(membre.identifiant, membre.pass)
    }).catch((error) => {
      message("Hmmm...", "Il semblerait que votre identifiant ou votre mot de passe soit incorrect")
 
-    console.log(error); this.setState({wrongConnexion: true})});
+    console.log(error); this.setState({wrongConnexion: true, loading:false})});
         Keyboard.dismiss();
   }
     
@@ -87,6 +94,7 @@ export default class Identification extends React.Component
 
       {(this.state.wrongConnexion)?this.textinput1.clear():null}
       {(this.state.wrongConnexion)?this.textinput2.clear():null}
+      <LoadingMessage message="Connexion" close={()=>this.setState({loading:false})} visible={this.state.loading}/>
        
        <TextInput placeholder = "Identifiant" style = {styles.textinput} 
        onChangeText = {(text)=>{this.id = text}} autoCapitalize = "none"

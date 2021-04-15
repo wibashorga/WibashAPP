@@ -129,7 +129,8 @@ export default class NewEvent extends React.Component
         contentContainerStyle={styles.content}
         contentInset = {{left:0, right:0, top:0, bottom:-20}}>
             
-            <LoadingMessage close={()=>this.setState({loading:false})} visible = {this.state.loading}/>
+            <LoadingMessage close={()=>this.setState({loading:false})} visible = {this.state.loading}
+            message = "Création de l'événement..."/>
 
             <TextInput style = {styles.textinput} placeholder = {"Nom de l'évènement"} 
             onChangeText = {(text)=>{this.nom = text}} style={{...styles.textinput}}

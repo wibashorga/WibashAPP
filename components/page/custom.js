@@ -65,14 +65,15 @@ export class WiText extends React.Component
     }
     if (customizable)
     {
-    let boldRegexp = /(^|[ \n])\*[^*]+\*([ ;,.]|$)/g
+    let boldRegexp = /[ \n]\*[^*]+\*[ ;,.]/g
     let plainText = this.text.split(boldRegexp)
     let boldText = this.text.match(boldRegexp) || []
     
     boldText = boldText.map((item)=>{
       let start = item.startsWith("*")?1:2
       let endPad = item.endsWith("*")?1:2;
-      let lastChar = (item[item.length-1]=="*")?"":item[item.length-1];
+      let lastChar = (item[item.length-1]==="*")?"":item[item.length-1];
+      //console.log("item", item, "/slice :", item.slice(start, item.length-endPad), "/ last char :", lastChar)
     return(<Text style={{fontWeight:"bold"}}>
       {" "+item.slice(start, item.length-endPad)+lastChar}</Text>)})
 

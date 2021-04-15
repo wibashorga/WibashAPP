@@ -21,7 +21,7 @@ class Carte extends React.Component
     {
        super(props);
        
-       this.chef = this.props.projet.chef;
+       this.chef = this.props.projet.chef || {pseudo:""};
        this.state = {selected:false}
        let data = new FormData(); data.append("id_proj",this.props.projet.ID)
        data.append("id_projet", this.props.projet.ID)

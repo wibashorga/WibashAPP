@@ -366,7 +366,7 @@ class Navigation extends React.Component{
     utilisateur = membre;
     api.load_events({identifiant:membre.identifiant}, (json)=>{events=JSON.parse(json)})
     api.load_projects({identifiant:membre.identifiant, pass:membre.pass}, (json)=>{projets=JSON.parse(json);})
-    api.load_members({identifiant:membre.identifiant, pass:membre.pass}, (json)=>{mebres=JSON.parse(json)
+    api.load_members({identifiant:membre.identifiant, pass:membre.pass}, (json)=>{membres=JSON.parse(json)
       this.setState({connected:true});}, ()=>this.setState({connected:true}))
   
    }).catch((error) => {  
@@ -395,7 +395,8 @@ class Navigation extends React.Component{
         
         <Stack.Screen name="Accueil" component={AccueilScreen} options={{title : "" , headerShown:false}} />
         <Stack.Screen name="identification"  options={{title: 'Identification',headerStyle: { backgroundColor: 'rgb(200,0,0)'},headerTintColor: '#fff' }}>
-        {props => <Identification {...props} sayConnected = {(profil)=> this.sayConnected(profil)} />}
+        {props => <Identification {...props} sayConnected = {(profil)=> this.sayConnected(profil)} 
+        setProjects = {(p)=>projets=p} setMembers={(m)=>membres=m}/>}
         </Stack.Screen>
         <Stack.Screen name = "CreerCompte"  options={{title: 'Nouveau compte',headerStyle: { backgroundColor: 'rgb(200,0,0)'},headerTintColor: '#fff' }}>
         {props => <CreerCompte {...props} 

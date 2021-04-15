@@ -39,7 +39,8 @@
     "react-native-web": "^0.15.0",
     "react-navigation": "^4.4.0",
     "react-navigation-drawer": "^2.5.0",
-    "watchman": "^1.0.0"
+    "watchman": "^1.0.0",
+    "expo-notifications": "~0.8.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",

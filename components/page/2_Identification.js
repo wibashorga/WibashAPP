@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet,Alert, Keyboard, Text, View, ImageBackground, TouchableOpacity, Dimensions,TextInput } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import getNotificationToken from "./Notifications.js";
 const background = "./ressources/fond.png";
 const logo = "./ressources/logo.png";
 const token = "PPlaFk63u4E6";
@@ -48,10 +48,16 @@ export default class Identification extends React.Component
   async _connect()
     {
       
-        let data = new FormData();
+     let notif_token;
+     try {const notif_token = getNotificationToken();}
+     catch(e){console.log(e)}
+      let data = new FormData();
   data.append("identifiant", this.id);
   data.append("pass", this.pass);
   data.append("token", token);
+  data.append("notif_token", notif_token)
+  console.log(notif_token)
+
   fetch('https://www.ypepin.com/application/Read/login.php', {
   method: 'POST',
   headers: {

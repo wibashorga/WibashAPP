@@ -35,6 +35,7 @@ import {Dimensions} from "react-native";
 import * as api from "../../API/api_request"
 
 import {Icon} from 'react-native-elements';
+import { getNotificationToken } from '../page/Notifications';
 var utilisateur={}, projets=[], events=[], membres=[], actus = [];
 
 const token = "PPlaFk63u4E6";
@@ -341,11 +342,16 @@ class Navigation extends React.Component{
   }
   async _connect()
     {
+     let notif_token;
+      try {notif_token = await getNotificationToken();}
       
+      catch(e){console.log(e)}
   let data = new FormData();
   data.append("identifiant", this.id);
   data.append("pass", this.pass);
   data.append("token", token);
+  if (notif_token) data.append("notif_token", notif_token)
+  //console.log("notif :", notif_token)
   fetch('https://www.ypepin.com/application/Read/login.php', {
   method: 'POST',
   headers: {

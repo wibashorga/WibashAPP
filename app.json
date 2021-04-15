@@ -16,8 +16,10 @@
       "backgroundColor": "#ffffff"
     },
     "android":{
+      "googleServicesFile": "./google-services.json",
       "package":"com.wibash.wibashapp",
-      "versionCode":1
+      "versionCode":1,
+      "useNextNotificationsApi": true
     },
     "updates": {
       "fallbackToCacheTimeout": 0

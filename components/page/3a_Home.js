@@ -9,6 +9,7 @@ import {formatPostData} from "./security"
 import { EditDialog, LoadingMessage } from './ModalDialog';
 import { TouchableOpacity } from 'react-native';
 import { sqlToUserDate, WiText } from './custom';
+import { getNotificationToken } from './Notifications';
 
 const token = "PPlaFk63u4E6";
 const windowWidth = Dimensions.get("window").width;
@@ -149,6 +150,7 @@ export default class Home extends React.Component {
             image:"",
             actuDialogVisible:false,
             actus:[],
+            token:"",
             enableScrollViewScroll: true,
         }
         
@@ -156,6 +158,7 @@ export default class Home extends React.Component {
         this.importMembers();
         this.importEvents();
         
+        //getNotificationToken().then((token)=>this.setState({token:token}))
         
         this.props.navigation.addListener("focus", ()=>{
             this.importProjects(true);
@@ -303,6 +306,7 @@ export default class Home extends React.Component {
         return(
             <ScrollView style = {{flex:1}}
             >
+
 
                 <Text style={styles.bienvenue}>{message}, {this.props.user.prenom.toUpperCase()}</Text>
                 

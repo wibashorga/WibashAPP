@@ -65,7 +65,7 @@ export default class NewEvent extends React.Component
             description:false,
             jours:days,
             date:this.props.route.params || null,
-            type:"",loading:false
+            type:"Réunion",loading:false
         };
         
         //this.handleMonthChange = this.handleMonthChange.bind(this);

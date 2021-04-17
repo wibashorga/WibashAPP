@@ -343,7 +343,8 @@ class Navigation extends React.Component{
   async _connect()
     {
      let notif_token;
-      try {notif_token = await getNotificationToken();}
+      try {notif_token = await getNotificationToken();
+      console.log("token, ", notif_token)}
       
       catch(e){console.log(e)}
   let data = new FormData();

@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View, Modal, StyleSheet,Dimensions, FlatList, SafeAreaView, ScrollView,Button, Image,StatusBar} from 'react-native';
 import {load_events, load_members, load_projects, load_actus, create_actu} from "../../API/api_request";
 import {url} from "../../API/api_table";
-import {Icon} from "react-native-elements";
+import {Avatar, Icon} from "react-native-elements";
 import {formatPostData} from "./security"
 //import image from "./ressources/fondprojet.jpg";
 
@@ -38,6 +38,12 @@ function setListAsPairs(array)
 const hashCode = function(s){
     return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0).toString();              
   }
+function getMemberPP(membres, id)
+{
+    let m = membres.filter(m=>m.identifiant==id)[0]
+    if (m) return m.photo_profil
+    return ""
+}
 
 class Carte extends React.Component
 {
@@ -127,10 +133,13 @@ class CarteActu extends React.Component
     }
     render()
     { return(
-            <View>
-                <WiText style={styles.actu}>
+            <View style={{flexDirection:"row"}}>
+                   <Avatar rounded source={{uri:this.props.pp}} size="medium"/>
+            <View style = {{marginLeft:3, flex:3}}>
+                <WiText style={styles.actu} selectable>
                     {this.props.actu.actu}</WiText>
                     <Text style={{alignSelf: "flex-end"}}>{sqlToUserDate(this.props.actu.date)}</Text>
+                    </View>
 
             </View>
         )
@@ -338,8 +347,11 @@ export default class Home extends React.Component {
             {this.setState({actus: JSON.parse(reponse)}); console.log(reponse)})}
                             ><Icon name="refresh" type="evilicon" size={35}/></TouchableOpacity>
                         <View style={{height:240}}>
+                        
                         <FlatList nestedScrollEnabled={true} data={this.state.actus} renderItem={(item)=>
-                        <CarteActu actu={item.item}/>} keyExtractor={(actu)=>hashCode(actu.actu+actu.date)}/>
+                        <CarteActu actu={item.item} pp=
+                        {this.state.membres && getMemberPP([...this.state.membres, this.props.user], item.item.id_membre)||""}/>}
+                        keyExtractor={(actu)=>hashCode(actu.actu+actu.date)}/>
                         </View>
                         
                             {(this.props.user.niveau<2)?<Button style={styles.bontonActu}

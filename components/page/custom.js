@@ -92,7 +92,7 @@ export class WiText extends React.Component
    {
        
      return(
-       <Text dataDetectorType="link" style={this.props.style||{}}>
+       <Text dataDetectorType="all" style={this.props.style||{}} selectable={true}>
          {this.text}
        </Text>
      )

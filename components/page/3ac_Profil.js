@@ -44,6 +44,7 @@ export default class Profil extends React.Component {
             role:false,
             identifiant:false,
             pass:false,
+            mail:false,
             /*
             competences:false,
             mail:false,
@@ -91,6 +92,7 @@ export default class Profil extends React.Component {
         data.append("prenom", this.user.prenom);
         data.append("story", this.user.story);
         data.append("niveau", this.user.niveau);
+        data.append("mail", this.user.mail)
         
         edit_my_account(data,(reponse) => {
                 if (reponse.indexOf("200")!==-1) {
@@ -134,7 +136,7 @@ export default class Profil extends React.Component {
                             this.props.setUser(JSON.parse(JSON.stringify(this.temoin)));
                             //this.user = JSON.parse(JSON.stringify(this.temoin)); 
                             console.log('re-user:', this.user, '\nprops.user:', this.props.user);
-                            this.setState({nom:false, prenom:false, role:false, identifiant:false, pass:false, story:false})}}>
+                            this.setState({nom:false, prenom:false, role:false, identifiant:false, pass:false, story:false, mail:false})}}>
                         <Text style={{fontWeight:'bold', color:'white'}}>Annuler</Text>
                     </TouchableOpacity>
                 </View>
@@ -255,6 +257,7 @@ export default class Profil extends React.Component {
                             {this.statutPlate('prenom')}
                             {this.statutPlate('story')}
                             {this.statutPlate('role')}
+                            {this.statutPlate('mail')}
                             {this.statutPlate('identifiant')}
                             {this.statutPlate('pass')}
                             <SuccessMessage visible={this.state.success} successMessage= "Vos modifications ont été enregistrées avec succès"

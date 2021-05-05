@@ -2,8 +2,9 @@ import React from 'react';
 
 import {colors, windowHeight, windowWidth} from "./custom"
 import {WiText} from "./custom"
-import {Text, View, Modal, Image, StyleSheet} from 'react-native';
+import {Text, View, Modal, Button, Image, StyleSheet} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+//import {Button} from "react-native-elements";
 //import { colors } from 'react-native-elements';
 const token = "PPlaFk63u4E6";
 
@@ -14,7 +15,7 @@ export default class DetailsMembre extends React.Component {
         super(props);
         this.membre = this.props.route.params.membre;
         this.membre.role = ["dev", "administrateur", "membre", "visiteur"][this.membre.niveau]
-            this.membre.mail = this.membre.mail=="null"?"":this.membre.mail
+            this.membre.mail = this.membre.mail==null || this.membre.mail=="null"?"":this.membre.mail
     }
     componentDidMount()
     {
@@ -23,23 +24,36 @@ export default class DetailsMembre extends React.Component {
         this.props.navigation.setOptions({headerTitle:prenom, headerTitleStyle:{alignSelf:"center",
     marginRight:windowWidth/5}})
     }
+    adminInfo()
+    {
+        if (this.membre.niveau == 3)
+        {
+            return (
+                <View>
+                    <Button title = "EN FAIRE UN MEMBRE" onPress = {()=>{}}/>
+                </View>
+            )
+        }
+    }
     render()
     {
         
         
         return(
-            <ScrollView style = {styles.conteneur} contentContainerStyle={{justifyContent:"center"}}>
+        <ScrollView style = {styles.conteneur} contentContainerStyle={{justifyContent:"center"}}>
             <Image source={{uri:this.membre.photo_profil||"./ressources/logo.png"}} 
                 style= {styles.image}></Image>
         
         <Text style = {{fontWeight:"bold", fontSize:24, alignSelf: "center"}}>{this.membre.prenom+" "+this.membre.nom}
         <Text  style = {{fontStyle:"italic", fontWeight:"normal", fontSize:15}}>({this.membre.role}) </Text></Text>
-        <Text style={{fontSize:18}} selectable={true} dataDetectorType = "email">
+        <Text style={{fontSize:18}} selectable={true} dataDetectorType = "all">
             <Text selectable style={{color:"blue", fontStyle:"italic"}}>{this.membre.mail+" \n"}</Text>
 
         <Text>Mon crédo :{"\n"+this.membre.phrase+"\n\n"}</Text>
         <WiText>{this.membre.story}</WiText>
+
         </Text>
+            {this.adminInfo()}
            
             </ScrollView>
         )

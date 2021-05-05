@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import { ListItem, Avatar, Divider } from 'react-native-elements'
-import Navigation from '../Navigation/Navigation';
+
 
 const list = [
   {

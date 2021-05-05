@@ -58,11 +58,11 @@ export default class CreerCompte extends React.Component
             this.setState({wrongPass: true});
             return false;
           
-        }*/
+        }*/let sqlInject = /'"#/
         for (let champ of [this.id,this.pass, this.pseudo, this.coonfirmPass, this.nom, this.prenom, this.mail]) 
         {if (sqlInject.test(champ)) 
         { 
-          Alert.alert("Erreur", "Votre mot de passe doit contenir des minuscules, des majuscules et des nombres", [
+          Alert.alert("Erreur", "Vos données ne doivent pas contenir le caractère ' ou \" ou encore #", [
           {
             text : "OK",
             onPress: ()=> {}

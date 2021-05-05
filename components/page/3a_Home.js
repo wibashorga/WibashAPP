@@ -136,8 +136,10 @@ class CarteActu extends React.Component
             <View style={{flexDirection:"row"}}>
                    <Avatar rounded source={{uri:this.props.pp}} size="medium"/>
             <View style = {{marginLeft:3, flex:3}}>
-                <WiText style={styles.actu} selectable>
+                <View style={styles.actu}>
+                <WiText selectable>
                     {this.props.actu.actu}</WiText>
+                    </View>
                     <Text style={{alignSelf: "flex-end"}}>{sqlToUserDate(this.props.actu.date)}</Text>
                     </View>
 
@@ -154,7 +156,7 @@ export default class Home extends React.Component {
         this.state = {
            user : this.props.user,
             projets: this.props.projets || [],
-            membres: [],
+            membres: this.props.membres || [],
             events: this.props.events || [],
             image:"",
             actuDialogVisible:false,
@@ -219,6 +221,7 @@ export default class Home extends React.Component {
        
         load_members(data,(json) => {
             json = JSON.parse(json);
+            if (this.props.user.niveau>1) json = json.filter((member)=>member.niveau<3)
             if (this.state.membres!=json)
             {
             this.props.setMembers(json);
@@ -256,6 +259,7 @@ export default class Home extends React.Component {
 
     projectCard()
     {
+       
         return(
             <View style={styles.card}>
                 <Text style={styles.textetitrestatut}>PROJETS</Text>
@@ -267,10 +271,12 @@ export default class Home extends React.Component {
     }
 
     memberCard(){
+        let isMember = this.state.user.niveau<3?1:0;
+        
        return( <View style={styles.card}>
                 <Text style={styles.textetitrestatut}>MEMBRES</Text>
-                <Text>Nous comptons {this.state.membres.filter((p)=>p.niveau<3).length+(this.state.user.niveau<3?1:0)} membres</Text>
-                <Text>Mais aussi {this.state.membres.filter(p=>p.niveau==3).length} visiteurs</Text>
+                <Text>Nous comptons {this.state.membres.filter((p)=>p.niveau<3).length+isMember} membres</Text>
+                <Text>Mais aussi {this.state.membres.filter(p=>p.niveau==3).length+!isMember} visiteurs</Text>
                 
         </View>
        )
@@ -399,13 +405,13 @@ export default class Home extends React.Component {
                 <View style = {styles.categorie}>
 
                         <View style = {styles.Titre}>
-                            <Text style = {styles.textetitre} > EVÈNEMENTS </Text>
+                            {/*<Text style = {styles.textetitre} > EVÈNEMENTS </Text>*/}
 
                         </View>
 
                         <View style = {styles.containtcarte}>
-                            <FlatList data={this.state.projets.slice(0,5)} keyExtractor={(item)=>item.ID} 
-                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>
+                            {/*<FlatList data={this.state.projets.slice(0,5)} keyExtractor={(item)=>item.ID} 
+                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>*/}
                         
                         </View>
                 </View>

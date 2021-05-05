@@ -2,6 +2,7 @@ import React from "react";
 import { View, Dimensions } from "react-native";
 import {Text} from "react-native"
 import {EditDialog, DetailDialog, SuccesMessage} from "./ModalDialog"
+import * as Font from "expo-font";
 
 
 export const windowWidth = Dimensions.get("window").width;
@@ -46,6 +47,7 @@ export class WiText extends React.Component
   constructor(props){
     super(props)
     this.text = this.props.children
+    this.state = {fontsLoaded:false, police:""}
     this.split()
     
     
@@ -87,12 +89,19 @@ export class WiText extends React.Component
     }
 
   }
+  /*async loadFonts() {
+    await Font.loadAsync({
+      // Load a font `Montserrat` from a static resource
+      Montserrat: require('../../assets/fonts/Montserrat/Montserrat-Bold.ttf'),      
+    });
+    this.setState({ fontsLoaded: true, police:"Montserrat" });
+  }*/
   
    render()
    {
        
      return(
-       <Text dataDetectorType="all" style={this.props.style||{}} selectable={true}>
+       <Text dataDetectorType="all" style={this.props.style||{fontFamily:this.state.police}} selectable={true}>
          {this.text}
        </Text>
      )

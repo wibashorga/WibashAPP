@@ -84,9 +84,24 @@ class CarteMemo extends React.Component
             return (
                 <View>
                 <TextInput defaultValue = {this.text} multiline
-                onChangeText = {(text)=> {this.text = text}} style = {{...styles.carteMemo, backgroundColor:"rgb(200,200,230)"}}>
+                onChangeText = {(text)=> {this.text = text}} style = {{...styles.carteMemo, backgroundColor:"rgb(150,205,220)"}}>
                 </TextInput>
-                <Button title = "EDITER" onPress = {()=>this.setState({editMode:false})}/>
+                <TouchableOpacity onPress = {()=>{
+                    this.setState({editMode:false});
+                    if (this.text!==this.props.memo.contenu)
+                    {
+                    api.update_memo({identifiant:this.props.user.identifiant, pass:this.props.user.pass,
+                    id_projet:this.props.memo.id_projet,memo:this.props.memo.contenu, new_content:this.text},
+                    (response)=>{
+                        console.log(response)
+                        if (response.indexOf("200")!==-1){
+                            if (this.props.updateMemos) this.props.updateMemos()
+                        }
+                    })}}}>
+                <Icon type='octicon' name='pencil' color={'grey'} size={24} 
+                                />
+                </TouchableOpacity>
+                
                 </View>
             )
         }
@@ -95,7 +110,7 @@ class CarteMemo extends React.Component
         return(
             <View>
                 <TouchableOpacity style={styles.carteMemo}
-                onPress= {()=>this.setState({editMode:true})}>
+                onPress= {()=>{if (this.props.isChief)this.setState({editMode:true})}}>
                     <WiText>{this.props.memo.contenu}</WiText>
                     </TouchableOpacity>
                 
@@ -274,7 +289,7 @@ constructor(props){
             memos:[],
             workerOptions:false, calendarVisible:false,
         meetingDate:null, numberOfLines:15,
-        createMemoDialog: false,
+        createMemoDialog: false, updateMemo:0,
         selectedTheme:"participants"};
 
         this.nomtache ='';//nom de la tache qu'on va créer
@@ -476,7 +491,7 @@ sendWorkerStatus(id_membre, role)
         importMemos(){
             
     api.load_memos_from_project({identifiant:this.props.user.identifiant, pass:this.props.user.pass, 
-        id_projet: this.projet.ID}, (text)=>{this.setState({memos:JSON.parse(text)})})
+        id_projet: this.projet.ID}, (text)=>{this.setState({memos:JSON.parse(text), updateMemo:this.state.updateMemo+1})})
         }
     /**fonction qui permet de créer une tache dans la base de données */
     sendTask(){
@@ -866,9 +881,10 @@ memoView()
     {
         return(
             <FlatList data={this.state.memos}
-
+                keyExtractor={item=>item.contenu}
             renderItem={(item)=>
-                <CarteMemo memo={item.item}/>}></FlatList>
+                <CarteMemo memo={item.item} user={this.props.user} isChef={this.role=="Chef de projet"} updateMemos={()=>this.importMemos()}/>}
+                ></FlatList>
         )
     } 
 }
@@ -1026,7 +1042,8 @@ const styles = StyleSheet.create(
        },
        carteMemo:{backgroundColor:"white", 
        margin:10, 
-       marginVertical:25},
+       marginVertical:25,
+    padding:5},
 
        nomProjet:{
            fontWeight: "600",

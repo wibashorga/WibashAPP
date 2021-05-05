@@ -112,7 +112,7 @@ const MenuScreen = ({navigation}) => {
 const HomeScreen = ({navigation,route}) => {
     return(
       <Home navigation = {navigation} user = {utilisateur} setProjects = {(p)=>{projets=p}}
-      setMembers = {(m)=>{membres=m}} setEvents = {(e)=>{events =e}} events={events}
+      setMembers = {(m)=>{membres=m}} setEvents = {(e)=>{events =e}} events={events} membres={membres}
       projets={projets}/>
     )
   }

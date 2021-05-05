@@ -3,7 +3,7 @@ import {Icon} from "react-native-elements";
 import {Text, View, Modal, Dimensions, StyleSheet, ScrollView, TouchableOpacity, FlatList,Image,Button,SafeAreaView, ImageBackground} from 'react-native';
 import {load_projects, load_project_workers, load_tasks} from "../../API/api_request";
 import {WiText} from "./custom"
-
+import * as Font from "expo-font";
 const token = "PPlaFk63u4E6";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -86,7 +86,7 @@ class Carte extends React.Component
 
 
                 <Text numberOfLines={10}>
-                    <Text style={styles.textecarte} >
+                    <Text style={{...styles.textecarte, fontFamily:this.props.police}} >
 
                         <Text style={{fontWeight:"bold"}} >Objectifs : </Text>
 
@@ -94,13 +94,11 @@ class Carte extends React.Component
                         
                     </Text >
 
-                    <WiText style = {styles.textecarte}> *Description* :
+                    <WiText style = {{...styles.textecarte, fontFamily:this.props.police}}> *Description* :
 
                           {"\n"+this.props.projet.description+"\n"}
                     </WiText>
 
-                    <Text style={styles.textecarte}> <Text style={{fontStyle:"italic"}}>Chef de projet : </Text> 
-                        {this.chef.pseudo}</Text>
                        
                 </Text>
                 
@@ -241,10 +239,18 @@ export default class Projet extends React.Component {
         this.intervalID = setInterval(()=>{
             this.importProjects();
         }, 20000);
-        
+        this.loadFonts()
         
         
     }
+    
+  async loadFonts() {
+    await Font.loadAsync({
+      // Load a font `Montserrat` from a static resource
+      Montserrat: require('../../assets/fonts/Montserrat/Montserrat-Light.ttf'),      
+    });
+    this.setState({ fontsLoaded: true });
+  }
     componentWillUnmount(){
         clearInterval(this.intervalID)
     }
@@ -268,7 +274,7 @@ export default class Projet extends React.Component {
                         unselect = {()=>
                             this.unselect(item)
                         }
-                        /> } 
+                        police={this.state.fontsLoaded?"Montserrat":""}/> } 
                         horizontal = {false}/>
                 </View>
 

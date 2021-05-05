@@ -70,7 +70,7 @@ wibash:{
             update_member:{url: ypepin_prefix+"Update/UpdateMember.php", args:[/**to be continued */]},
             update_worker_status:{url: ypepin_prefix+"Update/WorkerStatus.php", args:["identifiant","pass", "id_membre", "role"]},
             update_account:{url: ypepin_prefix+"Update/UpdateAccount.php", args:["identifiant","pass", "#args : story, nom, etc."]},
-            
+            update_memo:{url: ypepin_prefix+"Update/UpdateMemo.php", args:[/**to be continued */]}
         },
         delete:{
             delete_event:{url: ypepin_prefix+"Delete/DeleteEvent.php", args:[/**to be continued */]},

@@ -3,6 +3,7 @@ import { View, Dimensions } from "react-native";
 import {Text} from "react-native"
 import {EditDialog, DetailDialog, SuccesMessage} from "./ModalDialog"
 import * as Font from "expo-font";
+import { ActivityIndicator } from "react-native";
 
 
 export const windowWidth = Dimensions.get("window").width;
@@ -18,6 +19,7 @@ export const colors ={
 export type EditBox = EditDialog;
 export type DetailBox = DetailDialog;
 //export const SuccesMessage = SuccesMessage;
+
 
 export const months_long = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet",
 "Aout", "Septembre", "Octobre", "Novembre", "Décembre"]
@@ -40,6 +42,15 @@ export class WiFlatButton extends React.Component
   }
 }
 
+export function LoadingScreen(message = "Chargement...", color="black")
+{
+  return(
+    <View>
+      <Text>Chargement...</Text>
+      <ActivityIndicator color={color} size={25}/>
+    </View>
+  )
+}
 
 
 export class WiText extends React.Component

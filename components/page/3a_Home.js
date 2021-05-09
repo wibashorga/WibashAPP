@@ -8,7 +8,7 @@ import {formatPostData} from "./security"
 
 import { EditDialog, LoadingMessage } from './ModalDialog';
 import { TouchableOpacity } from 'react-native';
-import { sqlToUserDate, WiText } from './custom';
+import { LoadingScreen, sqlToUserDate, WiText } from './custom';
 import { getNotificationToken } from './Notifications';
 
 const token = "PPlaFk63u4E6";
@@ -132,7 +132,8 @@ class CarteActu extends React.Component
           
     }
     render()
-    { return(
+    { 
+        return(
             <View style={{flexDirection:"row"}}>
                    <Avatar rounded source={{uri:this.props.pp}} size="medium"/>
             <View style = {{marginLeft:3, flex:3}}>
@@ -293,6 +294,53 @@ export default class Home extends React.Component {
         )
     }
 
+    actuBox()
+    {
+        if (this.state.actus===[])
+        {
+            return(
+                <LoadingScreen/>
+            )
+        }
+        
+        return(
+            <View style = {styles.categorie}>
+
+            <View style = {styles.Titre}>
+                <Text style = {styles.textetitre} > Actu </Text>
+                <TouchableOpacity onPress={()=>load_actus(empty_data, (reponse)=>
+                     {this.setState({actus: JSON.parse(reponse)}); console.log(reponse)})}
+                ><Icon name="refresh" type="evilicon" size={35}/></TouchableOpacity>
+            <View style={{height:240}}>
+            
+            <FlatList nestedScrollEnabled={true} data={this.state.actus} renderItem={(item)=>
+            <CarteActu actu={item.item} pp=
+            {this.state.membres && getMemberPP([...this.state.membres, this.props.user], item.item.id_membre)||""}/>}
+            keyExtractor={(actu)=>hashCode(actu.actu+actu.date)} removeClippedSubviews/>
+            </View>
+            
+                {(this.props.user.niveau<2)?<Button style={styles.bontonActu}
+                    title="AJOUTER UNE ACTU" 
+                    color = "red"
+                    onPress={()=>{this.setState({actuDialogVisible:true})}} 
+                    /*Remplacer par un logo plus *//>:null}
+
+
+        <EditDialog visible={this.state.actuDialogVisible} inputCount={1}
+            firstInputHandler={(text)=>{this.actuContent=text}} close={()=>this.setState({actuDialogVisible:false})}
+            editButtonTitle="Editer l'actu" firstPlaceholder="Quelle bonne nouvelle allez-vous annoncer ?"
+             editAction={()=>{this.create_actu()
+             this.setState({actuDialogVisible:false})
+        this.actuContent=""}}/>
+
+
+
+            </View>
+
+    </View>
+        )
+    }
+
     componentDidMount(){
        
         this.interval = setTimeout(()=>{
@@ -344,41 +392,7 @@ export default class Home extends React.Component {
                 <View style = {{flex:3, flexDirection:"column"}}>
 
                     
-
-                    <View style = {styles.categorie}>
-
-                        <View style = {styles.Titre}>
-                            <Text style = {styles.textetitre} > Actu </Text>
-                            <TouchableOpacity onPress={()=>load_actus(empty_data, (reponse)=>
-            {this.setState({actus: JSON.parse(reponse)}); console.log(reponse)})}
-                            ><Icon name="refresh" type="evilicon" size={35}/></TouchableOpacity>
-                        <View style={{height:240}}>
-                        
-                        <FlatList nestedScrollEnabled={true} data={this.state.actus} renderItem={(item)=>
-                        <CarteActu actu={item.item} pp=
-                        {this.state.membres && getMemberPP([...this.state.membres, this.props.user], item.item.id_membre)||""}/>}
-                        keyExtractor={(actu)=>hashCode(actu.actu+actu.date)}/>
-                        </View>
-                        
-                            {(this.props.user.niveau<2)?<Button style={styles.bontonActu}
-                                title="ajouter actualite" 
-                                color = "red"
-                                onPress={()=>{this.setState({actuDialogVisible:true})}} 
-                                /*Remplacer par un logo plus *//>:null}
-
-
-                    <EditDialog visible={this.state.actuDialogVisible} inputCount={1}
-                        firstInputHandler={(text)=>{this.actuContent=text}} close={()=>this.setState({actuDialogVisible:false})}
-                        editButtonTitle="Editer l'actu" firstPlaceholder="Quelle bonne nouvelle allez-vous annoncer ?"
-                         editAction={()=>{this.create_actu()
-                         this.setState({actuDialogVisible:false})
-                    this.actuContent=""}}/>
-            
-
-
-                        </View>
-
-                </View>
+                            {this.actuBox()}
 
 
 

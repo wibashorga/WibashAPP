@@ -77,8 +77,9 @@ class CarteMemo extends React.Component
         this.text = this.props.memo.contenu
     }
    
-    render(props)
+    render()
     {
+        
         if (this.state.editMode)
         {
             return (
@@ -110,7 +111,8 @@ class CarteMemo extends React.Component
         return(
             <View>
                 <TouchableOpacity style={styles.carteMemo}
-                onPress= {()=>{if (this.props.isChief)this.setState({editMode:true})}}>
+                onPress= {()=>{
+                if (this.props.isChef)this.setState({editMode:true})}}>
                     <WiText>{this.props.memo.contenu}</WiText>
                     </TouchableOpacity>
                 
@@ -129,10 +131,10 @@ class CarteTheme extends React.Component
     {
 
         return(
-        <TouchableOpacity onPress={()=>{}} style={{height:windowHeight/10, 
+        <TouchableOpacity style={{height:windowHeight/10, 
                 width:windowWidth/3.1, backgroundColor:this.props.color, 
             alignContent:"center", justifyContent:"center", marginTop:15}}
-            onPress={this.props.onPress}>
+            onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
                 <Text style={{alignSelf:"center", color:this.props.textColor||"white", fontSize:windowHeight/50, 
             fontWeight:"bold"}}>
                     {this.props.theme.toUpperCase()}
@@ -938,6 +940,9 @@ render(props){
                 color={theme.item.color} textColor={theme.item.textColor} 
                 onPress={()=>{this.setState({selectedTheme:theme.item.theme})
             this.importTasks(); this.importSuggestions(); this.importWorkers(); this.importMemos();
+                }} onLongPress = {()=>{
+                    if (theme.item.theme=="idees") this.openSuggestionDialog()
+                    if (theme.item.theme == "notes") this.setState({createMemoDialog:true})
                 }}/>)} 
                /* keyExtractor={(item)=>hashCode(item.theme)}*/ horizontal={true}/>
             {this.memberView()/**flatlist des participants au projet*/}

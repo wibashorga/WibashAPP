@@ -1,7 +1,7 @@
 import React from 'react';
 import {    
     Text, View, Modal, StyleSheet, FlatList,Button,Image, 
-    TouchableOpacity, ScrollView, Dimensions
+    TouchableOpacity, ScrollView, Dimensions,
 } from 'react-native';
 import * as ImagePicker from "expo-image-picker";
 import { Icon, Avatar } from 'react-native-elements';
@@ -211,6 +211,7 @@ export default class Profil extends React.Component {
                         style={(['nom','prenom'].includes(information))?
                             ((information=='nom')?styles.statusPlate1a:styles.statusPlate1b):
                             (information=="story")?{...styles.statusPlateHistoire}:styles.statusPlate2}>
+                                
                         <View style={{marginRight:10, flex:8}}>
                             <Text style={(['nom','prenom'].includes(information))?
                                 {fontWeight:"bold",color:'white'}:{fontWeight:"bold"}}>
@@ -247,8 +248,12 @@ export default class Profil extends React.Component {
                     <Icon name='chart' type='evilicon' color='lightgrey' size={40}/>
                     <Icon type='feather' name='globe' color='lightgrey' color='lightgrey'/>
                 </View>
+                              
 
                     <View style={styles.body}>
+
+                    
+                    <Avatar  rounded source={{uri:this.props.user.photo_profil}} size={"large"}/> 
                         {/*
                         <View style={{flexDirection:'row-reverse', margin:20, marginVertical:0}}><Icon type='octicon' name='pencil' color='grey' onPress={()=>this.props.navigation.navigate("ModifyProfil")}/></View>
                         */}

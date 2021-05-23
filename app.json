@@ -7,7 +7,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.1",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon2.png",
     "splash": {
@@ -18,7 +18,7 @@
     "android":{
       "googleServicesFile": "./google-services.json",
       "package":"com.wibash.wibashapp",
-      "versionCode":1,
+      "versionCode":3,
       "useNextNotificationsApi": true
     },
     "updates": {

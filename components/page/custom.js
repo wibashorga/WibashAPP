@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Dimensions } from "react-native";
+import { View, Dimensions, Image, StyleSheet } from "react-native";
 import {Text} from "react-native"
 import {EditDialog, DetailDialog, SuccesMessage} from "./ModalDialog"
 import * as Font from "expo-font";
@@ -8,6 +8,8 @@ import { ActivityIndicator } from "react-native";
 
 export const windowWidth = Dimensions.get("window").width;
 export const windowHeight = Dimensions.get("window").height;
+
+export const mediumFontSize = windowWidth/13;
 
 export const lightBlue ="rgb(156,220,254)";
 export const colors ={
@@ -142,6 +144,13 @@ class WiCard extends React.Component
     }
   }
 }
+export function IdleBackground(){
+  return (
+    <View style={styles.idle}>
+      <Image source = {require("./ressources/idle.jpg")} style={styles.idleImage}/>
+    </View>
+  )
+}
 
 
 /**Transforme une date au format date ou datetime SQL en date lisible par l'utilisateur
@@ -172,3 +181,13 @@ export function sqlToUserDate(date, type="date", numericMonth=false, shortMonth=
   } 
   return finalDate;
 }
+
+const styles = StyleSheet.create({
+  idle:{
+    width:windowWidth
+  },
+  idleImage:{
+    width:windowWidth,
+    height:windowWidth, padding:5
+  }
+})

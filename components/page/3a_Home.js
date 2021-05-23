@@ -82,9 +82,10 @@ class DoubleCarteMembre extends React.Component
     }
     memberDescritpion(membre)
     {
-     return(
+     let color = ["blue", "red", "pink", "orange"][membre.niveau]
+        return(
         <TouchableOpacity onPress = {()=>{this.props.navigateToDetails(membre)}} 
-        style={styles.CarteMembre}>
+        style={{...styles.CarteMembre, borderColor:color}}>
           <Image source={{uri:membre.photo_profil||"./ressources/logo.png"}} 
                 style= {{width:100, height:100, alignSelf:"center" , borderRadius:15}}></Image>
             
@@ -104,14 +105,11 @@ class DoubleCarteMembre extends React.Component
         return(
             <View style={{flexDirection:"row"}}>
                 
-            <View style={styles.CarteMembre}>
-                {this.memberDescritpion(this.membre1)}
-            </View>
             
-            <View style={styles.CarteMembre}>
+                {this.memberDescritpion(this.membre1)}
            
                 {this.memberDescritpion(this.membre2)}
-            </View>
+            
             </View>
         )}else{
             return(
@@ -213,8 +211,9 @@ export default class Home extends React.Component {
     }
     importMembers (force)
     {
-        if (this.props.navigation.isFocused() && !force)
+        if (this.props.navigation.isFocused() || force)
         {
+            
         let data = new FormData();
         data.append("token", token);
         data.append("identifiant", this.state.user.identifiant);
@@ -518,6 +517,7 @@ const styles = StyleSheet.create(
            overflow: "hidden",
            paddingLeft:5,
           borderRadius: 20,
+          borderWidth:1,
           backgroundColor:"white",
           
        },

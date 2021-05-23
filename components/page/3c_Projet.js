@@ -62,44 +62,32 @@ class Carte extends React.Component
             workers:this.workers})
                else {
                    this.setState({selected:false})
-                this.props.unselect()
-                }
-            }}
+                this.props.unselect()}}}
                 
                 //quand on clique longuement on sélectionne la carte
                 onLongPress = {()=>{
                    
-                   if(this.props.user.niveau!=3){ this.props.select(); this.setState({selected: true})}
+                   if(this.props.user.niveau<2){ this.props.select(); this.setState({selected: true})}
                 
                 
                 }}
             style={{...styles.carte, backgroundColor:this.state.selected?"red":this.props.projet.mine?"rgb(156,220,254)":"white"}}
-            activeOpacity={0.8} >
+            activeOpacity={0.5} >
                 
-                <View style={styles.imagecarte}></View>
-                <Image source={require("./ressources/logo.png")} 
-                style= {{width:100, height:100, alignSelf:"center" , borderRadius:15}}></Image>
-                <View>
-               
-                <Text style = {{fontWeight:"bold", alignSelf:"center", fontSize:25}}>
+               <View>
+                <Text style = {styles.titrecarte}>
                     {this.props.projet.nom}</Text>
-
 
                 <Text numberOfLines={10}>
                     <Text style={{...styles.textecarte, fontFamily:this.props.police}} >
-
                         <Text style={{fontWeight:"bold"}} >Objectifs : </Text>
-
-                        <WiText> {"\n"+this.props.projet.objectifs+"\n"} </WiText>
-                        
+                        <WiText> {"\n"+this.props.projet.objectifs+"\n"} </WiText>  
                     </Text >
 
                     <WiText style = {{...styles.textecarte, fontFamily:this.props.police}}> *Description* :
 
                           {"\n"+this.props.projet.description+"\n"}
                     </WiText>
-
-                       
                 </Text>
                 
                 </View>
@@ -257,10 +245,7 @@ export default class Projet extends React.Component {
     render()
     {
      return(
-            <ImageBackground style = {styles.conteneur} 
-            source = {require('./ressources/fond2projet.jpg')}>
-
-                
+            <View style = {styles.conteneur}>               
 
                 <View style = {styles.containtcarte}>
                     <FlatList 
@@ -281,7 +266,7 @@ export default class Projet extends React.Component {
                 {this.createProjectButton()}
                                       
                 
-            </ImageBackground>
+            </View>
         )
     }
 }
@@ -303,13 +288,8 @@ const styles = StyleSheet.create(
        },
        conteneur:
        {
-           flex : 1,
-           backgroundColor: "black",
-           
-           
-           
-           
-           
+           flex : 1,        
+             
        },
        imagepro:{
            width: 380,
@@ -322,11 +302,11 @@ const styles = StyleSheet.create(
        {
            fontWeight:"bold",
            textAlign: "center",
-           fontFamily: "roboto"
+           fontSize:windowWidth/13
        },
        textecarte:
        {
-           fontSize:15
+           fontSize:(windowWidth)/20
        },
        containtcarte:
        {
@@ -344,12 +324,14 @@ const styles = StyleSheet.create(
        {
         
            width: windowWidth*0.95,
-           height: 380,
+           paddingTop:20,
+           height: windowHeight/2.4,
            alignSelf:"center",
            marginVertical:10,
            overflow: "hidden",
-           paddingLeft:10,
-          borderRadius: 20,
+           paddingHorizontal:10,
+           borderColor:"black",
+           borderWidth:1,
           backgroundColor:"white",
           
        },

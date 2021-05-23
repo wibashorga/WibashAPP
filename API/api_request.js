@@ -8,7 +8,7 @@ function post_request(request_url, data, success_callback, fail_callback)
     {
         let formData = new FormData();
         for (let property in data) {
-            formData.append(property, data[property])
+            formData.append(property, data[property]+"")
         }
         data = formData;
     }

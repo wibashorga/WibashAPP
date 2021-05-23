@@ -42,6 +42,7 @@ export async function getNotificationToken() {
       const { status } = await Notifications.requestPermissionsAsync();
       finalStatus = status;
     }
+    
     if (finalStatus !== 'granted') {
       try {
         return AsyncStorage.getItem("notif_token");

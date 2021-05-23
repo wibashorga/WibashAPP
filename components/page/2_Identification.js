@@ -52,7 +52,7 @@ export default class Identification extends React.Component
     {
       this.setState({loading:true})
      let notif_token;
-     try {const notif_token = getNotificationToken();}
+     try {notif_token = getNotificationToken();}
      catch(e){console.log(e)}
       let data = new FormData();
   data.append("identifiant", this.id);

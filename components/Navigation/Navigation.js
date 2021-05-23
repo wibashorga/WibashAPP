@@ -119,7 +119,7 @@ const HomeScreen = ({navigation,route}) => {
   const ProfilMembreScreen = ({navigation, route}) =>
   {
     return(
-      <DetailsMembre navigation = {navigation} route = {route}/>
+      <DetailsMembre navigation = {navigation} route = {route} user={utilisateur}/>
     )
   }
 

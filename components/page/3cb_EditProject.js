@@ -8,7 +8,7 @@ import { formatPostData } from "./security";
 import { EditDialog } from "./ModalDialog";
 import * as api from "../../API/api_request";
 import { Calendar, LocaleConfig } from "react-native-calendars";
-import {lightBlue, WiText, colors} from "./custom";
+import {lightBlue, WiText, colors, IdleBackground} from "./custom";
 import {DetailDialog} from "./ModalDialog"
 import { set } from "react-native-reanimated";
 
@@ -79,7 +79,6 @@ class CarteMemo extends React.Component
    
     render()
     {
-        
         if (this.state.editMode)
         {
             return (
@@ -873,20 +872,27 @@ boiteAIdees()
                 <Text style={{alignSelf:"center"}}>Aucune idée proposée pour le moment</Text>
             </View>
         )}
-
-        }
+        return (
+            <IdleBackground/>
+        )
+    }
 }
 
 memoView()
 {
-    if (this.projet.mine && this.state.selectedTheme=="notes" && this.state.memos)
+    if (this.projet.mine && this.state.selectedTheme=="notes")
     {
+        if (this.state.memos)
+        {
         return(
             <FlatList data={this.state.memos}
                 keyExtractor={item=>item.contenu}
             renderItem={(item)=>
                 <CarteMemo memo={item.item} user={this.props.user} isChef={this.role=="Chef de projet"} updateMemos={()=>this.importMemos()}/>}
                 ></FlatList>
+        )}
+        return(
+            <IdleBackground/>
         )
     } 
 }
@@ -937,7 +943,7 @@ render(props){
             </View>
             <View style={{flex:1}}>
                 <FlatList data = {themes} renderItem = {(theme)=>(<CarteTheme theme={theme.item.theme}
-                color={theme.item.color} textColor={theme.item.textColor} 
+                color={theme.item.color} textColor={theme.item.textColor} keyExtractor = {(item)=>item.theme}
                 onPress={()=>{this.setState({selectedTheme:theme.item.theme})
             this.importTasks(); this.importSuggestions(); this.importWorkers(); this.importMemos();
                 }} onLongPress = {()=>{

@@ -4,6 +4,7 @@ import {colors, windowHeight, windowWidth} from "./custom"
 import {WiText} from "./custom"
 import {Text, View, Modal, Button, Image, StyleSheet} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import {update_member} from "../../API/api_request"
 //import {Button} from "react-native-elements";
 //import { colors } from 'react-native-elements';
 const token = "PPlaFk63u4E6";
@@ -13,6 +14,7 @@ export default class DetailsMembre extends React.Component {
     constructor(props)
     {
         super(props);
+        this.state = {update:0}
         this.membre = this.props.route.params.membre;
         this.membre.role = ["dev", "administrateur", "membre", "visiteur"][this.membre.niveau]
             this.membre.mail = this.membre.mail==null || this.membre.mail=="null"?"":this.membre.mail
@@ -26,11 +28,30 @@ export default class DetailsMembre extends React.Component {
     }
     adminInfo()
     {
+        const set_member_level = (_level)=>{
+            update_member({identifiant:this.props.user.identifiant, pass:this.props.user.pass,
+                level:_level, "id_membre":this.membre.identifiant}, (reponse)=>{
+                    if (reponse.indexOf("200")!==-1) {
+                        this.membre.niveau = parseInt(_level);
+                        this.setState({update:this.state.update+1})
+                    }
+                    console.log(reponse)
+                })
+        }
         if (this.membre.niveau == 3)
         {
             return (
                 <View>
-                    <Button title = "EN FAIRE UN MEMBRE" onPress = {()=>{}}/>
+                    <Button title = "EN FAIRE UN MEMBRE" onPress = {()=> set_member_level("2")} color="green"/>
+                </View>
+            )
+        }
+        if (this.membre.niveau == 2)
+        {
+            return (
+                <View>
+                    <Button title = {"RETIRER A "+this.membre.prenom+" LE STATUT DE MEMBRE"} 
+                    onPress = {()=>set_member_level("3")} color="red"/>
                 </View>
             )
         }

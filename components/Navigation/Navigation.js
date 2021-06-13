@@ -36,10 +36,14 @@ import * as api from "../../API/api_request"
 
 import {Icon} from 'react-native-elements';
 import { getNotificationToken } from '../page/Notifications';
+
+// Initialisation des données de l'application
 var utilisateur={}, projets=[], events=[], membres=[], actus = [];
 
+// Probablement Token de la reconnexion
 const token = "PPlaFk63u4E6";
 
+// Probablement Vue pour les notifications au centre de l'écran
 function NotificationsScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -47,11 +51,12 @@ function NotificationsScreen({ navigation }) {
     </View>
   );
 }
-
+// ?
 const Stack = createStackNavigator(), StackLoading = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 const Drawer = createDrawerNavigator();
- //Screens d'authentification
+
+ // Appel de l'Ecran d'authentification
 const AccueilScreen =({ navigation}) => {
   return (   
     <Accueil navigation={navigation}/>
@@ -59,7 +64,7 @@ const AccueilScreen =({ navigation}) => {
 }
  
 
-// Screen du profil
+// Appel de l'Ecran de profil
 const ProfilScreen = ({navigation}) => {
   return(
     <Profil navigation = {navigation} user = {utilisateur} setUser={(u)=>{utilisateur=u}}/>
@@ -101,14 +106,14 @@ function MyDrawer() {
 }
 */
 
-// Screen du menu
+// Appel de l'écran du menu
 const MenuScreen = ({navigation}) => {
   return(
     <Menu navigation = {navigation} user = {utilisateur}/>
   )
 }
 
-//Screens du corps de l'appli
+// Appel de l'écran du corps de l'appli
 const HomeScreen = ({navigation,route}) => {
     return(
       <Home navigation = {navigation} user = {utilisateur} setProjects = {(p)=>{projets=p}}
@@ -116,7 +121,9 @@ const HomeScreen = ({navigation,route}) => {
       projets={projets}/>
     )
   }
-  const ProfilMembreScreen = ({navigation, route}) =>
+
+// Appel du Comp affichant les membres
+const ProfilMembreScreen = ({navigation, route}) =>
   {
     return(
       <DetailsMembre navigation = {navigation} route = {route} user={utilisateur}/>
@@ -258,15 +265,11 @@ class Navigation extends React.Component{
   constructor(props)
   {
     super(props);
-    this.state = {
-      connected: false,
-      loading:true
-    }
+    this.state = {connected: false,loading:true}
     this.id = "";
     this.pass = "";
     this.readLoginInfo()
     this.HomeStackScreen = this.HomeStackScreen.bind(this)
-
   }
 
   MenuStackScreen() {
@@ -278,19 +281,17 @@ class Navigation extends React.Component{
     )
   }
 
-  
   HomeStackScreen({navigation, route}) {
       return(
         <Stack.Navigator initialRouteName = {"Home"}>
-          <Stack.Screen 
-          name="Home" component={HomeScreen} 
-          options={{headerTitle : "WI-BASH" , 
+          <Stack.Screen name="Home" component={HomeScreen} options={{headerTitle : "WI-BASH" , 
             headerRight:()=>(
               <TouchableOpacity onPress={()=>{this.setState({loading:false, connected:false})}}>
                 <Icon name="power" type="ionicon" color="white" iconStyle={{marginRight:10}}/>
               </TouchableOpacity>)}}/>
-              <Stack.Screen name="Profil" component={ProfilScreen}/>
-              <Stack.Screen name="ProfilMembre" component={ProfilMembreScreen} />
+
+                <Stack.Screen name="Profil" component={ProfilScreen}/>
+                <Stack.Screen name="ProfilMembre" component={ProfilMembreScreen} />
         </Stack.Navigator>
       )
   }
@@ -323,6 +324,7 @@ class Navigation extends React.Component{
   }
   */
 
+  //Fonction d'authentification
   async readLoginInfo()
   {
     try{
@@ -340,6 +342,8 @@ class Navigation extends React.Component{
       this.setState({loading:false})
     }
   }
+
+  //Fonction de connexion
   async _connect()
     {
      let notif_token;
@@ -374,12 +378,14 @@ class Navigation extends React.Component{
         this.setState({loading:false})
   })
 }
+
+// Fonction de vérification de connexion
   sayConnected(profil)
   {
     utilisateur = profil;
-    this.setState({connected: true});
-    
+    this.setState({connected: true}); 
   }
+//Fonction  
  setUser(profil){utilisateur=profil}
 
  setEvents(e){events=e};
@@ -387,39 +393,47 @@ class Navigation extends React.Component{
  addProject(p){projets.push(p)}
  removeProject(p){projets = projets.replace(p, undefined)}
   
-  authentification()
-  {
-    if (!this.state.connected && !this.state.loading)
-    {
+
+authentification(){
+    if (!this.state.connected && !this.state.loading){
       return(
       <Stack.Navigator initialRouteName="Accueil">
-        
         <Stack.Screen name="Accueil" component={AccueilScreen} options={{title : "" , headerShown:false}} />
+        
         <Stack.Screen name="identification"  options={{title: 'Identification',headerStyle: { backgroundColor: 'rgb(200,0,0)'},headerTintColor: '#fff' }}>
-        {props => <Identification {...props} sayConnected = {(profil)=> this.sayConnected(profil)} 
-        setProjects = {(p)=>projets=p} setMembers={(m)=>membres=m}/>}
+        
+          {props => 
+            <Identification {...props} sayConnected = {(profil)=> this.sayConnected(profil)} setProjects = {(p)=>projets=p} setMembers={(m)=>membres=m}/>
+          }
+
         </Stack.Screen>
+
+
         <Stack.Screen name = "CreerCompte"  options={{title: 'Nouveau compte',headerStyle: { backgroundColor: 'rgb(200,0,0)'},headerTintColor: '#fff' }}>
-        {props => <CreerCompte {...props} 
-        sayConnected = {(profil)=> this.sayConnected(profil)} 
-        setProjects = {(p)=>{this.setProjects(p)}}/>}
+
+        {props => 
+          <CreerCompte {...props} sayConnected = {(profil)=> this.sayConnected(profil)} setProjects = {(p)=>{this.setProjects(p)}}/>
+        }
+        
         </Stack.Screen>
         
 
       </Stack.Navigator>
     )}
-    else
-    {
+    else{
       return null;
     }
   }
-  homePage()
-  {
-    if (this.state.connected)
-    {return (
+
+  // 
+  homePage(){
+    if (this.state.connected){
+      return (
       
-      <Tab.Navigator tabBarPosition="bottom" initialRouteName = {'Home'} lazy = {!membres.length}
-            initialLayout = {{ width: Dimensions.get('window').width }}
+      <Tab.Navigator tabBarPosition="bottom" 
+      initialRouteName = {'Home'} 
+      lazy = {!membres.length} 
+      initialLayout = {{ width: Dimensions.get('window').width }} 
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName, iconType;
@@ -458,18 +472,15 @@ class Navigation extends React.Component{
     )}
   }
   
-  loadingStack()
-  {
-    if (this.state.loading && !this.state.connected)
-    {
+  // Appel de la page de Chargement
+  loadingStack(){
+    if (this.state.loading && !this.state.connected){
     return(
       <StackLoading.Navigator>
         <StackLoading.Screen name = "loading" component = {LoadingScreen} options={{headerShown:false}}/>
       </StackLoading.Navigator>
     )}
-    else{
-      return null
-    }
+    else{return null}
   }
   
   /*
@@ -490,8 +501,7 @@ class Navigation extends React.Component{
   }
   */
 
-  render()
-  {
+  render(){
   return (
     <NavigationContainer>  
     {this.authentification()}

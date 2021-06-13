@@ -1,24 +1,33 @@
 # Wi-Bash App
 
-ATTENTION le safeAreaview devra etre integrer.
-Modification a faire changer Important en Vote
+Application de Gestion Associatif des:
 
-## 1. Objectif
+- Projets
+- Effectif
+- Evenements
 
--   Pouvoir se connecter.
--   Avoir la possibilité de retourner en arrière, mémoriser la connexion pour ne pas avoir à réecrire les identifiants.
+## Fonctionnalités :
 
-## 2. Choix entre
+- Identification
+    - Mémorisation de l'Identification
+    - Interface changeant par röle
+- Résumé de l'association
+- Projets
+    - Liste
+    - Consultation
+        - Participants
+        - Boite à Idées
+    - Création
+- Membres
+    - Liste
+    - Consultation
+    - Modification personnelle de son profil
+- 
 
--   Projets
--   Evènement
--   Membres
-
-## 3. Dans membres
-
--   Voir la liste des membres.
--   Pouvoir créer un membre pour ceux ayant l'autorisation, et changer son statut (visiteur, membre, admin).
--   Voir les profils avec photos, surnom nom prénom, achievements, etc.
+## TODO:
+- ATTENTION le safeAreaview devra etre integrer.
+- Modification a faire changer Important en Vote
+- Achievements pour membres actifs
 
 ## 4. Dans Projet
 
@@ -48,12 +57,11 @@ C'est un peu la même que projet sauf que ce sont des:
 
 Et l'évènement est automatiquement ajouté sur l'agenda Google ou IOS de ceux qui ont choisi `"je participe"` ou `"peut-être"`.
 
-# Notes à l'équipe de dev :
-    ## git commit :
-        -  git pull:
-        - git add .
-        - git commit -m "votre message"
-        - git push
+# Notes à l'équipe de dev : 
+- git pull:
+- git add .
+- git commit -m "votre message"
+- git push
 
 ## Dépendances a installer
 

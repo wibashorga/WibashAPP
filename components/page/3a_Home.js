@@ -87,7 +87,7 @@ class DoubleCarteMembre extends React.Component
         <TouchableOpacity onPress = {()=>{this.props.navigateToDetails(membre)}} 
         style={{...styles.CarteMembre, borderColor:color}}>
           <Image source={{uri:membre.photo_profil||"./ressources/logo.png"}} 
-                style= {{width:100, height:100, alignSelf:"center" , borderRadius:15}}></Image>
+                style= {{width:100, height:100, alignSelf:"center" , borderRadius:50,margin:5}}></Image>
             
         <Text style = {{fontWeight:"bold"}}>{membre.prenom+" "+membre.nom}</Text>
         <Text  style = {{fontWeight:"bold"}}>Role: </Text>
@@ -132,7 +132,7 @@ class CarteActu extends React.Component
     render()
     { 
         return(
-            <View style={{flexDirection:"row"}}>
+            <View style={{flexDirection:"row",backgroundColor:"rgb(255,255,255)"}}>
                    <Avatar rounded source={{uri:this.props.pp}} size="medium"/>
             <View style = {{marginLeft:3, flex:3}}>
                 <View style={styles.actu}>
@@ -184,7 +184,7 @@ export default class Home extends React.Component {
     setHeader(){
         this.props.navigation.setOptions({
             title:"WI-BASH", headerShown:true, headerStyle:{backgroundColor:"red"},
-            headerTitleStyle:{color:"white", alignSelf:"center", marginLeft:-50, fontSize:23},
+            headerTitleStyle:{color:"white", alignSelf:"center", justifyContent:"center", fontSize:40},
             headerLeft:()=>(<Icon name = "menu" type = "Entypo" color = "white" iconStyle = {styles.icon}
             onPress={()=>{this.props.navigation.navigate("Profil")}}/>
                 )
@@ -306,10 +306,11 @@ export default class Home extends React.Component {
             <View style = {styles.categorie}>
 
             <View style = {styles.Titre}>
-                <Text style = {styles.textetitre} > Actu </Text>
+                <Text style = {styles.textetitre} >Actualités :</Text>
                 <TouchableOpacity onPress={()=>load_actus(empty_data, (reponse)=>
-                     {this.setState({actus: JSON.parse(reponse)}); console.log(reponse)})}
-                ><Icon name="refresh" type="evilicon" size={35}/></TouchableOpacity>
+                     {this.setState({actus: JSON.parse(reponse)}); console.log(reponse)})}>
+                    <Icon name="refresh" type="evilicon" size={35}/>
+                </TouchableOpacity>
             <View style={{height:240}}>
             
             <FlatList nestedScrollEnabled={true} data={this.state.actus} renderItem={(item)=>
@@ -398,7 +399,7 @@ export default class Home extends React.Component {
                 <View style = {styles.categorie} /* modifier le style*/ >
 
                         <View style = {styles.Titre}>
-                            <Text style = {styles.textetitre} > Les basheurs : </Text>
+                            <Text style = {styles.textetitre} >Les basheurs :</Text>
                             
                         </View>
 
@@ -537,7 +538,9 @@ const styles = StyleSheet.create(
        textetitre:{
             fontSize:30,
             color:"black",
-            fontWeight:"bold"
+            fontWeight:"bold",
+            marginTop:20,
+            justifyContent:"center",
        },
        textetitrestatut:
        {
@@ -576,8 +579,10 @@ const styles = StyleSheet.create(
           
        }, icon:
        {
-        paddingLeft:5,
-           alignSelf: "flex-start",
+        alignSelf:"center", 
+        justifyContent:"center",
+        alignSelf: "flex-start",
+        margin: 10
        },
        textetitreheaders:{
            marginTop:-30,

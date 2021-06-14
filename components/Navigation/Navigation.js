@@ -1,6 +1,21 @@
 // In App.js in a new project
 
+// React et Extentions
 import * as React from 'react';
+import {Text, View, Modal, StyleSheet, TouchableOpacity,Button} from 'react-native';
+import {createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem} from '@react-navigation/drawer';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
+import {Dimensions} from "react-native";
+import * as api from "../../API/api_request"
+import {Icon} from 'react-native-elements';
+
+// Vues JS perso
+import Loading from "./loading.js";
+
 import Accueil from '../page/1_Accueil';
 import Home from "../page/3a_Home";
 import DetailsMembre from "../page/3ad_DetailsMembre";
@@ -8,13 +23,6 @@ import Menu from "../page/Menu.js";
 import Reglage from "../page/3ab_Reglage";
 import Profil from "../page/3ac_Profil";
 import Projet from "../page/3c_Projet";
-import {Text, View, Modal, StyleSheet, TouchableOpacity,Button} from 'react-native';
-import { 
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem
-} from '@react-navigation/drawer';
 import Evenement from "../page/3b_Evenement"
 import Important from "../page/Important"
 import CreerCompte from "../page/1b_CreerCompte";
@@ -25,23 +33,23 @@ import NewEvent from '../page/3ba_CreerEvent.js';
 import ModifyEvent from "../page/3bb_ModifyEvent.js";
 import ModifyTask from "../page/3cba_ModifyTask.js";
 import ModifyProject from "../page/ModifyProject"; 
-import Loading from "./loading.js";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
-import {Dimensions} from "react-native";
-import * as api from "../../API/api_request"
-
-import {Icon} from 'react-native-elements';
 import { getNotificationToken } from '../page/Notifications';
+
+/// Ensemble des Variables
 
 // Initialisation des données de l'application
 var utilisateur={}, projets=[], events=[], membres=[], actus = [];
 
 // Probablement Token de la reconnexion
 const token = "PPlaFk63u4E6";
+
+// ?
+const Stack = createStackNavigator(), StackLoading = createStackNavigator();
+const Tab = createMaterialTopTabNavigator();
+const Drawer = createDrawerNavigator();
+/// Fin Ensemble des Variables
+
+
 
 // Probablement Vue pour les notifications au centre de l'écran
 function NotificationsScreen({ navigation }) {
@@ -51,19 +59,14 @@ function NotificationsScreen({ navigation }) {
     </View>
   );
 }
-// ?
-const Stack = createStackNavigator(), StackLoading = createStackNavigator();
-const Tab = createMaterialTopTabNavigator();
-const Drawer = createDrawerNavigator();
 
- // Appel de l'Ecran d'authentification
+// Appel de l'Ecran d'authentification
 const AccueilScreen =({ navigation}) => {
   return (   
     <Accueil navigation={navigation}/>
   );
 }
  
-
 // Appel de l'Ecran de profil
 const ProfilScreen = ({navigation}) => {
   return(
@@ -120,7 +123,7 @@ const HomeScreen = ({navigation,route}) => {
       setMembers = {(m)=>{membres=m}} setEvents = {(e)=>{events =e}} events={events} membres={membres}
       projets={projets}/>
     )
-  }
+}
 
 // Appel du Comp affichant les membres
 const ProfilMembreScreen = ({navigation, route}) =>
@@ -128,23 +131,25 @@ const ProfilMembreScreen = ({navigation, route}) =>
     return(
       <DetailsMembre navigation = {navigation} route = {route} user={utilisateur}/>
     )
-  }
+}
 
-//------------------------------------------------------
-//
-  const EvenementScreen = ({navigation, route}) => {
+
+// Appel du Comp affichant les Events
+const EvenementScreen = ({navigation, route}) => {
     return(
-      <Evenement navigation = {navigation} user = {utilisateur}
-      route={route} events={events}/>
+      <Evenement navigation = {navigation} user = {utilisateur} route={route} events={events}/>
     )
-  }
-  const CreerEventScreen = ({navigation, route})=>{
+}
+
+// Créer Event
+const CreerEventScreen = ({navigation, route})=>{
     return(
       <NewEvent navigation = {navigation} user = {utilisateur} projets = {projets}
       route={route}/*setNew = {(p)=>{projets.push(p)}}*//>
     )
-  }
+}
 
+// Modifier Event
 const ModifyEventScreen = ({navigation, route})=>{
   return(
     <ModifyEvent navigation = {navigation} route = {route}
@@ -152,12 +157,11 @@ const ModifyEventScreen = ({navigation, route})=>{
   )
 }
 
-
-  //Stack des événements
+//Stack des événements
   //Liste des Event (events)
   // Créer un event (new_event)
   //Modifier un event (ùodify_event)
-  const EventStackScreen = ({navigation})=>{
+const EventStackScreen = ({navigation})=>{
     return(
       <Stack.Navigator initialRouteName = {"events"}>
         <Stack.Screen 
@@ -175,36 +179,38 @@ const ModifyEventScreen = ({navigation, route})=>{
       </Stack.Navigator>
         
     )
-  }
-  //-------------------------------
-  //
-  //-----------------------
+}
 
-  const ProjetScreen = ({navigation,route}) => {
+
+// Appel du Comp affichant les projets
+const ProjetScreen = ({navigation,route}) => {
     return(
       <Projet navigation = {navigation} user = {utilisateur} projets = {projets}
       route={route} setProjects = {(p)=>{projets=p}} membres = {membres}/>
     )
-  }
+}
 
-  const CreerProjetScreen = ({navigation, route})=>{
+// Créer Projet
+const CreerProjetScreen = ({navigation, route})=>{
     return(
       <NewProject navigation = {navigation} user = {utilisateur} projets = {projets}
       /*setNew = {(p)=>{projets.push(p)}}*//>
     )
-  }
-  const EditProjectScreen = ({navigation, route}) =>{
+}
+
+// 
+const EditProjectScreen = ({navigation, route}) =>{
     return(
       <EditProject navigation = {navigation} route = {route} membres = {membres}
       projets = {projets} user={utilisateur}/>
     )
-  }
-  const ModifyProjectScreen = ({navigation, route})=>{
+}
+const ModifyProjectScreen = ({navigation, route})=>{
     return(
       <ModifyProject user = {utilisateur} navigation = {navigation}
       route = {route}/>
     )
-  }
+}
 const ModifyTaskScreen = ({navigation, route}) =>{
   return(
     <ModifyTask user = {utilisateur} route = {route} navigation = {navigation}
@@ -212,7 +218,7 @@ const ModifyTaskScreen = ({navigation, route}) =>{
   )
 }
 
-  //-----------------------------
+//-----------------------------
   
 //cette vue va dans le 
   
@@ -221,7 +227,7 @@ ProjetScreen correspond à la page "liste des projets"
 CreerProjetScreen correspond à la page de création de projet. on y arrive grâce
 au bouton Edit New Project 
 * */
-  const ProjetStackScreen = ({navigation}) => {
+const ProjetStackScreen = ({navigation}) => {
     return(
       <Stack.Navigator initialRouteName = {"projets"}>
         <Stack.Screen 
@@ -238,20 +244,20 @@ au bouton Edit New Project
       </Stack.Navigator>
       
     )
-  }
+}
 
-  const ImportantScreen = ({navigation,route}) => {
+const ImportantScreen = ({navigation,route}) => {
     return(
       <Important navigation = {navigation} user = {utilisateur}/>
     )
-  }
+}
 
-  // screen du menu hamburgeur ethan lie la vue profil au bar du header stp
-  const ReglageScreen = ({navigation,route}) => {
+// screen du menu hamburgeur ethan lie la vue profil au bar du header stp
+const ReglageScreen = ({navigation,route}) => {
     return(
       <Reglage navigation = {navigation} user = {utilisateur}/>
     )
-  }
+}
 
 const LoadingScreen = ({navigation, route}) =>{
   return(
@@ -259,8 +265,7 @@ const LoadingScreen = ({navigation, route}) =>{
   )
 }
 
-  
-
+//Début de la Class Navigation
 class Navigation extends React.Component{
   constructor(props)
   {
@@ -416,14 +421,9 @@ authentification(){
         }
         
         </Stack.Screen>
-        
-
       </Stack.Navigator>
-    )}
-    else{
-      return null;
-    }
-  }
+    )}else{return null;}
+}
 
   // 
   homePage(){

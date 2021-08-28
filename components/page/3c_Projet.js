@@ -66,29 +66,22 @@ class Carte extends React.Component
                 
                 //quand on clique longuement on sélectionne la carte
                 onLongPress = {()=>{
-                   
                    if(this.props.user.niveau<2){ this.props.select(); this.setState({selected: true})}
-                
-                
                 }}
-            style={{...styles.carte, backgroundColor:this.state.selected?"red":this.props.projet.mine?"rgb(156,220,254)":"white"}}
+            style={{...styles.carte, backgroundColor:this.state.selected?"red":"white"}}
             activeOpacity={0.5} >
                 
                <View>
+                   <View style={{flexDirection:"row", justifyContent:"space-between"}}>
                 <Text style = {styles.titrecarte}>
                     {this.props.projet.nom}</Text>
-
-                <Text numberOfLines={10}>
-                    <Text style={{...styles.textecarte, fontFamily:this.props.police}} >
-                        <Text style={{fontWeight:"bold"}} >Objectifs : </Text>
-                        <WiText> {"\n"+this.props.projet.objectifs+"\n"} </WiText>  
-                    </Text >
-
-                    <WiText style = {{...styles.textecarte, fontFamily:this.props.police}}> *Description* :
-
-                          {"\n"+this.props.projet.description+"\n"}
-                    </WiText>
-                </Text>
+                    <Text style={{color:"white", padding:7,display:this.props.projet.mine?null:"none", backgroundColor:"green",
+                borderRadius:50, fontSize:10}}>My</Text>
+                </View>
+                    
+                    <Text numberOfLines={3}>
+                        <WiText>{this.props.projet.objectifs+"\n"} </WiText>  
+                    </Text>
                 
                 </View>
             </TouchableOpacity>
@@ -227,30 +220,24 @@ export default class Projet extends React.Component {
         this.intervalID = setInterval(()=>{
             this.importProjects();
         }, 20000);
-        this.loadFonts()
+
         
         
     }
-    
-  async loadFonts() {
-    await Font.loadAsync({
-      // Load a font `Montserrat` from a static resource
-      Montserrat: require('../../assets/fonts/Montserrat/Montserrat-Light.ttf'),      
-    });
-    this.setState({ fontsLoaded: true });
-  }
+
     componentWillUnmount(){
         clearInterval(this.intervalID)
     }
     render()
     {
      return(
-            <View style = {styles.conteneur}>               
+            <ImageBackground style = {styles.conteneur}>               
 
                 <View style = {styles.containtcarte}>
                     <FlatList 
                         data={this.state.projets} 
                         keyExtractor={(item)=>item.ID} 
+                        numColumns={1}
                         renderItem= {(item)=><Carte projet = {item.item} 
                         navigation={this.props.navigation} membres={this.props.membres}
                         user={this.props.user}
@@ -266,7 +253,7 @@ export default class Projet extends React.Component {
                 {this.createProjectButton()}
                                       
                 
-            </View>
+            </ImageBackground>
         )
     }
 }
@@ -288,51 +275,40 @@ const styles = StyleSheet.create(
        },
        conteneur:
        {
-           flex : 1,        
-             
+           flex : 1,
+          // backgroundColor:"black"          
        },
-       imagepro:{
-           width: 380,
-           height:600
-       },
+       
        containimage:{
            flex : 1,
        },
        titrecarte:
        {
            fontWeight:"bold",
-           textAlign: "center",
-           fontSize:windowWidth/13
+           fontSize:20
        },
        textecarte:
        {
-           fontSize:(windowWidth)/20
+           fontSize:17
        },
        containtcarte:
        {
            flex : 2,
-          
-           
-           
-       },
-       description:
-       {
-           fontFamily: "serif",
-           overflow: "hidden"
+     
        },
        carte:
        {
-        
-           width: windowWidth*0.95,
-           paddingTop:20,
-           height: windowHeight/2.4,
+           paddingTop:5,
+           flex:1,
+           borderRadius:10,
            alignSelf:"center",
+           width:windowWidth,
            marginVertical:10,
            overflow: "hidden",
            paddingHorizontal:10,
            borderColor:"black",
-           borderWidth:1,
-          backgroundColor:"white",
+           backgroundColor:"rgba(255, 255, 255, 0.5)",
+           marginRight:3
           
        },
     }

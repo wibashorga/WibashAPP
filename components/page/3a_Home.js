@@ -136,11 +136,11 @@ class CarteActu extends React.Component
                    <Avatar rounded source={{uri:this.props.pp}} size="medium"/>
             <View style = {{marginLeft:3, flex:3}}>
                 <View style={styles.actu}>
-                <WiText selectable>
-                    {this.props.actu.actu}</WiText>
+                    <WiText selectable>
+                        {this.props.actu.actu}</WiText>
                     </View>
                     <Text style={{alignSelf: "flex-end"}}>{sqlToUserDate(this.props.actu.date)}</Text>
-                    </View>
+                </View>
 
             </View>
         )
@@ -303,14 +303,22 @@ export default class Home extends React.Component {
         }
         
         return(
-            <View style = {styles.categorie}>
 
-            <View style = {styles.Titre}>
-                <Text style = {styles.textetitre} > Actu </Text>
+
+            <View>
+                <View style={styles.Titre}>
                 <TouchableOpacity onPress={()=>load_actus(empty_data, (reponse)=>
                      {this.setState({actus: JSON.parse(reponse)}); console.log(reponse)})}
-                ><Icon name="refresh" type="evilicon" size={35}/></TouchableOpacity>
-            <View style={{height:240}}>
+                ><Icon name="refresh" type="evilicon" size={45}/></TouchableOpacity>
+                <Text style = {styles.textetitre} > Actu </Text>
+                {(this.props.user.niveau<2)?<TouchableOpacity style={styles.bontonActu}
+                    title="AJOUTER UNE ACTU" 
+                    color = "red"
+                    onPress={()=>{this.setState({actuDialogVisible:true})}} 
+                    /*Remplacer par un logo plus */><Icon name="plus" type="evilicon"size={45}/></TouchableOpacity>:null}
+                </View>
+            
+            <View style={{height:300}}>
             
             <FlatList nestedScrollEnabled={true} data={this.state.actus} renderItem={(item)=>
             <CarteActu actu={item.item} pp=
@@ -318,11 +326,7 @@ export default class Home extends React.Component {
             keyExtractor={(actu)=>hashCode(actu.actu+actu.date)} removeClippedSubviews/>
             </View>
             
-                {(this.props.user.niveau<2)?<Button style={styles.bontonActu}
-                    title="AJOUTER UNE ACTU" 
-                    color = "red"
-                    onPress={()=>{this.setState({actuDialogVisible:true})}} 
-                    /*Remplacer par un logo plus *//>:null}
+                
 
 
         <EditDialog visible={this.state.actuDialogVisible} inputCount={1}
@@ -336,7 +340,7 @@ export default class Home extends React.Component {
 
             </View>
 
-    </View>
+
         )
     }
 
@@ -366,8 +370,7 @@ export default class Home extends React.Component {
         
         
         return(
-            <ScrollView style = {{flex:1}}
-            >
+            <ScrollView style = {{flex:1, backgroundColor:"white"}} contentContainerStyle={{backgroundColor:"white"}}>
 
 
                 <Text style={styles.bienvenue}>{message}, {this.props.user.prenom.toUpperCase()}</Text>
@@ -377,63 +380,30 @@ export default class Home extends React.Component {
                             <View style={{flex:3, flexDirection:"row"}}>
                                 {this.projectCard()}
                             </View>
-                            
                             <View style={{flex:4}}>
                                 {this.memberCard()}
                                 {this.eventCard()}
                             </View>
 
                         </View>
+                <View style = {{flex:3, flexDirection:"column"}}>                    
+                        <View style={styles.view_themes}>
+                            <View style={{flexDirection:"row", flex:1}}>
+                                <TouchableOpacity style={{...styles.carte_theme, backgroundColor:"red"}}>
+                                    <Text style={styles.textetheme}>MEMBRES</Text>
+                                    </TouchableOpacity>
 
-                    
-
-
-                <View style = {{flex:3, flexDirection:"column"}}>
-
-                    
+                            <TouchableOpacity style={{...styles.carte_theme, backgroundColor:"rgb(82, 217, 239)"}}
+                            onPress={()=>this.props.navigation.jumpTo("Projet")}>
+                                <Text style={styles.textetheme}>PROJETS</Text>
+                                </TouchableOpacity></View>
+                    <View style={{flex:1}}>
+                            <TouchableOpacity style={{...styles.carte_theme, width:windowWidth, 
+                            backgroundColor:"rgb(250, 190, 14)"}} onPress={()=>this.props.navigation.jumpTo("Agenda")}>
+                                <Text style={styles.textetheme}>EVENEMENTS</Text></TouchableOpacity>
+                            </View>
+                        </View>
                             {this.actuBox()}
-
-
-
-                <View style = {styles.categorie} /* modifier le style*/ >
-
-                        <View style = {styles.Titre}>
-                            <Text style = {styles.textetitre} > Les basheurs : </Text>
-                            
-                        </View>
-
-                        <View style = {{...styles.containtcarte, height:300}}>
-                            <FlatList nestedScrollEnabled={true} data={setListAsPairs(this.state.membres)} keyExtractor={(item)=>
-                            item[0].identifiant}
-                    renderItem= {(item)=><DoubleCarteMembre membres = {item.item} 
-                    navigateToDetails = {(membre)=>this.props.navigation.navigate("ProfilMembre", {membre:membre})}/>}   horizontal = {true}/>
-                       
-
-                        </View>
-                </View>
-
-
-
-
-                <View style = {styles.categorie}>
-
-                        <View style = {styles.Titre}>
-                            {/*<Text style = {styles.textetitre} > EVÈNEMENTS </Text>*/}
-
-                        </View>
-
-                        <View style = {styles.containtcarte}>
-                            {/*<FlatList data={this.state.projets.slice(0,5)} keyExtractor={(item)=>item.ID} 
-                    renderItem= {(item)=><Carte projet = {item.item}/>} horizontal = {true}/>*/}
-                        
-                        </View>
-                </View>
-
-
-               
-
-               
-
 
                     
                 </View>
@@ -467,32 +437,41 @@ const styles = StyleSheet.create(
            backgroundColor:"white",
            padding:2,
            paddingBottom:2,
-       },
-       
-       containtcarte:
-       {
-           flex : 1,
-           margin : 10,
        }, icon:
        {
            marginLeft: 10,
            marginTop: 50,
            alignSelf: "flex-start",
        },
-       textetitreheaders:{
-           //marginTop:-30, 
-           marginLeft:100,
-           marginEnd:60,
-           fontSize:40,
-           color:"white",
-      },
-      headers:{
-          backgroundColor:"red",
-      },
+       Titre:{
+           flex:1, 
+           flexDirection:"row",
+           justifyContent:"space-between",
+           marginTop:10,
+           alignItems:"center",
+           padding:5
+       },
       
       titreCategorie:{
           fontSize:20,
 
+      },
+      view_themes:{
+        alignItems: 'center',
+        justifyContent:"center",
+        marginTop: 20,
+        height:180
+      },
+      carte_theme:{
+            flex:1,
+          alignItems:"center",
+          justifyContent:"center"          
+      },
+      textetheme:{
+          textAlign:"center",
+          color:"white",
+          fontSize:20,
+          fontWeight:'bold',
       },
       Carte:
        {
@@ -528,22 +507,13 @@ const styles = StyleSheet.create(
            //height : 290
            
        },
-       Titre:
-       {
-           //height:50,
-           
-           
-       },
+      
        textetitre:{
-            fontSize:30,
+            fontSize:25,
             color:"black",
             fontWeight:"bold"
        },
-       textetitrestatut:
-       {
-           fontSize:20,
-           color:"black"
-       },
+  
        carte:
        {
            backgroundColor: "white",
@@ -559,17 +529,7 @@ const styles = StyleSheet.create(
             shadowRadius:8.30,
             elevation:14
        },
-       containtcarte:
-       {
-           flex : 1,
-           margin : 10,
-           
-       },
-       Titrecarte:
-       {
-           flex:1,
-           alignItems : 'center',
-       },
+
        textecarte:
        {
            flex:4,
@@ -579,20 +539,16 @@ const styles = StyleSheet.create(
         paddingLeft:5,
            alignSelf: "flex-start",
        },
-       textetitreheaders:{
-           marginTop:-30,
-           marginLeft:100,
-           marginEnd:60,
-           fontSize:10,
-           color:"white",
-      },
+
       actu:
       {
-          backgroundColor:"white",
+          backgroundColor:"papayawhip",
           margin:5,
-          borderRadius:10,
-          padding:6,
-          fontSize:18
+          borderRadius:40,
+          //borderBottomLeftRadius:2,
+          padding:10,
+          fontSize:18,
+          borderWidth:3
       },
      
        

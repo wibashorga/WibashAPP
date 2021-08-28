@@ -1,7 +1,7 @@
 import React from "react";
 import {Text, View} from "react-native";
 
-
+// Vue de Chargement lorsque les identifiants sont stocké par l'application
 export default class Loading extends React.Component
 {
     render()

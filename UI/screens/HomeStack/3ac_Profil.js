@@ -6,9 +6,9 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { Icon, Avatar } from 'react-native-elements';
 import { TextInput } from 'react-native-gesture-handler';
-import {edit_my_account} from '../../API/api_request'
-import {WiSuccesMessage} from "./custom"
-import { SuccessMessage } from './ModalDialog';
+import {edit_my_account} from '../../../API/api_request'
+import {WiSuccesMessage} from "../../custom/custom"
+import { SuccessMessage } from '../../custom/ModalDialog';
 const token = "PPlaFk63u4E6";
 /*
 const messages = ["Bon retour parmi nous, ", "Heureux de vous revoir, ",

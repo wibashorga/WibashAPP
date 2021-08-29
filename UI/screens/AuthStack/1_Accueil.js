@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Image, Text, View, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
-const background = "./ressources/fond.png";
-const logo = "./ressources/logo.png";
+const background = "../../ressources/fond.png";
+const logo = "../../ressources/logo.png";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 // test

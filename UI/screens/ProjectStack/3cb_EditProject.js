@@ -4,12 +4,12 @@ import {Icon}  from "react-native-elements";
 import {Text, View, Dimensions, TouchableOpacity, ScrollView, FlatList, StyleSheet, Modal, Alert} from "react-native";
 import {Button,BottomSheet,ListItem} from "react-native-elements";
 import { TextInput } from "react-native-gesture-handler";
-import { formatPostData } from "./security";
-import { EditDialog } from "./ModalDialog";
-import * as api from "../../API/api_request";
+import { formatPostData } from "../../custom/security";
+import { EditDialog } from "../../custom/ModalDialog";
+import * as api from "../../../API/api_request";
 import { Calendar, LocaleConfig } from "react-native-calendars";
-import {lightBlue, WiText, colors, IdleBackground} from "./custom";
-import {DetailDialog} from "./ModalDialog"
+import {lightBlue, WiText, colors, IdleBackground} from "../../custom/custom";
+import {DetailDialog} from "../../custom/ModalDialog";
 import { set } from "react-native-reanimated";
 
 

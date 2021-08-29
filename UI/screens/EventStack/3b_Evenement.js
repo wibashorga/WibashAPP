@@ -1,16 +1,16 @@
 import React from 'react';
-import Header from "./Header.js";
+import Header from "../../../components/page/Header.js";
 
 
 import {Text, View, Modal, StyleSheet, ScrollView, TouchableOpacity, FlatList,ImageBackground, TextInput, Dimensions} from 'react-native';
 import{Button, Icon} from "react-native-elements";
-import { EditDialog, DetailDialog } from './ModalDialog.js';
+import { EditDialog, DetailDialog } from '../../custom/ModalDialog';
 import {Calendar} from "react-native-calendars"
 import { StatusBar } from 'react-native';
-import * as api from "../../API/api_request";
-import {url} from "../../API/api_table"
-import {formatPostData} from "./security"
-import {lightBlue} from "./custom";
+import * as api from "../../../API/api_request";
+import {url} from "../../../API/api_table"
+import {formatPostData} from "../../custom/security"
+import {lightBlue} from "../../custom/custom";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 

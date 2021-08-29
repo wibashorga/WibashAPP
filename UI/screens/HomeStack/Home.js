@@ -1,15 +1,15 @@
 import React from 'react';
 import {Text, View, Modal, StyleSheet,Dimensions, FlatList, SafeAreaView, ScrollView,Button, Image,StatusBar} from 'react-native';
-import {load_events, load_members, load_projects, load_actus, create_actu} from "../../API/api_request";
-import {url} from "../../API/api_table";
+import {load_events, load_members, load_projects, load_actus, create_actu} from "../../../API/api_request";
+import {url} from "../../../API/api_table";
 import {Avatar, Icon} from "react-native-elements";
-import {formatPostData} from "./security"
 //import image from "./ressources/fondprojet.jpg";
 
-import { EditDialog, LoadingMessage } from './ModalDialog';
+import { EditDialog, LoadingMessage } from '../../custom/ModalDialog';
 import { TouchableOpacity } from 'react-native';
-import { LoadingScreen, sqlToUserDate, WiText } from './custom';
-import { getNotificationToken } from './Notifications';
+import { formatPostData } from "../../custom/security";
+import {sqlToUserDate,LoadingScreen, WiText} from "../../custom/custom"
+import { getNotificationToken } from '../../../components/page/Notifications';
 
 const token = "PPlaFk63u4E6";
 const windowWidth = Dimensions.get("window").width;
@@ -45,81 +45,6 @@ function getMemberPP(membres, id)
     return ""
 }
 
-class Carte extends React.Component
-{
-    constructor(props)
-    {
-        super(props);
-        
-    }
-    render()
-    {
-
-        
-        return(
-            <View style={styles.carte}>
-                <Text style = {{fontWeight:"bold"}}>{this.props.projet.nom}</Text>
-                <WiText>{this.props.projet.description}</WiText>
-                
-            </View>
-        )
-    }
-}
-class DoubleCarteMembre extends React.Component
-{
-    constructor(props)
-    {
-        super(props);
-        this.membre1 = this.props.membres[0];
-        this.membre1.role = ["dev", "administrateur", "membre", "visiteur"][this.membre1.niveau]
-        if (this.props.membres.length==2)
-        {
-            this.membre2 = this.props.membres[1];
-        this.membre2.role = ["dev", "administrateur", "membre", "visiteur"][this.membre2.niveau]
-        }
-        this.state = {loading:false}
-        
-    }
-    memberDescritpion(membre)
-    {
-     let color = ["blue", "red", "pink", "orange"][membre.niveau]
-        return(
-        <TouchableOpacity onPress = {()=>{this.props.navigateToDetails(membre)}} 
-        style={{...styles.CarteMembre, borderColor:color}}>
-          <Image source={{uri:membre.photo_profil||"./ressources/logo.png"}} 
-                style= {{width:100, height:100, alignSelf:"center" , borderRadius:50,margin:5}}></Image>
-            
-        <Text style = {{fontWeight:"bold"}}>{membre.prenom+" "+membre.nom}</Text>
-        <Text  style = {{fontWeight:"bold"}}>Role: </Text>
-        <Text>{membre.role}</Text>
-        <Text  style = {{fontWeight:"bold"}}>Histoire: </Text>
-        <Text numberOfLines={6}>{membre.story}</Text>
-    </TouchableOpacity>
-     )   
-    }
-    render()
-    {
-
-        if (this.props.membres.length==2)
-        {
-        return(
-            <View style={{flexDirection:"row"}}>
-                
-            
-                {this.memberDescritpion(this.membre1)}
-           
-                {this.memberDescritpion(this.membre2)}
-            
-            </View>
-        )}else{
-            return(
-             <View style={styles.CarteMembre}>
-            {this.memberDescritpion(this.membre1)}
-            </View>   
-            )
-        }
-    }
-}
 
 
 class CarteActu extends React.Component
@@ -184,7 +109,7 @@ export default class Home extends React.Component {
     setHeader(){
         this.props.navigation.setOptions({
             title:"WI-BASH", headerShown:true, headerStyle:{backgroundColor:"red"},
-            headerTitleStyle:{color:"white", alignSelf:"center", justifyContent:"center", fontSize:40},
+            headerTitleStyle:{color:"white", alignSelf:"center", justifyContent:"center", fontSize:25},
             headerLeft:()=>(<Icon name = "menu" type = "Entypo" color = "white" iconStyle = {styles.icon}
             onPress={()=>{this.props.navigation.navigate("Profil")}}/>
                 )

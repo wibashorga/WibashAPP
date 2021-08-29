@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet,Alert, Keyboard, Text, View, ImageBackground, TouchableOpacity, Dimensions,TextInput } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import getNotificationToken from "./Notifications.js";
-import * as api from "../../API/api_request";
-import { LoadingMessage } from './ModalDialog.js';
-const background = "./ressources/fond.png";
-const logo = "./ressources/logo.png";
+import getNotificationToken from "../../../components/page/Notifications.js";
+import * as api from "../../../API/api_request";
+import { LoadingMessage } from '../../custom/ModalDialog.js';
+const background = "../../ressources/fond.png";
+const logo = "../../ressources/logo.png";
 const token = "PPlaFk63u4E6";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;

@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, TextInput, ScrollView} from 'react-native';
-import { formatPostData } from './security';
+import { formatPostData } from '../../custom/security';
 import {Icon} from "react-native-elements"
-import {delete_event} from "../../API/api_request"
+import {delete_event} from "../../../API/api_request"
 import {Calendar} from "react-native-calendars"
-import {sqlToUserDate, windowHeight, windowWidth} from "./custom"
-import { LoadingMessage, FailureMessage } from './ModalDialog';
+import {sqlToUserDate, windowHeight, windowWidth} from "../../custom/custom"
+import { LoadingMessage, FailureMessage } from '../../custom/ModalDialog';
 
 
 export default class ModifyEvent extends React.Component

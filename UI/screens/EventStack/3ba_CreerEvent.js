@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet, Platform, Dimensions, TextInput, ScrollView, Alert} from 'react-native';
 import {Button} from "react-native-elements";
-import {LoadingMessage} from "./ModalDialog";
+import {LoadingMessage} from "../../custom/ModalDialog";
 import {Picker} from  "@react-native-picker/picker";
-import { formatPostData } from './security';
+import { formatPostData } from '../../custom/security';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
-import {create_event} from "../../API/api_request"
+import {create_event} from "../../../API/api_request"
 
 
 const token = "PPlaFk63u4E6";

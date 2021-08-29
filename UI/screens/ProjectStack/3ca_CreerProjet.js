@@ -1,9 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet, StatusBar, Dimensions, Switch, TextInput, ScrollView,Platform, TouchableOpacity,Alert} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, Dimensions,Platform, Switch, TextInput, ScrollView, TouchableOpacity,Alert} from 'react-native';
 import {Button} from "react-native-elements"
 import {Picker} from "@react-native-picker/picker";
-import {formatPostData} from "./security";
-import {LoadingMessage} from "./ModalDialog"
+import {formatPostData} from "../../custom/security";
 
 
 const token = "PPlaFk63u4E6";
@@ -29,18 +28,32 @@ function message(titre, phrase)
 }
 
 
-export default class ModifyProject extends React.Component
+export default class NewProject extends React.Component
 {
     constructor(props)
     {
         super(props);
-        this.projet = this.props.route.params.projet;
-        this.state = {type:this.projet.type, level:this.projet.minimal_level,
-    open:this.projet.open,
-loading:false}
+        this.nom = "";
+        this.description = "";
+        this.objectifs = "";
+        this.open = 1;
+        this.state = {type:"Programmation", level:"3",
+    open:true}
     }
     //génère un identifiant aléatoire pour le projet
-    
+    generateID(){
+       let id = null;
+        try{do
+       {
+        id = (Math.random()*1000000).toString();
+        id = id.slice(0,5);
+       }while(this.props.projets.map((p)=>p.ID).indexOf(id)!==-1);
+        return id;}
+        catch(error){
+            return (Math.random()*1000000).toString();
+        }
+
+    }
     generateAvailableLevels(){
         if (this.props.user.niveau==2)
         {
@@ -62,29 +75,26 @@ loading:false}
         }
         return []
     }
-    updateProject()
+    sendProject()
     {
         if (!this.state.type) this.state.type = "Programmation";
-        if(this.projet.nom && this.projet.description && this.projet.objectifs && this.state.type)
+        if(this.nom && this.description && this.objectifs && this.state.type)
         {
-        this.setState({loading:true})
-            let data = new FormData();
-        console.log(this.projet.type)
+        let data = new FormData();
         //this.description = encode_utf8(this.description);
         data.append("token", token);
-    
         data.append("identifiant", this.props.user.identifiant);
         data.append("pass", this.props.user.pass);
-        data.append("id_projet", this.projet.ID);
-        data.append("nom", this.projet.nom);
-        data.append("description", this.projet.description);
-        data.append('objectifs', this.projet.objectifs);
-        data.append("type", this.projet.type);
-        data.append("minimal_level", this.projet.minimal_level);
-        data.append("open", this.projet.open.toString())
+        data.append("id_proj", this.generateID());
+        data.append("nom", this.nom);
+        data.append("description", this.description);
+        data.append('objectifs', this.objectifs);
+        data.append("type", this.type);
+        data.append("minimal_level", this.state.level);
+        data.append("open", this.open.toString())
         data = formatPostData(data);
 
-        fetch('http://www.wi-bash.fr/application/Update/UpdateProject.php', {
+        fetch('https://www.ypepin.com/application/Create/CreaProj.php', {
         method: 'POST',
         headers: {
         Accept: 'multipart/form-data',
@@ -92,17 +102,17 @@ loading:false}
         },
         body: data
         }).then((reponse)=> reponse.text()).then((text) => {
-            this.setState({loading:false})
-            if (text.search("200")!==-1) {
+        if (text.search("200")!==-1) {
             
             this.props.navigation.navigate("projets", {refresh:true});
         }else{
-            
+            message("Oups", 
+            "Nous n'avons pas pu créer votre projet. Vérifiez que ce nom n'existe pas déjà...")
         }
         console.log(text)
             }
             ).catch(
-            (error) => this.setState({loading:false}))
+            (error) => console.log(error))
         }else{
             Alert.alert("Erreur", "Veuillez remplir tous les champs", [
                 {
@@ -119,98 +129,95 @@ loading:false}
         contentContainerStyle={styles.content}
         contentInset = {{left:0, right:0, top:0, bottom:-20}}>
             
-            <LoadingMessage close = {()=>this.setState({loading:false})} visible={this.state.loading} 
-            message="Modifications en cours..."/>
-            <TextInput style = {styles.textinput} defaultValue = {this.projet.nom} 
-            onChangeText = {(text)=>{this.projet.nom = text}} style={{...styles.textinput}}
-            autoCapitalize={"sentences"}
+            
+            <TextInput style = {styles.textinput} placeholder = {"Nom du projet"} 
+            onChangeText = {(text)=>{this.nom = text}} style={{...styles.textinput}}
+            autoCapitalize={"words"}
             ></TextInput>
 
            <View style={(os=="ios")?styles.iospicker:null}>
-
-               
                 <Picker
                     selectedValue={this.state.type}
                     style={{height: 50, width: 250}}
                     onValueChange={(itemValue, itemIndex) =>
-                        {this.setState({type: itemValue}); this.projet.type = itemValue}
+                        this.setState({type: itemValue})
                     }>
                         {types.map((type)=>(
                             <Picker.Item label={type.label} value={type.value} />        
                         ))}
                     
                     </Picker>
-                    </View>
+         </View>
 
 
 
 
-            <View style={(os=="ios")?styles.iosobject:null}>
+
+         <View style={(os=="ios")?styles.iosobject:null} >
 
 
-            <TextInput onChangeText = {(text)=>{this.projet.objectifs = text}}
-            defaultValue = {this.projet.objectifs} style={{...styles.textinput, height:windowHeight/4,
+         <TextInput onChangeText = {(text)=>{this.objectifs = text}}
+            placeholder = {"Objectifs"} style={{...styles.textinput, height:windowHeight/4,
             width:windowWidth*0.95}}
             multiline = {true}/>
                 
             
-                <TextInput defaultValue={this.projet.description} 
+                <TextInput placeholder={"Mon projet en quelques mots"} 
+                placeholderTextColor = {"black"}
                 style={{...styles.textinput, height:windowHeight/3.5,}}
-                 onChangeText = {(text)=>{this.projet.description = text}}
+                 onChangeText = {(text)=>{this.description = text}}
                 multiline={true}>
 
                     
                 </TextInput>
+        <View style={(os=="ios")?styles.iospicker2:null}>
+
+            <View>
+            <Picker style= {styles.openSwitchView}
+                    selectedValue={this.state.level}
+                    style={{height: 50, width: 250}}
+                    onValueChange={(itemValue, itemIndex) =>
+                        this.setState({level: itemValue})
+                    }>
+                        {this.generateAvailableLevels().map((type)=>(
+                            <Picker.Item label={type.label} value={type.value} />        
+                        ))}
+                    
+                    </Picker>
 
             </View>
 
 
-            
-            
-           <View>
-
-               <View style={(os=="ios")?styles.iospicker2:null}>
-                    <Picker
-                            selectedValue={this.state.level}
-                            style={{height: 50, width: 250}}
-                            onValueChange={(itemValue, itemIndex) =>
-                                {this.setState({level: itemValue}); this.projet.minimal_level = itemValue;
-                            }
-                            }>
-                                {this.generateAvailableLevels().map((type)=>(
-                                    <Picker.Item label={type.label} value={type.value} />        
-                                ))}
-                            
-                            </Picker>
-
-               </View>
-
-               <View style={(os=="ios")?styles.iosobject2:null}>
-                        <View style= {styles.openSwitchView}>
-                                {this.state.open?(
-                                <Text>Ouvert{"\n"}
-                                <Text style={{fontSize:12, color:"rgb(100,100,100)"}}>les participants s'inscrivent librement au projet</Text></Text>):
-                                (<Text>Fermé{"\n"}
-                                    <Text style={{fontSize:12, color:"rgb(100,100,100)"}}>seul le chef de projet peut 
-                                    ajouter des participants</Text>
-                                </Text>)}
-                                <Switch onValueChange={(value)=>{this.setState({open:!this.state.open}); this.projet.open = value?1:0}}
-                                value={this.state.open}/>
-                            </View>
-                        </View>
-                            <Button title="Enregistrer les modifcations" buttonStyle={styles.sendbutton} 
-                            onPress = {()=>this.updateProject()} />
-                            
 
 
-               </View>
+            <View style={(os=="ios")?styles.iosobject2:null}>
 
-               <View style={(os=="ios")?styles.margebas:null}>
+            <View>
+               </View>         
+                <View >
+                     {this.state.open?(
+                     <Text>Ouvert{"\n"}
+                     <Text style={{fontSize:12, color:"rgb(100,100,100)"}}>les participants s'inscrivent librement au projet</Text></Text>):
+                     (<Text>Fermé{"\n"}
+                         <Text style={{fontSize:12, color:"rgb(100,100,100)"}}>seul le chef de projet peut 
+                         ajouter des participants</Text>
+                     </Text>)}
+                     <Switch onValueChange={(value)=>{this.setState({open:!this.state.open}); this.open = value?1:0}}
+                     value={this.state.open}/>
+                 </View>
+            </View>
+                <Button title="CREER !" buttonStyle={styles.sendbutton} 
+                onPress = {()=>this.sendProject()} />      
+
+
+
+         </View>
 
             </View>
-            
-                
+            <View style={(os=="ios")?styles.margebas:null}>
 
+            </View>
+           
             
         </ScrollView>
         )
@@ -245,7 +252,6 @@ const styles = StyleSheet.create(
         },
         textinput:
         {
-            height: 23,
             width: windowWidth*0.95,
             height: 30,
             alignSelf: "center",

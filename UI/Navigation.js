@@ -10,30 +10,30 @@ import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import {Dimensions} from "react-native";
-import * as api from "../../API/api_request"
+import * as api from "../API/api_request"
 import {Icon} from 'react-native-elements';
 
 // Vues JS perso
-import Loading from "./loading.js";
+import Loading from "../components/Navigation/loading.js";
 
-import Accueil from '../page/1_Accueil';
-import Home from "../page/3a_Home";
-import DetailsMembre from "../page/3ad_DetailsMembre";
-import Menu from "../page/Menu.js";
-import Reglage from "../page/3ab_Reglage";
-import Profil from "../page/3ac_Profil";
-import Projet from "../page/3c_Projet";
-import Evenement from "../page/3b_Evenement"
-import Important from "../page/Important"
-import CreerCompte from "../page/1b_CreerCompte";
-import Identification from '../page/2_Identification';
-import EditProject from "../page/3cb_EditProject.js";
-import NewProject from '../page/3ca_CreerProjet.js';
-import NewEvent from '../page/3ba_CreerEvent.js';
-import ModifyEvent from "../page/3bb_ModifyEvent.js";
-import ModifyTask from "../page/3cba_ModifyTask.js";
-import ModifyProject from "../page/ModifyProject"; 
-import { getNotificationToken } from '../page/Notifications';
+import Accueil from './screens/AuthStack/1_Accueil';
+import Home from "./screens/HomeStack/Home";
+import DetailsMembre from "./screens/HomeStack/DetailsMembre";
+import Menu from "../components/page/Menu.js";
+import Reglage from "./screens/HomeStack/3ab_Reglage";
+import Profil from "./screens/HomeStack/3ac_Profil";
+import Projet from "./screens/ProjectStack/3c_Projet";
+import Evenement from "./screens/EventStack/3b_Evenement"
+import Important from "./screens/VoteStack/Important"
+import CreerCompte from "./screens/AuthStack/1b_CreerCompte";
+import Identification from './screens/AuthStack/2_Identification';
+import EditProject from "./screens/ProjectStack/3cb_EditProject.js";
+import NewProject from './screens/ProjectStack/3ca_CreerProjet.js';
+import NewEvent from './screens/EventStack/3ba_CreerEvent.js';
+import ModifyEvent from "./screens/EventStack/3bb_ModifyEvent.js";
+import ModifyTask from "./screens/ProjectStack/3cba_ModifyTask.js";
+import ModifyProject from "./screens/ProjectStack/ModifyProject"; 
+import { getNotificationToken } from '../components/page/Notifications';
 
 /// Ensemble des Variables
 

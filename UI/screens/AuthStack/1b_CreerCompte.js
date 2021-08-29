@@ -2,8 +2,8 @@ import React from 'react';
 import { StyleSheet, Keyboard, Alert, Text, View, ImageBackground, TouchableOpacity, Dimensions,TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
-const background = "./ressources/fond.png";
-const logo = "./ressources/logo.png";
+const background = "../../ressources/fond.png";
+const logo = "../../ressources/logo.png";
 const token = "PPlaFk63u4E6";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;

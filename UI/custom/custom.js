@@ -147,7 +147,7 @@ class WiCard extends React.Component
 export function IdleBackground(){
   return (
     <View style={styles.idle}>
-      <Image source = {require("./ressources/idle.jpg")} style={styles.idleImage}/>
+      <Image source = {require("../ressources/idle.jpg")} style={styles.idleImage}/>
     </View>
   )
 }

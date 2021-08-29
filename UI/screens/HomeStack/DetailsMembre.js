@@ -1,10 +1,9 @@
 import React from 'react';
 
-import {colors, windowHeight, windowWidth} from "./custom"
-import {WiText} from "./custom"
+import {WiText,colors, windowHeight, windowWidth} from "../../custom/custom"
 import {Text, View, Modal, Button, Image, StyleSheet} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import {update_member} from "../../API/api_request"
+import {update_member} from "../../../API/api_request"
 //import {Button} from "react-native-elements";
 //import { colors } from 'react-native-elements';
 const token = "PPlaFk63u4E6";

@@ -20,5 +20,4 @@ export function formatPostData(data)
         }
     }
     return newData;
-    
 }

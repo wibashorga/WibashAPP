@@ -1,8 +1,8 @@
 import React from 'react';
 import {Icon} from "react-native-elements";
 import {Text, View, Modal, Dimensions, StyleSheet, ScrollView, TouchableOpacity, FlatList,Image,Button,SafeAreaView, ImageBackground} from 'react-native';
-import {load_projects, load_project_workers, load_tasks} from "../../API/api_request";
-import {WiText} from "./custom"
+import {load_projects, load_project_workers, load_tasks} from "../../../API/api_request";
+import {WiText} from "../../custom/custom"
 import * as Font from "expo-font";
 const token = "PPlaFk63u4E6";
 const windowWidth = Dimensions.get("window").width;

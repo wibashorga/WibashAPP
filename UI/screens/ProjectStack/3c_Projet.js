@@ -111,9 +111,9 @@ export default class Projet extends React.Component {
     }
     // cette fonction récupère la liste des projets depuis l'API
     //et le stocke dans ths.state.projets
-    importProjects ()
+    importProjects (force=false)
     {
-        if (this.props.navigation.isFocused())
+        if (this.props.navigation.isFocused()||force)
         {
         let data = new FormData();
         data.append("token", token);
@@ -222,7 +222,7 @@ export default class Projet extends React.Component {
             this.importProjects();
         }, 20000);
 
-        this._unsuscribeEvent = this.props.navigation.addListener("willFocus", ()=>{console.log("Focus"); this.importProjects(); });
+        this._unsuscribeEvent = this.props.navigation.addListener("focus", ()=>{console.log("Focus"); this.importProjects(true); });
         
         
     }

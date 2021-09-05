@@ -461,6 +461,7 @@ constructor(props){
         data.append("id_projet", this.projet.ID);
         api.load_project_workers(data, (json)=>{
             json = JSON.parse(json);
+            this.props.route.params.projet.mine = json.find((i)=>i.identifiant==this.props.user.identifiant)!=null
             if (this.props.route.params.projet.mine) {
                 this.role = json.find((w)=>w.identifiant==this.props.user.identifiant).role
                 this.setHeader()

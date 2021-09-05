@@ -50,7 +50,7 @@ function Members(props) {
             <Text selectable style={{color:"blue", fontStyle:"italic"}}>{membre.mail+" \n"}</Text>
 
         <Text>Mon crédo : {membre.phrase+"\n\n"}</Text>
-        <Text>{membre.story}</Text>
+        <Text>{membre.story||""}</Text>
 
         </Text>
             {/*this.adminInfo()*/}

@@ -4,6 +4,7 @@ import {Text, View, Modal, Dimensions, StyleSheet, ScrollView, TouchableOpacity,
 import {load_projects, load_project_workers, load_tasks} from "../../../API/api_request";
 import {WiText} from "../../custom/custom"
 import * as Font from "expo-font";
+import { ActivityIndicator } from 'react-native';
 const token = "PPlaFk63u4E6";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -235,7 +236,7 @@ export default class Projet extends React.Component {
      return(
             <ImageBackground style = {styles.conteneur}>               
 
-                <View style = {styles.containtcarte}>
+               {this.state.projets?<View style = {styles.containtcarte}>
                     <FlatList 
                         data={this.state.projets} 
                         keyExtractor={(item)=>item.ID} 
@@ -249,8 +250,8 @@ export default class Projet extends React.Component {
                             this.unselect(item)
                         }
                         police={this.state.fontsLoaded?"Montserrat":""}/> } 
-                        horizontal = {false} extraData={this.state}/>
-                </View>
+                        horizontal = {false}/>
+                </View>:<ActivityIndicator size={45} color="white"/>}
 
                 {this.createProjectButton()}
                                       

@@ -434,7 +434,7 @@ authentification(){
       
       <Tab.Navigator tabBarPosition="bottom" 
       initialRouteName = {'Home'} 
-      lazy = {!membres.length} 
+       
       initialLayout = {{ width: Dimensions.get('window').width }} 
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {

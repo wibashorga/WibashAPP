@@ -33,6 +33,7 @@ import NewEvent from './screens/EventStack/3ba_CreerEvent.js';
 import ModifyEvent from "./screens/EventStack/3bb_ModifyEvent.js";
 import ModifyTask from "./screens/ProjectStack/3cba_ModifyTask.js";
 import ModifyProject from "./screens/ProjectStack/ModifyProject"; 
+import MembersScreen from "./screens/HomeStack/Membres"
 import { getNotificationToken } from '../components/page/Notifications';
 
 /// Ensemble des Variables
@@ -45,7 +46,7 @@ const token = "PPlaFk63u4E6";
 
 // ?
 const Stack = createStackNavigator(), StackLoading = createStackNavigator();
-const Tab = createMaterialTopTabNavigator();
+const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 /// Fin Ensemble des Variables
 
@@ -297,6 +298,7 @@ class Navigation extends React.Component{
 
                 <Stack.Screen name="Profil" component={ProfilScreen}/>
                 <Stack.Screen name="ProfilMembre" component={ProfilMembreScreen} />
+                <Stack.Screen name="Membres" component={MembersScreen} />
         </Stack.Navigator>
       )
   }

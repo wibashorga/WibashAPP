@@ -93,7 +93,7 @@ export default class CreerCompte extends React.Component
         data.append("pseudo", this.pseudo);
         data.append("nom", this.nom);
         data.append("prenom", this.prenom);
-        if (this.mail)data.append("mail", this.mail);
+        data.append("mail", this.mail || "");
         fetch('http://www.wi-bash.fr/application/Create/CreaCompte.php', {
         method: 'POST',
         headers: {

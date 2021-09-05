@@ -99,7 +99,7 @@ export default class Projet extends React.Component {
         }
         this.dataImported = false;
     
-        this.props.navigation.addListener("focus", ()=>this.importProjects());
+        
         
         if (this.props.route.params) 
         {
@@ -221,13 +221,14 @@ export default class Projet extends React.Component {
             this.importProjects();
         }, 20000);
 
-
+        this._unsuscribeEvent = this.props.navigation.addListener("willFocus", ()=>{console.log("Focus"); this.importProjects(); });
         
         
     }
 
     componentWillUnmount(){
         clearInterval(this.intervalID)
+        this._unsuscribeEvent( )
     }
     render()
     {
@@ -248,7 +249,7 @@ export default class Projet extends React.Component {
                             this.unselect(item)
                         }
                         police={this.state.fontsLoaded?"Montserrat":""}/> } 
-                        horizontal = {false}/>
+                        horizontal = {false} extraData={this.state}/>
                 </View>
 
                 {this.createProjectButton()}

@@ -314,7 +314,8 @@ export default class Home extends React.Component {
                 <View style = {{flex:3, flexDirection:"column"}}>                    
                         <View style={styles.view_themes}>
                             <View style={{flexDirection:"row", flex:1}}>
-                                <TouchableOpacity style={{...styles.carte_theme, backgroundColor:"red"}}>
+                                <TouchableOpacity style={{...styles.carte_theme, backgroundColor:"red"}} 
+                                onPress={()=>this.props.navigation.navigate("Membres", {user:this.props.user})}>
                                     <Text style={styles.textetheme}>MEMBRES</Text>
                                     </TouchableOpacity>
 

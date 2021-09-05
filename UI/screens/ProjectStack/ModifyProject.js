@@ -84,7 +84,7 @@ loading:false}
         data.append("open", this.projet.open.toString())
         data = formatPostData(data);
 
-        fetch('http://www.wi-bash.fr/application/Update/UpdateProject.php', {
+        fetch('https://www.ypepin.com/application/Update/UpdateProject.php', {
         method: 'POST',
         headers: {
         Accept: 'multipart/form-data',
@@ -97,7 +97,7 @@ loading:false}
             
             this.props.navigation.navigate("projets", {refresh:true});
         }else{
-            
+            console.log("Modifier projet "+text)
         }
         console.log(text)
             }

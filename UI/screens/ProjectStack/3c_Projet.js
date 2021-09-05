@@ -80,7 +80,7 @@ class Carte extends React.Component
                 </View>
                     
                     <Text numberOfLines={3}>
-                        <WiText>{this.props.projet.objectifs+"\n"} </WiText>  
+                        <WiText>{this.props.objectifs+"\n"} </WiText>  
                     </Text>
                 
                 </View>
@@ -221,6 +221,7 @@ export default class Projet extends React.Component {
             this.importProjects();
         }, 20000);
 
+
         
         
     }
@@ -238,7 +239,7 @@ export default class Projet extends React.Component {
                         data={this.state.projets} 
                         keyExtractor={(item)=>item.ID} 
                         numColumns={1}
-                        renderItem= {(item)=><Carte projet = {item.item} 
+                        renderItem= {(item)=><Carte projet = {item.item} objectifs = {item.item.objectifs}
                         navigation={this.props.navigation} membres={this.props.membres}
                         user={this.props.user}
                         select = {()=>this.select(item)                            

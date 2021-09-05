@@ -47,7 +47,7 @@ export class EditDialog extends React.Component{
 
                 <TextInput placeholder = {this.props.firstPlaceholder || ""} 
                 onChangeText={(text)=>this.props.firstInputHandler(text)}
-                style={styles.input} maxLength ={this.props.firstInputMaxLength||300}></TextInput>
+                style={styles.input} maxLength ={this.props.firstInputMaxLength||400}></TextInput>
                 
                 <TextInput placeholder = {this.props.secondPlaceholder?this.props.secondPlaceholder:""}
                 onChangeText={(text)=>this.secondInputHandler(text)}
@@ -82,9 +82,9 @@ export class EditDialog extends React.Component{
                </TouchableOpacity>
 
                 <TextInput placeholder = {this.props.firstPlaceholder || ""} 
-                style={styles.textinput}
+                style={styles.textinput} numberOfLines={5}
                 onChangeText={(text)=>this.props.firstInputHandler(text)} multiline={true}
-                style={styles.input} maxLength ={this.props.firstInputMaxLength||300}></TextInput>
+                style={styles.input} maxLength ={this.props.firstInputMaxLength||400}></TextInput>
                 
                 
                 <Button title = {this.props.editButtonTitle || "Editer"} onPress = {()=>{
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
         height:windowHeight/2.7
     },
     editButton:{
-        height:windowHeight/15,
+        maxHeight:windowHeight/15,
         marginBottom:10
     },
     

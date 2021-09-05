@@ -5,7 +5,7 @@ import {Text, View, Dimensions, TouchableOpacity, ScrollView, FlatList, StyleShe
 import {Button,BottomSheet,ListItem} from "react-native-elements";
 import { TextInput } from "react-native-gesture-handler";
 import { formatPostData } from "../../custom/security";
-import { EditDialog } from "../../custom/ModalDialog";
+import { EditDialog, LoadingMessage } from "../../custom/ModalDialog";
 import * as api from "../../../API/api_request";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import {lightBlue, WiText, colors, IdleBackground} from "../../custom/custom";
@@ -290,7 +290,7 @@ constructor(props){
             memos:[],
             workerOptions:false, calendarVisible:false,
         meetingDate:null, numberOfLines:15,
-        createMemoDialog: false, updateMemo:0,
+        createMemoDialog: false, loadingMemos:false,
         selectedTheme:"participants"};
 
         this.nomtache ='';//nom de la tache qu'on va créer
@@ -317,7 +317,7 @@ constructor(props){
                  paddingRight: windowWidth/9
              }, headerRight:()=> this.projet.mine?(
                  <TouchableOpacity onPress={()=>
-                    this.setState({bottomSheetVisible:!this.state.bottomSheetVisible})}><Icon name="plus" type="evilicon"  iconStyle={{marginRight:10}} size={30}
+                    this.setState({bottomSheetVisible:!this.state.bottomSheetVisible})}><Icon name="plus" type="evilicon"  iconStyle={{marginRight:10}} size={45}
                  /></TouchableOpacity>):null})
                  
              }
@@ -352,7 +352,7 @@ constructor(props){
                      {title:"Ajouter un participant",
                      onPress:()=>{}},
                      {title:"Editer une note à l'équipe",
-                     onPress:()=>{close(); this.setState({createMemoDialog})}},
+                     onPress:()=>{close(); this.setState({createMemoDialog:true})}},
                      {title:"Quitter le projet",
                      onPress:()=>{close();
                     this.quitProject()}},
@@ -489,10 +489,10 @@ sendWorkerStatus(id_membre, role)
             }
         }
 
-        importMemos(){
-            
+        importMemos(showMessage=false){
+            if(showMessage) this.setState({loadingMemos:true})
     api.load_memos_from_project({identifiant:this.props.user.identifiant, pass:this.props.user.pass, 
-        id_projet: this.projet.ID}, (text)=>{this.setState({memos:JSON.parse(text), updateMemo:this.state.updateMemo+1})})
+        id_projet: this.projet.ID}, (text)=>{this.setState({memos:JSON.parse(text), loadingMemos:false})})
         }
     /**fonction qui permet de créer une tache dans la base de données */
     sendTask(){
@@ -658,7 +658,7 @@ sendWorkerStatus(id_membre, role)
              data.append("pass", this.props.user.pass)
              data.append("contenu", this.memo)
              data.append("id_projet", this.projet.ID)
-             api.create_memo(data, (text)=>console.log(text))
+             api.create_memo(data, (text)=>this.importMemos(true))
              this.setState({createMemoDialog:false})
              this.memo = "";
 
@@ -888,7 +888,7 @@ memoView()
             <FlatList data={this.state.memos}
                 keyExtractor={item=>item.contenu}
             renderItem={(item)=>
-                <CarteMemo memo={item.item} user={this.props.user} isChef={this.role=="Chef de projet"} updateMemos={()=>this.importMemos()}/>}
+                <CarteMemo memo={item.item} user={this.props.user} isChef={this.role=="Organisateur"} updateMemos={()=>this.importMemos(true)}/>}
                 ></FlatList>
         )}
         return(
@@ -970,9 +970,9 @@ render(props){
             <EditDialog visible={this.state.createMemoDialog} inputCount={1}
             firstInputHandler={(text)=>{this.memo=text}} close={()=>this.setState({createMemoDialog:false})}
             editButtonTitle="Publier la note" firstPlaceholder="Quoi de neuf dans le projet ?"
-            editAction={()=>{this.createMemo()}}/>
+            editAction={()=>{this.createMemo()}} firstInputMaxLength={500}/>
 
-
+            <LoadingMessage message="Mise à jour" visible={this.state.loadingMemos}/>
             </ScrollView>
             <BottomSheet
                         isVisible={this.state.bottomSheetVisible}

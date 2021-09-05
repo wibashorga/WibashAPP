@@ -276,7 +276,7 @@ const styles = StyleSheet.create(
        conteneur:
        {
            flex : 1,
-          // backgroundColor:"black"          
+          backgroundColor:"black"          
        },
        
        containimage:{

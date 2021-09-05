@@ -98,7 +98,7 @@ export default class Profil extends React.Component {
                 if (reponse.indexOf("200")!==-1) {
                     console.log(reponse);
                     this.temoin = this.user;
-                    this.setState({nom:false, prenom:false, role:false, identifiant:false, pass:false, story:false});
+                    this.setState({nom:false, prenom:false, role:false, identifiant:false, pass:false, story:false, mail:false});
                     this.props.setUser(this.user);
                     this.setState({success:true})
                 }else{console.log("Echec")}
@@ -115,7 +115,7 @@ export default class Profil extends React.Component {
         //console.log('bouton') //debug
         let stateEntries = Object.entries(this.state);
         let valuesToChange = [];
-        if (this.state.nom || this.state.prenom || this.state.story || this.state.identifiant || this.state.pass || this.state.role) {
+        if (this.state.nom || this.state.prenom || this.state.story || this.state.identifiant || this.state.pass || this.state.role || this.state.mail) {
             for (let [key, val] of stateEntries) {
                 if (val === true) {
                     valuesToChange.push(key);

@@ -889,7 +889,7 @@ memoView()
             <FlatList data={this.state.memos}
                 keyExtractor={item=>item.contenu}
             renderItem={(item)=>
-                <CarteMemo memo={item.item} user={this.props.user} isChef={this.role=="Organisateur"} updateMemos={()=>this.importMemos(true)}/>}
+                <CarteMemo memo={item.item} user={this.props.user} isChef={["Organisateur", "Chef de projet"].includes(this.role)} updateMemos={()=>this.importMemos(true)}/>}
                 ></FlatList>
         )}
         return(

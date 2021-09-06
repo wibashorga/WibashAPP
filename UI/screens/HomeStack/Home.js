@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Modal, StyleSheet,Dimensions, FlatList, SafeAreaView, ScrollView,Button, Image,StatusBar} from 'react-native';
+import {Text, View, Modal, StyleSheet,Dimensions, FlatList, ActivityIndicator, ScrollView,Button, Image,StatusBar} from 'react-native';
 import {load_events, load_members, load_projects, load_actus, create_actu} from "../../../API/api_request";
 import {url} from "../../../API/api_table";
 import {Avatar, Icon} from "react-native-elements";
@@ -245,10 +245,11 @@ export default class Home extends React.Component {
             
             <View style={{height:300}}>
             
-            <FlatList nestedScrollEnabled={true} data={this.state.actus} renderItem={(item)=>
+            {this.state.actus.length?<FlatList nestedScrollEnabled={true} data={this.state.actus} renderItem={(item)=>
             <CarteActu actu={item.item} pp=
             {this.state.membres && getMemberPP([...this.state.membres, this.props.user], item.item.id_membre)||""}/>}
-            keyExtractor={(actu)=>hashCode(actu.actu+actu.date)} removeClippedSubviews/>
+            keyExtractor={(actu)=>hashCode(actu.actu+actu.date)} removeClippedSubviews/>:
+            <ActivityIndicator size={25} color={"black"}/>}
             </View>
             
                 

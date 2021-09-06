@@ -55,7 +55,7 @@ function Members(props) {
         </Text>
             {/*this.adminInfo()*/}
            
-            </ScrollView>:<ActivityIndicator size={25}/>}</View>
+            </ScrollView>:<ActivityIndicator size={25} color={"black"}/>}</View>
      <View style={styles.bottomView}> 
      <FlatList horizontal data={members} keyExtractor={item=>item.identifiant} renderItem={(item)=><MemberCard membre={item.item}
      setMember = {(m)=>{

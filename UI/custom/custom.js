@@ -59,14 +59,13 @@ export class WiText extends React.Component
 {
   constructor(props){
     super(props)
-    this.text = this.props.children
     this.state = {fontsLoaded:false, police:""}
-    this.split()
     
     
   }
-  split()
+  split(text)
   {
+    this.text = text
     let customizable = false;
 
     
@@ -99,7 +98,8 @@ export class WiText extends React.Component
       if (i<boldText.length) flattened.push(boldText[i])
     }
     this.text = flattened
-    }
+  }
+  return this.text
 
   }
   /*async loadFonts() {
@@ -115,7 +115,7 @@ export class WiText extends React.Component
        
      return(
        <Text dataDetectorType="all" style={this.props.style||{fontFamily:this.state.police}} selectable={true}>
-         {this.text}
+         {this.split(this.props.children)}
        </Text>
      )
    }

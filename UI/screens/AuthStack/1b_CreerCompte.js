@@ -134,7 +134,9 @@ export default class CreerCompte extends React.Component
    Keyboard.dismiss();
   }
     
-     
+  componentDidMount(){
+    Alert.alert("Prière...", "Vous êtes bienvenu dans notre magnifique application 😊.\nPour créer votre compte mettez vos vrais nom et prénom pour accéder à toutes les fonctionnalités.")
+  }  
     
  render()
   {

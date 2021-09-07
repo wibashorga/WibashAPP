@@ -87,7 +87,8 @@ const styles = StyleSheet.create({
       backgroundColor: "white",
       paddingTop:5,
       paddingHorizontal:3,
-      marginBottom:20
+      marginBottom:20,
+
       
   },
   image: {width:windowWidth/2, 

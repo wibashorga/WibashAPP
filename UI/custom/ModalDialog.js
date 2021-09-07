@@ -45,7 +45,7 @@ export class EditDialog extends React.Component{
                <Text style={{alignSelf: "flex-end", marginRight:10, fontSize:18}}>X</Text> 
                </TouchableOpacity>
 
-                <TextInput placeholder = {this.props.firstPlaceholder || ""} 
+                <TextInput placeholder = {this.props.firstPlaceholder || ""} defaultValue={this.props.firstDefaultValue}
                 onChangeText={(text)=>this.props.firstInputHandler(text)}
                 style={styles.input} maxLength ={this.props.firstInputMaxLength||400}></TextInput>
                 
@@ -82,7 +82,7 @@ export class EditDialog extends React.Component{
                </TouchableOpacity>
 
                 <TextInput placeholder = {this.props.firstPlaceholder || ""} 
-                style={styles.textinput} numberOfLines={5}
+                style={styles.textinput} numberOfLines={5} defaultValue = {this.props.firstDefaultValue}
                 onChangeText={(text)=>this.props.firstInputHandler(text)} multiline={true}
                 style={styles.input} maxLength ={this.props.firstInputMaxLength||400}></TextInput>
                 

@@ -157,12 +157,12 @@ export default class NewProject extends React.Component
 
 
          <TextInput onChangeText = {(text)=>{this.objectifs = text}}
-            placeholder = {"Objectifs"} style={{...styles.textinput, height:windowHeight/4,
+            placeholder = {"Objectifs. Soyez concis, decrivez quelle est la finalité du projet..."} style={{...styles.textinput, height:windowHeight/4,
             width:windowWidth*0.95}}
             multiline = {true}/>
                 
             
-                <TextInput placeholder={"Mon projet en quelques mots"} 
+                <TextInput placeholder={"Description du projet. Quel sont les partenaires, les enjeux du projet, les compétences mises en oeuvre..."} 
                 placeholderTextColor = {"black"}
                 style={{...styles.textinput, height:windowHeight/3.5,}}
                  onChangeText = {(text)=>{this.description = text}}

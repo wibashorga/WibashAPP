@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, Modal, StyleSheet,Dimensions, FlatList, ActivityIndicator, ScrollView,Button, Image,StatusBar} from 'react-native';
-import {load_events, load_members, load_projects, load_actus, create_actu} from "../../../API/api_request";
+import {load_events, load_members, load_projects, load_actus, create_actu, update_actu} from "../../../API/api_request";
 import {url} from "../../../API/api_table";
 import {Avatar, Icon} from "react-native-elements";
 //import image from "./ressources/fondprojet.jpg";
@@ -23,18 +23,7 @@ empty_data.append("empty", "data")//on leur passe en paramètre un corps vide em
 On y voit le résumé des informations les plus importantes sur les projets et les membres
 ihyviuvbpvboob
 */
-function setListAsPairs(array)
-{
-    let l = [];
-    let max = (array.length%2 == 0)?array.length-1:array.length-2;
-    let i;
-    for (i = 1; i <= max; i+=2)
-    {
-        l.push([array[i-1], array[i]])
-    }
-    if (i===array.length) l.push([array[array.length-1]])
-    return l;
-}
+
 const hashCode = function(s){
     return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0).toString();              
   }
@@ -46,26 +35,53 @@ function getMemberPP(membres, id)
 }
 
 
-
 class CarteActu extends React.Component
 {
-    constructor(props)
-    {
-        super(props); 
-          
+    constructor(props){super(props);
+    this.state ={editVisible:false}
+    this.actuContent = props.actu.actu
     }
-    render()
-    { 
-        return(
-            <View style={{flexDirection:"row",backgroundColor:"rgb(255,255,255)"}}>
-                   <Avatar rounded source={{uri:this.props.pp}} size="medium"/>
-            <View style = {{marginLeft:3, flex:3}}>
+    bulleActu(){
+        if (this.props.modify_actu)
+        {
+            return(
+                <TouchableOpacity style = {{marginLeft:3, flex:3}} onLongPress={()=>this.setState({editVisible:true})}>
                 <View style={styles.actu}>
                     <WiText selectable>
                         {this.props.actu.actu}</WiText>
                     </View>
                     <Text style={{alignSelf: "flex-end"}}>{sqlToUserDate(this.props.actu.date)}</Text>
+                </TouchableOpacity>
+            )
+        }return(
+            <View style = {{marginLeft:3, flex:3}}>
+            <View style={styles.actu}>
+                <WiText selectable>
+                    {this.props.actu.actu}</WiText>
                 </View>
+                <Text style={{alignSelf: "flex-end"}}>{sqlToUserDate(this.props.actu.date)}</Text>
+            </View>
+        )
+    }
+
+    render()
+    { 
+        return(
+            <View style={{flexDirection:"row",backgroundColor:"rgb(255,255,255)"}}>
+                   <Avatar rounded source={{uri:this.props.pp}} size="medium"/>
+           
+                {this.bulleActu()}
+                
+                <EditDialog visible={this.state.editVisible} inputCount={1}
+                    firstInputHandler={(text)=>{this.actuContent=text}} close={()=>this.setState({editVisible:false})}
+                            editButtonTitle="Modifier l'actu" firstPlaceholder="Quelle bonne nouvelle allez-vous annoncer ?"
+                            firstDefaultValue = {this.props.actu.actu}
+                            editAction={()=>{
+                                if (this.actuContent)
+                                {this.props.modify_actu(this.actuContent)
+                            this.setState({actuDialogVisible:false})
+                        this.actuContent=""}}}/>
+
 
             </View>
         )
@@ -220,12 +236,6 @@ export default class Home extends React.Component {
 
     actuBox()
     {
-        if (this.state.actus===[])
-        {
-            return(
-                <LoadingScreen/>
-            )
-        }
         
         return(
 
@@ -233,7 +243,7 @@ export default class Home extends React.Component {
             <View>
                 <View style={styles.Titre}>
                 <TouchableOpacity onPress={()=>load_actus(empty_data, (reponse)=>
-                     {this.setState({actus: JSON.parse(reponse)}); console.log(reponse)})}
+                     {this.setState({actus: JSON.parse(reponse)});})}
                 ><Icon name="refresh" type="evilicon" size={45}/></TouchableOpacity>
                 <Text style = {styles.textetitre} > Actu </Text>
                 {(this.props.user.niveau<2)?<TouchableOpacity style={styles.bontonActu}
@@ -244,11 +254,17 @@ export default class Home extends React.Component {
                 </View>
             
             <View style={{height:300}}>
-            
-            {this.state.actus.length?<FlatList nestedScrollEnabled={true} data={this.state.actus} renderItem={(item)=>
-            <CarteActu actu={item.item} pp=
-            {this.state.membres && getMemberPP([...this.state.membres, this.props.user], item.item.id_membre)||""}/>}
-            keyExtractor={(actu)=>hashCode(actu.actu+actu.date)} removeClippedSubviews/>:
+
+            {/*Liste des actus*/} 
+            {this.state.actus.length?
+            <FlatList nestedScrollEnabled={true} data={this.state.actus} renderItem={(item)=>
+                        <CarteActu actu={item.item} pp=
+                        {this.state.membres && getMemberPP([...this.state.membres, this.props.user], item.item.id_membre)||""}
+                        modify_actu = {this.state.user.niveau<2?(content)=>update_actu({identifiant:this.state.user.identifiant, pass:this.state.user.pass,
+                        id_membre:item.item.id_membre, date:item.item.date, new_actu:content}, (reponse)=> load_actus(empty_data, (reponse)=>
+                        {this.setState({actus: JSON.parse(reponse)})})):null}
+                        />}
+                        keyExtractor={(actu)=>hashCode(actu.actu+actu.date)} removeClippedSubviews/>:
             <ActivityIndicator size={25} color={"black"}/>}
             </View>
             
@@ -324,6 +340,7 @@ export default class Home extends React.Component {
                             onPress={()=>this.props.navigation.jumpTo("Projet")}>
                                 <Text style={styles.textetheme}>PROJETS</Text>
                                 </TouchableOpacity></View>
+                    
                     <View style={{flex:1}}>
                             <TouchableOpacity style={{...styles.carte_theme, width:windowWidth, 
                             backgroundColor:"rgb(250, 190, 14)"}} onPress={()=>this.props.navigation.jumpTo("Agenda")}>

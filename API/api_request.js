@@ -181,3 +181,7 @@ post_request(url.ypepin.update.update_member.url, args, success_callback, fail_c
 
 export const update_memo =  (args, success_callback, fail_callback) => 
 post_request(url.ypepin.update.update_memo.url, args, success_callback, fail_callback)
+
+export const update_actu =  (args, success_callback, fail_callback) => 
+post_request(url.ypepin.update.update_actu.url, args, success_callback, fail_callback)
+

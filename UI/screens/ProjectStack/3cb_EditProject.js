@@ -152,10 +152,7 @@ class CarteTaches extends React.Component{
         super(props);
         this.state= {visible:false, achieved:this.props.task.achieved=="1"}
         this.closeDialog = ()=>{this.setState({visible:false})}
-        
-
     }
-
     render()
     {
         let achieved = this.state.achieved
@@ -166,9 +163,7 @@ class CarteTaches extends React.Component{
             bg_color="red";
             textColor = "white"
         }
-        if(achieved) {
-            bg_color=colors.green
-        }
+        if(achieved) bg_color=colors.green
 
         return(
             <TouchableOpacity style = {{...
@@ -486,7 +481,7 @@ sendWorkerStatus(id_membre, role)
             {
             let data = new FormData();
             data.append("id_proj", this.projet.ID)
-            api.load_tasks(data, (reponse)=>{console.log("tasks", reponse);this.setState({tasks:JSON.parse(reponse)})})
+            api.load_tasks(data, (reponse)=>{this.setState({tasks:JSON.parse(reponse)})})
             }
         }
 
@@ -720,8 +715,6 @@ sendWorkerStatus(id_membre, role)
             this.setState({suggestions:reponse})}).catch((error)=>console.log(error))
             
         }
-       
-
 
     //ouvre la boite de dialogue qui permet de créer une suggestion
     openSuggestionDialog()
@@ -800,10 +793,23 @@ addSuggestionDialog()
 /**
  * Ci-dessous les composants visuels 
  */
-memberView()
+
+theme_item(theme, item_title)
 {
-    if (this.state.selectedTheme=="participants")  
-    {      
+    theme = theme == this.state.selectedTheme ? "":theme
+    return(
+    <View>
+        <TouchableOpacity style={styles.theme_item_view} onPress={()=>{this.setState({selectedTheme:theme})
+                this.importTasks(); this.importSuggestions(); this.importWorkers(); this.importMemos();}}
+                onLongPress={()=>{if (theme=="idees") this.openSuggestionDialog()
+                if (theme == "notes") this.setState({createMemoDialog:true})}} >
+                <Text style={styles.theme_item}>{">"} {item_title} </Text>
+        </TouchableOpacity>
+    </View>)
+}
+
+memberView()
+   {
     return (
             <View style={styles.memberView}>
                 <Text style={{alignSelf:"center", fontWeight:"bold"}}>PARTICIPANTS : </Text>
@@ -821,44 +827,57 @@ memberView()
 
             </View>
         )
-    }else return null;
+  
     }
 
 taskView()
 {
-    if (this.state.selectedTheme=="taches" && this.projet.mine)
+    if (this.projet.mine)
     {
-        if (this.state.tasks)
+       if (this.state.selectedTheme=="taches") 
+       { 
+       if (this.state.tasks)
         {
+        
         return (
-            <View style={{flex:2, height:windowHeight/2}}>
-                <Text style={{alignSelf:"center", fontWeight:"bold", margin:5}}>TACHES : </Text>
+            <View>
+                 {this.theme_item("taches", "Taches")}
+            <View style={{maxHeight:windowHeight*0.5}}>
             <FlatList nestedScrollEnabled={true}  data={setListAsPairs(this.state.tasks)}
-            
-            renderItem={(item)=>
-                
+            renderItem={(item)=>      
                 <DoubleCarteTaches task={item.item} isChef={this.chef.identifiant==this.props.user.identifiant}
                 role = {this.role} navigation = {this.props.navigation} user={this.props.user}/>}
-                keyExtractor={(item)=>hashCode(item[0].nom)} >
+                keyExtractor={(item)=>hashCode(item[0].nom)}>
 
             </FlatList>
-            
+            </View>
             </View>
         )}
-        else{
-            return(<View><Text style={{alignSelf:"center"}}>Aucune tâche</Text></View>)
+
+        return(<View>
+            {this.theme_item("taches", "Taches")}
+        <Text style={{alignSelf:"center"}}>Aucune tâche</Text></View>)
         }
-    }else return null
+        return this.theme_item("taches", "Taches")
+    
+        }
+        
+    
 }
 
 boiteAIdees()
 {
-    if (this.projet.mine && this.state.selectedTheme=="idees")
+    
+    
+    if (this.projet.mine)
     {
-       if (this.state.suggestions)
+       if (this.state.selectedTheme=="idees")
+        {
+        if (this.state.suggestions)
        {
         return(
             <View style={{padding:5}}>
+                {this.theme_item("idees", "Idées")}
                 <Text style={{fontSize:20, marginLeft:4}}>BOITE A IDEES</Text>
             <ScrollView style={styles.boite}>
                 {this.state.suggestions?this.state.suggestions.map((s)=>
@@ -867,35 +886,43 @@ boiteAIdees()
                 )):null}
             </ScrollView>
             </View>
-        )}else{
+        )}
         return(
             <View style={{alignContent:"center", justifyContent:"center", paddingTop:10}}>
+                {this.theme_item("idees", "Idées")}
                 <Text style={{alignSelf:"center"}}>Aucune idée proposée pour le moment</Text>
             </View>
-        )}
-        return (
-            <IdleBackground/>
+        )
+        }
+        return(
+            this.theme_item("idees", "Idées")
         )
     }
+    
 }
 
 memoView()
 {
-    if (this.projet.mine && this.state.selectedTheme=="notes")
+    if (this.projet.mine)
     {
+        if (this.state.selectedTheme=="notes")
+        {
         if (this.state.memos)
         {
         return(
-            <FlatList data={this.state.memos}
+           <View style={{maxHeight:windowHeight/2}}>{this.theme_item("notes", "Notes")}
+            <FlatList data={this.state.memos} nestedScrollEnabled
                 keyExtractor={item=>item.contenu}
             renderItem={(item)=>
-                <CarteMemo memo={item.item} user={this.props.user} isChef={["Organisateur", "Chef de projet"].includes(this.role)} updateMemos={()=>this.importMemos(true)}/>}
-                ></FlatList>
+                <CarteMemo memo={item.item} user={this.props.user} isChef={["Organisateur", "Chef de projet"].includes(this.role)} 
+                updateMemos={()=>this.importMemos(true)}/>}></FlatList>
+                </View>
         )}
         return(
-            <IdleBackground/>
-        )
-    } 
+            this.theme_item("notes", "Notes")
+        )}
+        return  this.theme_item("notes", "Notes")
+    }
 }
 // bouton Ajouter un participant
 workerButton(){
@@ -922,8 +949,9 @@ api.load_memos_from_project({identifiant:this.props.user.identifiant, pass:this.
 
 //Corps de la vue
 render(props){
+    console.log("render")
     return(
-        <View style={{flex:1}}>
+        <View style={{flex:1, backgroundColor:"white"}}>
                 
             <ScrollView style={styles.scroll}>
            
@@ -943,15 +971,7 @@ render(props){
             
             </View>
             <View style={{flex:1}}>
-                <FlatList data = {themes} renderItem = {(theme)=>(<CarteTheme theme={theme.item.theme}
-                color={theme.item.color} textColor={theme.item.textColor} keyExtractor = {(item)=>item.theme}
-                onPress={()=>{this.setState({selectedTheme:theme.item.theme})
-            this.importTasks(); this.importSuggestions(); this.importWorkers(); this.importMemos();
-                }} onLongPress = {()=>{
-                    if (theme.item.theme=="idees") this.openSuggestionDialog()
-                    if (theme.item.theme == "notes") this.setState({createMemoDialog:true})
-                }}/>)} 
-               /* keyExtractor={(item)=>hashCode(item.theme)}*/ horizontal={true}/>
+                
             {this.memberView()/**flatlist des participants au projet*/}
             {this.workerButton()/* bouton ajouter un participant */}
             {this.taskView()}
@@ -1011,7 +1031,6 @@ const styles = StyleSheet.create(
         scroll:{
             paddingBottom: 25,
             flex:1
-
         },
         infoview:{
             flex:3,
@@ -1029,11 +1048,18 @@ const styles = StyleSheet.create(
             shadowRadius:8.30,
             elevation:14
         },
-
-        
+        theme_item:{
+            fontWeight:"700",
+            paddingVertical:10,
+            fontSize:18, 
+          },
+          theme_item_view:{
+            borderBottomWidth:2,
+            marginBottom:4,
+          },
+  
         carte:
        {
-        
            width: 100,
            height: 70,
            marginLeft:2,
@@ -1048,14 +1074,26 @@ const styles = StyleSheet.create(
           shadowColor:"#000",
             shadowOpacity:0.39,
             shadowRadius:8.30,
-            elevation:14
-
-          
+            elevation:14,
+            shadowOffset: {
+                width: 0,
+                height: 8,
+            }  
        },
-       carteMemo:{backgroundColor:"white", 
-       margin:10, 
-       marginVertical:25,
-    padding:5},
+
+       carteMemo:
+       {
+           backgroundColor:"lightgrey", 
+            margin:10, 
+            marginVertical:25,
+            padding:5,
+            paddingBottom:8,
+            opacity:0.8,
+          shadowColor:"#000",
+            shadowOpacity:0.39,
+            shadowRadius:8.30,
+            elevation:14 
+        },
 
        nomProjet:{
            fontWeight: "600",
@@ -1093,13 +1131,7 @@ const styles = StyleSheet.create(
            padding:15,paddingHorizontal: 25
            
        },
-       boite:{
-           //borderColor:"black",
-           //borderWidth: 2,
-           //borderBottomWidth:
-           //paddingHorizontal:3
-           
-       },idee:
+       idee:
        {
            borderColor: "black",
            borderWidth: 2,

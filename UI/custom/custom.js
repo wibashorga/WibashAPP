@@ -1,7 +1,7 @@
-import React from "react";
-import { View, Dimensions, Image, StyleSheet } from "react-native";
+import React, {useState} from "react";
+import { View, Dimensions, Image, StyleSheet, TouchableOpacity, Modal, FlatList } from "react-native";
 import {Text} from "react-native"
-import {EditDialog, DetailDialog, SuccesMessage} from "./ModalDialog"
+import {EditDialog, DetailDialog, SuccesMessage, ModalFrame} from "./ModalDialog"
 import * as Font from "expo-font";
 import { ActivityIndicator } from "react-native";
 
@@ -152,6 +152,34 @@ export function IdleBackground(){
   )
 }
 
+const FormSheetElement = (props)=>(
+  <TouchableOpacity style={styles.formSheetElement} onPress = {props.onPress}>
+      <Text>{props.text} </Text>       
+  </TouchableOpacity>
+)
+
+export function FormSheet(props) {
+  const [visible, setVisible] = useState(false)
+  return (
+    <View style={styles.container}>
+        <Text style={{marginBottom:10}} >{props.title}</Text>
+      <TouchableOpacity onPress = {()=>setVisible(true)} style={styles.fsContent}>
+          <Text style={{color:"rgb(27, 161, 205)"}}>{props.content + " ↓"}</Text>
+      </TouchableOpacity>
+      
+      <ModalFrame visible = {visible} close = {()=>setVisible(false)}>
+      <View style={styles.popupForeground}>
+                  <FlatList data= {props.data} renderItem = {item=><FormSheetElement text={item.item} 
+                  onPress = {()=>{props.setElement(item.item); setVisible(false)}}/>} 
+                  keyExtractor={item=>item}/>
+              </View>
+      </ModalFrame>
+      
+
+    </View>
+  );
+}
+
 
 /**Transforme une date au format date ou datetime SQL en date lisible par l'utilisateur
  * date : string date au format sql
@@ -189,5 +217,49 @@ const styles = StyleSheet.create({
   idleImage:{
     width:windowWidth,
     height:windowWidth, padding:5
-  }
+  },
+  popupBackground:{
+    justifyContent: "center",
+    alignContent: "center",
+    flex:1,
+    backgroundColor: "rgba(84, 84, 84, 0.5)",
+    
+
+},
+popupForeground:{
+    backgroundColor: "white",
+    marginHorizontal:20,
+    height: 260,
+    paddingTop: 3
+    
+},
+formSheetElement:{backgroundColor: "white", 
+                    flex:1,
+                    paddingLeft:5,
+                    borderColor: "black", 
+                    alignContent: "flex-start", 
+                    borderTopWidth: 1, 
+                    height:50},
+                    fsContent:{
+                        paddingVertical:10,
+                        borderColor: "grey",
+                        borderWidth: 1,
+                        paddingHorizontal: 5
+},
+submit:{
+  borderRadius:20,
+  paddingHorizontal: 20,
+  paddingVertical: 15,
+  marginVertical: 10,
+  shadowColor: "#000",
+  shadowOffset: {
+        width: 1,
+        height: 5
+      },
+  shadowOpacity: 0.55,
+  shadowRadius: 3.84,
+  elevation: 10, 
+}
+
+
 })

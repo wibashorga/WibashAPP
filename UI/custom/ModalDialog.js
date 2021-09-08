@@ -216,6 +216,35 @@ export class LoadingMessage extends React.Component
 }
 
 
+export function ModalFrame(props) {
+    return (
+      <Modal visible={props.visible} animationType='none' transparent= {true}
+          onRequestClose={()=>props.close()}>
+              
+              <TouchableOpacity onPress={()=>props.close()} style={styles.popupBackground}>
+                  {props.children}
+              </TouchableOpacity>
+  
+              </Modal>
+    );
+  }
+  
+  
+  export function ModalFrameNonTouchable(props) {
+      return (
+        <Modal visible={props.visible} animationType='none' transparent= {true}
+            onRequestClose={()=>props.close()}>
+                
+                <View style={styles.popupBackground}>
+                    {props.children}
+                </View>
+    
+                </Modal>
+      );
+    }
+  
+  
+
 
 const styles = StyleSheet.create({
     view:{
@@ -249,5 +278,12 @@ const styles = StyleSheet.create({
     },textinput:{
         height:windowHeight/4,
         textAlignVertical:"top"
+    },
+    popupBackground:{
+        justifyContent: "center",
+        alignContent: "center",
+        flex:1,
+        backgroundColor: "rgba(84, 84, 84, 0.5)",
+  
     }
 })

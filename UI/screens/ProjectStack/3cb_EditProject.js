@@ -182,7 +182,7 @@ class CarteTaches extends React.Component{
                 editAction = {["Chef de projet", "Organisateur"].includes(this.props.role)&&
                 !achieved?()=>{
                     this.setState({visible:false})
-                    this.props.navigation.navigate("ModifyTask");
+                    this.props.navigation.navigate("ModifyTask", {task:this.props.task});
                     }:null} 
             auxiliarAction = {["Chef de projet", "Organisateur"].includes(this.props.role)
                     && !achieved?

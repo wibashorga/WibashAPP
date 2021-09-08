@@ -1,41 +1,29 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, TextInput, ScrollView} from 'react-native';
+import { update_task } from '../../../API/api_request';
+import { FormSheet, windowHeight } from '../../custom/custom';
 
 export default class ModifyTask extends React.Component
-{/*
+{
   constructor(props)
   {
     super(props);
     this.taskTitle = this.props.route.params.task.nom || "";
     this.taskDescription = this.props.route.params.task.description || "";
-    this.props.navigation.setOptions({headerTitle:this.props.route.params.task.nom})
+    this.taskCategory = this.props.route.params.task.categorie
+    this.state = {priority:"0"}
+    
   }
-
   sendModifications()
   {
-    const data = new FormData();
-    data.append("identifiant", this.props.user.identifiant)
-    data.append("pass", this.props.user.pass);
-    data.append("nom_tâche", this.props.route.params.task.nom)
-    if (this.taskTitle) data.append("nouveau_nom", this.taskTitle)
-    if (this.taskDescription) data.append("description", this.taskDescription);
-
-    fetch('http://www.wi-bash.fr/application/UpdateTask.php', {
-        method: 'POST',
-        headers: {
-        Accept: 'multipart/form-data',
-        'Content-Type': "multipart/form-data; charset=utf-8"
-        },
-        body: data
-        }).then((reponse)=> reponse.text()).then((text) => {
+    if (this.taskDescription)
+    {
+      update_task({identifiant:this.props.user.identifiant, pass:this.props.user.pass,
+      description:this.taskDescription, nom:this.taskTitle, 
+      id_projet:this.props.route.params.task.id, categorie:this.taskCategory}, (text)=>{this.props.navigation.goBack()})
+    }
         
-        console.log(text)
-        this.props.navigation.goBack();
-            }
-            ).catch(
-            (error) => console.log(error))
-        
-  }*/
+  }
   render() {
     return(
       <ScrollView>
@@ -49,36 +37,34 @@ export default class ModifyTask extends React.Component
           <View style = {{marginTop: 20}}>
             <Text style = {{fontSize: 20}}>Titre</Text>
             
-            <TextInput style = {styles.textInput}  placeholder = "Titre"/*{this.props.route.params.task.nom} 
-            placeholderTextColor="black" onChangeText={(text)=>{if (text)this.taskTitle=text;
-              else this.taskTitle = this.props.route.params.task.nom;
-             this.props.navigation.setOptions({headerTitle:text?text:
-              this.props.route.params.task.nom})
-            }}*//>
+            <Text>{this.props.route.params.task.nom}</Text>
           
           </View>
 
-          <View style={{marginTop: 20}}>
-            
-            <Text style={{fontSize: 20}}>Description</Text>
-            
-            <TextInput style = {styles.textInput}  placeholder = "Descrition"/*{this.props.route.params.task.description}
-            placeholderTextColor={"black"} onChangeText={(text)=>{this.eventDescription = text}}*//>
-          
+          <View style={{marginVertical: 20}}>            
+            <Text style={{fontSize: 20}}>Description</Text>            
+            <TextInput style = {styles.textInput}  defaultValue = {this.props.route.params.task.description}
+            placeholderTextColor={"black"} onChangeText={(text)=>{this.taskDescription = text}} multiline maxLength={700}/>
           </View>
-
+          <View style={{marginVertical: 20}}>
+            <Text style={{fontSize: 20}}>Catégorie</Text>
+            <TextInput style = {styles.textInput}  defaultValue = {this.props.route.params.task.categorie}
+            placeholderTextColor={"black"} onChangeText={(text)=>{this.taskCategory = text}} multiline maxLength={80}/>          
+          </View>
+          <FormSheet title={"Niveau de priorité de la tâche"} data = {["0", "1", "2", "3", "4"]} content={this.state.priority} 
+          setElement = {(level)=>{this.setState({priority:level})}} defaultValue = {this.state.priority}/>
         </View>
             
         <View style = {{marginTop: 50}}>
 
-          <TouchableOpacity style = {[styles.button, {backgroundColor: 'blue', marginBottom: 20}]}
-          /*onPress = {()=>this.sendModifications()}*/>
-            <Text style={{fontSize: 18, color:"white"}}>ENREGISTRER</Text>
+          <TouchableOpacity style = {[styles.button, {backgroundColor: 'rgb(0,170,243)', marginBottom: 20}]}
+          onPress = {()=>this.sendModifications()}>
+            <Text style={styles.buttonText}>ENREGISTRER</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style = {[styles.button, {backgroundColor: 'red'}]}
-          /*onPress = {()=>this.props.navigation.goBack()}*/>
-            <Text style={{fontSize: 18, color:"white"}}>ANNULER</Text>
+          onPress = {()=>this.props.navigation.goBack()}>
+            <Text style={styles.buttonText}>ANNULER</Text>
           </TouchableOpacity>
 
         </View>
@@ -100,14 +86,17 @@ const styles = StyleSheet.create({
       borderWidth: 1, 
       padding: 5, 
       marginTop: 10, 
-      borderRadius: 10
+      borderRadius: 10,
+      maxHeight:windowHeight*0.3
 		},
 	button:
 	{
-    borderRadius: 5, 
-    padding: 10,
+    borderRadius: 20, 
+    padding: 15,
     alignItems: 'center',
-    color:"white"
-	}
+    color:"white",
+    marginHorizontal:10
+	},buttonText:
+  {fontSize: 18, fontWeight:"700", color:"white"}
 });
 

@@ -2,7 +2,7 @@ import React from 'react';
 import {Icon} from "react-native-elements";
 import {Text, View, Modal, Dimensions, StyleSheet, ScrollView, TouchableOpacity, FlatList,Image,Button,SafeAreaView, ImageBackground} from 'react-native';
 import {load_projects, load_project_workers, load_tasks} from "../../../API/api_request";
-import {WiText} from "../../custom/custom"
+import {colors, WiText} from "../../custom/custom"
 import * as Font from "expo-font";
 import { ActivityIndicator } from 'react-native';
 const token = "PPlaFk63u4E6";
@@ -76,7 +76,7 @@ class Carte extends React.Component
                    <View style={{flexDirection:"row", justifyContent:"space-between"}}>
                 <Text style = {styles.titrecarte}>
                     {this.props.projet.nom}</Text>
-                    <Text style={{color:"white", padding:7,display:this.props.projet.mine?null:"none", backgroundColor:"green",
+                    <Text style={{color:"white", padding:7,display:this.props.projet.mine?null:"none", backgroundColor:colors.blue,
                 borderRadius:50, fontSize:10}}>My</Text>
                 </View>
                     

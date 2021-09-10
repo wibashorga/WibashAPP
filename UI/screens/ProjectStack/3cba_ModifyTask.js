@@ -16,13 +16,11 @@ export default class ModifyTask extends React.Component
   }
   sendModifications()
   {
-    if (this.taskDescription)
-    {
+   
       update_task({identifiant:this.props.user.identifiant, pass:this.props.user.pass,
       description:this.taskDescription, nom:this.taskTitle, 
       id_projet:this.props.route.params.task.id, categorie:this.taskCategory}, (text)=>{this.props.navigation.goBack()})
-    }
-        
+    
   }
   render() {
     return(

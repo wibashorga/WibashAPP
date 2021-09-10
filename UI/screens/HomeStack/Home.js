@@ -8,7 +8,7 @@ import {Avatar, Icon} from "react-native-elements";
 import { EditDialog, LoadingMessage } from '../../custom/ModalDialog';
 import { TouchableOpacity } from 'react-native';
 import { formatPostData } from "../../custom/security";
-import {sqlToUserDate,LoadingScreen, WiText} from "../../custom/custom"
+import {sqlToUserDate,LoadingScreen, WiText, colors} from "../../custom/custom"
 import { getNotificationToken } from '../../../components/page/Notifications';
 
 const token = "PPlaFk63u4E6";
@@ -47,8 +47,9 @@ class CarteActu extends React.Component
             return(
                 <TouchableOpacity style = {{marginLeft:3, flex:3}} onLongPress={()=>this.setState({editVisible:true})}>
                 <View style={styles.actu}>
+                    <Text  style={{color:"white"}}>
                     <WiText selectable>
-                        {this.props.actu.actu}</WiText>
+                        {this.props.actu.actu}</WiText></Text>
                     </View>
                     <Text style={{alignSelf: "flex-end"}}>{sqlToUserDate(this.props.actu.date)}</Text>
                 </TouchableOpacity>
@@ -336,14 +337,14 @@ export default class Home extends React.Component {
                                     <Text style={styles.textetheme}>MEMBRES</Text>
                                     </TouchableOpacity>
 
-                            <TouchableOpacity style={{...styles.carte_theme, backgroundColor:"rgb(82, 217, 239)"}}
+                            <TouchableOpacity style={{...styles.carte_theme, backgroundColor:colors.darkgrey}}
                             onPress={()=>this.props.navigation.jumpTo("Projet")}>
                                 <Text style={styles.textetheme}>PROJETS</Text>
                                 </TouchableOpacity></View>
                     
                     <View style={{flex:1}}>
                             <TouchableOpacity style={{...styles.carte_theme, width:windowWidth, 
-                            backgroundColor:"rgb(250, 190, 14)"}} onPress={()=>this.props.navigation.jumpTo("Agenda")}>
+                            backgroundColor:colors.yellow}} onPress={()=>this.props.navigation.jumpTo("Agenda")}>
                                 <Text style={styles.textetheme}>EVENEMENTS</Text></TouchableOpacity>
                             </View>
                         </View>
@@ -490,13 +491,14 @@ const styles = StyleSheet.create(
 
       actu:
       {
-          backgroundColor:"papayawhip",
+          backgroundColor:colors.darkgrey,
           margin:5,
           borderRadius:40,
           //borderBottomLeftRadius:2,
           padding:10,
           fontSize:18,
-          borderWidth:3
+          borderWidth:3,
+          borderColor:colors.darkgrey
       },
      
        

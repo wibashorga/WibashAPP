@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@react-navigation/native";
 import React from "react";
 import {Icon}  from "react-native-elements";
-import {Text, View, Dimensions, TouchableOpacity, ScrollView, FlatList, StyleSheet, Modal, Alert} from "react-native";
+import {Text, View, Dimensions, TouchableOpacity, ScrollView, FlatList, StyleSheet, Modal, Alert, SectionList} from "react-native";
 import {Button,BottomSheet,ListItem} from "react-native-elements";
 import { TextInput } from "react-native-gesture-handler";
 import { formatPostData } from "../../custom/security";
@@ -110,7 +110,7 @@ class CarteMemo extends React.Component
         return(
             <View>
                 <TouchableOpacity style={styles.carteMemo}
-                onPress= {()=>{
+                onLongPress= {()=>{
                 if (this.props.isChef)this.setState({editMode:true})}}>
                     <WiText>{this.props.memo.contenu}</WiText>
                     </TouchableOpacity>
@@ -156,22 +156,22 @@ class CarteTaches extends React.Component{
     render()
     {
         let achieved = this.state.achieved
-        console.log(this.props.task.nom+": ",  achieved)
+        
         let bg_color = "white", textColor="black";
         if(this.urgent)
         {
             bg_color="red";
             textColor = "white"
         }
-        if(achieved) bg_color=colors.green
+        //if(achieved) bg_color=colors.green
 
         return(
-            <TouchableOpacity style = {{...
-                styles.carte, width: 150, height:100,  backgroundColor:bg_color,
-                flex:1}} 
+            <TouchableOpacity style = {{paddingVertical:15, borderBottomWidth:1,
+                 width:windowWidth, backgroundColor:bg_color,
+                flex:1, marginVertical:0, borderRadius:0}} 
                 onPress={()=>{this.setState({visible:true})}}>
 
-                <Text style={{fontWeight:"bold", color:textColor}}>{this.props.task.nom}</Text>
+                <Text style={{fontSize:17, color:textColor, alignSelf:"center", marginBottom:5}}>{this.props.task.nom}</Text>
                 <Text style={{color:textColor}}>{achieved?"":this.props.task.description}</Text>
 
                 {(achieved)?<Icon type="ionicons" name="check" size={25} color="green"/>:null
@@ -255,7 +255,7 @@ class CarteTaches extends React.Component{
 
             return(
                 <View style={styles.idee}>
-                <Text style={styles.textIdee}>{s.proposition+"\n"}</Text>
+                <Text style={styles.textIdee}>{this.props.suggestion.proposition+"\n"}</Text>
                 <TouchableOpacity style={{alignSelf:"flex-end", marginRight:5, padding:3}}>
                     <Icon name="trash" type = "entypo"/></TouchableOpacity>
                 </View>
@@ -264,7 +264,7 @@ class CarteTaches extends React.Component{
             {
                 return(
                     <View style={styles.idee}>
-                    <Text style={styles.textIdee}>{s.proposition+"\n"}</Text>
+                    <Text style={styles.textIdee}>{this.props.suggestion.proposition+"\n"}</Text>
                     </View>
                 )
             }
@@ -282,9 +282,9 @@ constructor(props){
         this.chef = this.props.route.params.chef;
         this.state = {participants: this.props.route.params.workers || [], task:false, tasks:this.props.route.params.tasks || [], suggestion:false, 
             suggestions:[], bottomSheetVisible:false, reunion:false, 
-            memos:[],
+            memos:[], categories:[],
             workerOptions:false, calendarVisible:false,
-        meetingDate:null, numberOfLines:15,
+        meetingDate:null, numberOfLines:null,
         createMemoDialog: false, loadingMemos:false,
         selectedTheme:"participants"};
 
@@ -299,8 +299,8 @@ constructor(props){
         this.importTasks();
         this.importWorkers();
         this.importSuggestions();
-
-        console.log(this.projet.nom+" :",this.props.route.params.workers)
+        
+        
         
     }
      //permet de définir la header bar de la vue
@@ -435,7 +435,7 @@ constructor(props){
                 onPress:()=>{Alert.alert("o_O", "Voulez-vous vraiment céder le poste ? Et nommer "+member+" chef du projet",[{
                     text:"OUI",
                     onPress:()=>{
-                        console.log("press")
+                        
                         this.sendWorkerStatus(this.selectedMember.identifiant, "Chef de projet");
                         this.setState({bottomSheetVisible:false})
                     }}, {text:"NON", onPress:()=>{}}], {title:"NON", onPress:()=>{}})}},
@@ -483,6 +483,21 @@ sendWorkerStatus(id_membre, role)
             data.append("id_proj", this.projet.ID)
             api.load_tasks(data, (reponse)=>{this.setState({tasks:JSON.parse(reponse)})})
             }
+        }
+        importCategories()
+        {
+            api.load_categories_of_tasks({identifiant:this.props.user.identifiant, pass:this.props.user.pass, 
+                id_projet: this.projet.ID}, (text)=>{
+                    
+                    let categories = JSON.parse(text)
+                    for (let i in categories)
+                    {
+                        categories[i] = {title:categories[i], 
+                            data:this.state.tasks.filter(item=>item.categorie==categories[i])}
+                    }
+                    
+                    this.setState({categories:categories})
+                })
         }
 
         importMemos(showMessage=false){
@@ -592,6 +607,7 @@ sendWorkerStatus(id_membre, role)
         sendSuggestion(){
         if (this.suggestion)
                 {
+                    this.setState({loadingMemos:true})
                     let data = new FormData();
                     data.append("id_projet", this.projet.ID);
                     data.append("identifiant", this.props.user.identifiant);
@@ -602,7 +618,7 @@ sendWorkerStatus(id_membre, role)
          data = formatPostData(data);
 
          api.add_suggestion_to_project(data,(reponse) => {
-            console.log(reponse)
+            this.setState({loadingMemos:false})
             if (reponse.indexOf("200")===-1) message('Oups !', 
             "Nous n'avons pu émettre cette proposition... Décidément, les génies sont incompris")
             else{
@@ -633,7 +649,7 @@ sendWorkerStatus(id_membre, role)
                     },
                     body: data
                 }).then((reponse)=> reponse.text()).then((reponse) => {
-                    console.log("e", reponse) 
+                    
                     if (reponse.includes("200"))
                     {
                         message("Félicitations !", "Vous serez bientôt ajouté au projet")
@@ -691,7 +707,7 @@ sendWorkerStatus(id_membre, role)
          },
          body: data
         }).then((reponse)=> reponse.text()).then((reponse) => {
-            console.log(reponse)
+            
             this.props.navigation.goBack();
         }
         
@@ -710,6 +726,7 @@ sendWorkerStatus(id_membre, role)
             //
             fetch("https://www.ypepin.com/application/Read/ListeIdeeProjets.php?id_proj="+this.projet.ID).then((reponse)=>
         reponse.text()).then((reponse)=>{
+            
             reponse = JSON.parse(reponse);
             
             this.setState({suggestions:reponse})}).catch((error)=>console.log(error))
@@ -800,7 +817,7 @@ theme_item(theme, item_title)
     return(
     <View>
         <TouchableOpacity style={styles.theme_item_view} onPress={()=>{this.setState({selectedTheme:theme})
-                this.importTasks(); this.importSuggestions(); this.importWorkers(); this.importMemos();}}
+                this.importTasks(); this.importSuggestions(); this.importWorkers(); this.importMemos(); this.importCategories()}}
                 onLongPress={()=>{if (theme=="idees") this.openSuggestionDialog()
                 if (theme == "notes") this.setState({createMemoDialog:true})}} >
                 <Text style={styles.theme_item}>{">"} {item_title} </Text>
@@ -832,24 +849,37 @@ memberView()
 
 taskView()
 {
+    
+    
     if (this.projet.mine)
     {
        if (this.state.selectedTheme=="taches") 
        { 
-       if (this.state.tasks)
+       if (this.state.tasks && this.state.categories)
         {
-        
+        console.log("Categories :"+this.state.categories)
         return (
             <View>
                  {this.theme_item("taches", "Taches")}
-            <View style={{maxHeight:windowHeight*0.5}}>
-            <FlatList nestedScrollEnabled={true}  data={setListAsPairs(this.state.tasks)}
+            <View style={{maxHeight:windowHeight*0.5, marginBottom:10}}>
+                <SectionList nestedScrollEnabled stickySectionHeadersEnabled
+          sections={this.state.categories}
+          keyExtractor={(item, index) => item.nom+index}
+          renderItem={({ item }) => <CarteTaches task={item} isChef={this.chef.identifiant==this.props.user.identifiant}
+          role = {this.role} navigation = {this.props.navigation} user={this.props.user}/>}
+          renderSectionHeader={({section:{title} }) => (
+            <View style={{backgroundColor:colors.blue, width:windowWidth, padding:10,
+            marginBottom:10}}>
+            <Text style={{fontWeight:"bold", fontSize:22, alignSelf:"center", color:"white"}}>{title}</Text></View>
+          )}
+        />
+            {/*<FlatList nestedScrollEnabled={true}  data={setListAsPairs(this.state.tasks)}
             renderItem={(item)=>      
                 <DoubleCarteTaches task={item.item} isChef={this.chef.identifiant==this.props.user.identifiant}
                 role = {this.role} navigation = {this.props.navigation} user={this.props.user}/>}
                 keyExtractor={(item)=>hashCode(item[0].nom)}>
 
-            </FlatList>
+            </FlatList>*/}
             </View>
             </View>
         )}
@@ -876,15 +906,13 @@ boiteAIdees()
         if (this.state.suggestions)
        {
         return(
-            <View style={{padding:5}}>
+            <View style={{padding:5, maxHeight:windowHeight*0.6}}>
                 {this.theme_item("idees", "Idées")}
-                <Text style={{fontSize:20, marginLeft:4}}>BOITE A IDEES</Text>
-            <ScrollView style={styles.boite}>
-                {this.state.suggestions?this.state.suggestions.map((s)=>
-                (<CarteSuggestion suggestion={s} isChief={this.projet.chef==this.props.user.identifiant}
-                uid={this.props.user.identifiant}/> 
-                )):null}
-            </ScrollView>
+            
+                <FlatList data={this.state.suggestions} keyExtractor= {(item, index)=>index+item.proposition+item.id_membre} nestedScrollEnabled
+                renderItem={(s)=>(<CarteSuggestion suggestion={s.item} isChief={this.projet.chef==this.props.user.identifiant}
+                    uid={this.props.user.identifiant}/>)}/>
+            
             </View>
         )}
         return(
@@ -939,6 +967,7 @@ workerButton(){
 componentDidMount(){
 this.setHeader();
 
+ this.importCategories()
 api.load_memos_from_project({identifiant:this.props.user.identifiant, pass:this.props.user.pass, 
     id_projet: this.projet.ID}, (text)=>{this.setState({memos:JSON.parse(text)})})
 
@@ -955,23 +984,23 @@ render(props){
                 
             <ScrollView style={styles.scroll}>
            
-            <View style={styles.infoview}>
-            
-             <Text>{this.projet.type}</Text>
-            
-            <ScrollView style={styles.descriptionBox}>
-                <Text numberOfLines={this.state.numberOfLines}
-                onPress={()=>{this.setState({numberOfLines:(this.state.numberOfLines)?null:15})}}
-                dataDetectorType={"link"}>
-            <Text>OBJECTIFS </Text> <WiText>{"\n"+this.projet.objectifs+"\n\n"}</WiText>
-            <Text>DESCRIPTION </Text> <WiText>{"\n"+this.projet.description+"\n"}</WiText>
-            </Text>
-            
+        <View style={styles.infoview}>            
+            <ScrollView contentContainerStyle={styles.descriptionBox}>
+           <Text numberOfLines={this.state.numberOfLines?null:10} style={{fontSize:16, textAlign:"justify"}}>
+               <View>
+               <Text style={{fontWeight:"bold", alignSelf:"center", borderBottomWidth:2}}>OBJECTIFS</Text></View>
+               <WiText>{"\n"+this.projet.objectifs+"\n\n"}</WiText>
+               <View><Text style={{fontWeight:"bold", alignSelf:"center", borderBottomWidth:2}}>DESCRIPTION</Text></View>
+                <WiText  numberOfLines={this.state.numberOfLines?null:3} >{"\n"+this.projet.description+"\n"}</WiText>
+                </Text>
+                <TouchableOpacity onPress={()=>this.setState({numberOfLines:!this.state.numberOfLines})}>
+                    <Icon name={this.state.numberOfLines?"chevron-up":"chevron-down"} size={32} type="font-awesome" color={colors.blue}/>
+                </TouchableOpacity>
             </ScrollView>
-            
             </View>
+
+
             <View style={{flex:1}}>
-                
             {this.memberView()/**flatlist des participants au projet*/}
             {this.workerButton()/* bouton ajouter un participant */}
             {this.taskView()}
@@ -1039,14 +1068,13 @@ const styles = StyleSheet.create(
             //backgroundColor:"red"
         },
         descriptionBox:
-        {paddingHorizontal:15, 
+        {
+            paddingHorizontal:15, 
             paddingVertical:2, 
             borderColor:"black",
+            marginBottom:5
             
-            shadowColor:"red",
-            shadowOpacity:0.39,
-            shadowRadius:8.30,
-            elevation:14
+            
         },
         theme_item:{
             fontWeight:"700",
@@ -1069,7 +1097,7 @@ const styles = StyleSheet.create(
            overflow: "hidden",
            paddingLeft:10,
           borderRadius: 20,
-          backgroundColor:"white",
+          backgroundColor:colors.yellow,
           opacity:0.8,
           shadowColor:"#000",
             shadowOpacity:0.39,
@@ -1133,7 +1161,7 @@ const styles = StyleSheet.create(
        },
        idee:
        {
-           borderColor: "black",
+           borderColor: colors.chocolate,
            borderWidth: 2,
            borderBottomWidth:1
        },

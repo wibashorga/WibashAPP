@@ -1,7 +1,7 @@
 import React from "react";
 import {Modal, View, Text, TextInput, StyleSheet, Dimensions, TouchableOpacity, ActivityIndicator} from "react-native";
 import {Button} from "react-native-elements";
-import {WiText} from "./custom"
+import {WiText, colors} from "./custom"
 import { Icon} from "react-native-elements";
 
 
@@ -259,7 +259,8 @@ const styles = StyleSheet.create({
     },
     editButton:{
         maxHeight:windowHeight/15,
-        marginBottom:10
+        marginBottom:10,
+        backgroundColor:colors.blue
     },
     
     input:{

@@ -264,7 +264,7 @@ const styles = StyleSheet.create(
         resizeMode: "cover",
         justifyContent: "center",
         alignContent: "stretch",
-        //paddingTop:100
+        backgroundColor:"white"
       },
 
        

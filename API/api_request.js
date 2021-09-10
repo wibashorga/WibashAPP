@@ -111,6 +111,9 @@ post_request(url.ypepin.read.liste_participants_event.url, args, success_callbac
 export const load_memos_from_project =   (args, success_callback, fail_callback) => 
 post_request(url.ypepin.read.liste_memos_projet.url, args, success_callback, fail_callback)
 
+export const load_categories_of_tasks =   (args, success_callback, fail_callback) => 
+post_request(url.ypepin.read.liste_categories_taches.url, args, success_callback, fail_callback)
+
 export const load_suggestions_from_project =   (args, success_callback, fail_callback) => 
 post_request(url.ypepin.read.liste_suggestions_projet.url, args, success_callback, fail_callback)
 

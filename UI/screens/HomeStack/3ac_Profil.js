@@ -184,7 +184,7 @@ export default class Profil extends React.Component {
                                             this.showModifiedSign(information)}}
                                          returnKeyType='done' style={[styles.textInput, {borderColor:(['nom','prenom'].includes(information))?'white':'black',
                                          color:(['nom','prenom'].includes(information))?'white':'black'}]}>
-                                     </TextInput>
+                                                         </TextInput>
 
                              </View>
                              

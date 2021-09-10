@@ -16,7 +16,11 @@ export const colors ={
   lightBlue:"rgb(156,220,254)",//bleu clair
   green:"rgb(220,252,198)",
   red:"red",
-  blue:"blue"
+  blue:"rgb(0, 150, 190)",
+  brown:"rgb(78,0,0)",
+  darkgrey:"rgb(32,32,32)",
+  chocolate:"rgb(47, 16, 0)",
+  yellow:"rgb(250, 190, 14)"
 }
 export type EditBox = EditDialog;
 export type DetailBox = DetailDialog;
@@ -59,7 +63,7 @@ export class WiText extends React.Component
 {
   constructor(props){
     super(props)
-    this.state = {fontsLoaded:false, police:""}
+    this.state = {fontsLoaded:false}
     
     
   }
@@ -114,9 +118,11 @@ export class WiText extends React.Component
    {
        
      return(
-       <Text dataDetectorType="all" style={this.props.style||{fontFamily:this.state.police}} selectable={true}>
-         {this.split(this.props.children)}
+       
+       <Text dataDetectorType="all" style={this.props.style} selectable={true}
+       numberOfLines={this.props.numberOfLines || null}>{this.split(this.props.children)}
        </Text>
+       
      )
    }
 }

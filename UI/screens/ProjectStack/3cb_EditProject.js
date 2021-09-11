@@ -986,7 +986,8 @@ render(props){
            
         <View style={styles.infoview}>            
             <ScrollView contentContainerStyle={styles.descriptionBox}>
-           <Text numberOfLines={this.state.numberOfLines?null:10} style={{fontSize:16, textAlign:"justify"}}>
+           <Text numberOfLines={this.state.numberOfLines?null:10} style={{fontSize:16, textAlign:"justify"}}
+           dataDetectorType="all" selectable>
                <View>
                <Text style={{fontWeight:"bold", alignSelf:"center", borderBottomWidth:2}}>OBJECTIFS</Text></View>
                <WiText>{"\n"+this.projet.objectifs+"\n\n"}</WiText>

@@ -33,6 +33,7 @@ function getMemberPP(membres, id)
     if (m) return m.photo_profil
     return ""
 }
+// function gestion button log 
 
 
 class CarteActu extends React.Component
@@ -254,7 +255,7 @@ export default class Home extends React.Component {
                     /*Remplacer par un logo plus */><Icon name="plus" type="evilicon"size={45}/></TouchableOpacity>:null}
                 </View>
             
-            <View style={{height:300}}>
+            <View style={{height:490}}>
 
             {/*Liste des actus*/} 
             {this.state.actus.length?
@@ -286,6 +287,37 @@ export default class Home extends React.Component {
 
         )
     }
+// Finaliser la fonction de l'affichage des log
+    Logbox()
+    {
+        const logactivate = false;
+        if (logactivate)
+        {
+            return(
+                
+                <View style={styles.logbox}>
+                   
+                   
+
+                    <View style={{flex:1, flexDirection:"row"}}>
+
+                        <View style={{flex:3, flexDirection:"row"}}>
+                            {this.projectCard()}
+                        </View>
+                        <View style={{flex:4}}>
+                            {this.memberCard()}
+                            {this.eventCard()}
+                        </View>
+
+                    </View>
+                </View>
+            )
+        }
+        else
+            return  (
+            <View></View>
+        )
+    }
 
     componentDidMount(){
        
@@ -308,50 +340,50 @@ export default class Home extends React.Component {
     {
         let date = new Date()
         let message;
-        if (date.getHours()>16) message = "BONSOIR"
+        if (date.getHours()>16) message = "buy Airpods" //"BONSOIR"
         else message = "BIENVENUE";
         
         
         return(
             <ScrollView style = {{flex:1, backgroundColor:"white"}} contentContainerStyle={{backgroundColor:"white"}}>
 
+            <Text style={styles.bienvenue}>{message}, {this.props.user.prenom.toUpperCase()}</Text>
 
-                <Text style={styles.bienvenue}>{message}, {this.props.user.prenom.toUpperCase()}</Text>
-                
-                        <View style={{flex:1, flexDirection:"row"}}>
+            {/*
+            ajouter au dessus des noms des buttons les icones
+                */}
+                {this.Logbox()}
 
-                            <View style={{flex:3, flexDirection:"row"}}>
-                                {this.projectCard()}
-                            </View>
-                            <View style={{flex:4}}>
-                                {this.memberCard()}
-                                {this.eventCard()}
-                            </View>
-
-                        </View>
-                <View style = {{flex:3, flexDirection:"column"}}>                    
+                                  
                         <View style={styles.view_themes}>
                             <View style={{flexDirection:"row", flex:1}}>
-                                <TouchableOpacity style={{...styles.carte_theme, backgroundColor:"red"}} 
-                                onPress={()=>this.props.navigation.navigate("Membres", {user:this.props.user})}>
-                                    <Text style={styles.textetheme}>MEMBRES</Text>
+                                    <TouchableOpacity style={{...styles.carte_theme, backgroundColor:"#EB186F"}} 
+                                        onPress={()=>this.props.navigation.navigate("Membres", {user:this.props.user})}>
+                                        <Text style={styles.textetheme}>
+                                            MEMBRES {/*<Icon name = "users" type = "Entypo" color = "white" iconStyle = {styles.icon}></Icon>*/}
+                                        </Text>
                                     </TouchableOpacity>
 
-                            <TouchableOpacity style={{...styles.carte_theme, backgroundColor:colors.darkgrey}}
-                            onPress={()=>this.props.navigation.jumpTo("Projet")}>
-                                <Text style={styles.textetheme}>PROJETS</Text>
-                                </TouchableOpacity></View>
-                    
-                    <View style={{flex:1}}>
-                            <TouchableOpacity style={{...styles.carte_theme, width:windowWidth, 
-                            backgroundColor:colors.yellow}} onPress={()=>this.props.navigation.jumpTo("Agenda")}>
-                                <Text style={styles.textetheme}>EVENEMENTS</Text></TouchableOpacity>
+                                    <TouchableOpacity style={{...styles.carte_theme, backgroundColor:"#F2322C"}}
+                                        onPress={()=>this.props.navigation.jumpTo("Projet")}>
+                                        <Text style={styles.textetheme}>PROJETS</Text>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity style={{...styles.carte_theme, width:windowWidth, 
+                                        backgroundColor:"#DB5132"}} onPress={()=>this.props.navigation.jumpTo("Agenda")}>
+                                    <Text style={styles.textetheme}>EVENEMENTS</Text></TouchableOpacity>
+
+                                    <TouchableOpacity style={{...styles.carte_theme, width:windowWidth, 
+                                        backgroundColor:"#F26E2C"}} onPress={()=>this.props.navigation.jumpTo("Agenda")}>
+                                    <Text style={styles.textetheme}>LOG</Text></TouchableOpacity>
+                                 
                             </View>
-                        </View>
+                         </View>
+
                             {this.actuBox()}
 
-                    
-                </View>
+                
+
             </ScrollView> 
                        
         )
@@ -404,8 +436,8 @@ const styles = StyleSheet.create(
       view_themes:{
         alignItems: 'center',
         justifyContent:"center",
-        marginTop: 20,
-        height:180
+        marginTop: 0,
+        height:80
       },
       carte_theme:{
             flex:1,
@@ -415,7 +447,7 @@ const styles = StyleSheet.create(
       textetheme:{
           textAlign:"center",
           color:"white",
-          fontSize:20,
+          fontSize:15,
           fontWeight:'bold',
       },
       Carte:
